@@ -1,7 +1,6 @@
 import { CodeBlock } from '@/components/code-block';
+import { REGISTRY_URL } from '@/lib/registry';
 import { TypographyH2, TypographyP, TypographyList, TypographyListItem, TypographyInlineCode } from '@/registry/default/ui/typography';
-
-const REGISTRY_URL = 'https://design.formance.com';
 
 export async function InstallationContent() {
   return (
@@ -19,23 +18,37 @@ export async function InstallationContent() {
       </section>
 
       <section className="space-y-4">
-        <TypographyH2 id="registry-url">Registry URL</TypographyH2>
+        <TypographyH2 id="namespace">Using the @formance Namespace</TypographyH2>
         <TypographyP>
-          Point the shadcn CLI at the Formance registry to install any component:
+          For a cleaner install experience, add the Formance registry to your{' '}
+          <TypographyInlineCode>components.json</TypographyInlineCode>:
         </TypographyP>
-        <CodeBlock code={REGISTRY_URL} lang="bash" />
+        <CodeBlock
+          code={`{
+  "registries": {
+    "@formance": "${REGISTRY_URL}/r/{name}.json"
+  }
+}`}
+          lang="json"
+        />
+        <TypographyP>
+          Then install any component using the namespace:
+        </TypographyP>
+        <CodeBlock
+          code={`npx shadcn@latest add @formance/button
+npx shadcn@latest add @formance/card
+npx shadcn@latest add @formance/input`}
+          lang="bash"
+        />
       </section>
 
       <section className="space-y-4">
-        <TypographyH2 id="install-multiple">Install Multiple Components</TypographyH2>
+        <TypographyH2 id="direct-url">Direct URL</TypographyH2>
         <TypographyP>
-          Install several components at once:
+          You can also install components directly without configuring the namespace:
         </TypographyP>
         <CodeBlock
-          code={`npx shadcn add ${REGISTRY_URL}/r/button.json
-npx shadcn add ${REGISTRY_URL}/r/card.json
-npx shadcn add ${REGISTRY_URL}/r/input.json
-npx shadcn add ${REGISTRY_URL}/r/badge.json`}
+          code={`npx shadcn add ${REGISTRY_URL}/r/button.json`}
           lang="bash"
         />
       </section>

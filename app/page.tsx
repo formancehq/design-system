@@ -5,8 +5,7 @@ import { Badge } from '@/registry/default/ui/badge';
 import { Card, CardHeader, CardTitle, CardDescription } from '@/registry/default/ui/card';
 import { TypographyH1, TypographyH2, TypographyP, TypographyLead, TypographyInlineCode, TypographySmall } from '@/registry/default/ui/typography';
 import { CodeBlock } from '@/components/code-block';
-
-const REGISTRY_URL = 'https://design.formance.com';
+import { REGISTRY_URL } from '@/lib/registry';
 
 const FEATURES = [
   {

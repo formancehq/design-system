@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "table-of-contents",
+  "title": "Table of Contents",
+  "description": "A sticky sidebar navigation that tracks the active section on the page.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/default/ui/table-of-contents.tsx",
+      "content": "'use client';\n\nimport { useEffect, useState } from 'react';\n\nimport { cn } from '@/lib/utils';\n\ntype THeading = {\n  id: string;\n  title: string;\n  level: number;\n};\n\nfunction useActiveHeading(headings: THeading[]) {\n  const [activeId, setActiveId] = useState('');\n\n  useEffect(() => {\n    const observer = new IntersectionObserver(\n      (entries) => {\n        for (const entry of entries) {\n          if (entry.isIntersecting) {\n            setActiveId(entry.target.id);\n          }\n        }\n      },\n      { rootMargin: '0% 0% -80% 0%' }\n    );\n\n    for (const heading of headings) {\n      const el = document.getElementById(heading.id);\n      if (el) observer.observe(el);\n    }\n\n    return () => observer.disconnect();\n  }, [headings]);\n\n  return activeId;\n}\n\nfunction TableOfContents({ headings }: { headings: THeading[] }) {\n  const activeId = useActiveHeading(headings);\n\n  if (headings.length === 0) return null;\n\n  return (\n    <nav className=\"space-y-2\" aria-label=\"Table of contents\">\n      <p className=\"font-medium text-sm text-muted-foreground\">On This Page</p>\n      <ul className=\"space-y-1\">\n        {headings.map((heading) => (\n          <li key={heading.id}>\n            <a\n              href={`#${heading.id}`}\n              className={cn(\n                'block text-sm no-underline transition-colors',\n                heading.level > 2 && 'pl-4',\n                activeId === heading.id\n                  ? 'font-medium text-foreground'\n                  : 'text-muted-foreground hover:text-foreground'\n              )}\n            >\n              {heading.title}\n            </a>\n          </li>\n        ))}\n      </ul>\n    </nav>\n  );\n}\n\nexport { TableOfContents, useActiveHeading, type THeading };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

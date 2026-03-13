@@ -18,7 +18,7 @@ import { TypographyContent } from '@/components/docs/typography-content';
 import { ThemingContent } from '@/components/docs/theming-content';
 import { TypographyH1, TypographyH2, TypographyLead } from '@/registry/default/ui/typography';
 
-const REGISTRY_URL = 'https://design.formance.com';
+import { REGISTRY_URL } from '@/lib/registry';
 
 function findSidebarItem(slug: string) {
   for (const section of docsConfig.sidebarNav) {
@@ -117,8 +117,8 @@ export default async function DocsPage({
   const gettingStartedHeadings: Record<string, { id: string; title: string; level: number }[]> = {
     installation: [
       { id: 'quick-start', title: 'Quick Start', level: 2 },
-      { id: 'registry-url', title: 'Registry URL', level: 2 },
-      { id: 'install-multiple', title: 'Install Multiple', level: 2 },
+      { id: 'namespace', title: '@formance Namespace', level: 2 },
+      { id: 'direct-url', title: 'Direct URL', level: 2 },
       { id: 'prerequisites', title: 'Prerequisites', level: 2 },
     ],
     colors: [
@@ -180,7 +180,7 @@ export default async function DocsPage({
             <section id="installation" className="space-y-4">
               <TypographyH2>Installation</TypographyH2>
               <CodeBlock
-                code={`npx shadcn add ${REGISTRY_URL}/r/${meta.registryName}.json`}
+                code={`npx shadcn@latest add @formance/${meta.registryName}`}
                 lang="bash"
               />
             </section>

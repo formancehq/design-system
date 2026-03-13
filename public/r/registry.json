@@ -263,6 +263,16 @@
       ]
     },
     {
+      "name": "table-of-contents",
+      "type": "registry:ui",
+      "title": "Table of Contents",
+      "description": "A sticky sidebar navigation that tracks the active section on the page.",
+      "dependencies": [],
+      "files": [
+        { "path": "registry/default/ui/table-of-contents.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
