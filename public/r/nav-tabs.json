@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "nav-tabs",
+  "title": "Nav Tabs",
+  "description": "Navigation tabs with pending state.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "tabs"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/nav-tabs.tsx",
+      "content": "import { cva, type VariantProps } from 'class-variance-authority';\nimport { Loader2 } from 'lucide-react';\nimport { Slot as SlotPrimitive } from 'radix-ui';\nimport React from 'react';\nimport { cn } from '@/lib/utils';\nimport { tabsListVariants } from '@/registry/default/ui/tabs';\n\nexport interface NavTabsProps extends React.HTMLAttributes<HTMLDivElement> {\n  asChild?: boolean;\n  ref?: React.Ref<HTMLDivElement>;\n}\n\nconst NavTabs = ({\n  className,\n  asChild = false,\n  ref,\n  ...props\n}: NavTabsProps) => {\n  const Comp = asChild ? SlotPrimitive.Slot : 'nav';\n\n  return (\n    <Comp\n      className={cn(\n        tabsListVariants({ variant: 'line' }),\n        'border-b border-border',\n        className\n      )}\n      data-variant=\"line\"\n      ref={ref}\n      role=\"tablist\"\n      {...props}\n    />\n  );\n};\nNavTabs.displayName = 'NavTabs';\n\nconst navTabVariants = cva(\n  'group/navLink relative duration-200 text-sm font-medium pt-4 pb-3 border-b-2 border-transparent transition-all text-foreground cursor-pointer font-mono uppercase',\n  {\n    variants: {\n      variant: {\n        default: '',\n        active: 'border-primary dark:border-gold-500 is-active',\n        pending: 'is-pending',\n        disabled: 'pointer-events-none',\n      },\n    },\n    defaultVariants: {\n      variant: 'default',\n    },\n  }\n);\n\nexport interface NavTabProps\n  extends React.ButtonHTMLAttributes<HTMLButtonElement>,\n    VariantProps<typeof navTabVariants> {\n  asChild?: boolean;\n  isPending?: boolean;\n  ref?: React.Ref<HTMLButtonElement>;\n}\n\nconst NavTab = ({\n  className,\n  variant,\n  asChild = false,\n  isPending,\n  ref,\n  ...props\n}: NavTabProps) => {\n  const Comp = asChild ? SlotPrimitive.Slot : 'button';\n\n  return (\n    <Comp\n      className={cn(navTabVariants({ variant, className }))}\n      role=\"tab\"\n      ref={ref}\n      {...props}\n    >\n      <div className=\"flex items-center gap-2\">\n        <span className=\"w-3\"></span>\n        <span className=\"block\">{props.children}</span>\n        <Loader2\n          className={cn(\n            'h-3 w-3 opacity-0',\n            isPending && 'animate-spin opacity-100'\n          )}\n        />\n      </div>\n    </Comp>\n  );\n};\nNavTab.displayName = 'NavTab';\n\nexport { NavTab, NavTabs };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

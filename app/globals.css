@@ -23,9 +23,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-sans: 'Polymath', 'Figtree';
-  --font-mono: 'Berkeley Mono';
-
   --white: var(--emerald-50);
   --black: var(--emerald-800);
 
@@ -298,9 +295,9 @@
 }
 
 @theme inline {
-  --font-family-primary: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
+  --font-sans: 'Polymath', 'Figtree', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-family-mono: var(--font-mono), ui-monospace, SFMono-Regular, 'SF Mono',
+  --font-mono: 'Berkeley Mono', ui-monospace, SFMono-Regular, 'SF Mono',
     Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --color-background: var(--background);

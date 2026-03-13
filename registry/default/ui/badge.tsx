@@ -43,7 +43,7 @@ const badgeVariants = cva(
       size: {
         sm: 'px-1.5 gap-1 py-0.5 text-[10px]',
         md: 'px-2.5 gap-2 py-0.5 text-xs',
-        lg: 'px-4 gap-3 py-1 text-base',
+        lg: 'px-3 gap-2 py-0.5 text-sm',
       },
       isDisabled: {
         true: 'cursor-not-allowed opacity-50',

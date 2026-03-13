@@ -16,6 +16,10 @@ import { InstallationContent } from '@/components/docs/installation-content';
 import { ColorsContent } from '@/components/docs/colors-content';
 import { TypographyContent } from '@/components/docs/typography-content';
 import { ThemingContent } from '@/components/docs/theming-content';
+import { AtomsIntroduction } from '@/components/docs/atoms-introduction';
+import { FragmentsIntroduction } from '@/components/docs/fragments-introduction';
+import { SourceBanner } from '@/components/source-banner';
+import { Separator } from '@/registry/default/ui/separator';
 import { TypographyH1, TypographyH2, TypographyLead } from '@/registry/default/ui/typography';
 
 import { REGISTRY_URL } from '@/lib/registry';
@@ -81,6 +85,8 @@ export default async function DocsPage({
     colors: <ColorsContent />,
     typography: <TypographyContent />,
     theming: <ThemingContent />,
+    'components/introduction': <AtomsIntroduction />,
+    'fragments/introduction': <FragmentsIntroduction />,
   };
 
   const gettingStartedContent = gettingStartedPages[slugStr];
@@ -132,15 +138,18 @@ export default async function DocsPage({
       { id: 'usage', title: 'Usage', level: 2 },
     ],
     theming: [
-      { id: 'light-dark', title: 'Light & Dark Mode', level: 2 },
+      { id: 'convention', title: 'Convention', level: 2 },
       { id: 'css-variables', title: 'CSS Variables', level: 2 },
+      { id: 'light-mode', title: 'Light Mode', level: 3 },
+      { id: 'dark-mode', title: 'Dark Mode', level: 3 },
+      { id: 'brand-palettes', title: 'Brand Palettes', level: 2 },
       { id: 'customization', title: 'Customization', level: 2 },
     ],
   };
 
   const headings = isComponent
     ? [
-        { id: 'preview', title: 'Preview', level: 2 },
+        ...(meta.hidePreview ? [] : [{ id: 'preview', title: 'Preview', level: 2 }]),
         ...(examples.length > 0
           ? [{ id: 'examples', title: 'Examples', level: 2 }]
           : []),
@@ -160,12 +169,18 @@ export default async function DocsPage({
           )}
         </div>
 
+        {isComponent && <SourceBanner source={meta.source} />}
+
+        <Separator />
+
         {isComponent && (
           <>
-            <section id="preview" className="space-y-4">
-              <TypographyH2>Preview</TypographyH2>
-              <ComponentPreview name={meta.registryName} />
-            </section>
+            {!meta.hidePreview && (
+              <section id="preview" className="space-y-4">
+                <TypographyH2>Preview</TypographyH2>
+                <ComponentPreview name={meta.registryName} />
+              </section>
+            )}
 
             {examples.length > 0 && (
               <section id="examples" className="space-y-8">

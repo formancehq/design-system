@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 import { docsConfig } from '@/config/docs';
+import { Eyebrow } from '@/registry/default/ui/eyebrow';
 
 function NavigationItem({
   title,
@@ -24,8 +25,8 @@ function NavigationItem({
       className={cn(
         'relative flex items-center h-7 text-sm px-6 transition-all',
         'text-muted-foreground',
-        !isActive && 'hover:bg-secondary hover:text-foreground',
-        isActive && 'bg-secondary text-foreground'
+        !isActive && 'hover:bg-accent hover:text-accent-foreground',
+        isActive && 'bg-accent text-foreground'
       )}
     >
       <div
@@ -61,9 +62,9 @@ export function SideNavigation() {
 
         return (
           <div key={`${section.title}-${i}`} className="pb-8 space-y-0.5">
-            <div className="font-mono uppercase text-xs text-muted-foreground mb-2 px-6 tracking-widest">
+            <Eyebrow variant="gold" size="sm" withSquare={false} className="mb-2 px-6 tracking-widest">
               {section.title}
-            </div>
+            </Eyebrow>
             {items.map((item) => (
               <NavigationItem
                 key={item.href}

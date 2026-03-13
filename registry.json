@@ -490,6 +490,192 @@
       "files": [
         { "path": "registry/default/ui/toggle-group.tsx", "type": "registry:ui" }
       ]
+    },
+    {
+      "name": "eyebrow",
+      "type": "registry:ui",
+      "title": "Eyebrow",
+      "description": "A small label component with a colored square indicator.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/eyebrow.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Empty state placeholder with media, title, and description.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/empty.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "badge-eyebrow",
+      "type": "registry:ui",
+      "title": "Badge Eyebrow",
+      "description": "A badge eyebrow with brand color variants.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/badge-eyebrow.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "badge-status",
+      "type": "registry:ui",
+      "title": "Badge Status",
+      "description": "A status badge with animated ping indicator.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["badge"],
+      "files": [
+        { "path": "registry/default/ui/badge-status.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "A group of buttons with separator.",
+      "registryDependencies": ["separator"],
+      "files": [
+        { "path": "registry/default/ui/button-group.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Keyboard shortcut display component.",
+      "files": [
+        { "path": "registry/default/ui/kbd.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "description-list",
+      "type": "registry:ui",
+      "title": "Description List",
+      "description": "A description list and row layout for key-value pairs.",
+      "registryDependencies": ["separator"],
+      "files": [
+        { "path": "registry/default/ui/description-list.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "A combobox with search built on Command and Popover.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button", "command", "popover"],
+      "files": [
+        { "path": "registry/default/ui/combobox.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "input-password",
+      "type": "registry:ui",
+      "title": "Input Password",
+      "description": "A password input with visibility toggle.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["button", "input"],
+      "files": [
+        { "path": "registry/default/ui/input-password.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "loader",
+      "type": "registry:ui",
+      "title": "Loader",
+      "description": "Loading skeleton placeholders.",
+      "registryDependencies": ["skeleton"],
+      "files": [
+        { "path": "registry/default/ui/loader.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "mode-toggle",
+      "type": "registry:ui",
+      "title": "Mode Toggle",
+      "description": "A theme toggle button for dark and light mode.",
+      "dependencies": ["lucide-react", "next-themes"],
+      "registryDependencies": ["button"],
+      "files": [
+        { "path": "registry/default/ui/mode-toggle.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "nav-tabs",
+      "type": "registry:ui",
+      "title": "Nav Tabs",
+      "description": "Navigation tabs with pending state.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["tabs"],
+      "files": [
+        { "path": "registry/default/ui/nav-tabs.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "A full form field system with labels, descriptions, and errors.",
+      "registryDependencies": ["label", "separator"],
+      "files": [
+        { "path": "registry/default/ui/field.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Grouped input with addons, buttons, and text.",
+      "registryDependencies": ["button", "input", "textarea"],
+      "files": [
+        { "path": "registry/default/ui/input-group.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "A list item system with media, content, and actions.",
+      "registryDependencies": ["separator"],
+      "files": [
+        { "path": "registry/default/ui/item.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "multi-select",
+      "type": "registry:ui",
+      "title": "Multi Select",
+      "description": "A multi-select component with badges and search.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["badge", "button", "command", "popover"],
+      "files": [
+        { "path": "registry/default/ui/multi-select.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A collapsible sidebar with mobile support.",
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "registryDependencies": ["button", "input", "separator", "sheet", "skeleton", "tooltip"],
+      "files": [
+        { "path": "registry/default/ui/sidebar.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "stepper",
+      "type": "registry:ui",
+      "title": "Stepper",
+      "description": "A multi-step wizard component with validation.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/stepper.tsx", "type": "registry:ui" }
+      ]
     }
   ]
 }

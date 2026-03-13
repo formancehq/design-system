@@ -38,6 +38,33 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   badge: {
     component: lazy(() => import('@/registry/default/demos/badge-demo')),
     sourceFile: 'registry/default/demos/badge-demo.tsx',
+    examples: [
+      {
+        title: 'States',
+        component: lazy(() => import('@/registry/default/examples/badge-states')),
+        sourceFile: 'registry/default/examples/badge-states.tsx',
+      },
+      {
+        title: 'Brand Colors',
+        component: lazy(() => import('@/registry/default/examples/badge-brand-colors')),
+        sourceFile: 'registry/default/examples/badge-brand-colors.tsx',
+      },
+      {
+        title: 'Semantic Colors',
+        component: lazy(() => import('@/registry/default/examples/badge-semantic-colors')),
+        sourceFile: 'registry/default/examples/badge-semantic-colors.tsx',
+      },
+      {
+        title: 'Outline',
+        component: lazy(() => import('@/registry/default/examples/badge-outline')),
+        sourceFile: 'registry/default/examples/badge-outline.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(() => import('@/registry/default/examples/badge-sizes')),
+        sourceFile: 'registry/default/examples/badge-sizes.tsx',
+      },
+    ],
   },
   breadcrumb: {
     component: lazy(() => import('@/registry/default/demos/breadcrumb-demo')),
@@ -46,6 +73,68 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   button: {
     component: lazy(() => import('@/registry/default/demos/button-demo')),
     sourceFile: 'registry/default/demos/button-demo.tsx',
+    examples: [
+      {
+        title: 'Primary',
+        component: lazy(() => import('@/registry/default/examples/button-primary')),
+        sourceFile: 'registry/default/examples/button-primary.tsx',
+      },
+      {
+        title: 'Secondary',
+        component: lazy(() => import('@/registry/default/examples/button-secondary')),
+        sourceFile: 'registry/default/examples/button-secondary.tsx',
+      },
+      {
+        title: 'Outline',
+        component: lazy(() => import('@/registry/default/examples/button-outline')),
+        sourceFile: 'registry/default/examples/button-outline.tsx',
+      },
+      {
+        title: 'Ghost',
+        component: lazy(() => import('@/registry/default/examples/button-ghost')),
+        sourceFile: 'registry/default/examples/button-ghost.tsx',
+      },
+      {
+        title: 'Link',
+        component: lazy(() => import('@/registry/default/examples/button-link')),
+        sourceFile: 'registry/default/examples/button-link.tsx',
+      },
+      {
+        title: 'Destructive',
+        component: lazy(() => import('@/registry/default/examples/button-destructive')),
+        sourceFile: 'registry/default/examples/button-destructive.tsx',
+      },
+      {
+        title: 'Brand Colors',
+        component: lazy(() => import('@/registry/default/examples/button-brand-colors')),
+        sourceFile: 'registry/default/examples/button-brand-colors.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(() => import('@/registry/default/examples/button-sizes')),
+        sourceFile: 'registry/default/examples/button-sizes.tsx',
+      },
+      {
+        title: 'With Icon',
+        component: lazy(() => import('@/registry/default/examples/button-with-icon')),
+        sourceFile: 'registry/default/examples/button-with-icon.tsx',
+      },
+      {
+        title: 'Icon Only',
+        component: lazy(() => import('@/registry/default/examples/button-icon')),
+        sourceFile: 'registry/default/examples/button-icon.tsx',
+      },
+      {
+        title: 'Loading',
+        component: lazy(() => import('@/registry/default/examples/button-loading')),
+        sourceFile: 'registry/default/examples/button-loading.tsx',
+      },
+      {
+        title: 'As Child',
+        component: lazy(() => import('@/registry/default/examples/button-as-child')),
+        sourceFile: 'registry/default/examples/button-as-child.tsx',
+      },
+    ],
   },
   calendar: {
     component: lazy(() => import('@/registry/default/demos/calendar-demo')),
@@ -137,6 +226,64 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'dropdown-menu': {
     component: lazy(() => import('@/registry/default/demos/dropdown-menu-demo')),
     sourceFile: 'registry/default/demos/dropdown-menu-demo.tsx',
+    examples: [
+      {
+        title: 'With Icons & Shortcuts',
+        component: lazy(() => import('@/registry/default/examples/dropdown-menu-with-icons')),
+        sourceFile: 'registry/default/examples/dropdown-menu-with-icons.tsx',
+      },
+      {
+        title: 'Checkboxes',
+        component: lazy(() => import('@/registry/default/examples/dropdown-menu-checkboxes')),
+        sourceFile: 'registry/default/examples/dropdown-menu-checkboxes.tsx',
+      },
+      {
+        title: 'Radio Group',
+        component: lazy(() => import('@/registry/default/examples/dropdown-menu-radio-group')),
+        sourceFile: 'registry/default/examples/dropdown-menu-radio-group.tsx',
+      },
+      {
+        title: 'Submenu',
+        component: lazy(() => import('@/registry/default/examples/dropdown-menu-submenu')),
+        sourceFile: 'registry/default/examples/dropdown-menu-submenu.tsx',
+      },
+    ],
+  },
+  eyebrow: {
+    component: lazy(() => import('@/registry/default/demos/eyebrow-demo')),
+    sourceFile: 'registry/default/demos/eyebrow-demo.tsx',
+    examples: [
+      {
+        title: 'With Square',
+        component: lazy(() => import('@/registry/default/examples/eyebrow-with-square')),
+        sourceFile: 'registry/default/examples/eyebrow-with-square.tsx',
+      },
+      {
+        title: 'Underscore Prefix',
+        component: lazy(() => import('@/registry/default/examples/eyebrow-underscore')),
+        sourceFile: 'registry/default/examples/eyebrow-underscore.tsx',
+      },
+      {
+        title: 'Slash Suffix',
+        component: lazy(() => import('@/registry/default/examples/eyebrow-slash')),
+        sourceFile: 'registry/default/examples/eyebrow-slash.tsx',
+      },
+      {
+        title: 'Underscore & Slash',
+        component: lazy(() => import('@/registry/default/examples/eyebrow-variants')),
+        sourceFile: 'registry/default/examples/eyebrow-variants.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(() => import('@/registry/default/examples/eyebrow-sizes')),
+        sourceFile: 'registry/default/examples/eyebrow-sizes.tsx',
+      },
+      {
+        title: 'With Content',
+        component: lazy(() => import('@/registry/default/examples/eyebrow-with-content')),
+        sourceFile: 'registry/default/examples/eyebrow-with-content.tsx',
+      },
+    ],
   },
   form: {
     component: lazy(() => import('@/registry/default/demos/form-demo')),
@@ -257,5 +404,73 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'formance-logo': {
     component: lazy(() => import('@/registry/default/demos/formance-logo-demo')),
     sourceFile: 'registry/default/demos/formance-logo-demo.tsx',
+  },
+  empty: {
+    component: lazy(() => import('@/registry/default/demos/empty-demo')),
+    sourceFile: 'registry/default/demos/empty-demo.tsx',
+  },
+  'badge-eyebrow': {
+    component: lazy(() => import('@/registry/default/demos/badge-eyebrow-demo')),
+    sourceFile: 'registry/default/demos/badge-eyebrow-demo.tsx',
+  },
+  'badge-status': {
+    component: lazy(() => import('@/registry/default/demos/badge-status-demo')),
+    sourceFile: 'registry/default/demos/badge-status-demo.tsx',
+  },
+  'button-group': {
+    component: lazy(() => import('@/registry/default/demos/button-group-demo')),
+    sourceFile: 'registry/default/demos/button-group-demo.tsx',
+  },
+  kbd: {
+    component: lazy(() => import('@/registry/default/demos/kbd-demo')),
+    sourceFile: 'registry/default/demos/kbd-demo.tsx',
+  },
+  'description-list': {
+    component: lazy(() => import('@/registry/default/demos/description-list-demo')),
+    sourceFile: 'registry/default/demos/description-list-demo.tsx',
+  },
+  combobox: {
+    component: lazy(() => import('@/registry/default/demos/combobox-demo')),
+    sourceFile: 'registry/default/demos/combobox-demo.tsx',
+  },
+  'input-password': {
+    component: lazy(() => import('@/registry/default/demos/input-password-demo')),
+    sourceFile: 'registry/default/demos/input-password-demo.tsx',
+  },
+  loader: {
+    component: lazy(() => import('@/registry/default/demos/loader-demo')),
+    sourceFile: 'registry/default/demos/loader-demo.tsx',
+  },
+  'mode-toggle': {
+    component: lazy(() => import('@/registry/default/demos/mode-toggle-demo')),
+    sourceFile: 'registry/default/demos/mode-toggle-demo.tsx',
+  },
+  'nav-tabs': {
+    component: lazy(() => import('@/registry/default/demos/nav-tabs-demo')),
+    sourceFile: 'registry/default/demos/nav-tabs-demo.tsx',
+  },
+  field: {
+    component: lazy(() => import('@/registry/default/demos/field-demo')),
+    sourceFile: 'registry/default/demos/field-demo.tsx',
+  },
+  'input-group': {
+    component: lazy(() => import('@/registry/default/demos/input-group-demo')),
+    sourceFile: 'registry/default/demos/input-group-demo.tsx',
+  },
+  item: {
+    component: lazy(() => import('@/registry/default/demos/item-demo')),
+    sourceFile: 'registry/default/demos/item-demo.tsx',
+  },
+  'multi-select': {
+    component: lazy(() => import('@/registry/default/demos/multi-select-demo')),
+    sourceFile: 'registry/default/demos/multi-select-demo.tsx',
+  },
+  sidebar: {
+    component: lazy(() => import('@/registry/default/demos/sidebar-demo')),
+    sourceFile: 'registry/default/demos/sidebar-demo.tsx',
+  },
+  stepper: {
+    component: lazy(() => import('@/registry/default/demos/stepper-demo')),
+    sourceFile: 'registry/default/demos/stepper-demo.tsx',
   },
 };

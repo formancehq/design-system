@@ -38,7 +38,7 @@ export function TopNavigation() {
             <Menu className="h-4 w-4" />
           </Button>
           <Link href="/" className="flex items-center gap-3">
-            <span className="text-lg font-semibold tracking-tight font-primary">
+            <span className="text-lg font-semibold tracking-tight font-sans">
               Formance Design System
             </span>
           </Link>

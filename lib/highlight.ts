@@ -1,6 +1,7 @@
 import 'server-only';
 
-import { createHighlighter, createCssVariablesTheme, type Highlighter } from 'shiki';
+import { createHighlighter, type Highlighter } from 'shiki/bundle/full';
+import { createCssVariablesTheme } from 'shiki/core';
 
 const cssVarsTheme = createCssVariablesTheme({
   name: 'css-variables',

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge-status",
+  "title": "Badge Status",
+  "description": "A status badge with animated ping indicator.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "badge"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/badge-status.tsx",
+      "content": "import { cva, type VariantProps } from 'class-variance-authority';\nimport type { ComponentProps } from 'react';\n\nimport { Badge } from '@/registry/default/ui/badge';\nimport { cn } from '@/lib/utils';\n\nconst badgeStatusIndicatorVariants = cva(\n  'absolute inline-flex h-full w-full animate-ping opacity-75',\n  {\n    variants: {\n      variant: {\n        valid: 'bg-emerald-500',\n        destructive: 'bg-red-500',\n        info: 'bg-blue-500',\n        warning: 'bg-amber-500',\n        zinc: 'bg-zinc-500',\n        outline: 'bg-foreground',\n      },\n    },\n    defaultVariants: {\n      variant: 'zinc',\n    },\n  }\n);\n\nconst badgeStatusIndicatorSolidVariants = cva('relative inline-flex h-2 w-2', {\n  variants: {\n    variant: {\n      valid: 'bg-emerald-500',\n      destructive: 'bg-red-500',\n      info: 'bg-blue-500',\n      warning: 'bg-amber-500',\n      zinc: 'bg-zinc-500',\n      outline: 'bg-foreground',\n    },\n  },\n  defaultVariants: {\n    variant: 'zinc',\n  },\n});\n\nconst badgeStatusLabelVariants = cva('', {\n  variants: {\n    variant: {\n      valid: 'text-valid-foreground',\n      destructive: 'text-destructive-foreground',\n      info: 'text-info-foreground',\n      warning: 'text-warning-foreground',\n      zinc: 'text-zinc-foreground',\n      outline: 'text-foreground',\n    },\n  },\n});\n\nexport type TBadgeStatusProps = ComponentProps<typeof Badge> &\n  VariantProps<typeof badgeStatusIndicatorVariants>;\n\nexport const BadgeStatus = ({\n  className,\n  variant = 'zinc',\n  children,\n  ...props\n}: TBadgeStatusProps) => (\n  <Badge\n    className={cn('flex items-center gap-2', className)}\n    variant={variant}\n    {...props}\n  >\n    <span className=\"relative flex h-2 w-2\">\n      <span className={badgeStatusIndicatorVariants({ variant })} />\n      <span className={badgeStatusIndicatorSolidVariants({ variant })} />\n    </span>\n    <span className={badgeStatusLabelVariants({ variant })}>{children}</span>\n  </Badge>\n);\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

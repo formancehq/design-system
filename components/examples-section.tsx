@@ -34,7 +34,7 @@ export function ExamplesSection({
     <div className="space-y-8">
       {examples.map((example) => (
         <div key={example.title} className="space-y-4">
-          <h3 className="scroll-m-20 font-primary text-xl font-semibold tracking-tight">
+          <h3 className="scroll-m-20 font-sans text-xl font-semibold tracking-tight">
             {example.title}
           </h3>
           <ExamplePreviewClient component={example.component} />

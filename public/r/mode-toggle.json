@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "mode-toggle",
+  "title": "Mode Toggle",
+  "description": "A theme toggle button for dark and light mode.",
+  "dependencies": [
+    "lucide-react",
+    "next-themes"
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/mode-toggle.tsx",
+      "content": "import { Moon, Sun } from 'lucide-react';\n\nimport { Button } from '@/registry/default/ui/button';\n\nexport type TTheme = 'dark' | 'light' | 'system';\n\nexport function ModeToggle({\n  theme,\n  setTheme,\n}: {\n  theme: TTheme;\n  setTheme: (theme: TTheme) => void;\n}) {\n  return (\n    <Button\n      variant=\"outline\"\n      size=\"icon-md\"\n      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}\n    >\n      <Sun className=\"hidden [html.dark_&]:block\" />\n      <Moon className=\"hidden [html.light_&]:block\" />\n      <span className=\"sr-only\">Toggle theme</span>\n    </Button>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

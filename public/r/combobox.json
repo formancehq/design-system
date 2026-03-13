@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "combobox",
+  "title": "Combobox",
+  "description": "A combobox with search built on Command and Popover.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "button",
+    "command",
+    "popover"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/combobox.tsx",
+      "content": "'use client';\n\nimport { Check, ChevronsUpDown } from 'lucide-react';\nimport React from 'react';\n\nimport { Button } from '@/registry/default/ui/button';\nimport {\n  Command,\n  CommandEmpty,\n  CommandGroup,\n  CommandInput,\n  CommandItem,\n  CommandList,\n} from '@/registry/default/ui/command';\nimport {\n  Popover,\n  PopoverContent,\n  PopoverTrigger,\n} from '@/registry/default/ui/popover';\nimport { cn } from '@/lib/utils';\n\ntype ComboboxProps = {\n  groups: { label: string; value: string }[];\n  label: string;\n  placeholder: string;\n};\n\nfunction Combobox({ groups, label, placeholder }: ComboboxProps) {\n  const [open, setOpen] = React.useState(false);\n  const [value, setValue] = React.useState<string>(groups[0]!.value || '');\n\n  return (\n    <Popover open={open} onOpenChange={setOpen}>\n      <PopoverTrigger asChild>\n        <Button\n          variant=\"outline\"\n          role=\"combobox\"\n          aria-expanded={open}\n          className=\"w-[200px] justify-between\"\n        >\n          {value ? groups.find((group) => group.value === value)?.label : label}\n          <ChevronsUpDown className=\"ml-2 h-4 w-4 shrink-0 opacity-50\" />\n        </Button>\n      </PopoverTrigger>\n      <PopoverContent className=\"w-[200px] p-0\">\n        <Command>\n          <CommandInput placeholder={placeholder} />\n          <CommandEmpty>No group found.</CommandEmpty>\n          <CommandGroup>\n            <CommandList>\n              {groups.map((group) => (\n                <CommandItem\n                  key={group.value}\n                  value={group.value}\n                  onSelect={(currentValue) => {\n                    setValue(currentValue === value ? '' : currentValue);\n                    setOpen(false);\n                  }}\n                >\n                  <Check\n                    className={cn(\n                      'mr-2 h-4 w-4',\n                      value === group.value ? 'opacity-100' : 'opacity-0'\n                    )}\n                  />\n                  {group.label}\n                </CommandItem>\n              ))}\n            </CommandList>\n          </CommandGroup>\n        </Command>\n      </PopoverContent>\n    </Popover>\n  );\n}\n\nCombobox.displayName = 'Combobox';\n\nexport { Combobox };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}
