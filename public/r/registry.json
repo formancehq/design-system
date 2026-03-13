@@ -1,0 +1,485 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "formance",
+  "homepage": "https://formance.com",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A button component with Formance brand variants.",
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/button.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "A badge component with semantic color variants.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/badge.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "An input component with size variants.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/input.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "A label component built on Radix UI.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/label.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "A textarea component with consistent styling.",
+      "files": [
+        { "path": "registry/default/ui/textarea.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A select component built on Radix UI.",
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/select.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A checkbox component built on Radix UI.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/checkbox.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal dialog component built on Radix UI.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/dialog.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "A visual separator component.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/separator.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "A loading skeleton placeholder.",
+      "files": [
+        { "path": "registry/default/ui/skeleton.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "A card container component with variants.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/card.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "An accordion component built on Radix UI.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/accordion.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A tabs component built on Radix UI.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/tabs.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A tooltip component built on Radix UI.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/tooltip.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "A popover component built on Radix UI.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/popover.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A toggle component built on Radix UI.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/toggle.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "A collapsible component built on Radix UI.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/collapsible.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A switch toggle component built on Radix UI.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/switch.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "A radio group component built on Radix UI.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/radio-group.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A drawer component built on Vaul.",
+      "dependencies": ["vaul"],
+      "files": [
+        { "path": "registry/default/ui/drawer.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "A slide-out sheet component built on Radix UI.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/sheet.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "A custom scroll area built on Radix UI.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/scroll-area.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "Toast notification component.",
+      "dependencies": ["next-themes", "sonner"],
+      "files": [
+        { "path": "registry/default/ui/sonner.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "form",
+      "type": "registry:ui",
+      "title": "Form",
+      "description": "Form components with React Hook Form and Zod integration.",
+      "dependencies": ["radix-ui", "react-hook-form"],
+      "registryDependencies": ["label"],
+      "files": [
+        { "path": "registry/default/ui/form.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "typography",
+      "type": "registry:ui",
+      "title": "Typography",
+      "description": "Typography components with Formance brand styles.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/typography.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "formance-logo",
+      "type": "registry:ui",
+      "title": "Formance Logo",
+      "description": "The Formance logo and icon component.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/formance-logo.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays a callout for important messages.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/alert.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user for a critical action.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/alert-dialog.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Displays content within a desired ratio.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/aspect-ratio.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An image element with a fallback for user profiles.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/avatar.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Navigation breadcrumb showing the current page hierarchy.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/breadcrumb.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A date picker calendar component.",
+      "dependencies": ["react-day-picker", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/calendar.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "A carousel for cycling through content.",
+      "dependencies": ["embla-carousel-react", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/carousel.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Chart components built on Recharts.",
+      "dependencies": ["recharts"],
+      "files": [
+        { "path": "registry/default/ui/chart.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "A command palette for quick actions and search.",
+      "dependencies": ["cmdk", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/command.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "A menu triggered by right-clicking.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/context-menu.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A menu displayed on trigger click.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/dropdown-menu.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "A card displayed on hover for previewing content.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/hover-card.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "One-time password input with individual slots.",
+      "dependencies": ["input-otp", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/input-otp.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A horizontal menu bar component.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/menubar.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A navigation menu with dropdown content.",
+      "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/navigation-menu.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Pagination controls for navigating pages.",
+      "dependencies": ["lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/pagination.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "A progress bar indicator.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/progress.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Resizable panel groups with drag handles.",
+      "dependencies": ["react-resizable-panels", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/resizable.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "A range slider input.",
+      "dependencies": ["radix-ui"],
+      "files": [
+        { "path": "registry/default/ui/slider.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "A loading spinner indicator.",
+      "dependencies": ["lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/spinner.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A table component for displaying data.",
+      "files": [
+        { "path": "registry/default/ui/table.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A group of toggle buttons.",
+      "dependencies": ["radix-ui", "class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/toggle-group.tsx", "type": "registry:ui" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "popover",
+  "title": "Popover",
+  "description": "A popover component built on Radix UI.",
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/popover.tsx",
+      "content": "'use client';\n\nimport { Popover as PopoverPrimitive } from 'radix-ui';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\nimport { cva, VariantProps } from 'class-variance-authority';\n\nfunction Popover({\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Root>) {\n  return <PopoverPrimitive.Root data-slot=\"popover\" {...props} />;\n}\n\nexport const popoverTriggerVariants = cva('flex items-center justify-between', {\n  variants: {\n    size: {\n      sm: 'h-8',\n      md: 'h-9',\n      lg: 'h-10',\n    },\n  },\n  defaultVariants: {\n    size: 'md',\n  },\n});\n\nexport type PopoverTriggerProps = React.ComponentProps<\n  typeof PopoverPrimitive.Trigger\n> &\n  VariantProps<typeof popoverTriggerVariants>;\n\nfunction PopoverTrigger({ className, size, ...props }: PopoverTriggerProps) {\n  return (\n    <PopoverPrimitive.Trigger\n      data-slot=\"popover-trigger\"\n      className={cn(popoverTriggerVariants({ size, className }))}\n      {...props}\n    />\n  );\n}\n\nexport const popoverContentVariants = cva(\n  'z-50 w-72 rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',\n  {\n    variants: {\n      size: {\n        sm: 'w-48',\n        md: 'w-64',\n        lg: 'w-80',\n      },\n    },\n    defaultVariants: {\n      size: 'md',\n    },\n  }\n);\n\ntype PopoverContentProps = React.ComponentProps<\n  typeof PopoverPrimitive.Content\n> &\n  VariantProps<typeof popoverContentVariants>;\n\nfunction PopoverContent({\n  className,\n  size,\n  align = 'center',\n  sideOffset = 4,\n  ...props\n}: PopoverContentProps) {\n  return (\n    <PopoverPrimitive.Portal>\n      <PopoverPrimitive.Content\n        data-slot=\"popover-content\"\n        align={align}\n        sideOffset={sideOffset}\n        className={cn(popoverContentVariants({ size, className }))}\n        {...props}\n      />\n    </PopoverPrimitive.Portal>\n  );\n}\n\nfunction PopoverAnchor({\n  ...props\n}: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {\n  return <PopoverPrimitive.Anchor data-slot=\"popover-anchor\" {...props} />;\n}\n\nconst PopoverClose = PopoverPrimitive.Close;\n\nexport { Popover, PopoverAnchor, PopoverClose, PopoverContent, PopoverTrigger };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

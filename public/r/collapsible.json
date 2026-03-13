@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "collapsible",
+  "title": "Collapsible",
+  "description": "A collapsible component built on Radix UI.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/collapsible.tsx",
+      "content": "'use client';\n\nimport { Collapsible as CollapsiblePrimitive } from 'radix-ui';\nimport * as React from 'react';\n\ntype CollapsibleProps = {\n  open?: boolean;\n  defaultOpen?: boolean;\n  onOpenChange?: (open: boolean) => void;\n  disabled?: boolean;\n  children?: React.ReactNode;\n  className?: string;\n} & Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'className'>;\n\ntype CollapsibleTriggerProps = {\n  asChild?: boolean;\n  children?: React.ReactNode;\n  className?: string;\n} & Omit<\n  React.ButtonHTMLAttributes<HTMLButtonElement>,\n  'children' | 'className'\n>;\n\ntype CollapsibleContentProps = {\n  forceMount?: boolean;\n  children?: React.ReactNode;\n  className?: string;\n} & Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'className'>;\n\nfunction Collapsible(props: CollapsibleProps) {\n  return <CollapsiblePrimitive.Root data-slot=\"collapsible\" {...props} />;\n}\n\nfunction CollapsibleTrigger(props: CollapsibleTriggerProps) {\n  return (\n    <CollapsiblePrimitive.CollapsibleTrigger\n      data-slot=\"collapsible-trigger\"\n      {...props}\n    />\n  );\n}\n\nfunction CollapsibleContent(props: CollapsibleContentProps) {\n  const { forceMount, ...contentProps } = props;\n\n  return (\n    <CollapsiblePrimitive.CollapsibleContent\n      data-slot=\"collapsible-content\"\n      {...contentProps}\n    />\n  );\n}\n\nexport { Collapsible, CollapsibleContent, CollapsibleTrigger };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

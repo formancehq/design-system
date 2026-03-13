@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sonner",
+  "title": "Sonner",
+  "description": "Toast notification component.",
+  "dependencies": [
+    "next-themes",
+    "sonner"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/sonner.tsx",
+      "content": "'use client';\n\nimport { useTheme } from 'next-themes';\nimport { Toaster as Sonner, ToasterProps } from 'sonner';\n\nconst SonnerToaster = ({ ...props }: ToasterProps) => {\n  const { theme = 'system' } = useTheme();\n\n  return (\n    <Sonner\n      theme={theme as ToasterProps['theme']}\n      className=\"toaster group\"\n      toastOptions={{\n        classNames: {\n          toast: 'bg-background! text-foreground! border-border! shadow-lg!',\n          description: 'text-muted-foreground!',\n          actionButton: 'text-primary-foreground!',\n          cancelButton: 'text-muted-foreground!',\n          success: 'text-valid-foreground!',\n          error: 'text-destructive-foreground!',\n          warning: 'text-warning-foreground!',\n          info: 'text-cobalt-600!',\n        },\n      }}\n      {...props}\n    />\n  );\n};\n\nexport { SonnerToaster };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}
