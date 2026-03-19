@@ -1,0 +1,87 @@
+<ComponentPreview name="page-header" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/page-header
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="page-header" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  PageHeader,
+  PageHeaderMeta,
+  PageHeaderIcon,
+  PageHeaderSummary,
+  PageHeaderEyebrow,
+  PageHeaderTitle,
+  PageHeaderDescription,
+  PageHeaderAside,
+  PageHeaderBreadcrumb,
+} from '@/components/ui/page-header'
+```
+
+```tsx
+<PageHeader size="default" background border>
+  <PageHeaderMeta>
+    <PageHeaderSummary>
+      <PageHeaderEyebrow>Module</PageHeaderEyebrow>
+      <PageHeaderTitle>Ledger</PageHeaderTitle>
+      <PageHeaderDescription>
+        Manage ledgers, transactions, and accounts.
+      </PageHeaderDescription>
+    </PageHeaderSummary>
+    <PageHeaderAside>
+      <Button>Manage module</Button>
+    </PageHeaderAside>
+  </PageHeaderMeta>
+</PageHeader>
+```
+
+## Compound Components
+
+PageHeader is a compound component. Compose the pieces you need:
+
+- **PageHeader** — Root container. Accepts `size`, `background`, and `border` variants.
+- **PageHeaderBreadcrumb** — Breadcrumb navigation wrapper, auto-contained by size.
+- **PageHeaderMeta** — Wraps icon, summary, and aside in a responsive row.
+- **PageHeaderIcon** — Slot for a custom icon or SVG.
+- **PageHeaderSummary** — Groups eyebrow, title, and description.
+- **PageHeaderEyebrow** — Small label above the title. Defaults to gold variant.
+- **PageHeaderTitle** — Primary heading (h1).
+- **PageHeaderDescription** — Supporting text below the title.
+- **PageHeaderAside** — Container for action buttons, aligned to the right.

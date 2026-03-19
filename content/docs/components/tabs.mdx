@@ -1,0 +1,65 @@
+<ComponentPreview name="tabs" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/tabs
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install radix-ui class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="tabs" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+```
+
+```tsx
+<Tabs defaultValue="transactions">
+  <TabsList>
+    <TabsTrigger value="transactions">Transactions</TabsTrigger>
+    <TabsTrigger value="accounts">Accounts</TabsTrigger>
+    <TabsTrigger value="metadata">Metadata</TabsTrigger>
+  </TabsList>
+  <TabsContent value="transactions">
+    Browse and filter all ledger transactions.
+  </TabsContent>
+  <TabsContent value="accounts">
+    View account balances and details.
+  </TabsContent>
+  <TabsContent value="metadata">
+    Inspect and edit transaction metadata.
+  </TabsContent>
+</Tabs>
+```

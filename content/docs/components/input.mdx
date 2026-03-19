@@ -1,0 +1,64 @@
+<ComponentPreview name="input" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/input
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="input" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Input } from '@/components/ui/input'
+```
+
+```tsx
+<Input placeholder="Search transactions..." />
+```
+
+## Examples
+
+### Disabled
+
+<ComponentPreview name="input-disabled" />
+
+### With Label
+
+<ComponentPreview name="input-with-label" />
+
+### With Button
+
+<ComponentPreview name="input-with-button" />

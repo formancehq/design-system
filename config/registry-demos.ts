@@ -49,6 +49,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'alert-dialog': {
     component: lazy(() => import('@/registry/default/demos/alert-dialog-demo')),
     sourceFile: 'registry/default/demos/alert-dialog-demo.tsx',
+    examples: [
+      {
+        title: 'Destructive',
+        component: lazy(() => import('@/registry/default/examples/alert-dialog-destructive')),
+        sourceFile: 'registry/default/examples/alert-dialog-destructive.tsx',
+      },
+    ],
   },
   'aspect-ratio': {
     component: lazy(() => import('@/registry/default/demos/aspect-ratio-demo')),
@@ -225,6 +232,18 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   checkbox: {
     component: lazy(() => import('@/registry/default/demos/checkbox-demo')),
     sourceFile: 'registry/default/demos/checkbox-demo.tsx',
+    examples: [
+      {
+        title: 'With Text',
+        component: lazy(() => import('@/registry/default/examples/checkbox-with-text')),
+        sourceFile: 'registry/default/examples/checkbox-with-text.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(() => import('@/registry/default/examples/checkbox-disabled')),
+        sourceFile: 'registry/default/examples/checkbox-disabled.tsx',
+      },
+    ],
   },
   collapsible: {
     component: lazy(() => import('@/registry/default/demos/collapsible-demo')),
@@ -233,6 +252,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   command: {
     component: lazy(() => import('@/registry/default/demos/command-demo')),
     sourceFile: 'registry/default/demos/command-demo.tsx',
+    examples: [
+      {
+        title: 'Dialog',
+        component: lazy(() => import('@/registry/default/examples/command-dialog')),
+        sourceFile: 'registry/default/examples/command-dialog.tsx',
+      },
+    ],
   },
   'context-menu': {
     component: lazy(() => import('@/registry/default/demos/context-menu-demo')),
@@ -319,10 +345,39 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   input: {
     component: lazy(() => import('@/registry/default/demos/input-demo')),
     sourceFile: 'registry/default/demos/input-demo.tsx',
+    examples: [
+      {
+        title: 'Disabled',
+        component: lazy(() => import('@/registry/default/examples/input-disabled')),
+        sourceFile: 'registry/default/examples/input-disabled.tsx',
+      },
+      {
+        title: 'With Label',
+        component: lazy(() => import('@/registry/default/examples/input-with-label')),
+        sourceFile: 'registry/default/examples/input-with-label.tsx',
+      },
+      {
+        title: 'With Button',
+        component: lazy(() => import('@/registry/default/examples/input-with-button')),
+        sourceFile: 'registry/default/examples/input-with-button.tsx',
+      },
+    ],
   },
   'input-otp': {
     component: lazy(() => import('@/registry/default/demos/input-otp-demo')),
     sourceFile: 'registry/default/demos/input-otp-demo.tsx',
+    examples: [
+      {
+        title: 'With Separator',
+        component: lazy(() => import('@/registry/default/examples/input-otp-separator')),
+        sourceFile: 'registry/default/examples/input-otp-separator.tsx',
+      },
+      {
+        title: 'Pattern',
+        component: lazy(() => import('@/registry/default/examples/input-otp-pattern')),
+        sourceFile: 'registry/default/examples/input-otp-pattern.tsx',
+      },
+    ],
   },
   label: {
     component: lazy(() => import('@/registry/default/demos/label-demo')),
@@ -355,14 +410,40 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   resizable: {
     component: lazy(() => import('@/registry/default/demos/resizable-demo')),
     sourceFile: 'registry/default/demos/resizable-demo.tsx',
+    examples: [
+      {
+        title: 'With Handle',
+        component: lazy(() => import('@/registry/default/examples/resizable-with-handle')),
+        sourceFile: 'registry/default/examples/resizable-with-handle.tsx',
+      },
+      {
+        title: 'Vertical',
+        component: lazy(() => import('@/registry/default/examples/resizable-vertical')),
+        sourceFile: 'registry/default/examples/resizable-vertical.tsx',
+      },
+    ],
   },
   'scroll-area': {
     component: lazy(() => import('@/registry/default/demos/scroll-area-demo')),
     sourceFile: 'registry/default/demos/scroll-area-demo.tsx',
+    examples: [
+      {
+        title: 'Horizontal',
+        component: lazy(() => import('@/registry/default/examples/scroll-area-horizontal')),
+        sourceFile: 'registry/default/examples/scroll-area-horizontal.tsx',
+      },
+    ],
   },
   select: {
     component: lazy(() => import('@/registry/default/demos/select-demo')),
     sourceFile: 'registry/default/demos/select-demo.tsx',
+    examples: [
+      {
+        title: 'Scrollable',
+        component: lazy(() => import('@/registry/default/examples/select-scrollable')),
+        sourceFile: 'registry/default/examples/select-scrollable.tsx',
+      },
+    ],
   },
   separator: {
     component: lazy(() => import('@/registry/default/demos/separator-demo')),
@@ -371,14 +452,35 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   sheet: {
     component: lazy(() => import('@/registry/default/demos/sheet-demo')),
     sourceFile: 'registry/default/demos/sheet-demo.tsx',
+    examples: [
+      {
+        title: 'Side Variants',
+        component: lazy(() => import('@/registry/default/examples/sheet-side')),
+        sourceFile: 'registry/default/examples/sheet-side.tsx',
+      },
+    ],
   },
   skeleton: {
     component: lazy(() => import('@/registry/default/demos/skeleton-demo')),
     sourceFile: 'registry/default/demos/skeleton-demo.tsx',
+    examples: [
+      {
+        title: 'Card',
+        component: lazy(() => import('@/registry/default/examples/skeleton-card')),
+        sourceFile: 'registry/default/examples/skeleton-card.tsx',
+      },
+    ],
   },
   slider: {
     component: lazy(() => import('@/registry/default/demos/slider-demo')),
     sourceFile: 'registry/default/demos/slider-demo.tsx',
+    examples: [
+      {
+        title: 'Range',
+        component: lazy(() => import('@/registry/default/examples/slider-range')),
+        sourceFile: 'registry/default/examples/slider-range.tsx',
+      },
+    ],
   },
   spinner: {
     component: lazy(() => import('@/registry/default/demos/spinner-demo')),
@@ -387,6 +489,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   sonner: {
     component: lazy(() => import('@/registry/default/demos/sonner-demo')),
     sourceFile: 'registry/default/demos/sonner-demo.tsx',
+    examples: [
+      {
+        title: 'Types',
+        component: lazy(() => import('@/registry/default/examples/sonner-types')),
+        sourceFile: 'registry/default/examples/sonner-types.tsx',
+      },
+    ],
   },
   switch: {
     component: lazy(() => import('@/registry/default/demos/switch-demo')),
@@ -403,6 +512,23 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   textarea: {
     component: lazy(() => import('@/registry/default/demos/textarea-demo')),
     sourceFile: 'registry/default/demos/textarea-demo.tsx',
+    examples: [
+      {
+        title: 'Disabled',
+        component: lazy(() => import('@/registry/default/examples/textarea-disabled')),
+        sourceFile: 'registry/default/examples/textarea-disabled.tsx',
+      },
+      {
+        title: 'With Label',
+        component: lazy(() => import('@/registry/default/examples/textarea-with-label')),
+        sourceFile: 'registry/default/examples/textarea-with-label.tsx',
+      },
+      {
+        title: 'With Button',
+        component: lazy(() => import('@/registry/default/examples/textarea-with-button')),
+        sourceFile: 'registry/default/examples/textarea-with-button.tsx',
+      },
+    ],
   },
   toggle: {
     component: lazy(() => import('@/registry/default/demos/toggle-demo')),
@@ -438,6 +564,33 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'toggle-group': {
     component: lazy(() => import('@/registry/default/demos/toggle-group-demo')),
     sourceFile: 'registry/default/demos/toggle-group-demo.tsx',
+    examples: [
+      {
+        title: 'Outline',
+        component: lazy(() => import('@/registry/default/examples/toggle-group-outline')),
+        sourceFile: 'registry/default/examples/toggle-group-outline.tsx',
+      },
+      {
+        title: 'Single',
+        component: lazy(() => import('@/registry/default/examples/toggle-group-single')),
+        sourceFile: 'registry/default/examples/toggle-group-single.tsx',
+      },
+      {
+        title: 'Small',
+        component: lazy(() => import('@/registry/default/examples/toggle-group-sm')),
+        sourceFile: 'registry/default/examples/toggle-group-sm.tsx',
+      },
+      {
+        title: 'Large',
+        component: lazy(() => import('@/registry/default/examples/toggle-group-lg')),
+        sourceFile: 'registry/default/examples/toggle-group-lg.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(() => import('@/registry/default/examples/toggle-group-disabled')),
+        sourceFile: 'registry/default/examples/toggle-group-disabled.tsx',
+      },
+    ],
   },
   tooltip: {
     component: lazy(() => import('@/registry/default/demos/tooltip-demo')),
@@ -446,6 +599,68 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   typography: {
     component: lazy(() => import('@/registry/default/demos/typography-demo')),
     sourceFile: 'registry/default/demos/typography-demo.tsx',
+    examples: [
+      {
+        title: 'h1',
+        component: lazy(() => import('@/registry/default/examples/typography-h1')),
+        sourceFile: 'registry/default/examples/typography-h1.tsx',
+      },
+      {
+        title: 'h2',
+        component: lazy(() => import('@/registry/default/examples/typography-h2')),
+        sourceFile: 'registry/default/examples/typography-h2.tsx',
+      },
+      {
+        title: 'h3',
+        component: lazy(() => import('@/registry/default/examples/typography-h3')),
+        sourceFile: 'registry/default/examples/typography-h3.tsx',
+      },
+      {
+        title: 'h4',
+        component: lazy(() => import('@/registry/default/examples/typography-h4')),
+        sourceFile: 'registry/default/examples/typography-h4.tsx',
+      },
+      {
+        title: 'Paragraph',
+        component: lazy(() => import('@/registry/default/examples/typography-p')),
+        sourceFile: 'registry/default/examples/typography-p.tsx',
+      },
+      {
+        title: 'Blockquote',
+        component: lazy(() => import('@/registry/default/examples/typography-blockquote')),
+        sourceFile: 'registry/default/examples/typography-blockquote.tsx',
+      },
+      {
+        title: 'List',
+        component: lazy(() => import('@/registry/default/examples/typography-list')),
+        sourceFile: 'registry/default/examples/typography-list.tsx',
+      },
+      {
+        title: 'Inline Code',
+        component: lazy(() => import('@/registry/default/examples/typography-inline-code')),
+        sourceFile: 'registry/default/examples/typography-inline-code.tsx',
+      },
+      {
+        title: 'Lead',
+        component: lazy(() => import('@/registry/default/examples/typography-lead')),
+        sourceFile: 'registry/default/examples/typography-lead.tsx',
+      },
+      {
+        title: 'Large',
+        component: lazy(() => import('@/registry/default/examples/typography-large')),
+        sourceFile: 'registry/default/examples/typography-large.tsx',
+      },
+      {
+        title: 'Small',
+        component: lazy(() => import('@/registry/default/examples/typography-small')),
+        sourceFile: 'registry/default/examples/typography-small.tsx',
+      },
+      {
+        title: 'Muted',
+        component: lazy(() => import('@/registry/default/examples/typography-muted')),
+        sourceFile: 'registry/default/examples/typography-muted.tsx',
+      },
+    ],
   },
   'page-container': {
     component: lazy(() => import('@/registry/default/demos/page-container-demo')),

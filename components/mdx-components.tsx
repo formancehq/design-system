@@ -9,6 +9,11 @@ import { InstallationTabs } from '@/components/installation-tabs';
 import { Steps, Step } from '@/components/steps';
 import { MdxCodeBlock } from '@/components/mdx-code-block';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
+import { BrandSwatches } from '@/components/docs/brand-swatches';
+import { SemanticColorsGrid } from '@/components/docs/semantic-colors-grid';
+import { UITokensGrid } from '@/components/docs/ui-tokens-grid';
+import { TypefacePreviews } from '@/components/docs/typeface-previews';
+import { LightVariables, DarkVariables, BrandPaletteVariables } from '@/components/docs/theming-code-blocks';
 
 function MdxHeading({ level, ...props }: React.ComponentProps<'h2'> & { level: 2 | 3 }) {
   const text = typeof props.children === 'string' ? props.children : '';
@@ -52,4 +57,11 @@ export const mdxComponents: MDXComponents = {
   TabsContent,
   TabsList,
   TabsTrigger,
+  BrandSwatches,
+  SemanticColorsGrid,
+  UITokensGrid,
+  TypefacePreviews,
+  LightVariables,
+  DarkVariables,
+  BrandPaletteVariables,
 };

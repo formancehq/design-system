@@ -6,18 +6,12 @@ import { compileMDX } from 'next-mdx-remote/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 
 import { docsConfig, componentMeta } from '@/config/docs';
-import { cssVarsTheme } from '@/lib/shiki-theme';
+import { cssVarsTheme, getHighlighter } from '@/lib/shiki-theme';
 import { slugify } from '@/lib/slugify';
 import { mdxComponents } from '@/components/mdx-components';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { DocsPager } from '@/components/docs-pager';
 import { TableOfContents } from '@/registry/default/ui/table-of-contents';
-import { InstallationContent } from '@/components/docs/installation-content';
-import { ColorsContent } from '@/components/docs/colors-content';
-import { TypographyContent } from '@/components/docs/typography-content';
-import { ThemingContent } from '@/components/docs/theming-content';
-import { AtomsIntroduction } from '@/components/docs/atoms-introduction';
-import { FragmentsIntroduction } from '@/components/docs/fragments-introduction';
 import { SourceBanner } from '@/components/source-banner';
 import { Separator } from '@/registry/default/ui/separator';
 import { TypographyH1, TypographyLead } from '@/registry/default/ui/typography';
@@ -94,70 +88,23 @@ export default async function DocsPage({
   if (!found) notFound();
 
   const meta = componentMeta[slugStr];
-
-  // Static getting-started pages
-  const gettingStartedPages: Record<string, React.ReactNode> = {
-    installation: <InstallationContent />,
-    colors: <ColorsContent />,
-    typography: <TypographyContent />,
-    theming: <ThemingContent />,
-    'components/introduction': <AtomsIntroduction />,
-    'fragments/introduction': <FragmentsIntroduction />,
-  };
-
-  const gettingStartedContent = gettingStartedPages[slugStr];
-
-  // Try loading MDX content for this slug
   const mdxSource = readMdxFile(slugStr);
 
-  let mdxContent: React.ReactNode = null;
-  let headings: { id: string; title: string; level: number }[] = [];
+  if (!mdxSource) notFound();
 
-  if (mdxSource) {
-    headings = extractHeadings(mdxSource);
-    const { content } = await compileMDX({
-      source: mdxSource,
-      components: mdxComponents,
-      options: {
-        parseFrontmatter: false,
-        mdxOptions: {
-          rehypePlugins: [
-            [rehypePrettyCode, { theme: cssVarsTheme, keepBackground: false }],
-          ],
-        },
+  const headings = extractHeadings(mdxSource);
+  const { content: mdxContent } = await compileMDX({
+    source: mdxSource,
+    components: mdxComponents,
+    options: {
+      parseFrontmatter: false,
+      mdxOptions: {
+        rehypePlugins: [
+          [rehypePrettyCode, { theme: cssVarsTheme, getHighlighter, keepBackground: false }],
+        ],
       },
-    });
-    mdxContent = content;
-  } else if (gettingStartedContent) {
-    // Getting started pages have hardcoded headings
-    const gettingStartedHeadings: Record<string, { id: string; title: string; level: number }[]> = {
-      installation: [
-        { id: 'quick-start', title: 'Quick Start', level: 2 },
-        { id: 'namespace', title: '@formance Namespace', level: 2 },
-        { id: 'direct-url', title: 'Direct URL', level: 2 },
-        { id: 'prerequisites', title: 'Prerequisites', level: 2 },
-      ],
-      colors: [
-        { id: 'brand-palettes', title: 'Brand Palettes', level: 2 },
-        { id: 'semantic-colors', title: 'Semantic Colors', level: 2 },
-        { id: 'ui-tokens', title: 'UI Tokens', level: 2 },
-      ],
-      typography: [
-        { id: 'typefaces', title: 'Typefaces', level: 2 },
-        { id: 'scale', title: 'Type Scale', level: 2 },
-        { id: 'usage', title: 'Usage', level: 2 },
-      ],
-      theming: [
-        { id: 'convention', title: 'Convention', level: 2 },
-        { id: 'css-variables', title: 'CSS Variables', level: 2 },
-        { id: 'light-mode', title: 'Light Mode', level: 3 },
-        { id: 'dark-mode', title: 'Dark Mode', level: 3 },
-        { id: 'brand-palettes', title: 'Brand Palettes', level: 2 },
-        { id: 'customization', title: 'Customization', level: 2 },
-      ],
-    };
-    headings = gettingStartedHeadings[slugStr] ?? [];
-  }
+    },
+  });
 
   return (
     <div className="xl:grid xl:grid-cols-[1fr_220px] xl:gap-6">
@@ -172,11 +119,7 @@ export default async function DocsPage({
 
         <Separator />
 
-        {mdxContent && (
-          <div className="space-y-8">{mdxContent}</div>
-        )}
-
-        {gettingStartedContent}
+        <div className="space-y-8">{mdxContent}</div>
 
         <DocsPager />
       </div>
