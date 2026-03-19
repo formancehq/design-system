@@ -8,7 +8,9 @@ import { CollapsibleCode } from '@/components/collapsible-code';
 import { InstallationTabs } from '@/components/installation-tabs';
 import { Steps, Step } from '@/components/steps';
 import { MdxCodeBlock } from '@/components/mdx-code-block';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
+import { Tabs as TabsPrimitive } from 'radix-ui';
+import { cn } from '@/lib/utils';
 import { BrandSwatches } from '@/components/docs/brand-swatches';
 import { SemanticColorsGrid } from '@/components/docs/semantic-colors-grid';
 import { UITokensGrid } from '@/components/docs/ui-tokens-grid';
@@ -54,8 +56,12 @@ export const mdxComponents: MDXComponents = {
   Steps,
   Step,
   Tabs,
-  TabsContent: (props: React.ComponentProps<typeof TabsContent>) => (
-    <TabsContent forceMount {...props} />
+  TabsContent: ({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Content>) => (
+    <TabsPrimitive.Content
+      forceMount
+      className={cn('flex-1 outline-none data-[state=inactive]:hidden', className)}
+      {...props}
+    />
   ),
   TabsList,
   TabsTrigger,
