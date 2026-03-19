@@ -54,7 +54,9 @@ export const mdxComponents: MDXComponents = {
   Steps,
   Step,
   Tabs,
-  TabsContent,
+  TabsContent: (props: React.ComponentProps<typeof TabsContent>) => (
+    <TabsContent forceMount {...props} />
+  ),
   TabsList,
   TabsTrigger,
   BrandSwatches,

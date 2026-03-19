@@ -524,3 +524,17 @@ body {
   --shiki-token-punctuation: oklch(0.5 0.02 201.8);
   --shiki-token-link: oklch(0.7157 0.1425 254.45);
 }
+
+/* Steps — numbered installation steps for MDX docs */
+.step {
+  counter-increment: step;
+}
+
+.step::before {
+  @apply absolute ml-[-50px] mt-[-4px] inline-flex h-9 w-9 items-center justify-center rounded-full border-4 border-background bg-muted font-mono text-base font-medium;
+  content: counter(step);
+}
+
+.steps > h3:first-child {
+  @apply mt-0;
+}
