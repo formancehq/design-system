@@ -77,4 +77,9 @@ export const registryExamples: Record<string, TExampleMeta[]> = {
       sourceFile: 'registry/default/examples/calendar-date-picker.tsx',
     },
   ],
+  'page-section': [
+    { title: 'Horizontal Orientation', sourceFile: 'registry/default/examples/page-section-horizontal.tsx' },
+    { title: 'With Aside Actions', sourceFile: 'registry/default/examples/page-section-with-aside.tsx' },
+  ],
+  'page-header': [],
 };

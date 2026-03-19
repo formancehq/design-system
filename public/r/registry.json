@@ -263,16 +263,6 @@
       ]
     },
     {
-      "name": "table-of-contents",
-      "type": "registry:ui",
-      "title": "Table of Contents",
-      "description": "A sticky sidebar navigation that tracks the active section on the page.",
-      "dependencies": [],
-      "files": [
-        { "path": "registry/default/ui/table-of-contents.tsx", "type": "registry:ui" }
-      ]
-    },
-    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
@@ -675,6 +665,37 @@
       "dependencies": ["lucide-react", "radix-ui"],
       "files": [
         { "path": "registry/default/ui/stepper.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "page-container",
+      "type": "registry:ui",
+      "title": "Page Container",
+      "description": "A responsive page container with size variants.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/page-container.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "page-header",
+      "type": "registry:ui",
+      "title": "Page Header",
+      "description": "A compound page header with breadcrumb, icon, title, description, and navigation tabs.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["@formance/breadcrumb", "@formance/eyebrow", "@formance/page-container"],
+      "files": [
+        { "path": "registry/default/ui/page-header.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "page-section",
+      "type": "registry:ui",
+      "title": "Page Section",
+      "description": "A compound page section with title, description, and content areas.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        { "path": "registry/default/ui/page-section.tsx", "type": "registry:ui" }
       ]
     }
   ]

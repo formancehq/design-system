@@ -488,6 +488,14 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+  :not(pre) > code {
+    position: relative;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-muted);
+    padding: 0.2rem 0.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+  }
 }
 
 :root {

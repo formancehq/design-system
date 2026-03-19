@@ -17,12 +17,18 @@ export type TDocsConfig = {
 
 export type TSource = 'shadcn' | 'custom';
 
+export type TSubComponent = {
+  name: string;
+  description: string;
+};
+
 export type TComponentMeta = {
   registryName: string;
   description: string;
   sourceFile: string;
   source: TSource;
   hidePreview?: boolean;
+  subComponents?: TSubComponent[];
 };
 
 export const componentMeta: Record<string, TComponentMeta> = {
@@ -423,11 +429,43 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/stepper.tsx',
     source: 'custom',
   },
-  'fragments/table-of-contents': {
-    registryName: 'table-of-contents',
-    description: 'A sticky sidebar navigation that tracks the active section on the page.',
-    sourceFile: 'registry/default/ui/table-of-contents.tsx',
+  'fragments/page-container': {
+    registryName: 'page-container',
+    description: 'Responsive container with size variants for consistent page widths.',
+    sourceFile: 'registry/default/ui/page-container.tsx',
     source: 'custom',
+  },
+  'fragments/page-header': {
+    registryName: 'page-header',
+    description: 'Compound page header with icon, title, description, breadcrumbs, and actions.',
+    sourceFile: 'registry/default/ui/page-header.tsx',
+    source: 'custom',
+    subComponents: [
+      { name: 'PageHeader', description: 'Root container. Accepts size, background, and border variants.' },
+      { name: 'PageHeaderMeta', description: 'Wraps icon, summary, and aside in a responsive row.' },
+      { name: 'PageHeaderIcon', description: 'Slot for a custom icon or SVG.' },
+      { name: 'PageHeaderSummary', description: 'Groups eyebrow, title, and description.' },
+      { name: 'PageHeaderEyebrow', description: 'Small label above the title. Defaults to gold variant.' },
+      { name: 'PageHeaderTitle', description: 'Primary heading (h1).' },
+      { name: 'PageHeaderDescription', description: 'Supporting text below the title.' },
+      { name: 'PageHeaderAside', description: 'Container for action buttons, aligned to the right.' },
+      { name: 'PageHeaderBreadcrumb', description: 'Breadcrumb navigation wrapper.' },
+    ],
+  },
+  'fragments/page-section': {
+    registryName: 'page-section',
+    description: 'A compound component for organizing page content into distinct sections.',
+    sourceFile: 'registry/default/ui/page-section.tsx',
+    source: 'custom',
+    subComponents: [
+      { name: 'PageSection', description: 'Root container with orientation variants (vertical or horizontal).' },
+      { name: 'PageSectionMeta', description: 'Wraps summary and aside in a responsive row.' },
+      { name: 'PageSectionSummary', description: 'Groups title and description.' },
+      { name: 'PageSectionTitle', description: 'Section heading (h2).' },
+      { name: 'PageSectionDescription', description: 'Supporting text below the title.' },
+      { name: 'PageSectionAside', description: 'Container for section-level action buttons.' },
+      { name: 'PageSectionContent', description: 'Container for the main section content.' },
+    ],
   },
 };
 
@@ -520,7 +558,9 @@ export const docsConfig: TDocsConfig = {
       sortOrder: 'alphabetical',
       items: [
         { title: 'Introduction', href: '/docs/fragments/introduction', priority: true },
-        { title: 'Table of Contents', href: '/docs/fragments/table-of-contents' },
+        { title: 'Page Container', href: '/docs/fragments/page-container' },
+        { title: 'Page Header', href: '/docs/fragments/page-header' },
+        { title: 'Page Section', href: '/docs/fragments/page-section' },
       ],
     },
     {

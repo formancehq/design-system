@@ -14,6 +14,29 @@ type TRegistryDemo = {
   examples?: TRegistryExample[];
 };
 
+type TDemoEntry = { component: React.LazyExoticComponent<ComponentType>; sourceFile: string };
+
+/** Pre-built index of all demos and examples by name slug. Built once at module load. */
+let _index: Map<string, TDemoEntry> | null = null;
+
+function buildIndex(): Map<string, TDemoEntry> {
+  const map = new Map<string, TDemoEntry>();
+  for (const [key, demo] of Object.entries(registryDemos)) {
+    map.set(key, demo);
+    for (const ex of demo.examples ?? []) {
+      const slug = ex.sourceFile.replace('registry/default/examples/', '').replace('.tsx', '');
+      map.set(slug, ex);
+    }
+  }
+  return map;
+}
+
+/** Look up a demo or example by name. O(1) after first call. */
+export function findDemo(name: string): TDemoEntry | undefined {
+  _index ??= buildIndex();
+  return _index.get(name);
+}
+
 export const registryDemos: Record<string, TRegistryDemo> = {
   accordion: {
     component: lazy(() => import('@/registry/default/demos/accordion-demo')),
@@ -384,6 +407,33 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   toggle: {
     component: lazy(() => import('@/registry/default/demos/toggle-demo')),
     sourceFile: 'registry/default/demos/toggle-demo.tsx',
+    examples: [
+      {
+        title: 'Outline',
+        component: lazy(() => import('@/registry/default/examples/toggle-outline')),
+        sourceFile: 'registry/default/examples/toggle-outline.tsx',
+      },
+      {
+        title: 'With Text',
+        component: lazy(() => import('@/registry/default/examples/toggle-with-text')),
+        sourceFile: 'registry/default/examples/toggle-with-text.tsx',
+      },
+      {
+        title: 'Small',
+        component: lazy(() => import('@/registry/default/examples/toggle-sm')),
+        sourceFile: 'registry/default/examples/toggle-sm.tsx',
+      },
+      {
+        title: 'Large',
+        component: lazy(() => import('@/registry/default/examples/toggle-lg')),
+        sourceFile: 'registry/default/examples/toggle-lg.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(() => import('@/registry/default/examples/toggle-disabled')),
+        sourceFile: 'registry/default/examples/toggle-disabled.tsx',
+      },
+    ],
   },
   'toggle-group': {
     component: lazy(() => import('@/registry/default/demos/toggle-group-demo')),
@@ -397,9 +447,29 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     component: lazy(() => import('@/registry/default/demos/typography-demo')),
     sourceFile: 'registry/default/demos/typography-demo.tsx',
   },
-  'table-of-contents': {
-    component: lazy(() => import('@/registry/default/demos/table-of-contents-demo')),
-    sourceFile: 'registry/default/demos/table-of-contents-demo.tsx',
+  'page-container': {
+    component: lazy(() => import('@/registry/default/demos/page-container-demo')),
+    sourceFile: 'registry/default/demos/page-container-demo.tsx',
+  },
+  'page-header': {
+    component: lazy(() => import('@/registry/default/demos/page-header-demo')),
+    sourceFile: 'registry/default/demos/page-header-demo.tsx',
+  },
+  'page-section': {
+    component: lazy(() => import('@/registry/default/demos/page-section-demo')),
+    sourceFile: 'registry/default/demos/page-section-demo.tsx',
+    examples: [
+      {
+        title: 'Horizontal Orientation',
+        component: lazy(() => import('@/registry/default/examples/page-section-horizontal')),
+        sourceFile: 'registry/default/examples/page-section-horizontal.tsx',
+      },
+      {
+        title: 'With Aside Actions',
+        component: lazy(() => import('@/registry/default/examples/page-section-with-aside')),
+        sourceFile: 'registry/default/examples/page-section-with-aside.tsx',
+      },
+    ],
   },
   'formance-logo': {
     component: lazy(() => import('@/registry/default/demos/formance-logo-demo')),

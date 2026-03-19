@@ -4,7 +4,7 @@ import { Separator } from '@/registry/default/ui/separator'
 
 export function Footer() {
 	return (
-		<footer className='mx-auto max-w-[1400px] w-full border-x'>
+		<footer className='w-full border-x'>
 			<Separator />
 			<div className='flex items-center justify-between px-6 py-4 text-sm text-muted-foreground'>
 				<div className='flex items-center gap-2'>
