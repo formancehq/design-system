@@ -4,7 +4,7 @@ export function Steps({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       className={cn(
-        'steps mb-12 ml-4 border-l pl-8 [counter-reset:step] [&>.step+*]:mt-3',
+        'steps mt-4 mb-12 ml-4 border-l pl-8 [counter-reset:step] [&>.step+*]:mt-3',
         className,
       )}
       {...props}
