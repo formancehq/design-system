@@ -10,7 +10,7 @@ export function CollapsibleCode({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="w-full overflow-hidden">
-      {open && <div className="border-t">{children}</div>}
+      {open && <div>{children}</div>}
       <button
         type="button"
         className={cn(
