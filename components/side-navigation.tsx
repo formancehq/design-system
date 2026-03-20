@@ -62,7 +62,7 @@ export function SideNavigation() {
 
         return (
           <div key={`${section.title}-${i}`} className="pb-8 space-y-0.5">
-            <Eyebrow variant="gold" size="sm" withSquare={false} className="mb-2 px-6 tracking-widest">
+            <Eyebrow variant="gold" size="sm" className="mb-2 px-6 tracking-widest">
               {section.title}
             </Eyebrow>
             {items.map((item) => (

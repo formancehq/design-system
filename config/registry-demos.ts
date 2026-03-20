@@ -303,11 +303,6 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     sourceFile: 'registry/default/demos/eyebrow-demo.tsx',
     examples: [
       {
-        title: 'With Square',
-        component: lazy(() => import('@/registry/default/examples/eyebrow-with-square')),
-        sourceFile: 'registry/default/examples/eyebrow-with-square.tsx',
-      },
-      {
         title: 'Underscore Prefix',
         component: lazy(() => import('@/registry/default/examples/eyebrow-underscore')),
         sourceFile: 'registry/default/examples/eyebrow-underscore.tsx',
@@ -662,6 +657,17 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'data-table': {
+    component: lazy(() => import('@/registry/default/demos/data-table-demo')),
+    sourceFile: 'registry/default/demos/data-table-demo.tsx',
+    examples: [
+      {
+        title: 'Skeleton',
+        component: lazy(() => import('@/registry/default/examples/data-table-skeleton')),
+        sourceFile: 'registry/default/examples/data-table-skeleton.tsx',
+      },
+    ],
+  },
   'page-container': {
     component: lazy(() => import('@/registry/default/demos/page-container-demo')),
     sourceFile: 'registry/default/demos/page-container-demo.tsx',
@@ -749,6 +755,63 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'multi-select': {
     component: lazy(() => import('@/registry/default/demos/multi-select-demo')),
     sourceFile: 'registry/default/demos/multi-select-demo.tsx',
+    examples: [
+      {
+        title: 'Controlled',
+        component: lazy(() => import('@/registry/default/examples/multi-select-controlled')),
+        sourceFile: 'registry/default/examples/multi-select-controlled.tsx',
+      },
+      {
+        title: 'With Search',
+        component: lazy(() => import('@/registry/default/examples/multi-select-search')),
+        sourceFile: 'registry/default/examples/multi-select-search.tsx',
+      },
+      {
+        title: 'No Search',
+        component: lazy(() => import('@/registry/default/examples/multi-select-no-search')),
+        sourceFile: 'registry/default/examples/multi-select-no-search.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(() => import('@/registry/default/examples/multi-select-disabled')),
+        sourceFile: 'registry/default/examples/multi-select-disabled.tsx',
+      },
+      {
+        title: 'Creatable',
+        component: lazy(() => import('@/registry/default/examples/multi-select-creatable')),
+        sourceFile: 'registry/default/examples/multi-select-creatable.tsx',
+      },
+      {
+        title: 'Overflow Wrap',
+        component: lazy(() => import('@/registry/default/examples/multi-select-overflow-wrap')),
+        sourceFile: 'registry/default/examples/multi-select-overflow-wrap.tsx',
+      },
+      {
+        title: 'Overflow Cutoff',
+        component: lazy(() => import('@/registry/default/examples/multi-select-overflow-cutoff')),
+        sourceFile: 'registry/default/examples/multi-select-overflow-cutoff.tsx',
+      },
+      {
+        title: 'Badge Label',
+        component: lazy(() => import('@/registry/default/examples/multi-select-badge-label')),
+        sourceFile: 'registry/default/examples/multi-select-badge-label.tsx',
+      },
+      {
+        title: 'Groups',
+        component: lazy(() => import('@/registry/default/examples/multi-select-groups')),
+        sourceFile: 'registry/default/examples/multi-select-groups.tsx',
+      },
+      {
+        title: 'Inline',
+        component: lazy(() => import('@/registry/default/examples/multi-select-inline')),
+        sourceFile: 'registry/default/examples/multi-select-inline.tsx',
+      },
+      {
+        title: 'Inline Creatable',
+        component: lazy(() => import('@/registry/default/examples/multi-select-inline-creatable')),
+        sourceFile: 'registry/default/examples/multi-select-inline-creatable.tsx',
+      },
+    ],
   },
   sidebar: {
     component: lazy(() => import('@/registry/default/demos/sidebar-demo')),

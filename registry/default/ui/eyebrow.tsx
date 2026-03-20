@@ -26,26 +26,9 @@ const eyebrowVariants = cva(
   }
 );
 
-const eyebrowSquareVariants = cva(
-  'w-2 h-2 bg-gold-500 rounded-sm mr-1 inline-block',
-  {
-    variants: {
-      variant: {
-        primary: 'bg-foreground',
-        secondary: 'bg-secondary',
-        gold: 'bg-gold-500 dark:bg-gold-300',
-      },
-    },
-    defaultVariants: {
-      variant: 'primary',
-    },
-  }
-);
-
 type TEyebrowProps = React.ComponentProps<'span'> &
   VariantProps<typeof eyebrowVariants> & {
     asChild?: boolean;
-    withSquare?: boolean;
   };
 
 function Eyebrow({
@@ -53,7 +36,6 @@ function Eyebrow({
   variant,
   size,
   asChild = false,
-  withSquare = true,
   ...props
 }: TEyebrowProps) {
   const Comp = asChild ? SlotPrimitive.Slot : 'span';
@@ -66,12 +48,7 @@ function Eyebrow({
         className
       )}
       {...props}
-    >
-      {withSquare && (
-        <span className={cn(eyebrowSquareVariants({ variant }))} />
-      )}
-      {props.children}
-    </Comp>
+    />
   );
 }
 

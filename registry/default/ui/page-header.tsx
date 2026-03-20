@@ -131,12 +131,11 @@ function PageHeaderSummary({ className, children, ...props }: TPageHeaderSummary
 
 type TPageHeaderEyebrowProps = ComponentProps<typeof Eyebrow>
 
-function PageHeaderEyebrow({ variant = 'gold', withSquare = false, ...props }: TPageHeaderEyebrowProps) {
+function PageHeaderEyebrow({ variant = 'gold', ...props }: TPageHeaderEyebrowProps) {
   return (
     <Eyebrow
       data-slot="page-header-eyebrow"
       variant={variant}
-      withSquare={withSquare}
       {...props}
     />
   )
