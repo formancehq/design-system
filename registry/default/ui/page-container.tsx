@@ -4,27 +4,24 @@ import { forwardRef, type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 
 const pageContainerVariants = cva(['mx-auto w-full @container px-6 xl:px-10'], {
-  variants: {
-    size: {
-      small: 'max-w-[768px]',
-      default: 'max-w-[1200px]',
-      large: 'max-w-[1600px]',
-      full: 'max-w-none',
-    },
-  },
-  defaultVariants: {
-    size: 'default',
-  },
+	variants: {
+		size: {
+			small: 'max-w-[768px]',
+			default: 'max-w-[1200px]',
+			large: 'max-w-[1600px]',
+			full: 'max-w-none',
+		},
+	},
+	defaultVariants: {
+		size: 'default',
+	},
 })
 
-type TPageContainerProps = HTMLAttributes<HTMLDivElement> &
-  VariantProps<typeof pageContainerVariants>
+type TPageContainerProps = HTMLAttributes<HTMLDivElement> & VariantProps<typeof pageContainerVariants>
 
-const PageContainer = forwardRef<HTMLDivElement, TPageContainerProps>(
-  ({ className, size, ...props }, ref) => {
-    return <div ref={ref} {...props} className={cn(pageContainerVariants({ size }), className)} />
-  },
-)
+const PageContainer = forwardRef<HTMLDivElement, TPageContainerProps>(({ className, size, ...props }, ref) => {
+	return <div data-slot='page-container' ref={ref} {...props} className={cn(pageContainerVariants({ size }), className)} data- />
+})
 
 PageContainer.displayName = 'PageContainer'
 

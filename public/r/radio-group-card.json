@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "radio-group-card",
+  "title": "Radio Group Card",
+  "description": "A card-style radio group for visual selection with optional children content.",
+  "dependencies": [
+    "lucide-react",
+    "radix-ui"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/radio-group-card.tsx",
+      "content": "'use client';\n\nimport { RadioGroup as RadioGroupPrimitive } from 'radix-ui';\nimport { CircleIcon } from 'lucide-react';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nfunction RadioGroupCard({\n  className,\n  ...props\n}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {\n  return (\n    <RadioGroupPrimitive.Root\n      data-slot=\"radio-group-card\"\n      className={cn('grid gap-2', className)}\n      {...props}\n    />\n  );\n}\n\ntype TRadioGroupCardItemProps = {\n  label: string | React.ReactNode;\n  showIndicator?: boolean;\n} & React.ComponentProps<typeof RadioGroupPrimitive.Item>;\n\nfunction RadioGroupCardItem({\n  label,\n  showIndicator = true,\n  className,\n  children,\n  ...props\n}: TRadioGroupCardItemProps) {\n  return (\n    <RadioGroupPrimitive.Item\n      data-slot=\"radio-group-card-item\"\n      className={cn(\n        'flex flex-col gap-2 w-48',\n        'bg-card rounded-md border p-2',\n        'hover:border-muted-foreground',\n        'hover:z-[1] focus-visible:z-[1]',\n        'data-[state=checked]:z-[1]',\n        'data-[state=checked]:ring-1 data-[state=checked]:ring-border',\n        'data-[state=checked]:bg-muted',\n        'data-[state=checked]:border-foreground/30',\n        'transition-colors',\n        'group',\n        'disabled:cursor-not-allowed disabled:opacity-50',\n        className\n      )}\n      {...props}\n    >\n      {children}\n      <label className=\"flex w-full gap-2\" htmlFor={props.value}>\n        {showIndicator && (\n          <div\n            className={cn(\n              'flex aspect-square h-4 w-4 items-center justify-center',\n              'rounded-full border transition',\n              'ring-offset-background',\n              'group-data-[state=checked]:border-foreground/50',\n              'group-focus:border-primary group-focus:outline-none',\n              'group-focus-visible:ring-2 group-focus-visible:ring-ring group-focus-visible:ring-offset-2',\n              'group-hover:border-muted-foreground',\n              'group-disabled:cursor-not-allowed group-disabled:opacity-50'\n            )}\n          >\n            <RadioGroupPrimitive.Indicator className=\"flex items-center justify-center\">\n              <CircleIcon className=\"h-2.5 w-2.5 fill-current text-current\" />\n            </RadioGroupPrimitive.Indicator>\n          </div>\n        )}\n        <div\n          className={cn(\n            'w-full text-left text-xs transition-colors',\n            'text-muted-foreground',\n            'group-hover:text-foreground group-data-[state=checked]:text-foreground',\n            props.disabled ? 'cursor-not-allowed' : 'cursor-pointer'\n          )}\n        >\n          {label}\n        </div>\n      </label>\n    </RadioGroupPrimitive.Item>\n  );\n}\n\nexport { RadioGroupCard, RadioGroupCardItem };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

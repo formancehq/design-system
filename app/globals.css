@@ -499,6 +499,8 @@ body {
 }
 
 :root {
+  --shiki-foreground: var(--foreground);
+  --shiki-background: transparent;
   --shiki-color-text: var(--foreground);
   --shiki-color-background: transparent;
   --shiki-token-constant: oklch(0.5609 0.102 244.23);
@@ -513,6 +515,7 @@ body {
 }
 
 .dark {
+  --shiki-foreground: var(--foreground);
   --shiki-color-text: var(--foreground);
   --shiki-token-constant: oklch(0.7157 0.1425 254.45);
   --shiki-token-string: oklch(0.7999 0.1816 151.78);

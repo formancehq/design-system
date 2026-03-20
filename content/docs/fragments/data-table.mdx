@@ -1,0 +1,60 @@
+<ComponentPreview name="data-table" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/data-table
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @tanstack/react-table
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="data-table" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  DataTable,
+  DataTableColumnHeader,
+  DataTableRowActions,
+  DataTableSkeleton,
+} from '@/components/ui/data-table'
+```
+
+```tsx
+<DataTable
+  columns={columns}
+  data={data}
+  searchConfig={[{ placeholder: 'Filter emails...', columnKey: 'email' }]}
+/>
+```
+

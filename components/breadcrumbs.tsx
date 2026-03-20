@@ -8,6 +8,10 @@ import { docsConfig } from '@/config/docs';
 
 function resolveTitle(segment: string): string {
   for (const section of docsConfig.sidebarNav) {
+    const sectionSlug = section.title.toLowerCase().replace(/\s+/g, '-');
+    if (sectionSlug === segment) {
+      return section.title;
+    }
     for (const item of section.items) {
       const parts = item.href.split('/').filter(Boolean);
       if (parts[parts.length - 1] === segment) {
@@ -15,7 +19,10 @@ function resolveTitle(segment: string): string {
       }
     }
   }
-  return segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+  return segment
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 }
 
 export function Breadcrumbs() {

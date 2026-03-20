@@ -402,6 +402,21 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     component: lazy(() => import('@/registry/default/demos/radio-group-demo')),
     sourceFile: 'registry/default/demos/radio-group-demo.tsx',
   },
+  'radio-group-card': {
+    component: lazy(() => import('@/registry/default/demos/radio-group-card-demo')),
+    sourceFile: 'registry/default/demos/radio-group-card-demo.tsx',
+    examples: [
+      {
+        title: 'With Children',
+        component: lazy(() => import('@/registry/default/examples/radio-group-card-with-children')),
+        sourceFile: 'registry/default/examples/radio-group-card-with-children.tsx',
+      },
+    ],
+  },
+  'radio-group-stacked': {
+    component: lazy(() => import('@/registry/default/demos/radio-group-stacked-demo')),
+    sourceFile: 'registry/default/demos/radio-group-stacked-demo.tsx',
+  },
   resizable: {
     component: lazy(() => import('@/registry/default/demos/resizable-demo')),
     sourceFile: 'registry/default/demos/resizable-demo.tsx',
@@ -654,6 +669,22 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         title: 'Muted',
         component: lazy(() => import('@/registry/default/examples/typography-muted')),
         sourceFile: 'registry/default/examples/typography-muted.tsx',
+      },
+    ],
+  },
+  'form-patterns': {
+    component: lazy(() => import('@/registry/default/demos/form-patterns-demo')),
+    sourceFile: 'registry/default/demos/form-patterns-demo.tsx',
+    examples: [
+      {
+        title: 'Page Layout',
+        component: lazy(() => import('@/registry/default/examples/form-patterns-page-layout')),
+        sourceFile: 'registry/default/examples/form-patterns-page-layout.tsx',
+      },
+      {
+        title: 'With Validation',
+        component: lazy(() => import('@/registry/default/examples/form-patterns-with-validation')),
+        sourceFile: 'registry/default/examples/form-patterns-with-validation.tsx',
       },
     ],
   },

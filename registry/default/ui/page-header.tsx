@@ -13,27 +13,27 @@ import { PageContainer } from '@/registry/default/ui/page-container'
 // ============================================================================
 
 const pageHeaderVariants = cva(['flex flex-col gap-4 w-full'], {
-  variants: {
-    size: {
-      default: 'py-8',
-      small: 'py-8',
-      large: 'py-8',
-      full: 'py-4',
-    },
-    background: {
-      true: 'bg-sidebar',
-      false: '',
-    },
-    border: {
-      true: 'border-b',
-      false: '',
-    },
-  },
-  defaultVariants: {
-    size: 'default',
-    background: false,
-    border: false,
-  },
+	variants: {
+		size: {
+			default: 'py-8',
+			small: 'py-8',
+			large: 'py-8',
+			full: 'py-4',
+		},
+		background: {
+			true: 'bg-sidebar',
+			false: '',
+		},
+		border: {
+			true: 'border-b',
+			false: '',
+		},
+	},
+	defaultVariants: {
+		size: 'default',
+		background: false,
+		border: false,
+	},
 })
 
 // ============================================================================
@@ -43,7 +43,7 @@ const pageHeaderVariants = cva(['flex flex-col gap-4 w-full'], {
 type TPageHeaderSize = 'default' | 'small' | 'large' | 'full'
 
 const PageHeaderContext = createContext<{ size: TPageHeaderSize }>({
-  size: 'default',
+	size: 'default',
 })
 
 const usePageHeaderContext = () => useContext(PageHeaderContext)
@@ -55,19 +55,14 @@ const usePageHeaderContext = () => useContext(PageHeaderContext)
 type TPageHeaderProps = ComponentProps<'div'> & VariantProps<typeof pageHeaderVariants>
 
 function PageHeaderRoot({ className, size, background, border, children, ...props }: TPageHeaderProps) {
-  const contextSize: TPageHeaderSize = size ?? 'default'
-  return (
-    <PageHeaderContext.Provider value={{ size: contextSize }}>
-      <div
-        data-slot="page-header"
-        data-size={contextSize}
-        className={cn(pageHeaderVariants({ size: contextSize, background, border }), className)}
-        {...props}
-      >
-        {children}
-      </div>
-    </PageHeaderContext.Provider>
-  )
+	const contextSize: TPageHeaderSize = size ?? 'default'
+	return (
+		<PageHeaderContext.Provider value={{ size: contextSize }}>
+			<div data-slot='page-header' data-size={contextSize} className={cn(pageHeaderVariants({ size: contextSize, background, border }), className)} {...props}>
+				{children}
+			</div>
+		</PageHeaderContext.Provider>
+	)
 }
 
 // ============================================================================
@@ -77,18 +72,14 @@ function PageHeaderRoot({ className, size, background, border, children, ...prop
 type TPageHeaderBreadcrumbProps = ComponentProps<typeof Breadcrumb>
 
 function PageHeaderBreadcrumb({ className, children, ...props }: TPageHeaderBreadcrumbProps) {
-  const { size } = usePageHeaderContext()
-  return (
-    <PageContainer size={size}>
-      <Breadcrumb
-        data-slot="page-header-breadcrumb"
-        className={cn('flex items-center gap-4 [&_li]:text-xs', className)}
-        {...props}
-      >
-        {children}
-      </Breadcrumb>
-    </PageContainer>
-  )
+	const { size } = usePageHeaderContext()
+	return (
+		<PageContainer size={size}>
+			<Breadcrumb data-slot='page-header-breadcrumb' className={cn('flex items-center gap-4 [&_li]:text-xs', className)} {...props}>
+				{children}
+			</Breadcrumb>
+		</PageContainer>
+	)
 }
 
 // ============================================================================
@@ -98,13 +89,7 @@ function PageHeaderBreadcrumb({ className, children, ...props }: TPageHeaderBrea
 type TPageHeaderIconProps = ComponentProps<'div'>
 
 function PageHeaderIcon({ className, ...props }: TPageHeaderIconProps) {
-  return (
-    <div
-      data-slot="page-header-icon"
-      className={cn('text-muted-foreground', className)}
-      {...props}
-    />
-  )
+	return <div data-slot='page-header-icon' className={cn('text-muted-foreground', className)} {...props} />
 }
 
 // ============================================================================
@@ -114,15 +99,11 @@ function PageHeaderIcon({ className, ...props }: TPageHeaderIconProps) {
 type TPageHeaderSummaryProps = ComponentProps<'div'>
 
 function PageHeaderSummary({ className, children, ...props }: TPageHeaderSummaryProps) {
-  return (
-    <div
-      data-slot="page-header-summary"
-      className={cn('flex flex-col', className)}
-      {...props}
-    >
-      {children}
-    </div>
-  )
+	return (
+		<div data-slot='page-header-summary' className={cn('flex flex-col', className)} {...props}>
+			{children}
+		</div>
+	)
 }
 
 // ============================================================================
@@ -132,13 +113,7 @@ function PageHeaderSummary({ className, children, ...props }: TPageHeaderSummary
 type TPageHeaderEyebrowProps = ComponentProps<typeof Eyebrow>
 
 function PageHeaderEyebrow({ variant = 'gold', ...props }: TPageHeaderEyebrowProps) {
-  return (
-    <Eyebrow
-      data-slot="page-header-eyebrow"
-      variant={variant}
-      {...props}
-    />
-  )
+	return <Eyebrow data-slot='page-header-eyebrow' variant={variant} {...props} />
 }
 
 // ============================================================================
@@ -148,15 +123,11 @@ function PageHeaderEyebrow({ variant = 'gold', ...props }: TPageHeaderEyebrowPro
 type TPageHeaderTitleProps = ComponentProps<'h1'>
 
 function PageHeaderTitle({ className, children, ...props }: TPageHeaderTitleProps) {
-  return (
-    <h1
-      data-slot="page-header-title"
-      className={cn('text-3xl font-semibold tracking-tight', className)}
-      {...props}
-    >
-      {children}
-    </h1>
-  )
+	return (
+		<h1 data-slot='page-header-title' className={cn('text-3xl font-semibold tracking-tight', className)} {...props}>
+			{children}
+		</h1>
+	)
 }
 
 // ============================================================================
@@ -166,15 +137,11 @@ function PageHeaderTitle({ className, children, ...props }: TPageHeaderTitleProp
 type TPageHeaderDescriptionProps = ComponentProps<'p'>
 
 function PageHeaderDescription({ className, children, ...props }: TPageHeaderDescriptionProps) {
-  return (
-    <p
-      data-slot="page-header-description"
-      className={cn('text-sm text-muted-foreground', className)}
-      {...props}
-    >
-      {children}
-    </p>
-  )
+	return (
+		<p data-slot='page-header-description' className={cn('text-muted-foreground', className)} {...props}>
+			{children}
+		</p>
+	)
 }
 
 // ============================================================================
@@ -184,23 +151,18 @@ function PageHeaderDescription({ className, children, ...props }: TPageHeaderDes
 type TPageHeaderMetaProps = ComponentProps<'div'>
 
 function PageHeaderMeta({ className, children, ...props }: TPageHeaderMetaProps) {
-  const { size } = usePageHeaderContext()
-  return (
-    <PageContainer size={size}>
-      <div
-        data-slot="page-header-meta"
-        className={cn(
-          'flex flex-col @xl:flex-row @xl:justify-between @xl:items-center gap-4',
-          '*:data-[slot="page-header-icon"]:shrink-0',
-          '*:data-[slot="page-header-summary"]:flex-1',
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </div>
-    </PageContainer>
-  )
+	const { size } = usePageHeaderContext()
+	return (
+		<PageContainer size={size}>
+			<div
+				data-slot='page-header-meta'
+				className={cn('flex flex-col @xl:flex-row @xl:justify-between @xl:items-center gap-4', '*:data-[slot="page-header-icon"]:shrink-0', '*:data-[slot="page-header-summary"]:flex-1', className)}
+				{...props}
+			>
+				{children}
+			</div>
+		</PageContainer>
+	)
 }
 
 // ============================================================================
@@ -210,13 +172,7 @@ function PageHeaderMeta({ className, children, ...props }: TPageHeaderMetaProps)
 type TPageHeaderAsideProps = ComponentProps<'div'>
 
 function PageHeaderAside({ className, ...props }: TPageHeaderAsideProps) {
-  return (
-    <div
-      data-slot="page-header-actions"
-      className={cn('flex items-center gap-2 shrink-0', className)}
-      {...props}
-    />
-  )
+	return <div data-slot='page-header-actions' className={cn('flex items-center gap-2 shrink-0', className)} {...props} />
 }
 
 // ============================================================================
@@ -226,22 +182,22 @@ function PageHeaderAside({ className, ...props }: TPageHeaderAsideProps) {
 const PageHeader = PageHeaderRoot
 
 export {
-  PageHeader,
-  PageHeaderAside,
-  PageHeaderBreadcrumb,
-  PageHeaderDescription,
-  PageHeaderEyebrow,
-  PageHeaderIcon,
-  PageHeaderMeta,
-  PageHeaderSummary,
-  PageHeaderTitle,
-  type TPageHeaderProps,
-  type TPageHeaderBreadcrumbProps,
-  type TPageHeaderEyebrowProps,
-  type TPageHeaderIconProps,
-  type TPageHeaderSummaryProps,
-  type TPageHeaderTitleProps,
-  type TPageHeaderDescriptionProps,
-  type TPageHeaderMetaProps,
-  type TPageHeaderAsideProps,
+	PageHeader,
+	PageHeaderAside,
+	PageHeaderBreadcrumb,
+	PageHeaderDescription,
+	PageHeaderEyebrow,
+	PageHeaderIcon,
+	PageHeaderMeta,
+	PageHeaderSummary,
+	PageHeaderTitle,
+	type TPageHeaderAsideProps,
+	type TPageHeaderBreadcrumbProps,
+	type TPageHeaderDescriptionProps,
+	type TPageHeaderEyebrowProps,
+	type TPageHeaderIconProps,
+	type TPageHeaderMetaProps,
+	type TPageHeaderProps,
+	type TPageHeaderSummaryProps,
+	type TPageHeaderTitleProps,
 }

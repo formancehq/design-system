@@ -63,19 +63,21 @@ function FieldGroup({
 }
 
 const fieldVariants = cva(
-  'group/field flex w-full gap-3 data-[invalid=true]:text-destructive',
+  'group/field flex w-full gap-3 data-[invalid=true]:text-destructive-foreground',
   {
     variants: {
       orientation: {
         vertical: ['flex-col [&>*]:w-full [&>.sr-only]:w-auto'],
         horizontal: [
           'flex-row items-center',
-          '[&>[data-slot=field-label]]:flex-auto',
+          '[&>[data-slot=field-label]]:flex-1 [&>[data-slot=field-label]]:min-w-0 [&>[data-slot=field-label]]:flex-col [&>[data-slot=field-label]]:items-start [&>[data-slot=field-label]]:gap-0.5',
+          '[&>[data-slot=field-content]]:shrink-0 [&>[data-slot=field-content]]:grow-0 [&>[data-slot=field-content]]:md:basis-1/2',
           'has-[>[data-slot=field-content]]:items-start has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px',
         ],
         responsive: [
           'flex-col [&>*]:w-full [&>.sr-only]:w-auto @md/field-group:flex-row @md/field-group:items-center @md/field-group:[&>*]:w-auto',
-          '@md/field-group:[&>[data-slot=field-label]]:flex-auto',
+          '@md/field-group:[&>[data-slot=field-label]]:flex-1 @md/field-group:[&>[data-slot=field-label]]:min-w-0 @md/field-group:[&>[data-slot=field-label]]:flex-col @md/field-group:[&>[data-slot=field-label]]:items-start @md/field-group:[&>[data-slot=field-label]]:gap-0.5',
+          '@md/field-group:[&>[data-slot=field-content]]:shrink-0 @md/field-group:[&>[data-slot=field-content]]:grow-0 @md/field-group:[&>[data-slot=field-content]]:md:basis-1/2',
           '@md/field-group:has-[>[data-slot=field-content]]:items-start @md/field-group:has-[>[data-slot=field-content]]:[&>[role=checkbox],[role=radio]]:mt-px',
         ],
       },
@@ -239,7 +241,7 @@ function FieldError({
     <div
       role="alert"
       data-slot="field-error"
-      className={cn('text-destructive text-sm font-normal', className)}
+      className={cn('text-destructive-foreground text-sm font-normal', className)}
       {...props}
     >
       {content}
