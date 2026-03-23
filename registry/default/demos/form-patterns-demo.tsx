@@ -43,6 +43,10 @@ import {
   PopoverTrigger,
 } from '@/registry/default/ui/popover';
 import {
+  RadioGroupCard,
+  RadioGroupCardItem,
+} from '@/registry/default/ui/radio-group-card';
+import {
   RadioGroupStacked,
   RadioGroupStackedItem,
 } from '@/registry/default/ui/radio-group-stacked';
@@ -77,6 +81,7 @@ const formSchema = z.object({
   region: z.string().min(1, 'Region is required'),
   schemas: z.array(z.string()).min(1, 'At least one schema is required'),
   queueType: z.enum(['basic', 'partitioned']),
+  module: z.string(),
   expiryDate: z.date().optional(),
   redirectUris: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
 });
@@ -111,6 +116,7 @@ export default function FormPatternsDemo() {
       region: '',
       schemas: ['public'],
       queueType: 'basic',
+      module: 'ledger',
       expiryDate: undefined,
       redirectUris: [{ value: '' }],
     },
@@ -200,7 +206,7 @@ export default function FormPatternsDemo() {
                 <InputGroupAddon align="inline-end">
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="outline"
                     size="icon-sm"
                     onClick={handleCopy}
                   >
@@ -420,13 +426,13 @@ export default function FormPatternsDemo() {
           </Field>
         </CardContent>
 
-        {/* Radio Group */}
+        {/* Radio Group Stacked */}
         <CardContent>
           <Field orientation="horizontal">
             <FieldLabel>
-              Radio Group
+              Radio Group Stacked
               <FieldDescription>
-                Single selection from multiple options.
+                Stacked selection with labels and descriptions.
               </FieldDescription>
             </FieldLabel>
             <FieldContent>
@@ -449,6 +455,31 @@ export default function FormPatternsDemo() {
                   description="Second option description"
                 />
               </RadioGroupStacked>
+            </FieldContent>
+          </Field>
+        </CardContent>
+
+        {/* Radio Group Card */}
+        <CardContent>
+          <Field orientation="horizontal">
+            <FieldLabel>
+              Radio Group Card
+              <FieldDescription>
+                Card-style selection for visual options.
+              </FieldDescription>
+            </FieldLabel>
+            <FieldContent>
+              <RadioGroupCard
+                value={form.watch('module')}
+                onValueChange={(v) =>
+                  form.setValue('module', v, { shouldDirty: true })
+                }
+                className="flex flex-wrap gap-3"
+              >
+                <RadioGroupCardItem value="ledger" label="Ledger" />
+                <RadioGroupCardItem value="payments" label="Payments" />
+                <RadioGroupCardItem value="wallets" label="Wallets" />
+              </RadioGroupCard>
             </FieldContent>
           </Field>
         </CardContent>

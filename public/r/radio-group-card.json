@@ -4,8 +4,8 @@
   "title": "Radio Group Card",
   "description": "A card-style radio group for visual selection with optional children content.",
   "dependencies": [
-    "lucide-react",
-    "radix-ui"
+    "radix-ui",
+    "lucide-react"
   ],
   "files": [
     {

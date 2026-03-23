@@ -697,6 +697,37 @@
       "files": [
         { "path": "registry/default/ui/page-section.tsx", "type": "registry:ui" }
       ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "A data table built on TanStack Table with sorting, filtering, pagination, and skeleton loading.",
+      "dependencies": ["@tanstack/react-table", "lucide-react"],
+      "registryDependencies": ["badge", "button", "command", "dropdown-menu", "popover", "select", "skeleton", "table"],
+      "files": [
+        { "path": "registry/default/ui/data-table.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "radio-group-card",
+      "type": "registry:ui",
+      "title": "Radio Group Card",
+      "description": "A card-style radio group for visual selection with optional children content.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/radio-group-card.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "radio-group-stacked",
+      "type": "registry:ui",
+      "title": "Radio Group Stacked",
+      "description": "A stacked radio group with labels and descriptions for form selections.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        { "path": "registry/default/ui/radio-group-stacked.tsx", "type": "registry:ui" }
+      ]
     }
   ]
 }

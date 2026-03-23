@@ -28,9 +28,9 @@ function InputPassword({ className, ...props }: InputPasswordProps) {
       />
       <Button
         type="button"
-        variant="ghost"
-        size="sm"
-        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+        variant="outline"
+        size="icon-sm"
+        className="absolute right-1.5 top-1/2 -translate-y-1/2"
         onClick={() => setShowPassword((prev) => !prev)}
         disabled={disabled}
       >
