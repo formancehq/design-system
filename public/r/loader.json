@@ -4,7 +4,7 @@
   "title": "Loader",
   "description": "Loading skeleton placeholders.",
   "registryDependencies": [
-    "skeleton"
+    "https://design-system-three-mauve.vercel.app/r/skeleton.json"
   ],
   "files": [
     {

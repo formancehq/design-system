@@ -7,9 +7,9 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "button",
-    "command",
-    "popover"
+    "https://design-system-three-mauve.vercel.app/r/button.json",
+    "https://design-system-three-mauve.vercel.app/r/command.json",
+    "https://design-system-three-mauve.vercel.app/r/popover.json"
   ],
   "files": [
     {

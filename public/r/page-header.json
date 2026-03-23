@@ -7,9 +7,9 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "@formance/breadcrumb",
-    "@formance/eyebrow",
-    "@formance/page-container"
+    "https://design-system-three-mauve.vercel.app/r/breadcrumb.json",
+    "https://design-system-three-mauve.vercel.app/r/eyebrow.json",
+    "https://design-system-three-mauve.vercel.app/r/page-container.json"
   ],
   "files": [
     {

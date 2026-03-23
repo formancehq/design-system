@@ -4,7 +4,7 @@
   "title": "Item",
   "description": "A list item system with media, content, and actions.",
   "registryDependencies": [
-    "separator"
+    "https://design-system-three-mauve.vercel.app/r/separator.json"
   ],
   "files": [
     {

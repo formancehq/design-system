@@ -237,7 +237,7 @@
       "title": "Form",
       "description": "Form components with React Hook Form and Zod integration.",
       "dependencies": ["radix-ui", "react-hook-form"],
-      "registryDependencies": ["label"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/label.json"],
       "files": [
         { "path": "registry/default/ui/form.tsx", "type": "registry:ui" }
       ]
@@ -541,7 +541,7 @@
       "title": "Badge Status",
       "description": "A status badge with animated ping indicator.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["badge"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/badge.json"],
       "files": [
         {
           "path": "registry/default/ui/badge-status.tsx",
@@ -554,7 +554,7 @@
       "type": "registry:ui",
       "title": "Button Group",
       "description": "A group of buttons with separator.",
-      "registryDependencies": ["separator"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/separator.json"],
       "files": [
         {
           "path": "registry/default/ui/button-group.tsx",
@@ -576,7 +576,7 @@
       "type": "registry:ui",
       "title": "Description List",
       "description": "A description list and row layout for key-value pairs.",
-      "registryDependencies": ["separator"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/separator.json"],
       "files": [
         {
           "path": "registry/default/ui/description-list.tsx",
@@ -590,7 +590,11 @@
       "title": "Combobox",
       "description": "A combobox with search built on Command and Popover.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["button", "command", "popover"],
+      "registryDependencies": [
+        "https://design-system-three-mauve.vercel.app/r/button.json",
+        "https://design-system-three-mauve.vercel.app/r/command.json",
+        "https://design-system-three-mauve.vercel.app/r/popover.json"
+      ],
       "files": [
         { "path": "registry/default/ui/combobox.tsx", "type": "registry:ui" }
       ]
@@ -601,7 +605,10 @@
       "title": "Input Password",
       "description": "A password input with visibility toggle.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["button", "input"],
+      "registryDependencies": [
+        "https://design-system-three-mauve.vercel.app/r/button.json",
+        "https://design-system-three-mauve.vercel.app/r/input.json"
+      ],
       "files": [
         {
           "path": "registry/default/ui/input-password.tsx",
@@ -614,7 +621,7 @@
       "type": "registry:ui",
       "title": "Loader",
       "description": "Loading skeleton placeholders.",
-      "registryDependencies": ["skeleton"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/skeleton.json"],
       "files": [
         { "path": "registry/default/ui/loader.tsx", "type": "registry:ui" }
       ]
@@ -625,7 +632,7 @@
       "title": "Mode Toggle",
       "description": "A theme toggle button for dark and light mode.",
       "dependencies": ["lucide-react", "next-themes"],
-      "registryDependencies": ["button"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/button.json"],
       "files": [
         { "path": "registry/default/ui/mode-toggle.tsx", "type": "registry:ui" }
       ]
@@ -636,7 +643,7 @@
       "title": "Nav Tabs",
       "description": "Navigation tabs with pending state.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["tabs"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/tabs.json"],
       "files": [
         { "path": "registry/default/ui/nav-tabs.tsx", "type": "registry:ui" }
       ]
@@ -646,7 +653,10 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "A full form field system with labels, descriptions, and errors.",
-      "registryDependencies": ["label", "separator"],
+      "registryDependencies": [
+        "https://design-system-three-mauve.vercel.app/r/label.json",
+        "https://design-system-three-mauve.vercel.app/r/separator.json"
+      ],
       "files": [
         { "path": "registry/default/ui/field.tsx", "type": "registry:ui" }
       ]
@@ -656,7 +666,11 @@
       "type": "registry:ui",
       "title": "Input Group",
       "description": "Grouped input with addons, buttons, and text.",
-      "registryDependencies": ["button", "input", "textarea"],
+      "registryDependencies": [
+        "https://design-system-three-mauve.vercel.app/r/button.json",
+        "https://design-system-three-mauve.vercel.app/r/input.json",
+        "https://design-system-three-mauve.vercel.app/r/textarea.json"
+      ],
       "files": [
         { "path": "registry/default/ui/input-group.tsx", "type": "registry:ui" }
       ]
@@ -666,7 +680,7 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "A list item system with media, content, and actions.",
-      "registryDependencies": ["separator"],
+      "registryDependencies": ["https://design-system-three-mauve.vercel.app/r/separator.json"],
       "files": [
         { "path": "registry/default/ui/item.tsx", "type": "registry:ui" }
       ]
@@ -677,7 +691,12 @@
       "title": "Multi Select",
       "description": "A multi-select component with badges and search.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["badge", "button", "command", "popover"],
+      "registryDependencies": [
+        "https://design-system-three-mauve.vercel.app/r/badge.json",
+        "https://design-system-three-mauve.vercel.app/r/button.json",
+        "https://design-system-three-mauve.vercel.app/r/command.json",
+        "https://design-system-three-mauve.vercel.app/r/popover.json"
+      ],
       "files": [
         {
           "path": "registry/default/ui/multi-select.tsx",
@@ -692,12 +711,12 @@
       "description": "A collapsible sidebar with mobile support.",
       "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
       "registryDependencies": [
-        "button",
-        "input",
-        "separator",
-        "sheet",
-        "skeleton",
-        "tooltip"
+        "https://design-system-three-mauve.vercel.app/r/button.json",
+        "https://design-system-three-mauve.vercel.app/r/input.json",
+        "https://design-system-three-mauve.vercel.app/r/separator.json",
+        "https://design-system-three-mauve.vercel.app/r/sheet.json",
+        "https://design-system-three-mauve.vercel.app/r/skeleton.json",
+        "https://design-system-three-mauve.vercel.app/r/tooltip.json"
       ],
       "files": [
         { "path": "registry/default/ui/sidebar.tsx", "type": "registry:ui" }
@@ -733,9 +752,9 @@
       "description": "A compound page header with breadcrumb, icon, title, description, and navigation tabs.",
       "dependencies": ["class-variance-authority"],
       "registryDependencies": [
-        "@formance/breadcrumb",
-        "@formance/eyebrow",
-        "@formance/page-container"
+        "https://design-system-three-mauve.vercel.app/r/breadcrumb.json",
+        "https://design-system-three-mauve.vercel.app/r/eyebrow.json",
+        "https://design-system-three-mauve.vercel.app/r/page-container.json"
       ],
       "files": [
         { "path": "registry/default/ui/page-header.tsx", "type": "registry:ui" }
@@ -761,14 +780,14 @@
       "description": "A data table built on TanStack Table with sorting, filtering, pagination, and skeleton loading.",
       "dependencies": ["@tanstack/react-table", "lucide-react"],
       "registryDependencies": [
-        "badge",
-        "button",
-        "command",
-        "dropdown-menu",
-        "popover",
-        "select",
-        "skeleton",
-        "table"
+        "https://design-system-three-mauve.vercel.app/r/badge.json",
+        "https://design-system-three-mauve.vercel.app/r/button.json",
+        "https://design-system-three-mauve.vercel.app/r/command.json",
+        "https://design-system-three-mauve.vercel.app/r/dropdown-menu.json",
+        "https://design-system-three-mauve.vercel.app/r/popover.json",
+        "https://design-system-three-mauve.vercel.app/r/select.json",
+        "https://design-system-three-mauve.vercel.app/r/skeleton.json",
+        "https://design-system-three-mauve.vercel.app/r/table.json"
       ],
       "files": [
         { "path": "registry/default/ui/data-table.tsx", "type": "registry:ui" }

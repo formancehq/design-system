@@ -9,12 +9,12 @@
     "radix-ui"
   ],
   "registryDependencies": [
-    "button",
-    "input",
-    "separator",
-    "sheet",
-    "skeleton",
-    "tooltip"
+    "https://design-system-three-mauve.vercel.app/r/button.json",
+    "https://design-system-three-mauve.vercel.app/r/input.json",
+    "https://design-system-three-mauve.vercel.app/r/separator.json",
+    "https://design-system-three-mauve.vercel.app/r/sheet.json",
+    "https://design-system-three-mauve.vercel.app/r/skeleton.json",
+    "https://design-system-three-mauve.vercel.app/r/tooltip.json"
   ],
   "files": [
     {

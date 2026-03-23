@@ -3,18 +3,35 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 
+import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
 import { Input } from '@/registry/default/ui/input';
 import { Textarea } from '@/registry/default/ui/textarea';
-import { cn } from '@/lib/utils';
 
-function InputGroup({ className, ...props }: React.ComponentProps<'div'>) {
+const inputGroupMaxWidthVariants = cva('', {
+  variants: {
+    maxWidth: {
+      xs: 'max-w-24 md:max-w-32 lg:max-w-40',
+      sm: 'max-w-32 md:max-w-64 lg:max-w-56',
+      md: 'max-w-44 md:max-w-64 lg:max-w-96',
+      lg: 'max-w-44 md:max-w-64 lg:max-w-120',
+      xl: 'max-w-44 md:max-w-64 lg:max-w-165',
+    },
+  },
+});
+
+function InputGroup({
+  className,
+  maxWidth,
+  ...props
+}: React.ComponentProps<'div'> &
+  VariantProps<typeof inputGroupMaxWidthVariants>) {
   return (
     <div
       data-slot="input-group"
       role="group"
       className={cn(
-        'group/input-group border-input bg-background dark:bg-input/30 relative flex w-full items-center rounded-md border transition-[color,box-shadow] outline-none',
+        'group/input-group border-input bg-background-subtle dark:bg-input/30 relative flex w-full items-center rounded-md border transition-[color,box-shadow] outline-none',
         'h-9 min-w-0 has-[>textarea]:h-auto',
         'has-[>[data-align=inline-start]]:[&>input]:pl-2',
         'has-[>[data-align=inline-end]]:[&>input]:pr-2',
@@ -22,6 +39,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<'div'>) {
         'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
         'has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot=input-group-control]:focus-visible]:ring-[3px]',
         'has-[[data-slot][aria-invalid=true]]:ring-destructive/20 has-[[data-slot][aria-invalid=true]]:border-destructive dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40',
+        inputGroupMaxWidthVariants({ maxWidth }),
         className
       )}
       {...props}
@@ -130,7 +148,7 @@ function InputGroupInput({
       size="md"
       data-slot="input-group-control"
       className={cn(
-        'flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent',
+        'flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent font-mono',
         className
       )}
       {...props}

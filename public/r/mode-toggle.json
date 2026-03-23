@@ -8,7 +8,7 @@
     "next-themes"
   ],
   "registryDependencies": [
-    "button"
+    "https://design-system-three-mauve.vercel.app/r/button.json"
   ],
   "files": [
     {

@@ -26,7 +26,7 @@ function SelectValue({
 }
 
 const selectTriggerVariants = cva(
-  'flex w-full items-center justify-between rounded-md border border-input bg-background dark:bg-input/30 dark:hover:bg-input/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 font-mono',
+  'flex w-full items-center justify-between rounded-md border border-input bg-background-subtle dark:bg-input/30 dark:hover:bg-input/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 font-mono',
   {
     variants: {
       size: {

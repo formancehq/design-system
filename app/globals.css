@@ -32,7 +32,8 @@
   --secondary: var(--emerald-100);
   --secondary-foreground: var(--foreground);
 
-  --background: var(--emerald-70);
+  --background: var(--white);
+  --background-subtle: color-mix(in oklch, var(--emerald-100) 30%, var(--emerald-50));
   --foreground: var(--black);
 
   --muted: var(--secondary);
@@ -54,7 +55,7 @@
   --radius: 0.27rem;
 
   --emerald-50: oklch(1 0 0);
-  --emerald-70: oklch(0.9788 0.0023 197.12);
+
   --emerald-100: oklch(0.9503 0.0053 197.07);
   --emerald-200: oklch(0.9225 0.0096 196.99);
   --emerald-300: oklch(0.9001 0.0122 202.07);
@@ -189,6 +190,7 @@
   --black: oklch(0.17 0.032 202.57);
 
   --background: var(--emerald-900);
+  --background-subtle: var(--black);
   --foreground: var(--white);
 
   --muted: var(--black);
@@ -295,12 +297,15 @@
 }
 
 @theme inline {
-  --font-sans: 'Polymath', 'Figtree', ui-sans-serif, system-ui, sans-serif,
+  --font-sans:
+    'Polymath', 'Figtree', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-mono: 'Berkeley Mono', ui-monospace, SFMono-Regular, 'SF Mono',
-    Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-mono:
+    'Berkeley Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --color-background: var(--background);
+  --color-background-subtle: var(--background-subtle);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -447,23 +452,39 @@
 }
 
 @keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
 }
 
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 @keyframes collapsible-down {
-  from { height: 0; }
-  to { height: var(--radix-collapsible-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
 }
 
 @keyframes collapsible-up {
-  from { height: var(--radix-collapsible-content-height); }
-  to { height: 0; }
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 *:not([class*='border-']) {
@@ -486,7 +507,7 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background-subtle text-foreground;
   }
   :not(pre) > code {
     position: relative;
