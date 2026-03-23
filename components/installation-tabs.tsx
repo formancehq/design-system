@@ -1,6 +1,11 @@
 'use client';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/registry/default/ui/tabs';
 
 export function InstallationTabs({
   cliCommand,

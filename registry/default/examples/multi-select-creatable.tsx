@@ -36,7 +36,10 @@ export default function MultiSelectCreatable() {
       </MultiSelectTrigger>
       <MultiSelectContent
         creatable
-        search={{ placeholder: 'Search or create tags...', emptyMessage: 'Type to create a new tag.' }}
+        search={{
+          placeholder: 'Search or create tags...',
+          emptyMessage: 'Type to create a new tag.',
+        }}
       >
         <MultiSelectGroup>
           {options.map((tag) => (

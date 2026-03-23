@@ -16,7 +16,10 @@ export default function MultiSelectSearch() {
         <MultiSelectValue placeholder="Select currencies..." />
       </MultiSelectTrigger>
       <MultiSelectContent
-        search={{ placeholder: 'Search currencies...', emptyMessage: 'No currency found.' }}
+        search={{
+          placeholder: 'Search currencies...',
+          emptyMessage: 'No currency found.',
+        }}
       >
         <MultiSelectGroup>
           <MultiSelectItem value="eur">EUR</MultiSelectItem>

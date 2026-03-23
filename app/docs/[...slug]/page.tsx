@@ -25,6 +25,7 @@ function findSidebarItem(slug: string) {
       }
     }
   }
+
   return null;
 }
 
@@ -56,6 +57,7 @@ export async function generateStaticParams() {
       }
     }
   }
+
   return params;
 }
 
@@ -96,7 +98,11 @@ export default async function DocsPage({
   const headings = extractHeadings(mdxSource);
 
   if (meta?.subComponents && meta.subComponents.length > 0) {
-    headings.push({ id: 'compound-components', title: 'Compound Components', level: 2 });
+    headings.push({
+      id: 'compound-components',
+      title: 'Compound Components',
+      level: 2,
+    });
   }
   const { content: mdxContent } = await compileMDX({
     source: mdxSource,
@@ -105,7 +111,10 @@ export default async function DocsPage({
       parseFrontmatter: false,
       mdxOptions: {
         rehypePlugins: [
-          [rehypePrettyCode, { theme: cssVarsTheme, getHighlighter, keepBackground: false }],
+          [
+            rehypePrettyCode,
+            { theme: cssVarsTheme, getHighlighter, keepBackground: false },
+          ],
         ],
       },
     },

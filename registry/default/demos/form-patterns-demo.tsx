@@ -1,7 +1,14 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CalendarIcon, Check, Copy, ExternalLink, Plus, Trash2 } from 'lucide-react';
+import {
+  CalendarIcon,
+  Check,
+  Copy,
+  ExternalLink,
+  Plus,
+  Trash2,
+} from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -9,11 +16,7 @@ import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
 import { Calendar } from '@/registry/default/ui/calendar';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from '@/registry/default/ui/card';
+import { Card, CardContent, CardFooter } from '@/registry/default/ui/card';
 import { Checkbox } from '@/registry/default/ui/checkbox';
 import {
   Field,
@@ -83,7 +86,9 @@ const formSchema = z.object({
   queueType: z.enum(['basic', 'partitioned']),
   module: z.string(),
   expiryDate: z.date().optional(),
-  redirectUris: z.array(z.object({ value: z.string().url('Must be a valid URL') })),
+  redirectUris: z.array(
+    z.object({ value: z.string().url('Must be a valid URL') })
+  ),
 });
 
 type TFormValues = z.infer<typeof formSchema>;
@@ -179,10 +184,7 @@ export default function FormPatternsDemo() {
               </FieldDescription>
             </FieldLabel>
             <FieldContent>
-              <InputPassword
-                readOnly
-                value={fakeApiKey}
-              />
+              <InputPassword readOnly value={fakeApiKey} />
             </FieldContent>
           </Field>
         </CardContent>
@@ -299,7 +301,9 @@ export default function FormPatternsDemo() {
             <Switch
               checked={form.watch('enableFeature')}
               onCheckedChange={(v) =>
-                form.setValue('enableFeature', v === true, { shouldDirty: true })
+                form.setValue('enableFeature', v === true, {
+                  shouldDirty: true,
+                })
               }
             />
           </Field>
@@ -321,10 +325,15 @@ export default function FormPatternsDemo() {
                     id="enable-rls"
                     checked={form.watch('enableRls')}
                     onCheckedChange={(v) =>
-                      form.setValue('enableRls', v === true, { shouldDirty: true })
+                      form.setValue('enableRls', v === true, {
+                        shouldDirty: true,
+                      })
                     }
                   />
-                  <label htmlFor="enable-rls" className="text-sm cursor-pointer">
+                  <label
+                    htmlFor="enable-rls"
+                    className="text-sm cursor-pointer"
+                  >
                     Enable Row Level Security
                   </label>
                 </div>

@@ -37,7 +37,8 @@ export function ComponentPreviewClient({
       className={cn(
         'flex min-h-[200px] w-full justify-center p-10',
         alignClasses[align],
-        showGrid && 'bg-[image:radial-gradient(var(--border)_1px,transparent_1px)] bg-[size:16px_16px]'
+        showGrid &&
+          'bg-[image:radial-gradient(var(--border)_1px,transparent_1px)] bg-[size:16px_16px]'
       )}
     >
       <Suspense fallback={<Skeleton className="h-20 w-60" />}>

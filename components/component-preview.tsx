@@ -18,6 +18,7 @@ function readSource(name: string): string {
       // try next
     }
   }
+
   return '';
 }
 
@@ -40,8 +41,8 @@ export async function ComponentPreview({
   return (
     <div className="overflow-hidden rounded-lg border">
       <ComponentPreviewClient name={name} showGrid={showGrid} align={align} />
-      {hasCode && (
-        peekCode ? (
+      {hasCode &&
+        (peekCode ? (
           <CollapsibleCode>
             <CodeBlock code={source} lang="tsx" noBorder />
           </CollapsibleCode>
@@ -49,8 +50,7 @@ export async function ComponentPreview({
           <div className="border-t">
             <CodeBlock code={source} lang="tsx" noBorder />
           </div>
-        )
-      )}
+        ))}
     </div>
   );
 }

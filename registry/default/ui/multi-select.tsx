@@ -89,6 +89,7 @@ export function MultiSelect({
       } else {
         newSet.add(value);
       }
+
       return newSet;
     };
     setInternalValues(getNewSet);
@@ -105,6 +106,7 @@ export function MultiSelect({
   const onItemAdded = useCallback((value: string, label: ReactNode) => {
     setItems((prev) => {
       if (prev.get(value) === label) return prev;
+
       return new Map(prev).set(value, label);
     });
   }, []);
@@ -121,6 +123,7 @@ export function MultiSelect({
       }
     }
     document.addEventListener('pointerdown', handlePointerDown);
+
     return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, [mode, open, setOpen]);
 
@@ -405,8 +408,15 @@ export function MultiSelectContent({
   creatable?: boolean;
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<typeof Command>, 'children'>) {
-  const { mode, open, inputValue, setInputValue, toggleValue, items, selectedValues } =
-    useMultiSelectContext();
+  const {
+    mode,
+    open,
+    inputValue,
+    setInputValue,
+    toggleValue,
+    items,
+    selectedValues,
+  } = useMultiSelectContext();
   const canSearch = typeof search === 'object' ? true : search;
 
   const inputMatchesItem = [...items.keys()].some(
@@ -414,7 +424,10 @@ export function MultiSelectContent({
   );
   const isAlreadySelected = selectedValues.has(inputValue);
   const showCreatable =
-    creatable && inputValue.length > 0 && !inputMatchesItem && !isAlreadySelected;
+    creatable &&
+    inputValue.length > 0 &&
+    !inputMatchesItem &&
+    !isAlreadySelected;
 
   const creatableNode = showCreatable && (
     <CommandGroup forceMount>
@@ -446,9 +459,7 @@ export function MultiSelectContent({
         )}
       >
         <CommandList>
-          {!showCreatable && (
-            <CommandEmpty>{emptyMessage}</CommandEmpty>
-          )}
+          {!showCreatable && <CommandEmpty>{emptyMessage}</CommandEmpty>}
           {children}
           {creatableNode}
         </CommandList>

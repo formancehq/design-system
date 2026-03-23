@@ -65,7 +65,11 @@ function RadioGroupStackedItem({
             )}
           >
             <RadioGroupPrimitive.Indicator className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <CircleIcon size={10} strokeWidth={0} className="fill-current text-current" />
+              <CircleIcon
+                size={10}
+                strokeWidth={0}
+                className="fill-current text-current"
+              />
             </RadioGroupPrimitive.Indicator>
           </div>
         )}

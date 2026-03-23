@@ -13,11 +13,16 @@ async function getHighlighter() {
       langs: ['tsx', 'bash', 'json', 'css'],
     });
   }
+
   return highlighter;
 }
 
-export async function highlightCode(code: string, lang = 'tsx'): Promise<string> {
+export async function highlightCode(
+  code: string,
+  lang = 'tsx'
+): Promise<string> {
   const hl = await getHighlighter();
+
   return hl.codeToHtml(code, {
     lang,
     theme: 'css-variables',

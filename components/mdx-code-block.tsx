@@ -31,12 +31,14 @@ function extractText(children: React.ReactNode): string {
   if (!children) return '';
 
   const arr = Children.toArray(children);
+
   return arr
     .map((child) => {
       if (typeof child === 'string') return child;
       if (isValidElement<{ children?: React.ReactNode }>(child)) {
         return extractText(child.props.children);
       }
+
       return '';
     })
     .join('')

@@ -20,5 +20,6 @@ export function getHighlighter() {
     themes: [cssVarsTheme],
     langs: ['tsx', 'typescript', 'javascript', 'bash', 'css', 'json', 'html'],
   });
+
   return highlighterPromise;
 }

@@ -84,7 +84,14 @@ function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
 
 function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div data-slot="card-content" className={cn('border-b p-6 last:border-none [&:has(+[data-slot=card-footer])]:border-none', className)} {...props} />
+    <div
+      data-slot="card-content"
+      className={cn(
+        'border-b p-6 last:border-none [&:has(+[data-slot=card-footer])]:border-none',
+        className
+      )}
+      {...props}
+    />
   );
 }
 

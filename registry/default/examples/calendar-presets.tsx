@@ -8,6 +8,7 @@ import { Calendar } from '@/registry/default/ui/calendar';
 function addDays(date: Date, days: number) {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
+
   return result;
 }
 
@@ -37,11 +38,7 @@ export default function CalendarPresets() {
           </Button>
         ))}
       </div>
-      <Calendar
-        mode="single"
-        selected={date}
-        onSelect={setDate}
-      />
+      <Calendar mode="single" selected={date} onSelect={setDate} />
     </div>
   );
 }

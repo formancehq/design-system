@@ -19,6 +19,7 @@ function resolveTitle(segment: string): string {
       }
     }
   }
+
   return segment
     .split('-')
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -38,11 +39,16 @@ export function Breadcrumbs() {
 
     return (
       <li key={href} className="flex items-center gap-1.5">
-        {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />}
+        {i > 0 && (
+          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+        )}
         {isLast ? (
           <span className="text-foreground">{title}</span>
         ) : (
-          <Link href={href} className="text-muted-foreground hover:text-foreground transition-colors">
+          <Link
+            href={href}
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
             {title}
           </Link>
         )}

@@ -43,10 +43,7 @@ function Eyebrow({
   return (
     <Comp
       data-slot="eyebrow"
-      className={cn(
-        eyebrowVariants({ variant, size }),
-        className
-      )}
+      className={cn(eyebrowVariants({ variant, size }), className)}
       {...props}
     />
   );

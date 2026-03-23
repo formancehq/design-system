@@ -23,17 +23,60 @@ type TPayment = {
 };
 
 const data: TPayment[] = [
-  { id: 'pay_m5gr84i9', amount: 316, status: 'success', email: 'ken99@yahoo.com' },
-  { id: 'pay_3u1reuv4', amount: 242, status: 'success', email: 'abe45@gmail.com' },
-  { id: 'pay_derv1ws0', amount: 837, status: 'processing', email: 'monserrat44@gmail.com' },
-  { id: 'pay_5kma53ae', amount: 874, status: 'success', email: 'silas22@gmail.com' },
-  { id: 'pay_bhqecj4p', amount: 721, status: 'failed', email: 'carmella@hotmail.com' },
-  { id: 'pay_x8k2p1n3', amount: 150, status: 'pending', email: 'alex@example.com' },
-  { id: 'pay_r4t7w9q2', amount: 499, status: 'processing', email: 'jordan@company.io' },
-  { id: 'pay_l6m3v8j5', amount: 1200, status: 'success', email: 'taylor@startup.co' },
+  {
+    id: 'pay_m5gr84i9',
+    amount: 316,
+    status: 'success',
+    email: 'ken99@yahoo.com',
+  },
+  {
+    id: 'pay_3u1reuv4',
+    amount: 242,
+    status: 'success',
+    email: 'abe45@gmail.com',
+  },
+  {
+    id: 'pay_derv1ws0',
+    amount: 837,
+    status: 'processing',
+    email: 'monserrat44@gmail.com',
+  },
+  {
+    id: 'pay_5kma53ae',
+    amount: 874,
+    status: 'success',
+    email: 'silas22@gmail.com',
+  },
+  {
+    id: 'pay_bhqecj4p',
+    amount: 721,
+    status: 'failed',
+    email: 'carmella@hotmail.com',
+  },
+  {
+    id: 'pay_x8k2p1n3',
+    amount: 150,
+    status: 'pending',
+    email: 'alex@example.com',
+  },
+  {
+    id: 'pay_r4t7w9q2',
+    amount: 499,
+    status: 'processing',
+    email: 'jordan@company.io',
+  },
+  {
+    id: 'pay_l6m3v8j5',
+    amount: 1200,
+    status: 'success',
+    email: 'taylor@startup.co',
+  },
 ];
 
-const statusVariant: Record<TPayment['status'], 'valid' | 'info' | 'destructive' | 'warning'> = {
+const statusVariant: Record<
+  TPayment['status'],
+  'valid' | 'info' | 'destructive' | 'warning'
+> = {
   success: 'valid',
   processing: 'info',
   failed: 'destructive',
@@ -64,7 +107,9 @@ const columns: ColumnDef<TPayment>[] = [
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => (
-      <Badge variant={statusVariant[row.getValue<TPayment['status']>('status')]}>
+      <Badge
+        variant={statusVariant[row.getValue<TPayment['status']>('status')]}
+      >
         {row.getValue<string>('status')}
       </Badge>
     ),
@@ -91,6 +136,7 @@ const columns: ColumnDef<TPayment>[] = [
         style: 'currency',
         currency: 'USD',
       }).format(row.getValue<number>('amount'));
+
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },

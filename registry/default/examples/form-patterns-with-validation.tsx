@@ -5,11 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/registry/default/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from '@/registry/default/ui/card';
+import { Card, CardContent, CardFooter } from '@/registry/default/ui/card';
 import {
   Field,
   FieldContent,
@@ -26,7 +22,10 @@ const schema = z.object({
   apiKey: z
     .string()
     .min(16, 'API key must be at least 16 characters.')
-    .regex(/^[a-zA-Z0-9_-]+$/, 'API key can only contain letters, numbers, hyphens, and underscores.'),
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      'API key can only contain letters, numbers, hyphens, and underscores.'
+    ),
   notes: z.string().max(200, 'Notes cannot exceed 200 characters.').optional(),
 });
 

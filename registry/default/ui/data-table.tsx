@@ -366,9 +366,8 @@ function DataTableToolbar<TData>({
             size="sm"
             placeholder={search.placeholder}
             value={
-              (table
-                .getColumn(search.columnKey)
-                ?.getFilterValue() as string) ?? ''
+              (table.getColumn(search.columnKey)?.getFilterValue() as string) ??
+              ''
             }
             onChange={(event) =>
               table
@@ -385,6 +384,7 @@ function DataTableToolbar<TData>({
         {filtersConfig?.map((filter, index) => {
           const col = table.getColumn(filter.column);
           if (!col) return null;
+
           return (
             <DataTableFacetedFilter
               key={index}
@@ -434,9 +434,7 @@ function DataTablePagination<TData>({
             onValueChange={(value) => table.setPageSize(Number(value))}
           >
             <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue
-                placeholder={table.getState().pagination.pageSize}
-              />
+              <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
               {[5, 10, 15, 20, 30, 50].map((pageSize) => (

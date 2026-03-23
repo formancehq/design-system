@@ -2,7 +2,13 @@
 
 import { Button } from '@/registry/default/ui/button';
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from '@/registry/default/ui/dialog';
 
 export default function DialogDemo() {
@@ -19,8 +25,12 @@ export default function DialogDemo() {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" size="sm">Cancel</Button>
-          <Button variant="primary" size="sm">Confirm</Button>
+          <Button variant="outline" size="sm">
+            Cancel
+          </Button>
+          <Button variant="primary" size="sm">
+            Confirm
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

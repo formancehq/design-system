@@ -5,8 +5,8 @@ import {
   PageSectionMeta,
   PageSectionSummary,
   PageSectionTitle,
-} from '@/registry/default/ui/page-section'
-import { Card, CardContent } from '@/registry/default/ui/card'
+} from '@/registry/default/ui/page-section';
+import { Card, CardContent } from '@/registry/default/ui/card';
 
 export default function PageSectionHorizontal() {
   return (
@@ -33,5 +33,5 @@ export default function PageSectionHorizontal() {
         </PageSectionContent>
       </PageSection>
     </div>
-  )
+  );
 }

@@ -34,7 +34,8 @@ export type TComponentMeta = {
 export const componentMeta: Record<string, TComponentMeta> = {
   'components/accordion': {
     registryName: 'accordion',
-    description: 'A vertically stacked set of interactive headings that reveal content.',
+    description:
+      'A vertically stacked set of interactive headings that reveal content.',
     sourceFile: 'registry/default/ui/accordion.tsx',
     source: 'shadcn',
   },
@@ -46,7 +47,8 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/alert-dialog': {
     registryName: 'alert-dialog',
-    description: 'A modal dialog that interrupts the user for a critical action.',
+    description:
+      'A modal dialog that interrupts the user for a critical action.',
     sourceFile: 'registry/default/ui/alert-dialog.tsx',
     source: 'shadcn',
   },
@@ -94,7 +96,8 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/card': {
     registryName: 'card',
-    description: 'Container component for grouping content with header, body, and footer.',
+    description:
+      'Container component for grouping content with header, body, and footer.',
     sourceFile: 'registry/default/ui/card.tsx',
     source: 'shadcn',
   },
@@ -106,7 +109,8 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/checkbox': {
     registryName: 'checkbox',
-    description: 'A control that allows the user to toggle between checked and not checked.',
+    description:
+      'A control that allows the user to toggle between checked and not checked.',
     sourceFile: 'registry/default/ui/checkbox.tsx',
     source: 'shadcn',
   },
@@ -130,13 +134,15 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/dialog': {
     registryName: 'dialog',
-    description: 'A modal dialog that interrupts the user with important content.',
+    description:
+      'A modal dialog that interrupts the user with important content.',
     sourceFile: 'registry/default/ui/dialog.tsx',
     source: 'shadcn',
   },
   'components/drawer': {
     registryName: 'drawer',
-    description: 'A drawer component that slides in from the edge of the screen.',
+    description:
+      'A drawer component that slides in from the edge of the screen.',
     sourceFile: 'registry/default/ui/drawer.tsx',
     source: 'shadcn',
   },
@@ -148,7 +154,8 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/form': {
     registryName: 'form',
-    description: 'React Hook Form integration with validation and error handling.',
+    description:
+      'React Hook Form integration with validation and error handling.',
     sourceFile: 'registry/default/ui/form.tsx',
     source: 'shadcn',
   },
@@ -208,28 +215,45 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/radio-group': {
     registryName: 'radio-group',
-    description: 'A set of checkable buttons where only one can be checked at a time.',
+    description:
+      'A set of checkable buttons where only one can be checked at a time.',
     sourceFile: 'registry/default/ui/radio-group.tsx',
     source: 'shadcn',
   },
   'components/radio-group-card': {
     registryName: 'radio-group-card',
-    description: 'A card-style radio group for visual selection with optional children content.',
+    description:
+      'A card-style radio group for visual selection with optional children content.',
     sourceFile: 'registry/default/ui/radio-group-card.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'RadioGroupCard', description: 'Root container wrapping radio card items.' },
-      { name: 'RadioGroupCardItem', description: 'Individual card with label, indicator, and optional children.' },
+      {
+        name: 'RadioGroupCard',
+        description: 'Root container wrapping radio card items.',
+      },
+      {
+        name: 'RadioGroupCardItem',
+        description:
+          'Individual card with label, indicator, and optional children.',
+      },
     ],
   },
   'components/radio-group-stacked': {
     registryName: 'radio-group-stacked',
-    description: 'A stacked radio group with labels and descriptions for form selections.',
+    description:
+      'A stacked radio group with labels and descriptions for form selections.',
     sourceFile: 'registry/default/ui/radio-group-stacked.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'RadioGroupStacked', description: 'Root container with stacked layout and negative spacing.' },
-      { name: 'RadioGroupStackedItem', description: 'Individual stacked item with label, description, and indicator.' },
+      {
+        name: 'RadioGroupStacked',
+        description: 'Root container with stacked layout and negative spacing.',
+      },
+      {
+        name: 'RadioGroupStackedItem',
+        description:
+          'Individual stacked item with label, description, and indicator.',
+      },
     ],
   },
   'components/resizable': {
@@ -371,9 +395,18 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/button-group.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'ButtonGroup', description: 'Root container with horizontal or vertical orientation.' },
-      { name: 'ButtonGroupText', description: 'Muted text segment between buttons.' },
-      { name: 'ButtonGroupSeparator', description: 'Visual separator between grouped buttons.' },
+      {
+        name: 'ButtonGroup',
+        description: 'Root container with horizontal or vertical orientation.',
+      },
+      {
+        name: 'ButtonGroupText',
+        description: 'Muted text segment between buttons.',
+      },
+      {
+        name: 'ButtonGroupSeparator',
+        description: 'Visual separator between grouped buttons.',
+      },
     ],
   },
   'components/kbd': {
@@ -388,12 +421,30 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/description-list.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'DescriptionList', description: 'Root grid container for term/detail pairs.' },
-      { name: 'DescriptionTerm', description: 'The label (dt) for a key-value pair.' },
-      { name: 'DescriptionDetails', description: 'The value (dd) for a key-value pair.' },
-      { name: 'DescriptionRow', description: 'Horizontal row layout for inline pairs.' },
-      { name: 'DescriptionRowGroup', description: 'Vertical group of stacked rows.' },
-      { name: 'DescriptionRowSeparator', description: 'Vertical separator between row groups.' },
+      {
+        name: 'DescriptionList',
+        description: 'Root grid container for term/detail pairs.',
+      },
+      {
+        name: 'DescriptionTerm',
+        description: 'The label (dt) for a key-value pair.',
+      },
+      {
+        name: 'DescriptionDetails',
+        description: 'The value (dd) for a key-value pair.',
+      },
+      {
+        name: 'DescriptionRow',
+        description: 'Horizontal row layout for inline pairs.',
+      },
+      {
+        name: 'DescriptionRowGroup',
+        description: 'Vertical group of stacked rows.',
+      },
+      {
+        name: 'DescriptionRowSeparator',
+        description: 'Vertical separator between row groups.',
+      },
     ],
   },
   'components/combobox': {
@@ -428,20 +479,50 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/field': {
     registryName: 'field',
-    description: 'A full form field system with labels, descriptions, and errors.',
+    description:
+      'A full form field system with labels, descriptions, and errors.',
     sourceFile: 'registry/default/ui/field.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'Field', description: 'Root wrapper with orientation variants (vertical, horizontal, responsive).' },
-      { name: 'FieldLabel', description: 'Accessible label tied to the field control.' },
-      { name: 'FieldTitle', description: 'Non-label heading for a field (e.g. checkbox groups).' },
-      { name: 'FieldContent', description: 'Wraps the control, description, and error.' },
-      { name: 'FieldDescription', description: 'Helper text below the control.' },
-      { name: 'FieldError', description: 'Validation error message with alert role.' },
+      {
+        name: 'Field',
+        description:
+          'Root wrapper with orientation variants (vertical, horizontal, responsive).',
+      },
+      {
+        name: 'FieldLabel',
+        description: 'Accessible label tied to the field control.',
+      },
+      {
+        name: 'FieldTitle',
+        description: 'Non-label heading for a field (e.g. checkbox groups).',
+      },
+      {
+        name: 'FieldContent',
+        description: 'Wraps the control, description, and error.',
+      },
+      {
+        name: 'FieldDescription',
+        description: 'Helper text below the control.',
+      },
+      {
+        name: 'FieldError',
+        description: 'Validation error message with alert role.',
+      },
       { name: 'FieldGroup', description: 'Groups multiple fields vertically.' },
-      { name: 'FieldSet', description: 'Semantic fieldset for grouped controls.' },
-      { name: 'FieldLegend', description: 'Legend for a fieldset with legend or label styling.' },
-      { name: 'FieldSeparator', description: 'Horizontal separator between fields, optionally with text.' },
+      {
+        name: 'FieldSet',
+        description: 'Semantic fieldset for grouped controls.',
+      },
+      {
+        name: 'FieldLegend',
+        description: 'Legend for a fieldset with legend or label styling.',
+      },
+      {
+        name: 'FieldSeparator',
+        description:
+          'Horizontal separator between fields, optionally with text.',
+      },
     ],
   },
   'components/input-group': {
@@ -450,12 +531,32 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/input-group.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'InputGroup', description: 'Root container that groups an input with addons.' },
-      { name: 'InputGroupInput', description: 'The text input control (borderless, inherits group focus).' },
-      { name: 'InputGroupTextarea', description: 'A textarea control variant.' },
-      { name: 'InputGroupAddon', description: 'Slot for icons, badges, or buttons (inline-start, inline-end, block-start, block-end).' },
-      { name: 'InputGroupButton', description: 'A small button inside the addon area.' },
-      { name: 'InputGroupText', description: 'Static text or icon label inside an addon.' },
+      {
+        name: 'InputGroup',
+        description: 'Root container that groups an input with addons.',
+      },
+      {
+        name: 'InputGroupInput',
+        description:
+          'The text input control (borderless, inherits group focus).',
+      },
+      {
+        name: 'InputGroupTextarea',
+        description: 'A textarea control variant.',
+      },
+      {
+        name: 'InputGroupAddon',
+        description:
+          'Slot for icons, badges, or buttons (inline-start, inline-end, block-start, block-end).',
+      },
+      {
+        name: 'InputGroupButton',
+        description: 'A small button inside the addon area.',
+      },
+      {
+        name: 'InputGroupText',
+        description: 'Static text or icon label inside an addon.',
+      },
     ],
   },
   'components/item': {
@@ -464,16 +565,42 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/item.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'Item', description: 'Root container with variant (default, outline, muted) and size.' },
-      { name: 'ItemMedia', description: 'Leading slot for icons or images (default, icon, image variants).' },
-      { name: 'ItemContent', description: 'Flex column for title and description.' },
+      {
+        name: 'Item',
+        description:
+          'Root container with variant (default, outline, muted) and size.',
+      },
+      {
+        name: 'ItemMedia',
+        description:
+          'Leading slot for icons or images (default, icon, image variants).',
+      },
+      {
+        name: 'ItemContent',
+        description: 'Flex column for title and description.',
+      },
       { name: 'ItemTitle', description: 'Primary text label.' },
-      { name: 'ItemDescription', description: 'Secondary muted text, line-clamped to 2 lines.' },
+      {
+        name: 'ItemDescription',
+        description: 'Secondary muted text, line-clamped to 2 lines.',
+      },
       { name: 'ItemActions', description: 'Trailing slot for action buttons.' },
-      { name: 'ItemHeader', description: 'Full-width row above the item body.' },
-      { name: 'ItemFooter', description: 'Full-width row below the item body.' },
-      { name: 'ItemGroup', description: 'Vertical list container for multiple items.' },
-      { name: 'ItemSeparator', description: 'Horizontal separator between items.' },
+      {
+        name: 'ItemHeader',
+        description: 'Full-width row above the item body.',
+      },
+      {
+        name: 'ItemFooter',
+        description: 'Full-width row below the item body.',
+      },
+      {
+        name: 'ItemGroup',
+        description: 'Vertical list container for multiple items.',
+      },
+      {
+        name: 'ItemSeparator',
+        description: 'Horizontal separator between items.',
+      },
     ],
   },
   'components/multi-select': {
@@ -482,14 +609,40 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/multi-select.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'MultiSelect', description: 'Root provider with controlled/uncontrolled values and popover or inline mode.' },
-      { name: 'MultiSelectTrigger', description: 'Button that opens the dropdown and displays selected badges.' },
-      { name: 'MultiSelectInput', description: 'Search input inside the trigger for filtering options.' },
-      { name: 'MultiSelectValue', description: 'Renders selected values as badges with remove buttons.' },
-      { name: 'MultiSelectContent', description: 'Dropdown content with command list.' },
-      { name: 'MultiSelectItem', description: 'Selectable option with checkbox indicator.' },
-      { name: 'MultiSelectGroup', description: 'Groups related items under a heading.' },
-      { name: 'MultiSelectSeparator', description: 'Visual separator between groups.' },
+      {
+        name: 'MultiSelect',
+        description:
+          'Root provider with controlled/uncontrolled values and popover or inline mode.',
+      },
+      {
+        name: 'MultiSelectTrigger',
+        description:
+          'Button that opens the dropdown and displays selected badges.',
+      },
+      {
+        name: 'MultiSelectInput',
+        description: 'Search input inside the trigger for filtering options.',
+      },
+      {
+        name: 'MultiSelectValue',
+        description: 'Renders selected values as badges with remove buttons.',
+      },
+      {
+        name: 'MultiSelectContent',
+        description: 'Dropdown content with command list.',
+      },
+      {
+        name: 'MultiSelectItem',
+        description: 'Selectable option with checkbox indicator.',
+      },
+      {
+        name: 'MultiSelectGroup',
+        description: 'Groups related items under a heading.',
+      },
+      {
+        name: 'MultiSelectSeparator',
+        description: 'Visual separator between groups.',
+      },
     ],
   },
   'components/sidebar': {
@@ -498,23 +651,88 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/sidebar.tsx',
     source: 'shadcn',
   },
+  'components/sortable': {
+    registryName: 'sortable',
+    description:
+      'Drag-and-drop sortable list built on dnd-kit with keyboard and screen reader support.',
+    sourceFile: 'registry/default/ui/sortable.tsx',
+    source: 'custom',
+    subComponents: [
+      {
+        name: 'Sortable',
+        description:
+          'Root provider with value, onValueChange, orientation, and flatCursor.',
+      },
+      {
+        name: 'SortableContent',
+        description: 'Wraps the sortable list items with SortableContext.',
+      },
+      {
+        name: 'SortableItem',
+        description: 'Individual draggable item with transform and transition.',
+      },
+      {
+        name: 'SortableItemHandle',
+        description: 'Drag handle trigger for a sortable item.',
+      },
+      {
+        name: 'SortableOverlay',
+        description: 'Drag overlay rendered in a portal during drag.',
+      },
+    ],
+  },
+  'components/key-value-input': {
+    registryName: 'key-value-input',
+    description:
+      'A dynamic key-value pair input with drag-to-reorder, add, and remove rows.',
+    sourceFile: 'registry/default/ui/key-value-input.tsx',
+    source: 'custom',
+  },
   'components/stepper': {
     registryName: 'stepper',
     description: 'A multi-step wizard component with validation.',
     sourceFile: 'registry/default/ui/stepper.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'Stepper', description: 'Root provider with value, orientation, and validation.' },
-      { name: 'StepperList', description: 'Tab list container for step triggers.' },
-      { name: 'StepperItem', description: 'Individual step with value, completed, and disabled state.' },
+      {
+        name: 'Stepper',
+        description: 'Root provider with value, orientation, and validation.',
+      },
+      {
+        name: 'StepperList',
+        description: 'Tab list container for step triggers.',
+      },
+      {
+        name: 'StepperItem',
+        description:
+          'Individual step with value, completed, and disabled state.',
+      },
       { name: 'StepperTrigger', description: 'Clickable trigger for a step.' },
-      { name: 'StepperIndicator', description: 'Step number or check icon, styled by state.' },
+      {
+        name: 'StepperIndicator',
+        description: 'Step number or check icon, styled by state.',
+      },
       { name: 'StepperTitle', description: 'Label text for a step.' },
-      { name: 'StepperDescription', description: 'Secondary text below the step title.' },
-      { name: 'StepperSeparator', description: 'Line between steps, colored by completion state.' },
-      { name: 'StepperContent', description: 'Panel content shown for the active step.' },
-      { name: 'StepperPrevTrigger', description: 'Button to navigate to the previous step.' },
-      { name: 'StepperNextTrigger', description: 'Button to navigate to the next step (runs validation).' },
+      {
+        name: 'StepperDescription',
+        description: 'Secondary text below the step title.',
+      },
+      {
+        name: 'StepperSeparator',
+        description: 'Line between steps, colored by completion state.',
+      },
+      {
+        name: 'StepperContent',
+        description: 'Panel content shown for the active step.',
+      },
+      {
+        name: 'StepperPrevTrigger',
+        description: 'Button to navigate to the previous step.',
+      },
+      {
+        name: 'StepperNextTrigger',
+        description: 'Button to navigate to the next step (runs validation).',
+      },
     ],
   },
   'examples/forms': {
@@ -530,52 +748,120 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/data-table.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'DataTable', description: 'Main table component with toolbar and pagination.' },
-      { name: 'DataTableColumnHeader', description: 'Sortable column header with dropdown sort controls.' },
-      { name: 'DataTablePagination', description: 'Pagination controls with page size selector.' },
-      { name: 'DataTableToolbar', description: 'Toolbar with search, faceted filters, and view options.' },
-      { name: 'DataTableViewOptions', description: 'Column visibility toggle dropdown.' },
-      { name: 'DataTableFacetedFilter', description: 'Faceted filter popover for column filtering.' },
-      { name: 'DataTableRowActions', description: 'Row-level action dropdown menu.' },
-      { name: 'DataTableSkeleton', description: 'Loading skeleton placeholder for the data table.' },
+      {
+        name: 'DataTable',
+        description: 'Main table component with toolbar and pagination.',
+      },
+      {
+        name: 'DataTableColumnHeader',
+        description: 'Sortable column header with dropdown sort controls.',
+      },
+      {
+        name: 'DataTablePagination',
+        description: 'Pagination controls with page size selector.',
+      },
+      {
+        name: 'DataTableToolbar',
+        description: 'Toolbar with search, faceted filters, and view options.',
+      },
+      {
+        name: 'DataTableViewOptions',
+        description: 'Column visibility toggle dropdown.',
+      },
+      {
+        name: 'DataTableFacetedFilter',
+        description: 'Faceted filter popover for column filtering.',
+      },
+      {
+        name: 'DataTableRowActions',
+        description: 'Row-level action dropdown menu.',
+      },
+      {
+        name: 'DataTableSkeleton',
+        description: 'Loading skeleton placeholder for the data table.',
+      },
     ],
   },
   'fragments/page-container': {
     registryName: 'page-container',
-    description: 'Responsive container with size variants for consistent page widths.',
+    description:
+      'Responsive container with size variants for consistent page widths.',
     sourceFile: 'registry/default/ui/page-container.tsx',
     source: 'custom',
   },
   'fragments/page-header': {
     registryName: 'page-header',
-    description: 'Compound page header with icon, title, description, breadcrumbs, and actions.',
+    description:
+      'Compound page header with icon, title, description, breadcrumbs, and actions.',
     sourceFile: 'registry/default/ui/page-header.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'PageHeader', description: 'Root container. Accepts size, background, and border variants.' },
-      { name: 'PageHeaderMeta', description: 'Wraps icon, summary, and aside in a responsive row.' },
+      {
+        name: 'PageHeader',
+        description:
+          'Root container. Accepts size, background, and border variants.',
+      },
+      {
+        name: 'PageHeaderMeta',
+        description: 'Wraps icon, summary, and aside in a responsive row.',
+      },
       { name: 'PageHeaderIcon', description: 'Slot for a custom icon or SVG.' },
-      { name: 'PageHeaderSummary', description: 'Groups eyebrow, title, and description.' },
-      { name: 'PageHeaderEyebrow', description: 'Small label above the title. Defaults to gold variant.' },
+      {
+        name: 'PageHeaderSummary',
+        description: 'Groups eyebrow, title, and description.',
+      },
+      {
+        name: 'PageHeaderEyebrow',
+        description: 'Small label above the title. Defaults to gold variant.',
+      },
       { name: 'PageHeaderTitle', description: 'Primary heading (h1).' },
-      { name: 'PageHeaderDescription', description: 'Supporting text below the title.' },
-      { name: 'PageHeaderAside', description: 'Container for action buttons, aligned to the right.' },
-      { name: 'PageHeaderBreadcrumb', description: 'Breadcrumb navigation wrapper.' },
+      {
+        name: 'PageHeaderDescription',
+        description: 'Supporting text below the title.',
+      },
+      {
+        name: 'PageHeaderAside',
+        description: 'Container for action buttons, aligned to the right.',
+      },
+      {
+        name: 'PageHeaderBreadcrumb',
+        description: 'Breadcrumb navigation wrapper.',
+      },
     ],
   },
   'fragments/page-section': {
     registryName: 'page-section',
-    description: 'A compound component for organizing page content into distinct sections.',
+    description:
+      'A compound component for organizing page content into distinct sections.',
     sourceFile: 'registry/default/ui/page-section.tsx',
     source: 'custom',
     subComponents: [
-      { name: 'PageSection', description: 'Root container with orientation variants (vertical or horizontal).' },
-      { name: 'PageSectionMeta', description: 'Wraps summary and aside in a responsive row.' },
-      { name: 'PageSectionSummary', description: 'Groups title and description.' },
+      {
+        name: 'PageSection',
+        description:
+          'Root container with orientation variants (vertical or horizontal).',
+      },
+      {
+        name: 'PageSectionMeta',
+        description: 'Wraps summary and aside in a responsive row.',
+      },
+      {
+        name: 'PageSectionSummary',
+        description: 'Groups title and description.',
+      },
       { name: 'PageSectionTitle', description: 'Section heading (h2).' },
-      { name: 'PageSectionDescription', description: 'Supporting text below the title.' },
-      { name: 'PageSectionAside', description: 'Container for section-level action buttons.' },
-      { name: 'PageSectionContent', description: 'Container for the main section content.' },
+      {
+        name: 'PageSectionDescription',
+        description: 'Supporting text below the title.',
+      },
+      {
+        name: 'PageSectionAside',
+        description: 'Container for section-level action buttons.',
+      },
+      {
+        name: 'PageSectionContent',
+        description: 'Container for the main section content.',
+      },
     ],
   },
 };
@@ -596,7 +882,11 @@ export const docsConfig: TDocsConfig = {
       title: 'Atoms',
       sortOrder: 'alphabetical',
       items: [
-        { title: 'Introduction', href: '/docs/components/introduction', priority: true },
+        {
+          title: 'Introduction',
+          href: '/docs/components/introduction',
+          priority: true,
+        },
         { title: 'Accordion', href: '/docs/components/accordion' },
         { title: 'Alert', href: '/docs/components/alert' },
         { title: 'Alert Dialog', href: '/docs/components/alert-dialog' },
@@ -617,7 +907,10 @@ export const docsConfig: TDocsConfig = {
         { title: 'Combobox', href: '/docs/components/combobox' },
         { title: 'Command', href: '/docs/components/command' },
         { title: 'Context Menu', href: '/docs/components/context-menu' },
-        { title: 'Description List', href: '/docs/components/description-list' },
+        {
+          title: 'Description List',
+          href: '/docs/components/description-list',
+        },
         { title: 'Dialog', href: '/docs/components/dialog' },
         { title: 'Drawer', href: '/docs/components/drawer' },
         { title: 'Dropdown Menu', href: '/docs/components/dropdown-menu' },
@@ -631,6 +924,10 @@ export const docsConfig: TDocsConfig = {
         { title: 'Input OTP', href: '/docs/components/input-otp' },
         { title: 'Input Password', href: '/docs/components/input-password' },
         { title: 'Item', href: '/docs/components/item' },
+        {
+          title: 'Key Value Input',
+          href: '/docs/components/key-value-input',
+        },
         { title: 'Kbd', href: '/docs/components/kbd' },
         { title: 'Label', href: '/docs/components/label' },
         { title: 'Loader', href: '/docs/components/loader' },
@@ -643,8 +940,14 @@ export const docsConfig: TDocsConfig = {
         { title: 'Popover', href: '/docs/components/popover' },
         { title: 'Progress', href: '/docs/components/progress' },
         { title: 'Radio Group', href: '/docs/components/radio-group' },
-        { title: 'Radio Group Card', href: '/docs/components/radio-group-card' },
-        { title: 'Radio Group Stacked', href: '/docs/components/radio-group-stacked' },
+        {
+          title: 'Radio Group Card',
+          href: '/docs/components/radio-group-card',
+        },
+        {
+          title: 'Radio Group Stacked',
+          href: '/docs/components/radio-group-stacked',
+        },
         { title: 'Resizable', href: '/docs/components/resizable' },
         { title: 'Scroll Area', href: '/docs/components/scroll-area' },
         { title: 'Select', href: '/docs/components/select' },
@@ -653,6 +956,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Sidebar', href: '/docs/components/sidebar' },
         { title: 'Skeleton', href: '/docs/components/skeleton' },
         { title: 'Slider', href: '/docs/components/slider' },
+        { title: 'Sortable', href: '/docs/components/sortable' },
         { title: 'Spinner', href: '/docs/components/spinner' },
         { title: 'Sonner', href: '/docs/components/sonner' },
         { title: 'Stepper', href: '/docs/components/stepper' },
@@ -670,7 +974,11 @@ export const docsConfig: TDocsConfig = {
       title: 'Fragments',
       sortOrder: 'alphabetical',
       items: [
-        { title: 'Introduction', href: '/docs/fragments/introduction', priority: true },
+        {
+          title: 'Introduction',
+          href: '/docs/fragments/introduction',
+          priority: true,
+        },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
         { title: 'Page Header', href: '/docs/fragments/page-header' },
@@ -680,15 +988,11 @@ export const docsConfig: TDocsConfig = {
     {
       title: 'Examples',
       sortOrder: 'alphabetical',
-      items: [
-        { title: 'Forms', href: '/docs/examples/forms' },
-      ],
+      items: [{ title: 'Forms', href: '/docs/examples/forms' }],
     },
     {
       title: 'Brand',
-      items: [
-        { title: 'Formance Logo', href: '/docs/brand/formance-logo' },
-      ],
+      items: [{ title: 'Formance Logo', href: '/docs/brand/formance-logo' }],
     },
   ],
 };
@@ -715,7 +1019,11 @@ export function flattenNav(): TFlatNavItem[] {
         : section.items;
 
     for (const item of sectionItems) {
-      items.push({ title: item.title, href: item.href, section: section.title });
+      items.push({
+        title: item.title,
+        href: item.href,
+        section: section.title,
+      });
     }
   }
 

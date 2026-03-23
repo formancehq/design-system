@@ -1,4 +1,4 @@
-import { PageContainer } from '@/registry/default/ui/page-container'
+import { PageContainer } from '@/registry/default/ui/page-container';
 
 export default function PageContainerDemo() {
   return (
@@ -6,8 +6,13 @@ export default function PageContainerDemo() {
       <PageContainer size="small" className="rounded-lg border bg-muted/40 p-6">
         <p className="text-sm text-muted-foreground">Small (max-w-[768px])</p>
       </PageContainer>
-      <PageContainer size="default" className="rounded-lg border bg-muted/40 p-6">
-        <p className="text-sm text-muted-foreground">Default (max-w-[1200px])</p>
+      <PageContainer
+        size="default"
+        className="rounded-lg border bg-muted/40 p-6"
+      >
+        <p className="text-sm text-muted-foreground">
+          Default (max-w-[1200px])
+        </p>
       </PageContainer>
       <PageContainer size="large" className="rounded-lg border bg-muted/40 p-6">
         <p className="text-sm text-muted-foreground">Large (max-w-[1600px])</p>
@@ -16,5 +21,5 @@ export default function PageContainerDemo() {
         <p className="text-sm text-muted-foreground">Full (no max-width)</p>
       </PageContainer>
     </div>
-  )
+  );
 }

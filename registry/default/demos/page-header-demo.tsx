@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { BookOpen, Settings } from 'lucide-react'
+import { BookOpen, Settings } from 'lucide-react';
 
-import { Button } from '@/registry/default/ui/button'
+import { Button } from '@/registry/default/ui/button';
 import {
   PageHeader,
   PageHeaderAside,
@@ -12,7 +12,7 @@ import {
   PageHeaderMeta,
   PageHeaderSummary,
   PageHeaderTitle,
-} from '@/registry/default/ui/page-header'
+} from '@/registry/default/ui/page-header';
 
 export default function PageHeaderDemo() {
   return (
@@ -38,5 +38,5 @@ export default function PageHeaderDemo() {
         </PageHeaderMeta>
       </PageHeader>
     </div>
-  )
+  );
 }

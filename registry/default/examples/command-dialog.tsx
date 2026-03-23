@@ -33,6 +33,7 @@ export default function CommandDialogExample() {
     };
 
     document.addEventListener('keydown', down);
+
     return () => document.removeEventListener('keydown', down);
   }, []);
 

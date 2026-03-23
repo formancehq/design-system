@@ -1,5 +1,5 @@
-import { Separator } from '@/registry/default/ui/separator';
 import { cn } from '@/lib/utils';
+import { Separator } from '@/registry/default/ui/separator';
 
 export function DescriptionList({
   className,
@@ -21,7 +21,7 @@ export function DescriptionTerm({
     <dt
       {...props}
       className={cn(
-        'col-start-1 text-sm border-t border-border pt-4 text-muted-foreground first:border-none sm:border-t sm:py-2 font-mono uppercase font-medium',
+        'col-start-1 text-sm border-t border-border pt-4 first:border-none sm:border-t sm:py-2 font-mono uppercase font-medium',
         className
       )}
     />

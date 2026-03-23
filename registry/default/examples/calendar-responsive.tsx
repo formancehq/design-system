@@ -8,6 +8,7 @@ import { Calendar } from '@/registry/default/ui/calendar';
 function addDays(date: Date, days: number) {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
+
   return result;
 }
 
@@ -23,6 +24,7 @@ export default function CalendarResponsive() {
     const onChange = () => setIsSmallScreen(mql.matches);
     onChange();
     mql.addEventListener('change', onChange);
+
     return () => mql.removeEventListener('change', onChange);
   }, []);
 

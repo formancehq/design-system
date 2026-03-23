@@ -30,6 +30,7 @@ The sidebar navigation should eventually reflect this taxonomy (Atoms → Fragme
 When adding or updating components and examples, use these projects as reference:
 
 ### Platform UI (production components)
+
 `/Users/brieuccaillot/Developer/Formance/platform-ui`
 
 - **UI components**: `packages/ui/src/components/` — production shadcn components with Formance customizations
@@ -40,6 +41,7 @@ When adding or updating components and examples, use these projects as reference
 When creating DS examples, check platform-ui for real-world usage patterns to ensure coverage.
 
 ### Supabase Design System (architecture reference)
+
 `/Users/brieuccaillot/Developer/Tools/supabase/apps/design-system`
 
 Local clone of the Supabase design system. **Always read files directly from this path** — do not use DeepWiki, WebFetch, or browser tools to look up Supabase DS code.
@@ -62,6 +64,7 @@ Local clone of the Supabase design system. **Always read files directly from thi
 ## Import Conventions
 
 When copying components from platform-ui, adapt imports:
+
 - `@platform/ui/lib/utils` → `@/lib/utils`
 - `@platform/ui/components/X` → `@/registry/default/ui/X`
 
