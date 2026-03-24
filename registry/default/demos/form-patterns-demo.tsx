@@ -200,23 +200,15 @@ export default function FormPatternsDemo() {
             </FieldLabel>
             <FieldContent>
               <InputGroup>
-                <InputGroupInput
-                  readOnly
-                  value={fakeApiKey}
-                  className="font-mono text-xs"
-                />
+                <InputGroupInput readOnly value={fakeApiKey} />
                 <InputGroupAddon align="inline-end">
                   <Button
                     type="button"
                     variant="outline"
-                    size="icon-sm"
+                    size="icon-xs"
                     onClick={handleCopy}
                   >
-                    {copied ? (
-                      <Check className="size-3.5" />
-                    ) : (
-                      <Copy className="size-3.5" />
-                    )}
+                    {copied ? <Check /> : <Copy />}
                   </Button>
                 </InputGroupAddon>
               </InputGroup>

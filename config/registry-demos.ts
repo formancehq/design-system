@@ -523,6 +523,19 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       () => import('@/registry/default/demos/radio-group-stacked-demo')
     ),
     sourceFile: 'registry/default/demos/radio-group-stacked-demo.tsx',
+    examples: [
+      {
+        title: 'With Action',
+        component: lazy(
+          () =>
+            import(
+              '@/registry/default/examples/radio-group-stacked-with-action'
+            )
+        ),
+        sourceFile:
+          'registry/default/examples/radio-group-stacked-with-action.tsx',
+      },
+    ],
   },
   resizable: {
     component: lazy(() => import('@/registry/default/demos/resizable-demo')),

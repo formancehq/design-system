@@ -1,11 +1,11 @@
 'use client';
 
-import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import { CircleIcon } from 'lucide-react';
+import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import * as React from 'react';
 
-import { Label } from '@/registry/default/ui/label';
 import { cn } from '@/lib/utils';
+import { Label } from '@/registry/default/ui/label';
 
 function RadioGroupStacked({
   className,
@@ -24,12 +24,14 @@ type TRadioGroupStackedItemProps = {
   label: string;
   description?: string;
   showIndicator?: boolean;
+  action?: React.ReactNode;
 } & React.ComponentProps<typeof RadioGroupPrimitive.Item>;
 
 function RadioGroupStackedItem({
   label,
   description,
   showIndicator = true,
+  action,
   className,
   children,
   ...props
@@ -43,7 +45,7 @@ function RadioGroupStackedItem({
         'first-of-type:rounded-t-lg last-of-type:rounded-b-lg',
         'disabled:cursor-not-allowed disabled:opacity-50',
         'enabled:cursor-pointer enabled:hover:bg-muted enabled:hover:border-muted-foreground',
-        'hover:z-[1] focus-visible:z-[1] data-[state=checked]:z-[1]',
+        'hover:z-1 focus-visible:z-1 data-[state=checked]:z-1',
         'data-[state=checked]:ring-1 data-[state=checked]:ring-border',
         'data-[state=checked]:bg-muted data-[state=checked]:border-foreground/30',
         'transition group',
@@ -73,17 +75,20 @@ function RadioGroupStackedItem({
             </RadioGroupPrimitive.Indicator>
           </div>
         )}
-        <div className="flex flex-col items-start gap-0.5">
-          <Label
-            htmlFor={props.value}
-            className={cn(
-              'block -mt-[0.15rem] text-left text-sm text-muted-foreground',
-              'transition-colors',
-              'enabled:group-hover:text-foreground group-data-[state=checked]:text-foreground'
-            )}
-          >
-            {label}
-          </Label>
+        <div className="flex min-w-0 flex-1 flex-col items-start gap-0.5">
+          <div className="flex items-baseline gap-2">
+            <Label
+              htmlFor={props.value}
+              className={cn(
+                'block text-left text-sm text-muted-foreground',
+                'transition-colors',
+                'enabled:group-hover:text-foreground group-data-[state=checked]:text-foreground'
+              )}
+            >
+              {label}
+            </Label>
+            {action}
+          </div>
           {description && (
             <p className="text-left text-sm text-balance text-muted-foreground/70">
               {description}
