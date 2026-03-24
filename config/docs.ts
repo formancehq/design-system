@@ -101,6 +101,20 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/card.tsx',
     source: 'shadcn',
   },
+  'components/code-snippet': {
+    registryName: 'code-snippet',
+    description:
+      'A read-only syntax-highlighted code viewer powered by Shiki with CSS variable theming.',
+    sourceFile: 'registry/default/ui/code-snippet.tsx',
+    source: 'custom',
+  },
+  'components/code-editor': {
+    registryName: 'code-editor',
+    description:
+      'An editable Monaco code editor with Shiki tokenization and CSS variable theming.',
+    sourceFile: 'registry/default/ui/code-editor.tsx',
+    source: 'custom',
+  },
   'components/chart': {
     registryName: 'chart',
     description: 'Chart components built on Recharts.',
@@ -735,6 +749,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
       },
     ],
   },
+  'examples/code': {
+    registryName: 'code-themes',
+    description:
+      'Shared Shiki singleton, preview+edit pattern, and CSS variable theming.',
+    sourceFile: 'registry/default/demos/code-preview-edit-demo.tsx',
+    source: 'custom',
+  },
   'examples/forms': {
     registryName: 'form-patterns',
     description: 'Common form patterns used in settings pages and side panels.',
@@ -903,6 +924,8 @@ export const docsConfig: TDocsConfig = {
         { title: 'Carousel', href: '/docs/components/carousel' },
         { title: 'Chart', href: '/docs/components/chart' },
         { title: 'Checkbox', href: '/docs/components/checkbox' },
+        { title: 'Code Editor', href: '/docs/components/code-editor' },
+        { title: 'Code Snippet', href: '/docs/components/code-snippet' },
         { title: 'Collapsible', href: '/docs/components/collapsible' },
         { title: 'Combobox', href: '/docs/components/combobox' },
         { title: 'Command', href: '/docs/components/command' },
@@ -988,7 +1011,10 @@ export const docsConfig: TDocsConfig = {
     {
       title: 'Examples',
       sortOrder: 'alphabetical',
-      items: [{ title: 'Forms', href: '/docs/examples/forms' }],
+      items: [
+        { title: 'Code', href: '/docs/examples/code' },
+        { title: 'Forms', href: '/docs/examples/forms' },
+      ],
     },
     {
       title: 'Brand',

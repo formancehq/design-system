@@ -818,6 +818,43 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "code-themes",
+      "type": "registry:ui",
+      "title": "Code Themes",
+      "description": "Shared Formance Shiki/Monaco themes, language config, and highlighter singleton using CSS variables.",
+      "dependencies": ["shiki"],
+      "files": [
+        { "path": "registry/default/ui/code-themes.ts", "type": "registry:ui" },
+        { "path": "registry/default/ui/numscript.tmLanguage.json", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "code-snippet",
+      "type": "registry:ui",
+      "title": "Code Snippet",
+      "description": "A read-only syntax-highlighted code viewer powered by Shiki with CSS variable theming.",
+      "dependencies": ["shiki", "class-variance-authority", "lucide-react"],
+      "registryDependencies": [
+        "https://design-system-three-mauve.vercel.app/r/code-themes.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code-snippet.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "code-editor",
+      "type": "registry:ui",
+      "title": "Code Editor",
+      "description": "An editable Monaco code editor with Shiki tokenization and CSS variable theming.",
+      "dependencies": ["shiki", "monaco-editor", "@shikijs/monaco", "lucide-react"],
+      "registryDependencies": [
+        "https://design-system-three-mauve.vercel.app/r/code-themes.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code-editor.tsx", "type": "registry:ui" }
+      ]
     }
   ]
 }

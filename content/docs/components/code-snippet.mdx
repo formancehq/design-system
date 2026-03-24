@@ -1,0 +1,80 @@
+<ComponentPreview name="code-snippet" />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://design-system-three-mauve.vercel.app/r/code-snippet.json
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install shiki class-variance-authority lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="code-snippet" />
+
+<Step>Add the `--shiki-*` CSS variables to your global CSS.</Step>
+
+The component uses CSS custom properties for syntax colors. Add these to your `:root` and `.dark` selectors:
+
+```css
+:root {
+  --shiki-foreground: var(--foreground);
+  --shiki-background: transparent;
+  --shiki-token-constant: oklch(0.5609 0.102 244.23);
+  --shiki-token-string: oklch(0.482 0.1235 150.17);
+  --shiki-token-comment: oklch(0.6433 0.028 201.8);
+  --shiki-token-keyword: oklch(0.4865 0.2423 291.87);
+  --shiki-token-parameter: var(--foreground);
+  --shiki-token-function: oklch(0.5522 0.1722 38.86);
+  --shiki-token-string-expression: oklch(0.482 0.1235 150.17);
+  --shiki-token-punctuation: oklch(0.6433 0.028 201.8);
+  --shiki-token-link: oklch(0.5609 0.102 244.23);
+}
+```
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { CodeSnippet } from '@/components/ui/code-snippet'
+```
+
+```tsx
+<CodeSnippet code={`const x = 42;`} language="typescript" />
+```
+
+## Examples
+
+### Numscript
+
+<ComponentPreview name="code-snippet-numscript" />
+
+### Dark Theme
+
+<ComponentPreview name="code-snippet-dark" />

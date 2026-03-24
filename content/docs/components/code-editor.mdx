@@ -1,0 +1,68 @@
+<ComponentPreview name="code-editor" />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://design-system-three-mauve.vercel.app/r/code-editor.json
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install shiki monaco-editor @shikijs/monaco lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="code-editor" />
+
+<Step>Add the `--shiki-*` CSS variables to your global CSS (same as Code Snippet).</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { CodeEditor } from '@/components/ui/code-editor'
+```
+
+```tsx
+const [value, setValue] = useState('{"key": "value"}');
+
+<CodeEditor
+  value={value}
+  language="json"
+  onChange={setValue}
+/>
+```
+
+## Examples
+
+### Numscript
+
+<ComponentPreview name="code-editor-numscript" />
+
+### Readonly
+
+<ComponentPreview name="code-editor-readonly" />

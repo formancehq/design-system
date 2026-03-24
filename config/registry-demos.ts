@@ -1117,4 +1117,54 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'code-snippet': {
+    component: lazy(
+      () => import('@/registry/default/demos/code-snippet-demo')
+    ),
+    sourceFile: 'registry/default/demos/code-snippet-demo.tsx',
+    examples: [
+      {
+        title: 'Numscript',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-numscript')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-numscript.tsx',
+      },
+      {
+        title: 'Dark Theme',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-dark')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-dark.tsx',
+      },
+    ],
+  },
+  'code-preview-edit': {
+    component: lazy(
+      () => import('@/registry/default/demos/code-preview-edit-demo')
+    ),
+    sourceFile: 'registry/default/demos/code-preview-edit-demo.tsx',
+  },
+  'code-editor': {
+    component: lazy(
+      () => import('@/registry/default/demos/code-editor-demo')
+    ),
+    sourceFile: 'registry/default/demos/code-editor-demo.tsx',
+    examples: [
+      {
+        title: 'Numscript',
+        component: lazy(
+          () => import('@/registry/default/examples/code-editor-numscript')
+        ),
+        sourceFile: 'registry/default/examples/code-editor-numscript.tsx',
+      },
+      {
+        title: 'Readonly',
+        component: lazy(
+          () => import('@/registry/default/examples/code-editor-readonly')
+        ),
+        sourceFile: 'registry/default/examples/code-editor-readonly.tsx',
+      },
+    ],
+  },
 };

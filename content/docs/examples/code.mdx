@@ -1,0 +1,82 @@
+The code components use a shared Shiki highlighter singleton to avoid creating multiple instances. Here's how to set up a single instance for your entire application.
+
+## Shared Highlighter
+
+The `code-themes` package exports a `getHighlighter()` function that creates a singleton instance. Both `CodeSnippet` and `CodeEditor` use it internally, but you can also use it directly for custom highlighting.
+
+```tsx
+import { getHighlighter, cssVarsTheme } from '@/components/ui/code-themes'
+
+// First call creates the instance, subsequent calls reuse it
+const highlighter = await getHighlighter()
+
+const html = highlighter.codeToHtml('const x = 42;', {
+  lang: 'typescript',
+  theme: cssVarsTheme.name!,
+})
+```
+
+## Server-Side Highlighting
+
+For RSC or build-time highlighting, create a server-only wrapper around the same singleton:
+
+```tsx
+import 'server-only'
+
+import { getHighlighter, cssVarsTheme } from '@/components/ui/code-themes'
+
+export async function highlightCode(code: string, lang = 'tsx') {
+  const hl = await getHighlighter()
+
+  return hl.codeToHtml(code, {
+    lang,
+    theme: cssVarsTheme.name!,
+  })
+}
+```
+
+## Numscript Examples
+
+Multiple snippets sharing the same singleton — no extra instances created.
+
+<ComponentPreview name="code-preview-edit" />
+
+## CSS Variables
+
+Syntax colors are defined as CSS custom properties so they automatically follow your theme. Override any token in your global CSS:
+
+```css
+:root {
+  --shiki-foreground: var(--foreground);
+  --shiki-background: var(--white);
+  --shiki-color-text: var(--foreground);
+  --shiki-color-background: var(--white);
+  --shiki-token-constant: var(--emerald-600);
+  --shiki-token-string: var(--lilac-700);
+  --shiki-token-comment: var(--emerald-400);
+  --shiki-token-keyword: var(--mint-800);
+  --shiki-token-parameter: var(--emerald-600);
+  --shiki-token-function: var(--mint-800);
+  --shiki-token-string-expression: var(--lilac-700);
+  --shiki-token-punctuation: var(--foreground);
+  --shiki-token-link: var(--emerald-600);
+  --shiki-token-monetary: var(--gold-600);
+}
+
+.dark {
+  --shiki-foreground: var(--emerald-200);
+  --shiki-background: var(--emerald-800);
+  --shiki-color-text: var(--emerald-200);
+  --shiki-color-background: var(--emerald-800);
+  --shiki-token-constant: var(--mint-700);
+  --shiki-token-string: var(--lilac-500);
+  --shiki-token-comment: var(--emerald-400);
+  --shiki-token-keyword: var(--mint-600);
+  --shiki-token-parameter: var(--mint-700);
+  --shiki-token-function: var(--mint-600);
+  --shiki-token-string-expression: var(--lilac-500);
+  --shiki-token-punctuation: var(--emerald-300);
+  --shiki-token-link: var(--mint-700);
+  --shiki-token-monetary: var(--gold-300);
+}
+```

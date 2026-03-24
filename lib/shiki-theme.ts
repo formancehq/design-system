@@ -1,12 +1,8 @@
-import { createCssVariablesTheme } from 'shiki/core';
 import { createHighlighter } from 'shiki';
 
-export const cssVarsTheme = createCssVariablesTheme({
-  name: 'css-variables',
-  variablePrefix: '--shiki-',
-  variableDefaults: {},
-  fontStyle: true,
-});
+import { cssVarsTheme } from '@/registry/default/ui/code-themes';
+
+export { cssVarsTheme };
 
 let highlighterPromise: ReturnType<typeof createHighlighter> | null = null;
 

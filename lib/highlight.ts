@@ -1,21 +1,6 @@
 import 'server-only';
 
-import { createHighlighter, type Highlighter } from 'shiki/bundle/full';
-
-import { cssVarsTheme } from '@/lib/shiki-theme';
-
-let highlighter: Highlighter | null = null;
-
-async function getHighlighter() {
-  if (!highlighter) {
-    highlighter = await createHighlighter({
-      themes: [cssVarsTheme],
-      langs: ['tsx', 'bash', 'json', 'css'],
-    });
-  }
-
-  return highlighter;
-}
+import { getHighlighter } from '@/lib/shiki-theme';
 
 export async function highlightCode(
   code: string,
