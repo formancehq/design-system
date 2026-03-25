@@ -44,7 +44,7 @@ npm install shiki monaco-editor @shikijs/monaco lucide-react
 ## Usage
 
 ```tsx
-import { CodeEditor } from '@/components/ui/code-editor'
+import { CodeEditor } from '@/components/code/code-editor'
 ```
 
 ```tsx
@@ -56,6 +56,63 @@ const [value, setValue] = useState('{"key": "value"}');
   onChange={setValue}
 />
 ```
+
+## Numscript Language
+
+The code editor ships with a custom [TextMate grammar](https://macromates.com/manual/en/language_grammars) for Numscript — Formance's DSL for describing financial transactions. Set `language="numscript"` to enable syntax highlighting for keywords (`send`, `source`, `destination`), monetary literals (`[USD/2 100]`), account addresses (`@world`), variables (`$amount`), and more.
+
+The grammar file is bundled with the `code-themes` dependency and registered automatically when the editor initializes.
+
+## Numscript Validator
+
+The `numscript-validator` companion package validates Numscript code against the [Numscript playground API](https://github.com/formancehq/numscript) and surfaces errors as inline diagnostics in the editor.
+
+```bash
+npx shadcn@latest add https://design-system-three-mauve.vercel.app/r/numscript-validator.json
+```
+
+```tsx
+import { CodeEditor, type TDiagnosticsConfig } from '@/components/code/code-editor'
+import { createNumscriptValidator } from '@/components/code/numscript-validator'
+
+const diagnostics: TDiagnosticsConfig = {
+  validate: createNumscriptValidator({
+    balances: { "orders:1234": { "USD/2": 50000 } },
+    variables: {},
+    metadata: {},
+  }),
+};
+
+<CodeEditor
+  value={script}
+  language="numscript"
+  onChange={setScript}
+  diagnostics={diagnostics}
+/>
+```
+
+The `createNumscriptValidator` accepts an optional context with `balances`, `variables`, and `metadata` to validate against — the same inputs the Numscript playground uses.
+
+### Validator Demo
+
+The example below starts with a syntax error (`sendd` instead of `send`). The error marker appears inline after a 500ms debounce. Fix the typo to see it clear.
+
+<ComponentPreview name="code-editor-validator" />
+
+## Navigator
+
+The `withNavigator` prop adds a breadcrumb toolbar above the editor that parses JSON or YAML content into a navigation tree. Users can drill into nested sections and jump to the corresponding line in the editor.
+
+```tsx
+<CodeEditor
+  value={yamlContent}
+  language="yaml"
+  isReadonly
+  withNavigator
+/>
+```
+
+<ComponentPreview name="code-editor-navigator" />
 
 ## Examples
 

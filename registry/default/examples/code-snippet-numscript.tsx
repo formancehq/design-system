@@ -1,6 +1,6 @@
 'use client';
 
-import { CodeSnippet } from '@/registry/default/ui/code-snippet';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 
 const numscriptCode = `send [USD/2 10000] (
   source = @orders:1234

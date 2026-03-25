@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { CodeEditor } from '@/registry/default/ui/code-editor';
+import { CodeEditor } from '@/registry/default/ui/code/code-editor';
 
 const initialNumscript = `send [USD/2 10000] (
   source = @orders:1234

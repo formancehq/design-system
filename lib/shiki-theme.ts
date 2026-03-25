@@ -1,6 +1,6 @@
 import { createHighlighter } from 'shiki';
 
-import { cssVarsTheme } from '@/registry/default/ui/code-themes';
+import { cssVarsTheme } from '@/registry/default/ui/code/code-themes';
 
 export { cssVarsTheme };
 

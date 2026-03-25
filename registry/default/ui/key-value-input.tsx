@@ -133,7 +133,7 @@ function KeyValueInput({
           }}
         </SortableOverlay>
       </Sortable>
-      <div className="flex items-center justify-end gap-2 pr-10">
+      <div className="flex items-center justify-start gap-2 pr-10">
         {showJson && <KeyValueJsonPreview pairs={pairs} />}
         <Button
           type="button"

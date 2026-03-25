@@ -10,6 +10,6 @@ export async function highlightCode(
 
   return hl.codeToHtml(code, {
     lang,
-    theme: 'css-variables',
+    theme: 'formance-css-vars',
   });
 }

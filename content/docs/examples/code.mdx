@@ -5,7 +5,7 @@ The code components use a shared Shiki highlighter singleton to avoid creating m
 The `code-themes` package exports a `getHighlighter()` function that creates a singleton instance. Both `CodeSnippet` and `CodeEditor` use it internally, but you can also use it directly for custom highlighting.
 
 ```tsx
-import { getHighlighter, cssVarsTheme } from '@/components/ui/code-themes'
+import { getHighlighter, cssVarsTheme } from '@/components/code/code-themes'
 
 // First call creates the instance, subsequent calls reuse it
 const highlighter = await getHighlighter()
@@ -23,7 +23,7 @@ For RSC or build-time highlighting, create a server-only wrapper around the same
 ```tsx
 import 'server-only'
 
-import { getHighlighter, cssVarsTheme } from '@/components/ui/code-themes'
+import { getHighlighter, cssVarsTheme } from '@/components/code/code-themes'
 
 export async function highlightCode(code: string, lang = 'tsx') {
   const hl = await getHighlighter()
@@ -53,7 +53,7 @@ Syntax colors are defined as CSS custom properties so they automatically follow 
   --shiki-color-background: var(--white);
   --shiki-token-constant: var(--emerald-600);
   --shiki-token-string: var(--lilac-700);
-  --shiki-token-comment: var(--emerald-400);
+  --shiki-token-comment: var(--emerald-500);
   --shiki-token-keyword: var(--mint-800);
   --shiki-token-parameter: var(--emerald-600);
   --shiki-token-function: var(--mint-800);

@@ -1,6 +1,6 @@
 'use client';
 
-import { CodeSnippet } from '@/registry/default/ui/code-snippet';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 
 const sampleCode = `import { CodeSnippet } from '@/components/ui/code-snippet';
 

@@ -39,15 +39,31 @@ The component uses CSS custom properties for syntax colors. Add these to your `:
 :root {
   --shiki-foreground: var(--foreground);
   --shiki-background: transparent;
-  --shiki-token-constant: oklch(0.5609 0.102 244.23);
-  --shiki-token-string: oklch(0.482 0.1235 150.17);
-  --shiki-token-comment: oklch(0.6433 0.028 201.8);
-  --shiki-token-keyword: oklch(0.4865 0.2423 291.87);
-  --shiki-token-parameter: var(--foreground);
-  --shiki-token-function: oklch(0.5522 0.1722 38.86);
-  --shiki-token-string-expression: oklch(0.482 0.1235 150.17);
-  --shiki-token-punctuation: oklch(0.6433 0.028 201.8);
-  --shiki-token-link: oklch(0.5609 0.102 244.23);
+  --shiki-token-constant: var(--emerald-600);
+  --shiki-token-string: var(--lilac-700);
+  --shiki-token-comment: var(--emerald-500);
+  --shiki-token-keyword: var(--mint-800);
+  --shiki-token-parameter: var(--emerald-600);
+  --shiki-token-function: var(--mint-800);
+  --shiki-token-string-expression: var(--lilac-700);
+  --shiki-token-punctuation: var(--foreground);
+  --shiki-token-link: var(--emerald-600);
+  --shiki-token-monetary: var(--gold-600);
+}
+
+.dark {
+  --shiki-foreground: var(--emerald-200);
+  --shiki-background: var(--emerald-800);
+  --shiki-token-constant: var(--mint-700);
+  --shiki-token-string: var(--lilac-500);
+  --shiki-token-comment: var(--emerald-400);
+  --shiki-token-keyword: var(--mint-600);
+  --shiki-token-parameter: var(--mint-700);
+  --shiki-token-function: var(--mint-600);
+  --shiki-token-string-expression: var(--lilac-500);
+  --shiki-token-punctuation: var(--emerald-300);
+  --shiki-token-link: var(--mint-700);
+  --shiki-token-monetary: var(--gold-300);
 }
 ```
 
@@ -62,7 +78,7 @@ The component uses CSS custom properties for syntax colors. Add these to your `:
 ## Usage
 
 ```tsx
-import { CodeSnippet } from '@/components/ui/code-snippet'
+import { CodeSnippet } from '@/components/code/code-snippet'
 ```
 
 ```tsx
@@ -78,3 +94,11 @@ import { CodeSnippet } from '@/components/ui/code-snippet'
 ### Dark Theme
 
 <ComponentPreview name="code-snippet-dark" />
+
+### Light Theme
+
+<ComponentPreview name="code-snippet-light" />
+
+### fctl Commands
+
+<ComponentPreview name="code-snippet-fctl" />

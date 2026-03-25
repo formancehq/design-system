@@ -20,15 +20,15 @@ const ledger = await client.ledger.v2.createTransaction({
   },
 });`;
 
-export default function CodeSnippetDark() {
+export default function CodeSnippetLight() {
   return (
-    <div className="rounded-lg bg-emerald-900 p-4">
+    <div className="rounded-lg bg-emerald-50 p-4">
       <CodeSnippet
         code={tsCode}
         language="typescript"
         showLineNumbers
         bordered={false}
-        isDark
+        isDark={false}
       />
     </div>
   );

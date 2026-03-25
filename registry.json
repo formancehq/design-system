@@ -826,8 +826,9 @@
       "description": "Shared Formance Shiki/Monaco themes, language config, and highlighter singleton using CSS variables.",
       "dependencies": ["shiki"],
       "files": [
-        { "path": "registry/default/ui/code-themes.ts", "type": "registry:ui" },
-        { "path": "registry/default/ui/numscript.tmLanguage.json", "type": "registry:ui" }
+        { "path": "registry/default/ui/code/code-themes.ts", "type": "registry:ui", "target": "components/code/code-themes.ts" },
+        { "path": "registry/default/ui/code/code-themes.css", "type": "registry:ui", "target": "components/code/code-themes.css" },
+        { "path": "registry/default/ui/code/numscript.tmLanguage.json", "type": "registry:ui", "target": "components/code/numscript.tmLanguage.json" }
       ]
     },
     {
@@ -837,10 +838,10 @@
       "description": "A read-only syntax-highlighted code viewer powered by Shiki with CSS variable theming.",
       "dependencies": ["shiki", "class-variance-authority", "lucide-react"],
       "registryDependencies": [
-        "https://design-system-three-mauve.vercel.app/r/code-themes.json"
+        "http://localhost:3333/r/code-themes.json"
       ],
       "files": [
-        { "path": "registry/default/ui/code-snippet.tsx", "type": "registry:ui" }
+        { "path": "registry/default/ui/code/code-snippet.tsx", "type": "registry:ui", "target": "components/code/code-snippet.tsx" }
       ]
     },
     {
@@ -848,12 +849,41 @@
       "type": "registry:ui",
       "title": "Code Editor",
       "description": "An editable Monaco code editor with Shiki tokenization and CSS variable theming.",
-      "dependencies": ["shiki", "monaco-editor", "@shikijs/monaco", "lucide-react"],
+      "dependencies": ["shiki", "monaco-editor-core", "@shikijs/monaco", "lucide-react"],
       "registryDependencies": [
-        "https://design-system-three-mauve.vercel.app/r/code-themes.json"
+        "http://localhost:3333/r/code-themes.json",
+        "http://localhost:3333/r/code-navigator.json"
       ],
       "files": [
-        { "path": "registry/default/ui/code-editor.tsx", "type": "registry:ui" }
+        { "path": "registry/default/ui/code/code-editor.tsx", "type": "registry:ui", "target": "components/code/code-editor.tsx" }
+      ]
+    },
+    {
+      "name": "code-navigator",
+      "type": "registry:ui",
+      "title": "Code Navigator",
+      "description": "A breadcrumb navigator toolbar for jumping to sections in JSON/YAML code editors.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "http://localhost:3333/r/code-themes.json",
+        "http://localhost:3333/r/badge.json",
+        "http://localhost:3333/r/select.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code/code-navigator.tsx", "type": "registry:ui", "target": "components/code/code-navigator.tsx" },
+        { "path": "registry/default/ui/code/parse-navigation-tree.ts", "type": "registry:ui", "target": "components/code/parse-navigation-tree.ts" }
+      ]
+    },
+    {
+      "name": "numscript-validator",
+      "type": "registry:ui",
+      "title": "Numscript Validator",
+      "description": "Validates Numscript code via the playground API and returns diagnostics for CodeEditor.",
+      "registryDependencies": [
+        "http://localhost:3333/r/code-editor.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code/numscript-validator.ts", "type": "registry:ui", "target": "components/code/numscript-validator.ts" }
       ]
     }
   ]

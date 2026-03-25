@@ -1,18 +1,19 @@
 'use client';
 
 import { Check, Copy } from 'lucide-react';
+import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { cn } from '@/lib/utils';
+import { CodeNavigator } from '@/registry/default/ui/code/code-navigator';
 import {
   buildMonacoThemeFromCSSVars,
   CODE_LANGUAGES,
-  cssVarsTheme,
   getHighlighter,
   MONACO_EDITOR_OPTIONS,
   setupMonacoEnvironment,
   type TCodeLanguage,
-} from '@/registry/default/ui/code-themes';
+} from '@/registry/default/ui/code/code-themes';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -54,10 +55,13 @@ type TCodeEditorProps = {
   /** Unfold all code regions by default. @default true */
   defaultUnfoldAll?: boolean;
   bordered?: boolean;
+  /** Override dark mode detection. When omitted, auto-detects from `document.documentElement.class`. */
+  isDark?: boolean;
   diagnostics?: TDiagnosticsConfig;
   onEditorReady?: (editor: TMonacoEditorInstance) => void;
-  className?: string;
-};
+  /** Show a breadcrumb navigator toolbar for JSON/YAML content. */
+  withNavigator?: boolean;
+} & Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'>;
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -66,7 +70,50 @@ type TCodeEditorProps = {
 const SEVERITY_MAP = { error: 8, warning: 4, info: 2, hint: 1 } as const;
 const VALIDATION_DEBOUNCE_MS = 500;
 const CTRL_ENTER_EVENT = 'formance:code-editor:ctrl-enter';
-const MONACO_THEME_NAME = 'formance-css-vars';
+const MONACO_THEME_BASE = 'formance-css-vars';
+
+// Guard: Monaco global setup (language registration + Shiki wiring) must run
+// exactly once. Without this, React StrictMode's double-mount causes
+// "Cannot register two commands with the same id" errors.
+type TMonacoSetupResult = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  monaco: any;
+  /** Original setTheme before shikiToMonaco's override */
+  setTheme: (name: string) => void;
+};
+
+let _monacoSetupPromise: Promise<TMonacoSetupResult> | null = null;
+
+function ensureMonacoSetup(): Promise<TMonacoSetupResult> {
+  if (_monacoSetupPromise) return _monacoSetupPromise;
+
+  _monacoSetupPromise = (async () => {
+    const monaco = await import('monaco-editor-core');
+    const { shikiToMonaco } = await import('@shikijs/monaco');
+
+    setupMonacoEnvironment();
+
+    const highlighter = await getHighlighter();
+
+    CODE_LANGUAGES.forEach((lang) => {
+      monaco.languages.register({ id: lang });
+    });
+
+    // Save the original setTheme before shikiToMonaco overrides it.
+    // We need it to apply the resolved CSS-variables theme later,
+    // which isn't registered with Shiki.
+    const originalSetTheme = monaco.editor.setTheme.bind(monaco.editor);
+
+    // shikiToMonaco intercepts setTheme/create and needs real hex colors
+    // in the Shiki color map — the CSS-variables theme would break Monaco.
+    highlighter.setTheme('formance-monaco-fallback');
+    shikiToMonaco(highlighter, monaco);
+
+    return { monaco, setTheme: originalSetTheme };
+  })();
+
+  return _monacoSetupPromise;
+}
 
 // ---------------------------------------------------------------------------
 // Height helper
@@ -100,9 +147,12 @@ function CodeEditor({
   fill = false,
   defaultUnfoldAll = true,
   bordered = true,
+  isDark,
   diagnostics,
   onEditorReady,
+  withNavigator = false,
   className,
+  ...htmlProps
 }: TCodeEditorProps) {
   const adaptiveHeight = !fill && adaptiveHeightProp;
 
@@ -111,6 +161,7 @@ function CodeEditor({
   const editorRef = useRef<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const monacoRef = useRef<any>(null);
+  const setThemeRef = useRef<((name: string) => void) | null>(null);
   const validationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
     null
   );
@@ -119,6 +170,8 @@ function CodeEditor({
   const [isClient, setIsClient] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [navigatorEditorRef, setNavigatorEditorRef] =
+    useState<TMonacoEditorInstance | null>(null);
 
   const currentValue = value ?? defaultValue ?? '';
   const isEmpty = currentValue === '{}' || currentValue === '';
@@ -201,39 +254,31 @@ function CodeEditor({
     let disposed = false;
 
     (async () => {
-      const monaco = await import('monaco-editor');
-      const { shikiToMonaco } = await import('@shikijs/monaco');
-
-      setupMonacoEnvironment();
-
-      const highlighter = await getHighlighter();
-
-      // Register languages
-      CODE_LANGUAGES.forEach((lang) => {
-        monaco.languages.register({ id: lang });
-      });
-
-      // Wire Shiki tokenization into Monaco
-      shikiToMonaco(highlighter, monaco);
+      const { monaco, setTheme } = await ensureMonacoSetup();
 
       if (disposed || !containerRef.current) return;
       monacoRef.current = monaco;
+      setThemeRef.current = setTheme;
 
-      // Build theme from CSS variables
-      const theme = buildMonacoThemeFromCSSVars(containerRef.current);
-      monaco.editor.defineTheme(
-        MONACO_THEME_NAME,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        theme as any
-      );
-
+      // Create the editor with the Shiki-compatible fallback theme.
+      // shikiToMonaco intercepts create() and calls its own setTheme()
+      // which needs real hex colors in the Shiki color map.
       const editor = monaco.editor.create(containerRef.current, {
         ...MONACO_EDITOR_OPTIONS,
         value: currentValue,
         language,
-        theme: MONACO_THEME_NAME,
+        theme: 'formance-monaco-fallback',
         readOnly: isReadonly,
       });
+
+      // Apply the resolved CSS-variables theme for proper brand colors.
+      const resolvedTheme = buildMonacoThemeFromCSSVars(containerRef.current);
+      monaco.editor.defineTheme(
+        MONACO_THEME_BASE,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        resolvedTheme as any
+      );
+      setTheme(MONACO_THEME_BASE);
 
       if (disposed) {
         editor.dispose();
@@ -268,6 +313,7 @@ function CodeEditor({
         setPosition: (pos) => editor.setPosition(pos),
         focus: () => editor.focus(),
       };
+      setNavigatorEditorRef(instance);
       onEditorReady?.(instance);
     })();
 
@@ -287,16 +333,34 @@ function CodeEditor({
     if (editor.getValue() !== currentValue) editor.setValue(currentValue);
   }, [currentValue, isInitialized]);
 
-  // Re-apply theme when dark/light changes
+  // Re-apply theme when dark/light changes.
+  // When `isDark` is provided, react to prop changes.
+  // When `isDark` is undefined, auto-detect via MutationObserver.
   useEffect(() => {
     const monaco = monacoRef.current;
     if (!monaco || !isInitialized || !containerRef.current) return;
 
-    const theme = buildMonacoThemeFromCSSVars(containerRef.current);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    monaco.editor.defineTheme(MONACO_THEME_NAME, theme as any);
-    monaco.editor.setTheme(MONACO_THEME_NAME);
-  });
+    const applyTheme = () => {
+      if (!monaco || !containerRef.current) return;
+      const theme = buildMonacoThemeFromCSSVars(containerRef.current);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      monaco.editor.defineTheme(MONACO_THEME_BASE, theme as any);
+      setThemeRef.current?.(MONACO_THEME_BASE);
+    };
+
+    applyTheme();
+
+    // Only observe DOM for auto-detection when isDark is not explicitly controlled
+    if (isDark === undefined) {
+      const observer = new MutationObserver(applyTheme);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+
+      return () => observer.disconnect();
+    }
+  }, [isInitialized, isDark]);
 
   // Sync readonly
   useEffect(() => {
@@ -314,6 +378,7 @@ function CodeEditor({
 
   return (
     <div
+      {...htmlProps}
       className={cn(
         'group/code-editor relative flex flex-col',
         bordered && 'rounded-lg border border-border',
@@ -321,6 +386,13 @@ function CodeEditor({
         className
       )}
     >
+      {withNavigator && (
+        <CodeNavigator
+          value={currentValue}
+          language={language}
+          editorRef={navigatorEditorRef}
+        />
+      )}
       <div className={cn('relative', fill && 'min-h-0 flex-1')}>
         <div
           ref={containerRef}

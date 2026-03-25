@@ -9,14 +9,14 @@ import {
   cssVarsTheme,
   getHighlighter,
   type TCodeLanguage,
-} from '@/registry/default/ui/code-themes';
+} from '@/registry/default/ui/code/code-themes';
 
 // ---------------------------------------------------------------------------
 // Variants
 // ---------------------------------------------------------------------------
 
 const codeSnippetVariants = cva(
-  'not-prose overflow-hidden rounded-lg font-mono [&>pre]:overflow-x-auto [&>pre]:[scrollbar-width:thin] [&_code]:font-mono',
+  'not-prose overflow-hidden rounded-lg font-mono [&>pre]:overflow-x-scroll [&>pre]:[scrollbar-width:none] [&>pre::-webkit-scrollbar]:hidden [&_code]:font-mono',
   {
     variants: {
       size: {
@@ -28,10 +28,15 @@ const codeSnippetVariants = cva(
         true: 'border border-border',
         false: '',
       },
+      isSingleLine: {
+        true: '[&>pre]:whitespace-nowrap',
+        false: '',
+      },
     },
     defaultVariants: {
       size: 'sm',
-      bordered: true,
+      bordered: false,
+      isSingleLine: false,
     },
   }
 );
@@ -49,6 +54,8 @@ type TCodeSnippetProps = {
   showLineNumbers?: boolean;
   /** Show copy-to-clipboard button */
   canCopy?: boolean;
+  /** Force a specific theme instead of inheriting from the document */
+  isDark?: boolean;
   /** Additional class names on the outer wrapper */
   className?: string;
 } & VariantProps<typeof codeSnippetVariants>;
@@ -60,6 +67,8 @@ function CodeSnippet({
   canCopy = true,
   size,
   bordered,
+  isDark,
+  isSingleLine,
   className,
 }: TCodeSnippetProps) {
   const [html, setHtml] = useState<string | null>(null);
@@ -116,14 +125,19 @@ function CodeSnippet({
   };
 
   return (
-    <div className={cn('group/code-snippet relative', className)}>
+    <div
+      className={cn('group/code-snippet relative', className)}
+      {...(isDark !== undefined && {
+        'data-shiki-theme': isDark ? 'dark' : 'light',
+      })}
+    >
       {html ? (
         <div
-          className={codeSnippetVariants({ size, bordered })}
+          className={codeSnippetVariants({ size, bordered, isSingleLine })}
           dangerouslySetInnerHTML={{ __html: html }}
         />
       ) : (
-        <div className={codeSnippetVariants({ size, bordered })}>
+        <div className={codeSnippetVariants({ size, bordered, isSingleLine })}>
           <pre>
             <code className="font-mono">{code}</code>
           </pre>

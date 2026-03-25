@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { CodeEditor } from '@/registry/default/ui/code-editor';
+import { CodeEditor } from '@/registry/default/ui/code/code-editor';
 
 const initialCode = `{
   "ledger": "default",

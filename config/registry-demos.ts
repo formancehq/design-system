@@ -1137,6 +1137,20 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/code-snippet-dark.tsx',
       },
+      {
+        title: 'Light Theme',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-light')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-light.tsx',
+      },
+      {
+        title: 'fctl Commands',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-fctl')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-fctl.tsx',
+      },
     ],
   },
   'code-preview-edit': {
@@ -1164,6 +1178,20 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/code-editor-readonly')
         ),
         sourceFile: 'registry/default/examples/code-editor-readonly.tsx',
+      },
+      {
+        title: 'Numscript Validator',
+        component: lazy(
+          () => import('@/registry/default/examples/code-editor-validator')
+        ),
+        sourceFile: 'registry/default/examples/code-editor-validator.tsx',
+      },
+      {
+        title: 'Navigator',
+        component: lazy(
+          () => import('@/registry/default/examples/code-editor-navigator')
+        ),
+        sourceFile: 'registry/default/examples/code-editor-navigator.tsx',
       },
     ],
   },
