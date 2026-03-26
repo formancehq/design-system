@@ -1,0 +1,42 @@
+## Quick Start
+
+The Formance design system is distributed as a shadcn registry. Install components directly into your project using the CLI.
+
+```bash
+npx shadcn add https://design-system-three-mauve.vercel.app/r/button.json
+```
+
+## @formance Namespace
+
+For a cleaner install experience, add the Formance registry to your `components.json`:
+
+```json
+{
+  "registries": {
+    "@formance": "https://design-system-three-mauve.vercel.app/r/{name}.json"
+  }
+}
+```
+
+Then install any component using the namespace:
+
+```bash
+npx shadcn@latest add @formance/button
+npx shadcn@latest add @formance/card
+npx shadcn@latest add @formance/input
+```
+
+## Direct URL
+
+You can also install components directly without configuring the namespace:
+
+```bash
+npx shadcn add https://design-system-three-mauve.vercel.app/r/button.json
+```
+
+## Prerequisites
+
+- Tailwind CSS v4
+- React 19+
+- TypeScript 5+
+- A `components.json` file configured for the default style

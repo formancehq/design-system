@@ -1,6 +1,11 @@
 'use client';
 
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/registry/default/ui/input-otp';
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from '@/registry/default/ui/input-otp';
 
 export default function InputOTPDemo() {
   return (

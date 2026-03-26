@@ -2,6 +2,7 @@
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import '../registry/default/ui/code/code-themes.css' layer(utilities);
 @plugin '@tailwindcss/typography';
 
 @font-face {
@@ -32,10 +33,11 @@
   --secondary: var(--emerald-100);
   --secondary-foreground: var(--foreground);
 
-  --background: var(--emerald-70);
+  --background: var(--white);
   --foreground: var(--black);
 
   --muted: var(--secondary);
+  --muted-lighter: color-mix(in oklch, var(--emerald-100) 40%, white);
   --muted-foreground: var(--emerald-600);
 
   --card: var(--white);
@@ -54,7 +56,7 @@
   --radius: 0.27rem;
 
   --emerald-50: oklch(1 0 0);
-  --emerald-70: oklch(0.9788 0.0023 197.12);
+
   --emerald-100: oklch(0.9503 0.0053 197.07);
   --emerald-200: oklch(0.9225 0.0096 196.99);
   --emerald-300: oklch(0.9001 0.0122 202.07);
@@ -192,6 +194,7 @@
   --foreground: var(--white);
 
   --muted: var(--black);
+  --muted-lighter: var(--emerald-900);
   --muted-foreground: var(--emerald-300);
 
   --popover: var(--black);
@@ -295,10 +298,12 @@
 }
 
 @theme inline {
-  --font-sans: 'Polymath', 'Figtree', ui-sans-serif, system-ui, sans-serif,
+  --font-sans:
+    'Polymath', 'Figtree', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-mono: 'Berkeley Mono', ui-monospace, SFMono-Regular, 'SF Mono',
-    Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-mono:
+    'Berkeley Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco,
+    Consolas, 'Liberation Mono', 'Courier New', monospace;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -319,6 +324,7 @@
   --color-ring: var(--ring);
 
   --color-muted: var(--muted);
+  --color-muted-lighter: var(--muted-lighter);
   --color-muted-foreground: var(--muted-foreground);
   --color-valid: var(--valid);
   --color-valid-foreground: var(--valid-foreground);
@@ -447,23 +453,39 @@
 }
 
 @keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
 }
 
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 @keyframes collapsible-down {
-  from { height: 0; }
-  to { height: var(--radix-collapsible-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
 }
 
 @keyframes collapsible-up {
-  from { height: var(--radix-collapsible-content-height); }
-  to { height: 0; }
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 *:not([class*='border-']) {
@@ -486,33 +508,28 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-muted-lighter text-foreground;
+  }
+  :not(pre) > code {
+    position: relative;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-muted);
+    padding: 0.2rem 0.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
   }
 }
 
-:root {
-  --shiki-color-text: var(--foreground);
-  --shiki-color-background: transparent;
-  --shiki-token-constant: oklch(0.5609 0.102 244.23);
-  --shiki-token-string: oklch(0.482 0.1235 150.17);
-  --shiki-token-comment: oklch(0.6433 0.028 201.8);
-  --shiki-token-keyword: oklch(0.4865 0.2423 291.87);
-  --shiki-token-parameter: var(--foreground);
-  --shiki-token-function: oklch(0.5522 0.1722 38.86);
-  --shiki-token-string-expression: oklch(0.482 0.1235 150.17);
-  --shiki-token-punctuation: oklch(0.6433 0.028 201.8);
-  --shiki-token-link: oklch(0.5609 0.102 244.23);
+/* Steps — numbered installation steps for MDX docs */
+.step {
+  counter-increment: step;
 }
 
-.dark {
-  --shiki-color-text: var(--foreground);
-  --shiki-token-constant: oklch(0.7157 0.1425 254.45);
-  --shiki-token-string: oklch(0.7999 0.1816 151.78);
-  --shiki-token-comment: oklch(0.5 0.02 201.8);
-  --shiki-token-keyword: oklch(0.7069 0.161594 294.1621);
-  --shiki-token-parameter: var(--foreground);
-  --shiki-token-function: oklch(0.7577 0.159 55.91);
-  --shiki-token-string-expression: oklch(0.7999 0.1816 151.78);
-  --shiki-token-punctuation: oklch(0.5 0.02 201.8);
-  --shiki-token-link: oklch(0.7157 0.1425 254.45);
+.step::before {
+  @apply absolute ml-[-50px] mt-[-4px] inline-flex h-9 w-9 items-center justify-center rounded-full border-4 border-background bg-muted font-mono text-base font-medium;
+  content: counter(step);
+}
+
+.steps > h3:first-child {
+  @apply mt-0;
 }

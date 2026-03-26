@@ -1,0 +1,66 @@
+<ComponentPreview name="formance-logo" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/formance-logo
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="formance-logo" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { FormanceLogo, FormanceIcon } from '@/components/ui/formance-logo'
+```
+
+### Full Logo
+
+The full wordmark logo, used in headers and marketing surfaces.
+
+```tsx
+<FormanceLogo />
+```
+
+### Icon Only
+
+The standalone icon, available in multiple sizes. Use for favicons, avatars, or compact layouts.
+
+```tsx
+<FormanceIcon size="md" />
+```
+
+## Icon Sizes
+
+The `size` prop controls the icon width: `xs` (16px), `sm` (24px), `md` (32px), `lg` (48px), `xl` (64px), `2xl` (80px), `3xl` (96px).

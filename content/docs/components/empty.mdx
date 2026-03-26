@@ -1,0 +1,67 @@
+<ComponentPreview name="empty" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/empty
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="empty" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from '@/components/ui/empty'
+```
+
+```tsx
+<Empty className="border">
+  <EmptyHeader>
+    <EmptyMedia variant="icon">
+      <InboxIcon />
+    </EmptyMedia>
+    <EmptyTitle>No transactions found</EmptyTitle>
+    <EmptyDescription>
+      There are no transactions matching your filters.
+    </EmptyDescription>
+  </EmptyHeader>
+</Empty>
+```

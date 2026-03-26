@@ -1,0 +1,59 @@
+<ComponentPreview name="collapsible" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/collapsible
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="collapsible" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+```
+
+```tsx
+<Collapsible>
+  <CollapsibleTrigger>View transaction metadata</CollapsibleTrigger>
+  <CollapsibleContent>
+    <div className="rounded-md border p-4 text-sm">
+      <p>Source: wallet:user-001</p>
+      <p>Destination: account:merchant-042</p>
+      <p>Reference: pay_3kF9xN2mQ</p>
+    </div>
+  </CollapsibleContent>
+</Collapsible>
+```

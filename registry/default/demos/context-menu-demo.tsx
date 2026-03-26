@@ -1,8 +1,11 @@
 'use client';
 
 import {
-  ContextMenu, ContextMenuContent, ContextMenuItem,
-  ContextMenuSeparator, ContextMenuTrigger,
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
 } from '@/registry/default/ui/context-menu';
 
 export default function ContextMenuDemo() {

@@ -1,13 +1,16 @@
 import { highlightCode } from '@/lib/highlight';
 
+import { cn } from '@/lib/utils';
 import { CopyButton } from '@/components/copy-button';
 
 export async function CodeBlock({
   code,
   lang = 'tsx',
+  noBorder = false,
 }: {
   code: string;
   lang?: string;
+  noBorder?: boolean;
 }) {
   const html = await highlightCode(code, lang);
 
@@ -17,7 +20,10 @@ export async function CodeBlock({
         <CopyButton text={code} />
       </div>
       <div
-        className="overflow-x-auto rounded-lg border bg-muted/30 p-4 text-sm [&_pre]:!bg-transparent [&_code]:font-mono"
+        className={cn(
+          'overflow-x-auto p-4 text-sm [&_pre]:!bg-transparent [&_code]:font-mono',
+          noBorder ? 'bg-muted/30' : 'rounded-lg border bg-muted/30'
+        )}
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>

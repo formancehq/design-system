@@ -7,7 +7,7 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "badge"
+    "http://localhost:3333/r/badge.json"
   ],
   "files": [
     {

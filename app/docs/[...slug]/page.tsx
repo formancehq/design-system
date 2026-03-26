@@ -2,27 +2,20 @@ import fs from 'fs';
 import path from 'path';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { compileMDX } from 'next-mdx-remote/rsc';
+import rehypePrettyCode from 'rehype-pretty-code';
 
 import { docsConfig, componentMeta } from '@/config/docs';
-import { registryExamples } from '@/config/registry-examples';
+import { cssVarsTheme, getHighlighter } from '@/lib/shiki-theme';
+import { slugify } from '@/lib/slugify';
+import { mdxComponents } from '@/components/mdx-components';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { DocsPager } from '@/components/docs-pager';
-import { ComponentPreview } from '@/components/component-preview';
-import { ExamplesSection } from '@/components/examples-section';
-import { CodeBlock } from '@/components/code-block';
-import { CollapsibleCode } from '@/components/collapsible-code';
 import { TableOfContents } from '@/registry/default/ui/table-of-contents';
-import { InstallationContent } from '@/components/docs/installation-content';
-import { ColorsContent } from '@/components/docs/colors-content';
-import { TypographyContent } from '@/components/docs/typography-content';
-import { ThemingContent } from '@/components/docs/theming-content';
-import { AtomsIntroduction } from '@/components/docs/atoms-introduction';
-import { FragmentsIntroduction } from '@/components/docs/fragments-introduction';
 import { SourceBanner } from '@/components/source-banner';
+import { CompoundComponents } from '@/components/compound-components';
 import { Separator } from '@/registry/default/ui/separator';
-import { TypographyH1, TypographyH2, TypographyLead } from '@/registry/default/ui/typography';
-
-import { REGISTRY_URL } from '@/lib/registry';
+import { TypographyH1, TypographyLead } from '@/registry/default/ui/typography';
 
 function findSidebarItem(slug: string) {
   for (const section of docsConfig.sidebarNav) {
@@ -32,7 +25,26 @@ function findSidebarItem(slug: string) {
       }
     }
   }
+
   return null;
+}
+
+function readMdxFile(slug: string): string | null {
+  const filePath = path.join(process.cwd(), `content/docs/${slug}.mdx`);
+  try {
+    return fs.readFileSync(filePath, 'utf-8');
+  } catch {
+    return null;
+  }
+}
+
+/** Extract h2/h3 headings from MDX source for the table of contents. */
+function extractHeadings(source: string) {
+  return [...source.matchAll(/^(#{2,3})\s+(.+)/gm)].map((m) => ({
+    id: slugify(m[2].trim()),
+    title: m[2].trim(),
+    level: m[1].length,
+  }));
 }
 
 export async function generateStaticParams() {
@@ -45,6 +57,7 @@ export async function generateStaticParams() {
       }
     }
   }
+
   return params;
 }
 
@@ -78,85 +91,34 @@ export default async function DocsPage({
   if (!found) notFound();
 
   const meta = componentMeta[slugStr];
-  const isComponent = !!meta;
+  const mdxSource = readMdxFile(slugStr);
 
-  const gettingStartedPages: Record<string, React.ReactNode> = {
-    installation: <InstallationContent />,
-    colors: <ColorsContent />,
-    typography: <TypographyContent />,
-    theming: <ThemingContent />,
-    'components/introduction': <AtomsIntroduction />,
-    'fragments/introduction': <FragmentsIntroduction />,
-  };
+  if (!mdxSource) notFound();
 
-  const gettingStartedContent = gettingStartedPages[slugStr];
+  const headings = extractHeadings(mdxSource);
 
-  let sourceCode = '';
-  if (isComponent) {
-    const filePath = path.join(process.cwd(), meta.sourceFile);
-    try {
-      sourceCode = fs.readFileSync(filePath, 'utf-8');
-    } catch {
-      sourceCode = '';
-    }
+  if (meta?.subComponents && meta.subComponents.length > 0) {
+    headings.push({
+      id: 'compound-components',
+      title: 'Compound Components',
+      level: 2,
+    });
   }
-
-  const examples = isComponent
-    ? registryExamples[meta.registryName] ?? []
-    : [];
-
-  const exampleCodeBlocks: Record<string, React.ReactNode> = {};
-  for (const example of examples) {
-    const filePath = path.join(process.cwd(), example.sourceFile);
-    try {
-      const code = fs.readFileSync(filePath, 'utf-8');
-      exampleCodeBlocks[example.sourceFile] = (
-        <CollapsibleCode>
-          <CodeBlock code={code} lang="tsx" />
-        </CollapsibleCode>
-      );
-    } catch {
-      // skip
-    }
-  }
-
-  const gettingStartedHeadings: Record<string, { id: string; title: string; level: number }[]> = {
-    installation: [
-      { id: 'quick-start', title: 'Quick Start', level: 2 },
-      { id: 'namespace', title: '@formance Namespace', level: 2 },
-      { id: 'direct-url', title: 'Direct URL', level: 2 },
-      { id: 'prerequisites', title: 'Prerequisites', level: 2 },
-    ],
-    colors: [
-      { id: 'brand-palettes', title: 'Brand Palettes', level: 2 },
-      { id: 'semantic-colors', title: 'Semantic Colors', level: 2 },
-      { id: 'ui-tokens', title: 'UI Tokens', level: 2 },
-    ],
-    typography: [
-      { id: 'typefaces', title: 'Typefaces', level: 2 },
-      { id: 'scale', title: 'Type Scale', level: 2 },
-      { id: 'usage', title: 'Usage', level: 2 },
-    ],
-    theming: [
-      { id: 'convention', title: 'Convention', level: 2 },
-      { id: 'css-variables', title: 'CSS Variables', level: 2 },
-      { id: 'light-mode', title: 'Light Mode', level: 3 },
-      { id: 'dark-mode', title: 'Dark Mode', level: 3 },
-      { id: 'brand-palettes', title: 'Brand Palettes', level: 2 },
-      { id: 'customization', title: 'Customization', level: 2 },
-    ],
-  };
-
-  const headings = isComponent
-    ? [
-        ...(meta.hidePreview ? [] : [{ id: 'preview', title: 'Preview', level: 2 }]),
-        ...(examples.length > 0
-          ? [{ id: 'examples', title: 'Examples', level: 2 }]
-          : []),
-        { id: 'installation', title: 'Installation', level: 2 },
-        { id: 'source', title: 'Source', level: 2 },
-      ]
-    : gettingStartedHeadings[slugStr] ?? [];
+  const { content: mdxContent } = await compileMDX({
+    source: mdxSource,
+    components: mdxComponents,
+    options: {
+      parseFrontmatter: false,
+      mdxOptions: {
+        rehypePlugins: [
+          [
+            rehypePrettyCode,
+            { theme: cssVarsTheme, getHighlighter, keepBackground: false },
+          ],
+        ],
+      },
+    },
+  });
 
   return (
     <div className="xl:grid xl:grid-cols-[1fr_220px] xl:gap-6">
@@ -164,54 +126,26 @@ export default async function DocsPage({
         <div className="space-y-4">
           <Breadcrumbs />
           <TypographyH1>{found.item.title}</TypographyH1>
-          {meta && (
-            <TypographyLead>{meta.description}</TypographyLead>
-          )}
+          {meta && <TypographyLead>{meta.description}</TypographyLead>}
         </div>
 
-        {isComponent && <SourceBanner source={meta.source} />}
+        {meta && <SourceBanner source={meta.source} />}
 
         <Separator />
 
-        {isComponent && (
-          <>
-            {!meta.hidePreview && (
-              <section id="preview" className="space-y-4">
-                <TypographyH2>Preview</TypographyH2>
-                <ComponentPreview name={meta.registryName} />
-              </section>
-            )}
+        <div className="space-y-8">{mdxContent}</div>
 
-            {examples.length > 0 && (
-              <section id="examples" className="space-y-8">
-                <TypographyH2>Examples</TypographyH2>
-                <ExamplesSection
-                  registryName={meta.registryName}
-                  codeBlocks={exampleCodeBlocks}
-                />
-              </section>
-            )}
-
-            <section id="installation" className="space-y-4">
-              <TypographyH2>Installation</TypographyH2>
-              <CodeBlock
-                code={`npx shadcn@latest add @formance/${meta.registryName}`}
-                lang="bash"
-              />
-            </section>
-
-            {sourceCode && (
-              <section id="source" className="space-y-4">
-                <TypographyH2>Source</TypographyH2>
-                <CollapsibleCode>
-                  <CodeBlock code={sourceCode} lang="tsx" />
-                </CollapsibleCode>
-              </section>
-            )}
-          </>
+        {meta?.subComponents && meta.subComponents.length > 0 && (
+          <div className="space-y-4">
+            <h2
+              id="compound-components"
+              className="scroll-m-20 font-sans text-2xl font-semibold tracking-tight"
+            >
+              Compound Components
+            </h2>
+            <CompoundComponents subComponents={meta.subComponents} />
+          </div>
         )}
-
-        {gettingStartedContent}
 
         <DocsPager />
       </div>

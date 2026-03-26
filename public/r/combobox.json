@@ -7,9 +7,9 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "button",
-    "command",
-    "popover"
+    "http://localhost:3333/r/button.json",
+    "http://localhost:3333/r/command.json",
+    "http://localhost:3333/r/popover.json"
   ],
   "files": [
     {
