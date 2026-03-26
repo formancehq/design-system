@@ -4,8 +4,8 @@
   "title": "Field",
   "description": "A full form field system with labels, descriptions, and errors.",
   "registryDependencies": [
-    "https://design-system-three-mauve.vercel.app/r/label.json",
-    "https://design-system-three-mauve.vercel.app/r/separator.json"
+    "http://localhost:3333/r/label.json",
+    "http://localhost:3333/r/separator.json"
   ],
   "files": [
     {

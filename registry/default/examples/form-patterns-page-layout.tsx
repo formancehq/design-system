@@ -46,7 +46,7 @@ const schema = z.object({
   slug: z.string().min(1),
   description: z.string().optional(),
   timezone: z.string(),
-  maxPoolSize: z.coerce.number().min(1).max(100),
+  maxPoolSize: z.coerce.number().min(1).max(100) as z.ZodNumber,
   emailNotifications: z.boolean(),
   webhookNotifications: z.boolean(),
   auditLog: z.boolean(),

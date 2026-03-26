@@ -4,9 +4,9 @@
   "title": "Input Group",
   "description": "Grouped input with addons, buttons, and text.",
   "registryDependencies": [
-    "https://design-system-three-mauve.vercel.app/r/button.json",
-    "https://design-system-three-mauve.vercel.app/r/input.json",
-    "https://design-system-three-mauve.vercel.app/r/textarea.json"
+    "http://localhost:3333/r/button.json",
+    "http://localhost:3333/r/input.json",
+    "http://localhost:3333/r/textarea.json"
   ],
   "files": [
     {

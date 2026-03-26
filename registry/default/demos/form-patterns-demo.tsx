@@ -74,8 +74,8 @@ function formatDate(date: Date) {
 const formSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  maxConnections: z.coerce.number().min(1).max(1000),
-  duration: z.coerce.number().min(5).max(30),
+  maxConnections: z.coerce.number().min(1).max(1000) as z.ZodNumber,
+  duration: z.coerce.number().min(5).max(30) as z.ZodNumber,
   description: z.string().optional(),
   enableFeature: z.boolean(),
   enableRls: z.boolean(),

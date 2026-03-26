@@ -4,7 +4,7 @@
   "title": "Button Group",
   "description": "A group of buttons with separator.",
   "registryDependencies": [
-    "https://design-system-three-mauve.vercel.app/r/separator.json"
+    "http://localhost:3333/r/separator.json"
   ],
   "files": [
     {

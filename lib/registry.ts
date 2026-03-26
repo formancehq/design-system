@@ -1,1 +1,2 @@
-export const REGISTRY_URL = 'https://design-system-three-mauve.vercel.app';
+export const REGISTRY_URL =
+  process.env.NEXT_PUBLIC_REGISTRY_URL ?? 'http://localhost:3333';

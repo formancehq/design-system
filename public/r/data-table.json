@@ -8,14 +8,14 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "https://design-system-three-mauve.vercel.app/r/badge.json",
-    "https://design-system-three-mauve.vercel.app/r/button.json",
-    "https://design-system-three-mauve.vercel.app/r/command.json",
-    "https://design-system-three-mauve.vercel.app/r/dropdown-menu.json",
-    "https://design-system-three-mauve.vercel.app/r/popover.json",
-    "https://design-system-three-mauve.vercel.app/r/select.json",
-    "https://design-system-three-mauve.vercel.app/r/skeleton.json",
-    "https://design-system-three-mauve.vercel.app/r/table.json"
+    "http://localhost:3333/r/badge.json",
+    "http://localhost:3333/r/button.json",
+    "http://localhost:3333/r/command.json",
+    "http://localhost:3333/r/dropdown-menu.json",
+    "http://localhost:3333/r/popover.json",
+    "http://localhost:3333/r/select.json",
+    "http://localhost:3333/r/skeleton.json",
+    "http://localhost:3333/r/table.json"
   ],
   "files": [
     {

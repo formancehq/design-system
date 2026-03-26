@@ -7,7 +7,7 @@
     "class-variance-authority"
   ],
   "registryDependencies": [
-    "https://design-system-three-mauve.vercel.app/r/tabs.json"
+    "http://localhost:3333/r/tabs.json"
   ],
   "files": [
     {

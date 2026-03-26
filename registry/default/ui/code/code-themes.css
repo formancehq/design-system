@@ -17,7 +17,7 @@
   --shiki-token-string-expression: var(--lilac-700);
   --shiki-token-punctuation: var(--emerald-800);
   --shiki-token-link: var(--emerald-600);
-  --shiki-token-monetary: var(--gold-600);
+  --shiki-token-monetary: var(--lilac-600);
 }
 
 /* Dark theme */
@@ -37,5 +37,5 @@
   --shiki-token-string-expression: var(--lilac-400);
   --shiki-token-punctuation: var(--emerald-300);
   --shiki-token-link: var(--mint-500);
-  --shiki-token-monetary: var(--gold-300);
+  --shiki-token-monetary: var(--lilac-300);
 }

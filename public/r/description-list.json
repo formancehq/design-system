@@ -4,7 +4,7 @@
   "title": "Description List",
   "description": "A description list and row layout for key-value pairs.",
   "registryDependencies": [
-    "https://design-system-three-mauve.vercel.app/r/separator.json"
+    "http://localhost:3333/r/separator.json"
   ],
   "files": [
     {

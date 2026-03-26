@@ -8,7 +8,7 @@
     "react-hook-form"
   ],
   "registryDependencies": [
-    "https://design-system-three-mauve.vercel.app/r/label.json"
+    "http://localhost:3333/r/label.json"
   ],
   "files": [
     {
