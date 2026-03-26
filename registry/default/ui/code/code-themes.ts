@@ -54,6 +54,18 @@ export const cssVarsTheme: ThemeRegistration = {
       settings: { foreground: 'var(--shiki-token-keyword)' },
     },
     {
+      scope: ['constant.other.option', 'constant.other.option.dash.shell'],
+      settings: { foreground: 'var(--shiki-token-constant)' },
+    },
+    {
+      scope: [
+        'variable.other.normal.shell',
+        'variable.other.assignment.shell',
+        'variable.other.for.shell',
+      ],
+      settings: { foreground: 'var(--shiki-token-parameter)' },
+    },
+    {
       scope: 'constant.other.monetary.numscript',
       settings: { foreground: 'var(--shiki-token-monetary)' },
     },
@@ -74,24 +86,51 @@ const monacoFallbackTheme: ThemeRegistration = {
   tokenColors: [
     { scope: 'comment', settings: { foreground: '#999988' } },
     { scope: 'string', settings: { foreground: '#cac8f9' } },
-    { scope: ['number', 'constant.numeric'], settings: { foreground: '#36ACAA' } },
+    {
+      scope: ['number', 'constant.numeric'],
+      settings: { foreground: '#36ACAA' },
+    },
     { scope: 'keyword', settings: { foreground: '#97c39a' } },
-    { scope: ['property', 'variable.other.property'], settings: { foreground: '#36acaa' } },
-    { scope: 'support.type.property-name', settings: { foreground: '#97c39a' } },
-    { scope: 'support.type.property-name.json', settings: { foreground: '#97c39a' } },
-    { scope: 'support.type.property-name.json punctuation', settings: { foreground: '#97c39a' } },
+    {
+      scope: ['property', 'variable.other.property'],
+      settings: { foreground: '#36acaa' },
+    },
+    {
+      scope: 'support.type.property-name',
+      settings: { foreground: '#97c39a' },
+    },
+    {
+      scope: 'support.type.property-name.json',
+      settings: { foreground: '#97c39a' },
+    },
+    {
+      scope: 'support.type.property-name.json punctuation',
+      settings: { foreground: '#97c39a' },
+    },
     { scope: 'variable', settings: { foreground: '#36ACAA' } },
     { scope: ['plain', 'entity.name'], settings: { foreground: '#D9E6E7' } },
-    { scope: ['builtin', 'support.function'], settings: { foreground: '#97c39a' } },
+    {
+      scope: ['builtin', 'support.function'],
+      settings: { foreground: '#97c39a' },
+    },
     { scope: ['symbol', 'storage.type'], settings: { foreground: '#7a78b5' } },
     { scope: 'storage', settings: { foreground: '#97c39a' } },
     { scope: 'punctuation', settings: { foreground: '#D9E6E7' } },
     { scope: 'constant', settings: { foreground: '#36ACAA' } },
-    { scope: 'constant.other.monetary.numscript', settings: { foreground: '#cac8f9' } },
+    {
+      scope: 'constant.other.monetary.numscript',
+      settings: { foreground: '#cac8f9' },
+    },
     { scope: 'keyword.control.numscript', settings: { foreground: '#97c39a' } },
     { scope: 'string.other.numscript', settings: { foreground: '#D9E6E7' } },
-    { scope: 'variable.parameter.function.numscript', settings: { foreground: '#36ACAA' } },
-    { scope: 'support.function.numscript', settings: { foreground: '#97c39a' } },
+    {
+      scope: 'variable.parameter.function.numscript',
+      settings: { foreground: '#36ACAA' },
+    },
+    {
+      scope: 'support.function.numscript',
+      settings: { foreground: '#97c39a' },
+    },
     { scope: 'storage.type.numscript', settings: { foreground: '#7a78b5' } },
   ],
 };
@@ -207,7 +246,10 @@ export function buildMonacoThemeFromCSSVars(
       { token: 'number', foreground: constant },
       { token: 'constant', foreground: constant },
       { token: 'constant.numeric', foreground: constant },
-      { token: 'constant.other.monetary', foreground: v('--shiki-token-monetary', constant) },
+      {
+        token: 'constant.other.monetary',
+        foreground: v('--shiki-token-monetary', constant),
+      },
       { token: 'constant.language', foreground: constant },
       { token: 'keyword', foreground: keyword },
       { token: 'keyword.control', foreground: keyword },
