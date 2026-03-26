@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   KeyValueInput,
   type TKeyValuePair,
-} from '@/registry/default/ui/key-value-input';
+} from '@/registry/default/fragments/key-value-input';
 import { Label } from '@/registry/default/ui/label';
 
 export default function KeyValueInputMetadata() {

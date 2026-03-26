@@ -2,14 +2,14 @@
 
 import { KeyValueInput } from '@/registry/default/fragments/key-value-input';
 
-export default function KeyValueInputDisabled() {
+export default function KeyValueInputNotSortable() {
   return (
     <div className="w-full max-w-lg">
       <KeyValueInput
-        disabled
+        sortable={false}
         defaultValue={[
-          { id: '1', key: 'locked', value: 'true' },
-          { id: '2', key: 'reason', value: 'read-only' },
+          { id: '1', key: 'name', value: 'John' },
+          { id: '2', key: 'email', value: 'john@example.com' },
         ]}
       />
     </div>

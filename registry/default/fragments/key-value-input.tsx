@@ -1,7 +1,11 @@
 'use client';
 
+import { Eye, GripVertical, Plus, Trash2 } from 'lucide-react';
+import * as React from 'react';
+
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 import { Input } from '@/registry/default/ui/input';
 import {
   Popover,
@@ -15,8 +19,6 @@ import {
   SortableItemHandle,
   SortableOverlay,
 } from '@/registry/default/ui/sortable';
-import { Eye, GripVertical, Plus, Trash2 } from 'lucide-react';
-import * as React from 'react';
 
 type TKeyValuePair = {
   id: string;
@@ -37,6 +39,7 @@ type TKeyValueInputProps = {
   valuePlaceholder?: string;
   addLabel?: string;
   showJson?: boolean;
+  sortable?: boolean;
   disabled?: boolean;
   className?: string;
 };
@@ -49,6 +52,7 @@ function KeyValueInput({
   valuePlaceholder = 'Value',
   addLabel = 'Add row',
   showJson = false,
+  sortable = true,
   disabled = false,
   className,
 }: TKeyValueInputProps) {
@@ -92,49 +96,62 @@ function KeyValueInput({
     [setPairs]
   );
 
+  const rows = pairs.map((pair) => (
+    <KeyValueRow
+      key={pair.id}
+      pair={pair}
+      keyPlaceholder={keyPlaceholder}
+      valuePlaceholder={valuePlaceholder}
+      disabled={disabled}
+      canRemove={pairs.length > 1}
+      sortable={sortable}
+      onUpdate={handleUpdate}
+      onRemove={handleRemove}
+    />
+  ));
+
   return (
     <div className={cn('flex flex-col gap-2', className)}>
-      <Sortable
-        value={pairs}
-        onValueChange={setPairs}
-        getItemValue={(pair) => pair.id}
-        orientation="vertical"
-        flatCursor
+      {sortable ? (
+        <Sortable
+          value={pairs}
+          onValueChange={setPairs}
+          getItemValue={(pair) => pair.id}
+          orientation="vertical"
+          flatCursor
+        >
+          <SortableContent className="flex flex-col gap-2">
+            {rows}
+          </SortableContent>
+          <SortableOverlay>
+            {({ value: activeId }) => {
+              const activePair = pairs.find((p) => p.id === activeId);
+              if (!activePair) return null;
+
+              return (
+                <KeyValueRow
+                  pair={activePair}
+                  keyPlaceholder={keyPlaceholder}
+                  valuePlaceholder={valuePlaceholder}
+                  disabled
+                  canRemove={false}
+                  sortable
+                  onUpdate={() => {}}
+                  onRemove={() => {}}
+                />
+              );
+            }}
+          </SortableOverlay>
+        </Sortable>
+      ) : (
+        <div className="flex flex-col gap-2">{rows}</div>
+      )}
+      <div
+        className={cn(
+          'flex items-center justify-start gap-2',
+          sortable && 'pr-10'
+        )}
       >
-        <SortableContent className="flex flex-col gap-2">
-          {pairs.map((pair) => (
-            <KeyValueRow
-              key={pair.id}
-              pair={pair}
-              keyPlaceholder={keyPlaceholder}
-              valuePlaceholder={valuePlaceholder}
-              disabled={disabled}
-              canRemove={pairs.length > 1}
-              onUpdate={handleUpdate}
-              onRemove={handleRemove}
-            />
-          ))}
-        </SortableContent>
-        <SortableOverlay>
-          {({ value: activeId }) => {
-            const activePair = pairs.find((p) => p.id === activeId);
-            if (!activePair) return null;
-            return (
-              <KeyValueRow
-                pair={activePair}
-                keyPlaceholder={keyPlaceholder}
-                valuePlaceholder={valuePlaceholder}
-                disabled
-                canRemove={false}
-                onUpdate={() => {}}
-                onRemove={() => {}}
-              />
-            );
-          }}
-        </SortableOverlay>
-      </Sortable>
-      <div className="flex items-center justify-start gap-2 pr-10">
-        {showJson && <KeyValueJsonPreview pairs={pairs} />}
         <Button
           type="button"
           variant="outline"
@@ -146,6 +163,7 @@ function KeyValueInput({
           <Plus className="size-3.5" />
           {addLabel}
         </Button>
+        {showJson && <KeyValueJsonPreview pairs={pairs} />}
       </div>
     </div>
   );
@@ -157,37 +175,37 @@ type TKeyValueRowProps = {
   valuePlaceholder: string;
   disabled: boolean;
   canRemove: boolean;
+  sortable: boolean;
   onUpdate: (id: string, field: 'key' | 'value', value: string) => void;
   onRemove: (id: string) => void;
 };
 
-function KeyValueRow({
+function KeyValueRowContent({
   pair,
   keyPlaceholder,
   valuePlaceholder,
   disabled,
   canRemove,
+  sortable,
   onUpdate,
   onRemove,
 }: TKeyValueRowProps) {
   return (
-    <SortableItem
-      value={pair.id}
-      className="flex items-center gap-2 rounded-md"
-      disabled={disabled}
-    >
-      <SortableItemHandle asChild>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon-sm"
-          className="size-8 shrink-0"
-          disabled={disabled}
-        >
-          <GripVertical className="size-4 text-muted-foreground" />
-          <span className="sr-only">Drag to reorder</span>
-        </Button>
-      </SortableItemHandle>
+    <>
+      {sortable && (
+        <SortableItemHandle asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon-sm"
+            className="size-8 shrink-0"
+            disabled={disabled}
+          >
+            <GripVertical className="size-4 text-muted-foreground" />
+            <span className="sr-only">Drag to reorder</span>
+          </Button>
+        </SortableItemHandle>
+      )}
       <Input
         size="sm"
         placeholder={keyPlaceholder}
@@ -214,7 +232,27 @@ function KeyValueRow({
         <Trash2 />
         <span className="sr-only">Remove row</span>
       </Button>
-    </SortableItem>
+    </>
+  );
+}
+
+function KeyValueRow(props: TKeyValueRowProps) {
+  if (props.sortable) {
+    return (
+      <SortableItem
+        value={props.pair.id}
+        className="flex items-center gap-2 rounded-md"
+        disabled={props.disabled}
+      >
+        <KeyValueRowContent {...props} />
+      </SortableItem>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2 rounded-md">
+      <KeyValueRowContent {...props} />
+    </div>
   );
 }
 
@@ -224,6 +262,7 @@ function KeyValueJsonPreview({ pairs }: { pairs: TKeyValuePair[] }) {
     for (const pair of pairs) {
       if (pair.key) obj[pair.key] = pair.value;
     }
+
     return JSON.stringify(obj, null, 2);
   }, [pairs]);
 
@@ -239,10 +278,8 @@ function KeyValueJsonPreview({ pairs }: { pairs: TKeyValuePair[] }) {
           <Eye />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-80 p-0">
-        <pre className="max-h-64 overflow-auto p-3 font-mono text-xs text-muted-foreground">
-          {json}
-        </pre>
+      <PopoverContent align="start" className="w-80 p-0 border-none">
+        <CodeSnippet code={json} language="json" canCopy={false} size="sm" />
       </PopoverContent>
     </Popover>
   );

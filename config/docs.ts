@@ -695,11 +695,11 @@ export const componentMeta: Record<string, TComponentMeta> = {
       },
     ],
   },
-  'components/key-value-input': {
+  'fragments/key-value-input': {
     registryName: 'key-value-input',
     description:
       'A dynamic key-value pair input with drag-to-reorder, add, and remove rows.',
-    sourceFile: 'registry/default/ui/key-value-input.tsx',
+    sourceFile: 'registry/default/fragments/key-value-input.tsx',
     source: 'custom',
   },
   'components/stepper': {
@@ -947,10 +947,6 @@ export const docsConfig: TDocsConfig = {
         { title: 'Input OTP', href: '/docs/components/input-otp' },
         { title: 'Input Password', href: '/docs/components/input-password' },
         { title: 'Item', href: '/docs/components/item' },
-        {
-          title: 'Key Value Input',
-          href: '/docs/components/key-value-input',
-        },
         { title: 'Kbd', href: '/docs/components/kbd' },
         { title: 'Label', href: '/docs/components/label' },
         { title: 'Loader', href: '/docs/components/loader' },
@@ -1005,6 +1001,10 @@ export const docsConfig: TDocsConfig = {
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
         { title: 'Page Header', href: '/docs/fragments/page-header' },
+        {
+          title: 'Key Value Input',
+          href: '/docs/fragments/key-value-input',
+        },
         { title: 'Page Section', href: '/docs/fragments/page-section' },
       ],
     },

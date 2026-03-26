@@ -1109,6 +1109,17 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/key-value-input-disabled.tsx',
       },
       {
+        title: 'Not Sortable',
+        component: lazy(
+          () =>
+            import(
+              '@/registry/default/examples/key-value-input-not-sortable'
+            )
+        ),
+        sourceFile:
+          'registry/default/examples/key-value-input-not-sortable.tsx',
+      },
+      {
         title: 'Metadata',
         component: lazy(
           () => import('@/registry/default/examples/key-value-input-metadata')
