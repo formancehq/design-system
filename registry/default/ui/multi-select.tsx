@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
 } from '@/registry/default/ui/popover';
 import { cn } from '@/lib/utils';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { Command as CommandPrimitive } from 'cmdk';
 import { CheckIcon, ChevronsUpDownIcon, PlusIcon, XIcon } from 'lucide-react';
 import {
@@ -171,14 +172,31 @@ export function MultiSelect({
   );
 }
 
+const multiSelectTriggerVariants = cva('', {
+  variants: {
+    size: {
+      sm: 'min-h-8',
+      md: 'min-h-9',
+      lg: 'min-h-10',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
+type MultiSelectTriggerProps = {
+  className?: string;
+  children?: ReactNode;
+} & VariantProps<typeof multiSelectTriggerVariants> &
+  ComponentPropsWithoutRef<typeof Button>;
+
 export function MultiSelectTrigger({
   className,
   children,
+  size = 'md',
   ...props
-}: {
-  className?: string;
-  children?: ReactNode;
-} & ComponentPropsWithoutRef<typeof Button>) {
+}: MultiSelectTriggerProps) {
   const { mode, open, setOpen, disabled } = useMultiSelectContext();
 
   if (mode === 'inline') {
@@ -189,7 +207,8 @@ export function MultiSelectTrigger({
         aria-disabled={disabled}
         onClick={() => !disabled && setOpen(true)}
         className={cn(
-          'flex h-auto min-h-9 w-fit items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm transition-[color] outline-none dark:bg-input/30 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4 [&_svg:not([class*=text-])]:text-muted-foreground',
+          'flex h-auto w-fit items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm transition-[color] outline-none dark:bg-input/30 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4 [&_svg:not([class*=text-])]:text-muted-foreground',
+          multiSelectTriggerVariants({ size }),
           open && 'ring-[3px] ring-ring/50 border-ring',
           disabled && 'cursor-not-allowed opacity-50',
           className
@@ -209,7 +228,8 @@ export function MultiSelectTrigger({
         aria-expanded={props['aria-expanded'] ?? open}
         disabled={disabled ?? props.disabled}
         className={cn(
-          "flex h-auto min-h-9 w-fit items-center justify-between gap-2 overflow-hidden rounded-md border border-input bg-background dark:bg-input/30 px-3 py-1.5 text-sm whitespace-nowrap transition-[color] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+          "flex h-auto w-fit items-center justify-between gap-2 overflow-hidden rounded-md border border-input bg-background dark:bg-input/30 px-3 py-1.5 text-sm whitespace-nowrap transition-[color] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+          multiSelectTriggerVariants({ size }),
           className
         )}
       >
