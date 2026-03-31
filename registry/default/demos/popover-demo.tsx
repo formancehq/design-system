@@ -1,7 +1,11 @@
 'use client';
 
 import { Button } from '@/registry/default/ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from '@/registry/default/ui/popover';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/registry/default/ui/popover';
 import { Label } from '@/registry/default/ui/label';
 import { Input } from '@/registry/default/ui/input';
 

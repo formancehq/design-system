@@ -1,0 +1,61 @@
+<ComponentPreview name="page-container" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/page-container
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="page-container" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { PageContainer } from '@/components/ui/page-container'
+```
+
+```tsx
+<PageContainer size="default">
+  {/* Page content */}
+</PageContainer>
+```
+
+## Sizes
+
+Use the `size` prop to control the maximum width of the container.
+
+- `small` — 768px, ideal for focused content like settings forms
+- `default` — 1200px, standard page width
+- `large` — 1600px, for data-dense views like dashboards
+- `full` — no max-width constraint

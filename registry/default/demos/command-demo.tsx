@@ -1,7 +1,12 @@
 'use client';
 
 import {
-  Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
 } from '@/registry/default/ui/command';
 
 export default function CommandDemo() {

@@ -1,0 +1,21 @@
+Forms in Formance products should follow consistent patterns to ensure a cohesive user experience across settings pages and side panels. This guide covers the most common form patterns and field
+types.
+
+## Page Layout
+
+Forms in page layouts use `PageSection` with `Card` containers. Fields use `Field orientation="horizontal"` for horizontal label/input alignment, where the label and description sit on the left and
+the control on the right.
+
+<ComponentPreview name='form-patterns' peekCode />
+
+## Page Sections
+
+For full settings pages, group related fields into `PageSection` components. Each section has its own `Card` with a title and description on the left, and form fields on the right.
+
+<ComponentPreview name='form-patterns-page-layout' peekCode />
+
+## With Validation
+
+Form with `react-hook-form` and `zod` showing inline error messages in horizontal fields using `FieldError`.
+
+<ComponentPreview name='form-patterns-with-validation' />

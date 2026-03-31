@@ -1,9 +1,28 @@
 import Link from 'next/link';
-import { Palette, Type, Paintbrush, Package, Shapes, Download } from 'lucide-react';
+import {
+  Palette,
+  Type,
+  Paintbrush,
+  Package,
+  Shapes,
+  Download,
+} from 'lucide-react';
 
 import { Badge } from '@/registry/default/ui/badge';
-import { Card, CardHeader, CardTitle, CardDescription } from '@/registry/default/ui/card';
-import { TypographyH1, TypographyH2, TypographyP, TypographyLead, TypographyInlineCode, TypographySmall } from '@/registry/default/ui/typography';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/registry/default/ui/card';
+import {
+  TypographyH1,
+  TypographyH2,
+  TypographyP,
+  TypographyLead,
+  TypographyInlineCode,
+  TypographySmall,
+} from '@/registry/default/ui/typography';
 import { CodeBlock } from '@/components/code-block';
 import { REGISTRY_URL } from '@/lib/registry';
 
@@ -56,9 +75,15 @@ export default function Home() {
           into your project with the shadcn CLI.
         </TypographyLead>
         <div className="flex gap-3 pt-2">
-          <Badge variant="emerald" size="md">Open Source</Badge>
-          <Badge variant="cobalt" size="md">Tailwind v4</Badge>
-          <Badge variant="lilac" size="md">shadcn Registry</Badge>
+          <Badge variant="emerald" size="md">
+            Open Source
+          </Badge>
+          <Badge variant="cobalt" size="md">
+            Tailwind v4
+          </Badge>
+          <Badge variant="lilac" size="md">
+            shadcn Registry
+          </Badge>
         </div>
       </header>
 
@@ -78,6 +103,7 @@ export default function Home() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature) => {
             const Icon = feature.icon;
+
             return (
               <Link key={feature.href} href={feature.href}>
                 <Card className="h-full transition-colors hover:bg-muted/50">
@@ -87,7 +113,9 @@ export default function Home() {
                         <Icon className="h-4 w-4" />
                       </div>
                       <div>
-                        <CardTitle className="text-base">{feature.title}</CardTitle>
+                        <CardTitle className="text-base">
+                          {feature.title}
+                        </CardTitle>
                         <CardDescription>{feature.description}</CardDescription>
                       </div>
                     </div>
@@ -98,9 +126,7 @@ export default function Home() {
           })}
         </div>
         <TypographySmall className="block text-center text-muted-foreground pt-4">
-          Press{' '}
-          <TypographyInlineCode>⌘K</TypographyInlineCode>{' '}
-          to search
+          Press <TypographyInlineCode>⌘K</TypographyInlineCode> to search
         </TypographySmall>
       </section>
     </div>

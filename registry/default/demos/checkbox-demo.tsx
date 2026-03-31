@@ -16,7 +16,9 @@ export default function CheckboxDemo() {
       </div>
       <div className="flex items-center gap-2">
         <Checkbox id="disabled" disabled />
-        <Label htmlFor="disabled" className="opacity-50">Disabled option</Label>
+        <Label htmlFor="disabled" className="opacity-50">
+          Disabled option
+        </Label>
       </div>
     </div>
   );

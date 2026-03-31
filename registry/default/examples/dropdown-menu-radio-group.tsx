@@ -4,9 +4,13 @@ import { useState } from 'react';
 
 import { Button } from '@/registry/default/ui/button';
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuLabel,
-  DropdownMenuRadioGroup, DropdownMenuRadioItem,
-  DropdownMenuSeparator, DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/registry/default/ui/dropdown-menu';
 
 export default function DropdownMenuRadioGroupExample() {

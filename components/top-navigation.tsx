@@ -1,15 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Menu, Moon, Search, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { Button } from '@/registry/default/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/registry/default/ui/sheet';
-import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import { SideNavigation } from '@/components/side-navigation';
+import { Button } from '@/registry/default/ui/button';
+import { ScrollArea } from '@/registry/default/ui/scroll-area';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/registry/default/ui/sheet';
 
 export function TopNavigation() {
   const { theme, setTheme } = useTheme();
@@ -21,12 +26,14 @@ export function TopNavigation() {
   }, [pathname]);
 
   function openSearch() {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }));
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'k', metaKey: true })
+    );
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="flex h-12 items-center justify-between px-6 max-w-[1400px] mx-auto">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <nav className="flex h-12 items-center justify-between px-6">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
@@ -80,7 +87,9 @@ export function TopNavigation() {
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="w-[280px] p-0">
           <SheetHeader className="border-b px-6">
-            <SheetTitle className="text-sm font-semibold">Navigation</SheetTitle>
+            <SheetTitle className="text-sm font-semibold">
+              Navigation
+            </SheetTitle>
           </SheetHeader>
           <ScrollArea className="h-[calc(100vh-4rem)]">
             <SideNavigation />

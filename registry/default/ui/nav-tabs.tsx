@@ -52,7 +52,8 @@ const navTabVariants = cva(
 );
 
 export interface NavTabProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof navTabVariants> {
   asChild?: boolean;
   isPending?: boolean;

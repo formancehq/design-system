@@ -1,0 +1,79 @@
+<ComponentPreview name="carousel" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/carousel
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install embla-carousel-react lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="carousel" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+```
+
+```tsx
+<Carousel>
+  <CarouselContent>
+    <CarouselItem>
+      <div className="p-4">
+        <h3 className="font-semibold">Ledger Overview</h3>
+        <p className="text-sm text-muted-foreground">Track balances across all accounts</p>
+      </div>
+    </CarouselItem>
+    <CarouselItem>
+      <div className="p-4">
+        <h3 className="font-semibold">Payment Connectors</h3>
+        <p className="text-sm text-muted-foreground">Connect to Stripe, Wise, and more</p>
+      </div>
+    </CarouselItem>
+    <CarouselItem>
+      <div className="p-4">
+        <h3 className="font-semibold">Wallet Management</h3>
+        <p className="text-sm text-muted-foreground">Create holds and manage balances</p>
+      </div>
+    </CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```

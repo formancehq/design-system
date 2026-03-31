@@ -7,7 +7,9 @@ export default function SeparatorDemo() {
     <div className="w-full max-w-md space-y-1">
       <div>
         <h4 className="text-sm font-medium">Formance Design System</h4>
-        <p className="text-sm text-muted-foreground">Open-source component registry.</p>
+        <p className="text-sm text-muted-foreground">
+          Open-source component registry.
+        </p>
       </div>
       <Separator />
       <div className="flex h-5 items-center gap-4 text-sm">

@@ -46,9 +46,10 @@ const buttonVariants = cva(
         sm: 'px-3 h-8',
         md: 'px-4 h-9',
         lg: 'px-8 h-10',
-        'icon-sm': 'h-7 w-7 p-0.5 [&>svg]:size-3.5',
-        'icon-md': 'h-8 w-8 p-1.5 [&>svg]:size-4',
-        'icon-lg': 'h-9 w-9 p-2 [&>svg]:size-4',
+        'icon-xs': 'h-6 w-6 p-0.5 [&>svg]:size-3.5',
+        'icon-sm': 'h-8 w-8 p-0.5 [&>svg]:size-4',
+        'icon-md': 'h-9 w-9 p-1.5 [&>svg]:size-4',
+        'icon-lg': 'h-10 w-10 p-2 [&>svg]:size-4',
         'icon-xl': 'h-16 w-16 p-2 [&>svg]:size-10',
       },
       notClickable: {

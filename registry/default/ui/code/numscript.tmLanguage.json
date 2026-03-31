@@ -1,0 +1,74 @@
+{
+	"fileTypes": ["num"],
+	"name": "numscript",
+	"scopeName": "source.numscript",
+	"patterns": [
+		{
+			"match": "(//[^\n]*)",
+			"name": "comment.line.double-slash.numscript"
+		},
+		{
+			"begin": "/\\*",
+			"end": "\\*/",
+			"name": "comment.block.numscript",
+			"patterns": [
+				{
+					"match": "[\\s\\S]*",
+					"name": "comment.block.numscript"
+				}
+			]
+		},
+		{
+			"match": "(\"[^\"]*\")",
+			"name": "string.quoted.double.numscript"
+		},
+		{
+			"match": "\\[[A-Z0-9]+(/\\d+)?\\s+(\\d+|\\*)\\]",
+			"name": "constant.other.monetary.numscript"
+		},
+		{
+			"match": "\\b[0-9]+/[0-9]+\\b",
+			"name": "constant.numeric.fraction.numscript"
+		},
+		{
+			"match": "\\b[0-9]+%\\b",
+			"name": "constant.numeric.percentage.numscript"
+		},
+		{
+			"match": "\\b[0-9]+\\b",
+			"name": "constant.numeric.decimal.numscript"
+		},
+		{
+			"match": "\\$[a-zA-Z_][A-Za-z0-9_]*",
+			"name": "variable.parameter.function.numscript"
+		},
+		{
+			"match": "@[\\w:$]+",
+			"name": "string.other.numscript"
+		},
+		{
+			"match": "\\b(?i:send|save|vars|remaining|to|kept|allowing|unbounded|overdraft|up|max|from|oneof)\\b",
+			"name": "keyword.control.numscript"
+		},
+		{
+			"match": "\\b(?i:source|destination)\\b",
+			"name": "constant.language.numscript"
+		},
+		{
+			"match": "\\b(?i:set_tx_meta|set_account_meta|meta|balance|overdraft|get_asset|get_amount)\\b",
+			"name": "support.function.numscript"
+		},
+		{
+			"match": "\\b(?i:account|monetary|asset|number|string|portion)\\b",
+			"name": "storage.type.numscript"
+		},
+		{
+			"match": "[+\\-/]",
+			"name": "keyword.operator.numscript"
+		},
+		{
+			"match": "[{}()\\[\\]=,]",
+			"name": "punctuation.definition.numscript"
+		}
+	]
+}

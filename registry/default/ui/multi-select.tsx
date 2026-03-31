@@ -17,7 +17,9 @@ import {
   PopoverTrigger,
 } from '@/registry/default/ui/popover';
 import { cn } from '@/lib/utils';
-import { CheckIcon, ChevronsUpDownIcon, XIcon } from 'lucide-react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Command as CommandPrimitive } from 'cmdk';
+import { CheckIcon, ChevronsUpDownIcon, PlusIcon, XIcon } from 'lucide-react';
 import {
   createContext,
   useCallback,
@@ -26,16 +28,23 @@ import {
   useRef,
   useState,
   type ComponentPropsWithoutRef,
+  type KeyboardEvent,
   type ReactNode,
 } from 'react';
 
+type MultiSelectMode = 'popover' | 'inline';
+
 type MultiSelectContextType = {
+  mode: MultiSelectMode;
   open: boolean;
   setOpen: (open: boolean) => void;
   selectedValues: Set<string>;
   toggleValue: (value: string) => void;
+  removeLastValue: () => void;
   items: Map<string, ReactNode>;
   onItemAdded: (value: string, label: ReactNode) => void;
+  inputValue: string;
+  setInputValue: (value: string) => void;
   disabled?: boolean;
 };
 const MultiSelectContext = createContext<MultiSelectContextType | null>(null);
@@ -46,19 +55,32 @@ export function MultiSelect({
   defaultValues,
   onValuesChange,
   disabled,
+  mode = 'popover',
 }: {
   children: ReactNode;
   values?: string[];
   defaultValues?: string[];
   onValuesChange?: (values: string[]) => void;
   disabled?: boolean;
+  mode?: MultiSelectMode;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpenState] = useState(false);
   const [internalValues, setInternalValues] = useState(
     new Set<string>(values ?? defaultValues)
   );
   const selectedValues = values ? new Set(values) : internalValues;
   const [items, setItems] = useState<Map<string, ReactNode>>(new Map());
+  const [inputValue, setInputValue] = useState('');
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (disabled) return;
+      setOpenState(next);
+      if (!next) setInputValue('');
+    },
+    [disabled]
+  );
 
   function toggleValue(value: string) {
     const getNewSet = (prev: Set<string>) => {
@@ -75,6 +97,13 @@ export function MultiSelect({
     onValuesChange?.([...getNewSet(selectedValues)]);
   }
 
+  function removeLastValue() {
+    const vals = [...selectedValues];
+    if (vals.length === 0) return;
+    const last = vals[vals.length - 1]!;
+    toggleValue(last);
+  }
+
   const onItemAdded = useCallback((value: string, label: ReactNode) => {
     setItems((prev) => {
       if (prev.get(value) === label) return prev;
@@ -83,21 +112,58 @@ export function MultiSelect({
     });
   }, []);
 
+  // Click outside for inline mode
+  useEffect(() => {
+    if (mode !== 'inline' || !open) return;
+    function handlePointerDown(e: PointerEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener('pointerdown', handlePointerDown);
+
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [mode, open, setOpen]);
+
+  const contextValue: MultiSelectContextType = {
+    mode,
+    open,
+    setOpen,
+    selectedValues,
+    toggleValue,
+    removeLastValue,
+    items,
+    onItemAdded,
+    inputValue,
+    setInputValue,
+    disabled,
+  };
+
+  if (mode === 'inline') {
+    return (
+      <MultiSelectContext value={contextValue}>
+        <div ref={containerRef} className="relative">
+          <Command
+            className="overflow-visible bg-transparent"
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') setOpen(false);
+            }}
+          >
+            {children}
+          </Command>
+        </div>
+      </MultiSelectContext>
+    );
+  }
+
   return (
-    <MultiSelectContext
-      value={{
-        open,
-        setOpen,
-        selectedValues,
-        toggleValue,
-        items,
-        onItemAdded,
-        disabled,
-      }}
-    >
+    <MultiSelectContext value={contextValue}>
       <Popover
         open={disabled ? false : open}
-        onOpenChange={disabled ? undefined : setOpen}
+        onOpenChange={setOpen}
         modal={true}
       >
         {children}
@@ -106,15 +172,52 @@ export function MultiSelect({
   );
 }
 
+const multiSelectTriggerVariants = cva('', {
+  variants: {
+    size: {
+      sm: 'min-h-8',
+      md: 'min-h-9',
+      lg: 'min-h-10',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
+type MultiSelectTriggerProps = {
+  className?: string;
+  children?: ReactNode;
+} & VariantProps<typeof multiSelectTriggerVariants> &
+  ComponentPropsWithoutRef<typeof Button>;
+
 export function MultiSelectTrigger({
   className,
   children,
+  size = 'md',
   ...props
-}: {
-  className?: string;
-  children?: ReactNode;
-} & ComponentPropsWithoutRef<typeof Button>) {
-  const { open, disabled } = useMultiSelectContext();
+}: MultiSelectTriggerProps) {
+  const { mode, open, setOpen, disabled } = useMultiSelectContext();
+
+  if (mode === 'inline') {
+    return (
+      <div
+        role="combobox"
+        aria-expanded={open}
+        aria-disabled={disabled}
+        onClick={() => !disabled && setOpen(true)}
+        className={cn(
+          'flex h-auto w-fit items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm transition-[color] outline-none dark:bg-input/30 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=size-])]:size-4 [&_svg:not([class*=text-])]:text-muted-foreground',
+          multiSelectTriggerVariants({ size }),
+          open && 'ring-[3px] ring-ring/50 border-ring',
+          disabled && 'cursor-not-allowed opacity-50',
+          className
+        )}
+      >
+        {children}
+      </div>
+    );
+  }
 
   return (
     <PopoverTrigger asChild>
@@ -125,7 +228,8 @@ export function MultiSelectTrigger({
         aria-expanded={props['aria-expanded'] ?? open}
         disabled={disabled ?? props.disabled}
         className={cn(
-          "flex h-auto min-h-9 w-fit items-center justify-between gap-2 overflow-hidden rounded-md border border-input bg-background dark:bg-input/30 px-3 py-1.5 text-sm whitespace-nowrap transition-[color] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+          "flex h-auto w-fit items-center justify-between gap-2 overflow-hidden rounded-md border border-input bg-background dark:bg-input/30 px-3 py-1.5 text-sm whitespace-nowrap transition-[color] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[placeholder]:text-muted-foreground dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground",
+          multiSelectTriggerVariants({ size }),
           className
         )}
       >
@@ -133,6 +237,47 @@ export function MultiSelectTrigger({
         <ChevronsUpDownIcon className="size-4 shrink-0 opacity-50" />
       </Button>
     </PopoverTrigger>
+  );
+}
+
+export function MultiSelectInput({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof CommandPrimitive.Input>) {
+  const {
+    inputValue,
+    setInputValue,
+    setOpen,
+    removeLastValue,
+    selectedValues,
+  } = useMultiSelectContext();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <CommandPrimitive.Input
+      ref={inputRef}
+      value={inputValue}
+      onValueChange={(value) => {
+        setInputValue(value);
+        setOpen(true);
+      }}
+      onFocus={() => setOpen(true)}
+      onKeyDown={(e) => {
+        if (
+          (e.key === 'Backspace' || e.key === 'Delete') &&
+          inputValue === '' &&
+          selectedValues.size > 0
+        ) {
+          e.preventDefault();
+          removeLastValue();
+        }
+      }}
+      className={cn(
+        'flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground min-w-[80px]',
+        className
+      )}
+      {...props}
+    />
   );
 }
 
@@ -147,7 +292,8 @@ export function MultiSelectValue({
   clickToRemove?: boolean;
   overflowBehavior?: 'wrap' | 'wrap-when-open' | 'cutoff';
 } & Omit<ComponentPropsWithoutRef<'div'>, 'children'>) {
-  const { selectedValues, toggleValue, items, open } = useMultiSelectContext();
+  const { selectedValues, toggleValue, removeLastValue, items, open, mode } =
+    useMultiSelectContext();
   const [overflowAmount, setOverflowAmount] = useState(0);
   const valueRef = useRef<HTMLDivElement>(null);
   const overflowRef = useRef<HTMLDivElement>(null);
@@ -203,6 +349,20 @@ export function MultiSelectValue({
     [checkOverflow]
   );
 
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (
+        mode !== 'inline' &&
+        (e.key === 'Backspace' || e.key === 'Delete') &&
+        selectedValues.size > 0
+      ) {
+        e.preventDefault();
+        removeLastValue();
+      }
+    },
+    [mode, selectedValues.size, removeLastValue]
+  );
+
   if (selectedValues.size === 0 && placeholder) {
     return (
       <span className="min-w-0 overflow-hidden font-normal text-muted-foreground">
@@ -215,8 +375,10 @@ export function MultiSelectValue({
     <div
       {...props}
       ref={handleResize}
+      onKeyDown={handleKeyDown}
       className={cn(
-        'flex w-full gap-1.5 overflow-hidden',
+        'flex gap-1.5 overflow-hidden',
+        mode !== 'inline' && 'w-full',
         shouldWrap && 'h-full flex-wrap',
         className
       )}
@@ -244,27 +406,86 @@ export function MultiSelectValue({
             )}
           </Badge>
         ))}
-      <Badge
+      <div
+        ref={overflowRef}
         style={{
           display: overflowAmount > 0 && !shouldWrap ? 'block' : 'none',
         }}
-        variant="outline"
       >
-        +{overflowAmount}
-      </Badge>
+        <Badge variant="outline">+{overflowAmount}</Badge>
+      </div>
     </div>
   );
 }
 
 export function MultiSelectContent({
   search = true,
+  creatable = false,
   children,
   ...props
 }: {
   search?: boolean | { placeholder?: string; emptyMessage?: string };
+  creatable?: boolean;
   children: ReactNode;
 } & Omit<ComponentPropsWithoutRef<typeof Command>, 'children'>) {
+  const {
+    mode,
+    open,
+    inputValue,
+    setInputValue,
+    toggleValue,
+    items,
+    selectedValues,
+  } = useMultiSelectContext();
   const canSearch = typeof search === 'object' ? true : search;
+
+  const inputMatchesItem = [...items.keys()].some(
+    (key) => key.toLowerCase() === inputValue.toLowerCase()
+  );
+  const isAlreadySelected = selectedValues.has(inputValue);
+  const showCreatable =
+    creatable &&
+    inputValue.length > 0 &&
+    !inputMatchesItem &&
+    !isAlreadySelected;
+
+  const creatableNode = showCreatable && (
+    <CommandGroup forceMount>
+      <CommandItem
+        forceMount
+        value={`__create_${inputValue}`}
+        onSelect={() => {
+          toggleValue(inputValue);
+          setInputValue('');
+        }}
+      >
+        <PlusIcon className="mr-2 size-4" />
+        Create &ldquo;{inputValue}&rdquo;
+      </CommandItem>
+    </CommandGroup>
+  );
+
+  const emptyMessage =
+    typeof search === 'object' ? search.emptyMessage : undefined;
+
+  if (mode === 'inline') {
+    return (
+      <div
+        className={cn(
+          'absolute left-0 top-full z-50 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md transition-all',
+          open
+            ? 'opacity-100 translate-y-0 visible duration-150 ease-out'
+            : 'opacity-0 -translate-y-1 invisible duration-0'
+        )}
+      >
+        <CommandList>
+          {!showCreatable && <CommandEmpty>{emptyMessage}</CommandEmpty>}
+          {children}
+          {creatableNode}
+        </CommandList>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -278,6 +499,8 @@ export function MultiSelectContent({
         <Command {...props}>
           {canSearch ? (
             <CommandInput
+              value={inputValue}
+              onValueChange={setInputValue}
               placeholder={
                 typeof search === 'object' ? search.placeholder : undefined
               }
@@ -286,12 +509,11 @@ export function MultiSelectContent({
             <button autoFocus className="sr-only" />
           )}
           <CommandList>
-            {canSearch && (
-              <CommandEmpty>
-                {typeof search === 'object' ? search.emptyMessage : undefined}
-              </CommandEmpty>
+            {canSearch && !showCreatable && (
+              <CommandEmpty>{emptyMessage}</CommandEmpty>
             )}
             {children}
+            {creatableNode}
           </CommandList>
         </Command>
       </PopoverContent>
@@ -323,6 +545,7 @@ export function MultiSelectItem({
         toggleValue(value);
         onSelect?.(value);
       }}
+      className={props.className}
     >
       <CheckIcon
         className={cn('mr-2 size-4', isSelected ? 'opacity-100' : 'opacity-0')}

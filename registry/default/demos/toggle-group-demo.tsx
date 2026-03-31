@@ -1,7 +1,10 @@
 'use client';
 
 import { Bold, Italic, Underline } from 'lucide-react';
-import { ToggleGroup, ToggleGroupItem } from '@/registry/default/ui/toggle-group';
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from '@/registry/default/ui/toggle-group';
 
 export default function ToggleGroupDemo() {
   return (
