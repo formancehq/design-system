@@ -15,6 +15,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/registry/default/ui/sheet';
+import { h3Variants } from '@/registry/default/ui/typography';
 
 export function TopNavigation() {
   const { theme, setTheme } = useTheme();
@@ -45,9 +46,7 @@ export function TopNavigation() {
             <Menu className="h-4 w-4" />
           </Button>
           <Link href="/" className="flex items-center gap-3">
-            <span className="text-lg font-semibold tracking-tight font-sans">
-              Formance Design System
-            </span>
+            <span className={h3Variants({})}>Formance Design System</span>
           </Link>
         </div>
         <div className="flex items-center gap-2">

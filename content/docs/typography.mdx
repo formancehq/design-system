@@ -1,8 +1,43 @@
-## Typefaces
+<TypefacePreviewCard variant="polymath">
+  <PolymathPreview />
+</TypefacePreviewCard>
 
-The design system uses three typefaces loaded from the Formance CDN.
+<TypefacePreviewCard variant="berkeley-mono">
+  <BerkeleyMonoPreview />
+</TypefacePreviewCard>
 
-<TypefacePreviews />
+<TypefacePreviewCard variant="figtree">
+  <FigtreePreview />
+</TypefacePreviewCard>
+
+<TypefacePreviewCard>
+  <SpaceMonoPreview />
+</TypefacePreviewCard>
+
+## Optical Sizing
+
+Polymath is a variable font with an `opsz` (optical size) axis. The design system applies optical sizing automatically — headings use `opsz 72` for sharper display rendering, while body text uses `opsz 6` for better readability at smaller sizes.
+
+These are applied globally via CSS and also available as Tailwind utilities:
+
+- `font-display` — `font-variation-settings: 'opsz' 72` for headings and large text
+- `font-text` — `font-variation-settings: 'opsz' 6` for body text and labels
+
+```css
+body {
+  font-optical-sizing: auto;
+  font-variation-settings: 'opsz' 6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-variation-settings: 'opsz' 72;
+}
+```
 
 ## Usage
 

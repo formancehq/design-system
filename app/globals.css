@@ -500,7 +500,18 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: var(--font-sans);
+  font-optical-sizing: auto;
+  font-variation-settings: 'opsz' 6;
   color: var(--foreground);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-variation-settings: 'opsz' 72;
 }
 
 @layer base {
@@ -518,6 +529,15 @@ body {
     font-family: var(--font-mono);
     font-size: var(--text-sm);
   }
+}
+
+/* Font variation utilities */
+@utility font-display {
+  font-variation-settings: 'opsz' 72;
+}
+
+@utility font-text {
+  font-variation-settings: 'opsz' 6;
 }
 
 /* Steps — numbered installation steps for MDX docs */

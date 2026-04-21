@@ -11,10 +11,21 @@ import { MdxCodeBlock } from '@/components/mdx-code-block';
 import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
 import { Tabs as TabsPrimitive } from 'radix-ui';
 import { cn } from '@/lib/utils';
+import { Eyebrow } from '@/registry/default/ui/eyebrow';
 import { BrandSwatches } from '@/components/docs/brand-swatches';
 import { SemanticColorsGrid } from '@/components/docs/semantic-colors-grid';
 import { UITokensGrid } from '@/components/docs/ui-tokens-grid';
-import { TypefacePreviews } from '@/components/docs/typeface-previews';
+import { TypefacePreviewCard } from '@/components/docs/typeface-preview-card';
+import {
+  PolymathPreview,
+  BerkeleyMonoPreview,
+  FigtreePreview,
+  SpaceMonoPreview,
+  TypefaceSectionLabel,
+  TypographyExampleHero,
+  TypographyExampleFeature,
+  TypographyExampleCompact,
+} from '@/components/docs/typeface-previews';
 import {
   LightVariables,
   DarkVariables,
@@ -83,10 +94,19 @@ export const mdxComponents: MDXComponents = {
   ),
   TabsList,
   TabsTrigger,
+  Eyebrow,
   BrandSwatches,
   SemanticColorsGrid,
   UITokensGrid,
-  TypefacePreviews,
+  TypefacePreviewCard,
+  PolymathPreview,
+  BerkeleyMonoPreview,
+  FigtreePreview,
+  SpaceMonoPreview,
+  TypefaceSectionLabel,
+  TypographyExampleHero,
+  TypographyExampleFeature,
+  TypographyExampleCompact,
   LightVariables,
   DarkVariables,
   BrandPaletteVariables,

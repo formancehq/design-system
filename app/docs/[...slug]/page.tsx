@@ -1,20 +1,20 @@
 import fs from 'fs';
-import path from 'path';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { compileMDX } from 'next-mdx-remote/rsc';
+import { notFound } from 'next/navigation';
+import path from 'path';
 import rehypePrettyCode from 'rehype-pretty-code';
 
-import { docsConfig, componentMeta } from '@/config/docs';
+import { Breadcrumbs } from '@/components/breadcrumbs';
+import { CompoundComponents } from '@/components/compound-components';
+import { DocsPager } from '@/components/docs-pager';
+import { mdxComponents } from '@/components/mdx-components';
+import { SourceBanner } from '@/components/source-banner';
+import { componentMeta, docsConfig } from '@/config/docs';
 import { cssVarsTheme, getHighlighter } from '@/lib/shiki-theme';
 import { slugify } from '@/lib/slugify';
-import { mdxComponents } from '@/components/mdx-components';
-import { Breadcrumbs } from '@/components/breadcrumbs';
-import { DocsPager } from '@/components/docs-pager';
-import { TableOfContents } from '@/registry/default/ui/table-of-contents';
-import { SourceBanner } from '@/components/source-banner';
-import { CompoundComponents } from '@/components/compound-components';
 import { Separator } from '@/registry/default/ui/separator';
+import { TableOfContents } from '@/registry/default/ui/table-of-contents';
 import { TypographyH1, TypographyLead } from '@/registry/default/ui/typography';
 
 function findSidebarItem(slug: string) {
@@ -125,8 +125,10 @@ export default async function DocsPage({
       <div className="min-w-0 space-y-8">
         <div className="space-y-4">
           <Breadcrumbs />
-          <TypographyH1>{found.item.title}</TypographyH1>
-          {meta && <TypographyLead>{meta.description}</TypographyLead>}
+          <div className="flex flex-col gap-2">
+            <TypographyH1>{found.item.title}</TypographyH1>
+            {meta && <TypographyLead>{meta.description}</TypographyLead>}
+          </div>
         </div>
 
         {meta && <SourceBanner source={meta.source} />}
