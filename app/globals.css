@@ -53,7 +53,7 @@
   --accent-foreground: var(--primary);
 
   --ring: var(--emerald-500);
-  --radius: 0.27rem;
+  --radius: 0rem;
 
   --emerald-50: oklch(1 0 0);
 
