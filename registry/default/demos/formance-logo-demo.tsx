@@ -1,6 +1,9 @@
 'use client';
 
-import { FormanceLogo, FormanceIcon } from '@/registry/default/ui/formance-logo';
+import {
+  FormanceLogo,
+  FormanceIcon,
+} from '@/registry/default/ui/formance-logo';
 
 export default function FormanceLogoDemo() {
   return (

@@ -1,13 +1,23 @@
 'use client';
 
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/registry/default/ui/hover-card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/registry/default/ui/avatar';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/registry/default/ui/hover-card';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/registry/default/ui/avatar';
 
 export default function HoverCardDemo() {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <span className="cursor-pointer text-sm underline underline-offset-4">@formance</span>
+        <span className="cursor-pointer text-sm underline underline-offset-4">
+          @formance
+        </span>
       </HoverCardTrigger>
       <HoverCardContent className="w-72">
         <div className="flex gap-4">

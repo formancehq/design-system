@@ -17,7 +17,10 @@ export function DocsPager() {
   const next = currentIndex < items.length - 1 ? items[currentIndex + 1] : null;
 
   return (
-    <nav className="flex items-center justify-between pt-8" aria-label="Pagination">
+    <nav
+      className="flex items-center justify-between pt-8"
+      aria-label="Pagination"
+    >
       {prev ? (
         <Link
           href={prev.href}

@@ -1,0 +1,33 @@
+## Convention
+
+Colors use a `background` / `foreground` naming convention. The `background` suffix is used for the background color and `foreground` for the text color.
+
+```tsx
+<div className="bg-primary text-primary-foreground">Hello</div>
+```
+
+All colors are defined as CSS custom properties using the OKLCh color space. This provides perceptually uniform color mixing and consistent contrast across palettes.
+
+## CSS Variables
+
+Here is the full list of CSS variables used by the design system.
+
+### Light Mode
+
+<LightVariables />
+
+### Dark Mode
+
+<DarkVariables />
+
+## Brand Palettes
+
+Five brand color palettes (Emerald, Lilac, Gold, Cobalt, Mint) with full shade scales. These are the raw OKLCh values that semantic tokens reference.
+
+<BrandPaletteVariables />
+
+## Customization
+
+Override any CSS variable in your own `globals.css` to customize the theme. Brand palettes and all semantic colors can be replaced independently.
+
+The Tailwind v4 `@theme inline` block maps every CSS variable to a Tailwind utility, so `bg-emerald-500` and similar classes work automatically.

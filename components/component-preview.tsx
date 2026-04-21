@@ -1,10 +1,26 @@
 import fs from 'fs';
 import path from 'path';
 
-import { registryDemos } from '@/config/registry-demos';
 import { CodeBlock } from '@/components/code-block';
 import { CollapsibleCode } from '@/components/collapsible-code';
 import { ComponentPreviewClient } from '@/components/component-preview-client';
+
+/** Try reading source for a demo or example by convention. */
+function readSource(name: string): string {
+  const cwd = process.cwd();
+  for (const candidate of [
+    path.join(cwd, `registry/default/demos/${name}-demo.tsx`),
+    path.join(cwd, `registry/default/examples/${name}.tsx`),
+  ]) {
+    try {
+      return fs.readFileSync(candidate, 'utf-8');
+    } catch {
+      // try next
+    }
+  }
+
+  return '';
+}
 
 export async function ComponentPreview({
   name,
@@ -19,30 +35,22 @@ export async function ComponentPreview({
   showGrid?: boolean;
   align?: 'start' | 'center' | 'end';
 }) {
-  const demo = registryDemos[name];
-  let source = '';
-
-  if (demo) {
-    const filePath = path.join(process.cwd(), demo.sourceFile);
-    try {
-      source = fs.readFileSync(filePath, 'utf-8');
-    } catch {
-      source = '';
-    }
-  }
+  const source = readSource(name);
+  const hasCode = !hideCode && !!source;
 
   return (
-    <div className="space-y-4">
+    <div className="overflow-hidden rounded-lg border">
       <ComponentPreviewClient name={name} showGrid={showGrid} align={align} />
-      {!hideCode && source && (
-        peekCode ? (
+      {hasCode &&
+        (peekCode ? (
           <CollapsibleCode>
-            <CodeBlock code={source} lang="tsx" />
+            <CodeBlock code={source} lang="tsx" noBorder />
           </CollapsibleCode>
         ) : (
-          <CodeBlock code={source} lang="tsx" />
-        )
-      )}
+          <div className="border-t">
+            <CodeBlock code={source} lang="tsx" noBorder />
+          </div>
+        ))}
     </div>
   );
 }

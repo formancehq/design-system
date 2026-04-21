@@ -1,0 +1,72 @@
+<ComponentPreview name="accordion" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/accordion
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install radix-ui lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="accordion" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+```
+
+```tsx
+<Accordion type="single" collapsible>
+  <AccordionItem value="ledgers">
+    <AccordionTrigger>What are Ledgers?</AccordionTrigger>
+    <AccordionContent>
+      Ledgers are the core data structure in Formance. They track all financial
+      transactions and balances for your accounts.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="payments">
+    <AccordionTrigger>How do Payments work?</AccordionTrigger>
+    <AccordionContent>
+      Payments represent money movements between accounts. They can be initiated
+      via connectors or created manually through the API.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="wallets">
+    <AccordionTrigger>What are Wallets?</AccordionTrigger>
+    <AccordionContent>
+      Wallets provide a higher-level abstraction over ledger accounts, enabling
+      balance management, holds, and multi-currency support.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```

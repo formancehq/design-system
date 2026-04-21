@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  useComposedRefs,
-  type PossibleRef,
-} from '@/lib/compose-refs';
+import { useComposedRefs, type PossibleRef } from '@/lib/compose-refs';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 import { Slot as SlotPrimitive } from 'radix-ui';
@@ -52,8 +49,8 @@ function getDirectionAwareKey(key: string, dir?: Direction) {
   return key === 'ArrowLeft'
     ? 'ArrowRight'
     : key === 'ArrowRight'
-    ? 'ArrowLeft'
-    : key;
+      ? 'ArrowLeft'
+      : key;
 }
 
 type TriggerElement = React.ComponentRef<typeof StepperTrigger>;

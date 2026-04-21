@@ -1,0 +1,46 @@
+<TypefacePreviewCard variant="polymath">
+  <PolymathPreview />
+</TypefacePreviewCard>
+
+<TypefacePreviewCard variant="berkeley-mono">
+  <BerkeleyMonoPreview />
+</TypefacePreviewCard>
+
+<TypefacePreviewCard variant="figtree">
+  <FigtreePreview />
+</TypefacePreviewCard>
+
+<TypefacePreviewCard>
+  <SpaceMonoPreview />
+</TypefacePreviewCard>
+
+## Optical Sizing
+
+Polymath is a variable font with an `opsz` (optical size) axis. The design system applies optical sizing automatically — headings use `opsz 72` for sharper display rendering, while body text uses `opsz 6` for better readability at smaller sizes.
+
+These are applied globally via CSS and also available as Tailwind utilities:
+
+- `font-display` — `font-variation-settings: 'opsz' 72` for headings and large text
+- `font-text` — `font-variation-settings: 'opsz' 6` for body text and labels
+
+```css
+body {
+  font-optical-sizing: auto;
+  font-variation-settings: 'opsz' 6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-variation-settings: 'opsz' 72;
+}
+```
+
+## Usage
+
+Buttons, badges, tabs, eyebrows, and other interactive elements use `font-mono` (Berkeley Mono, falling back to Space Mono) in uppercase. Body text and headings use `font-sans` (Polymath, falling back to Figtree).
+
+See the [Typography component](/docs/components/typography) for ready-made heading, paragraph, and text components.

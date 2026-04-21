@@ -1,0 +1,68 @@
+<ComponentPreview name="card" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/card
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="card" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+```
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Transaction Summary</CardTitle>
+    <CardDescription>Overview of recent payment activity</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Total processed: 1,024 transactions</p>
+  </CardContent>
+  <CardFooter>
+    <p className="text-sm text-muted-foreground">Last updated 5 minutes ago</p>
+  </CardFooter>
+</Card>
+```

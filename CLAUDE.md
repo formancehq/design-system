@@ -30,6 +30,7 @@ The sidebar navigation should eventually reflect this taxonomy (Atoms → Fragme
 When adding or updating components and examples, use these projects as reference:
 
 ### Platform UI (production components)
+
 `/Users/brieuccaillot/Developer/Formance/platform-ui`
 
 - **UI components**: `packages/ui/src/components/` — production shadcn components with Formance customizations
@@ -39,7 +40,22 @@ When adding or updating components and examples, use these projects as reference
 
 When creating DS examples, check platform-ui for real-world usage patterns to ensure coverage.
 
+### Internal UI (consumer project)
+
+`/Users/brieuccaillot/Developer/Formance/internal-ui`
+
+Monorepo consuming components from this design system registry. Uses `npx shadcn add` with a local registry URL (`http://localhost:3333/r/{name}.json`).
+
+- **UI package**: `packages/ui/` — shared components, styles, and configuration
+- **Components**: `packages/ui/src/components/` — includes both DS-sourced and project-specific components
+- **Code components**: `packages/ui/src/components/code/` — code-themes, code-editor, code-snippet (synced from DS)
+- **Styles**: `packages/ui/src/styles/globals.css` — must stay aligned with DS `app/globals.css` for color tokens
+- **Config**: `packages/ui/components.json` — shadcn config, must use `"style": "default"` to match DS
+
+When updating DS color tokens or code-themes, also update internal-ui to keep them in sync.
+
 ### Supabase Design System (architecture reference)
+
 `/Users/brieuccaillot/Developer/Tools/supabase/apps/design-system`
 
 Local clone of the Supabase design system. **Always read files directly from this path** — do not use DeepWiki, WebFetch, or browser tools to look up Supabase DS code.
@@ -62,6 +78,7 @@ Local clone of the Supabase design system. **Always read files directly from thi
 ## Import Conventions
 
 When copying components from platform-ui, adapt imports:
+
 - `@platform/ui/lib/utils` → `@/lib/utils`
 - `@platform/ui/components/X` → `@/registry/default/ui/X`
 

@@ -1,0 +1,78 @@
+<ComponentPreview name="sortable" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/sortable
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/modifiers @dnd-kit/utilities
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="sortable" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+  SortableOverlay,
+} from '@/components/ui/sortable'
+```
+
+```tsx
+<Sortable
+  value={items}
+  onValueChange={setItems}
+  getItemValue={(item) => item.id}
+>
+  <SortableContent>
+    {items.map((item) => (
+      <SortableItem key={item.id} value={item.id}>
+        <SortableItemHandle asChild>
+          <button>Drag</button>
+        </SortableItemHandle>
+        {item.label}
+      </SortableItem>
+    ))}
+  </SortableContent>
+  <SortableOverlay />
+</Sortable>
+```
+
+## Examples
+
+### Horizontal
+
+<ComponentPreview name="sortable-horizontal" />

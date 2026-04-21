@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  BookOpenIcon,
-  HomeIcon,
-  SettingsIcon,
-  WalletIcon,
-} from 'lucide-react';
+import { BookOpenIcon, HomeIcon, SettingsIcon, WalletIcon } from 'lucide-react';
 
 import {
   Sidebar,

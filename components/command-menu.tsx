@@ -4,7 +4,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { Command } from 'cmdk';
-import { Moon, Sun, Monitor, FileText, Palette, Type, Paintbrush, Package, Shapes } from 'lucide-react';
+import {
+  Moon,
+  Sun,
+  Monitor,
+  FileText,
+  Palette,
+  Type,
+  Paintbrush,
+  Package,
+  Shapes,
+} from 'lucide-react';
 
 import { docsConfig, flattenNav } from '@/config/docs';
 
@@ -19,22 +29,23 @@ export function CommandMenu() {
         e.preventDefault();
         setOpen((prev) => !prev);
       }
-      if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+      if (
+        e.key === '/' &&
+        !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)
+      ) {
         e.preventDefault();
         setOpen(true);
       }
     }
     document.addEventListener('keydown', onKeyDown);
+
     return () => document.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  const runCommand = useCallback(
-    (command: () => void) => {
-      setOpen(false);
-      command();
-    },
-    []
-  );
+  const runCommand = useCallback((command: () => void) => {
+    setOpen(false);
+    command();
+  }, []);
 
   const navItems = flattenNav();
 
@@ -45,7 +56,10 @@ export function CommandMenu() {
       label="Command Menu"
       className="fixed inset-0 z-50"
     >
-      <div className="fixed inset-0 bg-black/50" onClick={() => setOpen(false)} />
+      <div
+        className="fixed inset-0 bg-black/50"
+        onClick={() => setOpen(false)}
+      />
       <div className="fixed top-[20%] left-1/2 w-full max-w-lg -translate-x-1/2 rounded-lg border bg-popover text-popover-foreground shadow-lg">
         <Command.Input
           placeholder="Type a command or search..."
@@ -63,12 +77,18 @@ export function CommandMenu() {
               className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground"
             >
               {section.items.map((item) => {
-                const Icon = section.title === 'Components' ? Package
-                  : item.title === 'Colors' ? Palette
-                  : item.title === 'Typography' ? Type
-                  : item.title === 'Theming' ? Paintbrush
-                  : item.title === 'Formance Logo' ? Shapes
-                  : FileText;
+                const Icon =
+                  section.title === 'Components'
+                    ? Package
+                    : item.title === 'Colors'
+                      ? Palette
+                      : item.title === 'Typography'
+                        ? Type
+                        : item.title === 'Theming'
+                          ? Paintbrush
+                          : item.title === 'Formance Logo'
+                            ? Shapes
+                            : FileText;
 
                 return (
                   <Command.Item

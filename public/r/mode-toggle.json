@@ -8,7 +8,7 @@
     "next-themes"
   ],
   "registryDependencies": [
-    "button"
+    "http://localhost:3333/r/button.json"
   ],
   "files": [
     {

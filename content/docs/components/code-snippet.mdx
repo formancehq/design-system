@@ -1,0 +1,104 @@
+<ComponentPreview name="code-snippet" />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://design-system-three-mauve.vercel.app/r/code-snippet.json
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install shiki class-variance-authority lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="code-snippet" />
+
+<Step>Add the `--shiki-*` CSS variables to your global CSS.</Step>
+
+The component uses CSS custom properties for syntax colors. Add these to your `:root` and `.dark` selectors:
+
+```css
+:root {
+  --shiki-foreground: var(--foreground);
+  --shiki-background: transparent;
+  --shiki-token-constant: var(--emerald-600);
+  --shiki-token-string: var(--lilac-700);
+  --shiki-token-comment: var(--emerald-500);
+  --shiki-token-keyword: var(--mint-800);
+  --shiki-token-parameter: var(--emerald-600);
+  --shiki-token-function: var(--mint-800);
+  --shiki-token-string-expression: var(--lilac-700);
+  --shiki-token-punctuation: var(--foreground);
+  --shiki-token-link: var(--emerald-600);
+  --shiki-token-monetary: var(--gold-600);
+}
+
+.dark {
+  --shiki-foreground: var(--emerald-200);
+  --shiki-background: var(--emerald-800);
+  --shiki-token-constant: var(--mint-700);
+  --shiki-token-string: var(--lilac-500);
+  --shiki-token-comment: var(--emerald-400);
+  --shiki-token-keyword: var(--mint-600);
+  --shiki-token-parameter: var(--mint-700);
+  --shiki-token-function: var(--mint-600);
+  --shiki-token-string-expression: var(--lilac-500);
+  --shiki-token-punctuation: var(--emerald-300);
+  --shiki-token-link: var(--mint-700);
+  --shiki-token-monetary: var(--gold-300);
+}
+```
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { CodeSnippet } from '@/components/code/code-snippet'
+```
+
+```tsx
+<CodeSnippet code={`const x = 42;`} language="typescript" />
+```
+
+## Examples
+
+### Numscript
+
+<ComponentPreview name="code-snippet-numscript" />
+
+### Dark Theme
+
+<ComponentPreview name="code-snippet-dark" />
+
+### Light Theme
+
+<ComponentPreview name="code-snippet-light" />
+
+### fctl Commands
+
+<ComponentPreview name="code-snippet-fctl" />

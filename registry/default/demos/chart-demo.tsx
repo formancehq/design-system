@@ -1,7 +1,12 @@
 'use client';
 
 import { Bar, BarChart, XAxis } from 'recharts';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type TChartConfig } from '@/registry/default/ui/chart';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type TChartConfig,
+} from '@/registry/default/ui/chart';
 
 const chartData = [
   { month: 'Jan', value: 186 },

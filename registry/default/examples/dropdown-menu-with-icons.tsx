@@ -4,9 +4,14 @@ import { Cloud, CreditCard, LogOut, Settings, User } from 'lucide-react';
 
 import { Button } from '@/registry/default/ui/button';
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuGroup,
-  DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
-  DropdownMenuShortcut, DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
 } from '@/registry/default/ui/dropdown-menu';
 
 export default function DropdownMenuWithIcons() {

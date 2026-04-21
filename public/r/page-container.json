@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "page-container",
+  "title": "Page Container",
+  "description": "A responsive page container with size variants.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/page-container.tsx",
+      "content": "import { cva, type VariantProps } from 'class-variance-authority';\nimport { forwardRef, type HTMLAttributes } from 'react';\n\nimport { cn } from '@/lib/utils';\n\nconst pageContainerVariants = cva(['mx-auto w-full @container px-6 xl:px-10'], {\n  variants: {\n    size: {\n      small: 'max-w-[768px]',\n      default: 'max-w-[1200px]',\n      large: 'max-w-[1600px]',\n      full: 'max-w-none',\n    },\n  },\n  defaultVariants: {\n    size: 'default',\n  },\n});\n\ntype TPageContainerProps = HTMLAttributes<HTMLDivElement> &\n  VariantProps<typeof pageContainerVariants>;\n\nconst PageContainer = forwardRef<HTMLDivElement, TPageContainerProps>(\n  ({ className, size, ...props }, ref) => (\n    <div\n      data-slot=\"page-container\"\n      ref={ref}\n      {...props}\n      className={cn(pageContainerVariants({ size }), className)}\n      data-\n    />\n  )\n);\n\nPageContainer.displayName = 'PageContainer';\n\nexport { PageContainer, pageContainerVariants, type TPageContainerProps };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

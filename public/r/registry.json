@@ -237,7 +237,7 @@
       "title": "Form",
       "description": "Form components with React Hook Form and Zod integration.",
       "dependencies": ["radix-ui", "react-hook-form"],
-      "registryDependencies": ["label"],
+      "registryDependencies": ["http://localhost:3333/r/label.json"],
       "files": [
         { "path": "registry/default/ui/form.tsx", "type": "registry:ui" }
       ]
@@ -259,17 +259,10 @@
       "description": "The Formance logo and icon component.",
       "dependencies": ["class-variance-authority"],
       "files": [
-        { "path": "registry/default/ui/formance-logo.tsx", "type": "registry:ui" }
-      ]
-    },
-    {
-      "name": "table-of-contents",
-      "type": "registry:ui",
-      "title": "Table of Contents",
-      "description": "A sticky sidebar navigation that tracks the active section on the page.",
-      "dependencies": [],
-      "files": [
-        { "path": "registry/default/ui/table-of-contents.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/formance-logo.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -289,7 +282,10 @@
       "description": "A modal dialog that interrupts the user for a critical action.",
       "dependencies": ["radix-ui"],
       "files": [
-        { "path": "registry/default/ui/alert-dialog.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/alert-dialog.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -299,7 +295,10 @@
       "description": "Displays content within a desired ratio.",
       "dependencies": ["radix-ui"],
       "files": [
-        { "path": "registry/default/ui/aspect-ratio.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/aspect-ratio.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -369,7 +368,10 @@
       "description": "A menu triggered by right-clicking.",
       "dependencies": ["radix-ui", "lucide-react"],
       "files": [
-        { "path": "registry/default/ui/context-menu.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -379,7 +381,10 @@
       "description": "A menu displayed on trigger click.",
       "dependencies": ["radix-ui", "lucide-react"],
       "files": [
-        { "path": "registry/default/ui/dropdown-menu.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -419,7 +424,10 @@
       "description": "A navigation menu with dropdown content.",
       "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
       "files": [
-        { "path": "registry/default/ui/navigation-menu.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/navigation-menu.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -488,7 +496,10 @@
       "description": "A group of toggle buttons.",
       "dependencies": ["radix-ui", "class-variance-authority"],
       "files": [
-        { "path": "registry/default/ui/toggle-group.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/toggle-group.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -518,7 +529,10 @@
       "description": "A badge eyebrow with brand color variants.",
       "dependencies": ["class-variance-authority", "radix-ui"],
       "files": [
-        { "path": "registry/default/ui/badge-eyebrow.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/badge-eyebrow.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -527,9 +541,12 @@
       "title": "Badge Status",
       "description": "A status badge with animated ping indicator.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["badge"],
+      "registryDependencies": ["http://localhost:3333/r/badge.json"],
       "files": [
-        { "path": "registry/default/ui/badge-status.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/badge-status.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -537,9 +554,12 @@
       "type": "registry:ui",
       "title": "Button Group",
       "description": "A group of buttons with separator.",
-      "registryDependencies": ["separator"],
+      "registryDependencies": ["http://localhost:3333/r/separator.json"],
       "files": [
-        { "path": "registry/default/ui/button-group.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/button-group.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -556,9 +576,12 @@
       "type": "registry:ui",
       "title": "Description List",
       "description": "A description list and row layout for key-value pairs.",
-      "registryDependencies": ["separator"],
+      "registryDependencies": ["http://localhost:3333/r/separator.json"],
       "files": [
-        { "path": "registry/default/ui/description-list.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/description-list.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -567,7 +590,11 @@
       "title": "Combobox",
       "description": "A combobox with search built on Command and Popover.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["button", "command", "popover"],
+      "registryDependencies": [
+        "http://localhost:3333/r/button.json",
+        "http://localhost:3333/r/command.json",
+        "http://localhost:3333/r/popover.json"
+      ],
       "files": [
         { "path": "registry/default/ui/combobox.tsx", "type": "registry:ui" }
       ]
@@ -578,9 +605,15 @@
       "title": "Input Password",
       "description": "A password input with visibility toggle.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["button", "input"],
+      "registryDependencies": [
+        "http://localhost:3333/r/button.json",
+        "http://localhost:3333/r/input.json"
+      ],
       "files": [
-        { "path": "registry/default/ui/input-password.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/input-password.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -588,7 +621,7 @@
       "type": "registry:ui",
       "title": "Loader",
       "description": "Loading skeleton placeholders.",
-      "registryDependencies": ["skeleton"],
+      "registryDependencies": ["http://localhost:3333/r/skeleton.json"],
       "files": [
         { "path": "registry/default/ui/loader.tsx", "type": "registry:ui" }
       ]
@@ -599,7 +632,7 @@
       "title": "Mode Toggle",
       "description": "A theme toggle button for dark and light mode.",
       "dependencies": ["lucide-react", "next-themes"],
-      "registryDependencies": ["button"],
+      "registryDependencies": ["http://localhost:3333/r/button.json"],
       "files": [
         { "path": "registry/default/ui/mode-toggle.tsx", "type": "registry:ui" }
       ]
@@ -610,7 +643,7 @@
       "title": "Nav Tabs",
       "description": "Navigation tabs with pending state.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["tabs"],
+      "registryDependencies": ["http://localhost:3333/r/tabs.json"],
       "files": [
         { "path": "registry/default/ui/nav-tabs.tsx", "type": "registry:ui" }
       ]
@@ -620,7 +653,10 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "A full form field system with labels, descriptions, and errors.",
-      "registryDependencies": ["label", "separator"],
+      "registryDependencies": [
+        "http://localhost:3333/r/label.json",
+        "http://localhost:3333/r/separator.json"
+      ],
       "files": [
         { "path": "registry/default/ui/field.tsx", "type": "registry:ui" }
       ]
@@ -630,7 +666,11 @@
       "type": "registry:ui",
       "title": "Input Group",
       "description": "Grouped input with addons, buttons, and text.",
-      "registryDependencies": ["button", "input", "textarea"],
+      "registryDependencies": [
+        "http://localhost:3333/r/button.json",
+        "http://localhost:3333/r/input.json",
+        "http://localhost:3333/r/textarea.json"
+      ],
       "files": [
         { "path": "registry/default/ui/input-group.tsx", "type": "registry:ui" }
       ]
@@ -640,7 +680,7 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "A list item system with media, content, and actions.",
-      "registryDependencies": ["separator"],
+      "registryDependencies": ["http://localhost:3333/r/separator.json"],
       "files": [
         { "path": "registry/default/ui/item.tsx", "type": "registry:ui" }
       ]
@@ -651,9 +691,17 @@
       "title": "Multi Select",
       "description": "A multi-select component with badges and search.",
       "dependencies": ["lucide-react"],
-      "registryDependencies": ["badge", "button", "command", "popover"],
+      "registryDependencies": [
+        "http://localhost:3333/r/badge.json",
+        "http://localhost:3333/r/button.json",
+        "http://localhost:3333/r/command.json",
+        "http://localhost:3333/r/popover.json"
+      ],
       "files": [
-        { "path": "registry/default/ui/multi-select.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/multi-select.tsx",
+          "type": "registry:ui"
+        }
       ]
     },
     {
@@ -662,7 +710,14 @@
       "title": "Sidebar",
       "description": "A collapsible sidebar with mobile support.",
       "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
-      "registryDependencies": ["button", "input", "separator", "sheet", "skeleton", "tooltip"],
+      "registryDependencies": [
+        "http://localhost:3333/r/button.json",
+        "http://localhost:3333/r/input.json",
+        "http://localhost:3333/r/separator.json",
+        "http://localhost:3333/r/sheet.json",
+        "http://localhost:3333/r/skeleton.json",
+        "http://localhost:3333/r/tooltip.json"
+      ],
       "files": [
         { "path": "registry/default/ui/sidebar.tsx", "type": "registry:ui" }
       ]
@@ -675,6 +730,160 @@
       "dependencies": ["lucide-react", "radix-ui"],
       "files": [
         { "path": "registry/default/ui/stepper.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "page-container",
+      "type": "registry:ui",
+      "title": "Page Container",
+      "description": "A responsive page container with size variants.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "registry/default/ui/page-container.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "page-header",
+      "type": "registry:ui",
+      "title": "Page Header",
+      "description": "A compound page header with breadcrumb, icon, title, description, and navigation tabs.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": [
+        "http://localhost:3333/r/breadcrumb.json",
+        "http://localhost:3333/r/eyebrow.json",
+        "http://localhost:3333/r/page-container.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/page-header.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "page-section",
+      "type": "registry:ui",
+      "title": "Page Section",
+      "description": "A compound page section with title, description, and content areas.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "registry/default/ui/page-section.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "A data table built on TanStack Table with sorting, filtering, pagination, and skeleton loading.",
+      "dependencies": ["@tanstack/react-table", "lucide-react"],
+      "registryDependencies": [
+        "http://localhost:3333/r/badge.json",
+        "http://localhost:3333/r/button.json",
+        "http://localhost:3333/r/command.json",
+        "http://localhost:3333/r/dropdown-menu.json",
+        "http://localhost:3333/r/popover.json",
+        "http://localhost:3333/r/select.json",
+        "http://localhost:3333/r/skeleton.json",
+        "http://localhost:3333/r/table.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/data-table.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "radio-group-card",
+      "type": "registry:ui",
+      "title": "Radio Group Card",
+      "description": "A card-style radio group for visual selection with optional children content.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/default/ui/radio-group-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "radio-group-stacked",
+      "type": "registry:ui",
+      "title": "Radio Group Stacked",
+      "description": "A stacked radio group with labels and descriptions for form selections.",
+      "dependencies": ["radix-ui", "lucide-react"],
+      "files": [
+        {
+          "path": "registry/default/ui/radio-group-stacked.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "code-themes",
+      "type": "registry:ui",
+      "title": "Code Themes",
+      "description": "Shared Formance Shiki/Monaco themes, language config, and highlighter singleton using CSS variables.",
+      "dependencies": ["shiki"],
+      "files": [
+        { "path": "registry/default/ui/code/code-themes.ts", "type": "registry:ui", "target": "components/code/code-themes.ts" },
+        { "path": "registry/default/ui/code/code-themes.css", "type": "registry:ui", "target": "components/code/code-themes.css" },
+        { "path": "registry/default/ui/code/numscript.tmLanguage.json", "type": "registry:ui", "target": "components/code/numscript.tmLanguage.json" }
+      ]
+    },
+    {
+      "name": "code-snippet",
+      "type": "registry:ui",
+      "title": "Code Snippet",
+      "description": "A read-only syntax-highlighted code viewer powered by Shiki with CSS variable theming.",
+      "dependencies": ["shiki", "class-variance-authority", "lucide-react"],
+      "registryDependencies": [
+        "http://localhost:3333/r/code-themes.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code/code-snippet.tsx", "type": "registry:ui", "target": "components/code/code-snippet.tsx" }
+      ]
+    },
+    {
+      "name": "code-editor",
+      "type": "registry:ui",
+      "title": "Code Editor",
+      "description": "An editable Monaco code editor with Shiki tokenization and CSS variable theming.",
+      "dependencies": ["shiki", "monaco-editor-core", "@shikijs/monaco", "lucide-react"],
+      "registryDependencies": [
+        "http://localhost:3333/r/code-themes.json",
+        "http://localhost:3333/r/code-navigator.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code/code-editor.tsx", "type": "registry:ui", "target": "components/code/code-editor.tsx" }
+      ]
+    },
+    {
+      "name": "code-navigator",
+      "type": "registry:ui",
+      "title": "Code Navigator",
+      "description": "A breadcrumb navigator toolbar for jumping to sections in JSON/YAML code editors.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "http://localhost:3333/r/code-themes.json",
+        "http://localhost:3333/r/badge.json",
+        "http://localhost:3333/r/select.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code/code-navigator.tsx", "type": "registry:ui", "target": "components/code/code-navigator.tsx" },
+        { "path": "registry/default/ui/code/parse-navigation-tree.ts", "type": "registry:ui", "target": "components/code/parse-navigation-tree.ts" }
+      ]
+    },
+    {
+      "name": "numscript-validator",
+      "type": "registry:ui",
+      "title": "Numscript Validator",
+      "description": "Validates Numscript code via the playground API and returns diagnostics for CodeEditor.",
+      "registryDependencies": [
+        "http://localhost:3333/r/code-editor.json"
+      ],
+      "files": [
+        { "path": "registry/default/ui/code/numscript-validator.ts", "type": "registry:ui", "target": "components/code/numscript-validator.ts" }
       ]
     }
   ]

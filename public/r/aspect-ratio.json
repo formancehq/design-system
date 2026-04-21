@@ -9,7 +9,7 @@
   "files": [
     {
       "path": "registry/default/ui/aspect-ratio.tsx",
-      "content": "'use client';\n\nimport { AspectRatio as AspectRatioPrimitive } from 'radix-ui';\n\nfunction AspectRatio(props: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {\n  return <AspectRatioPrimitive.Root data-slot=\"aspect-ratio\" {...props} />;\n}\n\nexport { AspectRatio };\n",
+      "content": "'use client';\n\nimport { AspectRatio as AspectRatioPrimitive } from 'radix-ui';\n\nfunction AspectRatio(\n  props: React.ComponentProps<typeof AspectRatioPrimitive.Root>\n) {\n  return <AspectRatioPrimitive.Root data-slot=\"aspect-ratio\" {...props} />;\n}\n\nexport { AspectRatio };\n",
       "type": "registry:ui"
     }
   ],

@@ -1,0 +1,89 @@
+<ComponentPreview name="stepper" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/stepper
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install lucide-react radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="stepper" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Stepper,
+  StepperContent,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperList,
+  StepperNextTrigger,
+  StepperPrevTrigger,
+  StepperSeparator,
+  StepperTitle,
+  StepperTrigger,
+} from '@/components/ui/stepper'
+```
+
+```tsx
+<Stepper defaultValue="account">
+  <StepperList>
+    <StepperItem value="account">
+      <StepperTrigger>
+        <StepperIndicator />
+        <StepperTitle>Account</StepperTitle>
+      </StepperTrigger>
+      <StepperSeparator />
+    </StepperItem>
+    <StepperItem value="ledger">
+      <StepperTrigger>
+        <StepperIndicator />
+        <StepperTitle>Create Ledger</StepperTitle>
+      </StepperTrigger>
+      <StepperSeparator />
+    </StepperItem>
+    <StepperItem value="review">
+      <StepperTrigger>
+        <StepperIndicator />
+        <StepperTitle>Review</StepperTitle>
+      </StepperTrigger>
+    </StepperItem>
+  </StepperList>
+
+  <StepperContent value="account">Configure your account.</StepperContent>
+  <StepperContent value="ledger">Create your first ledger.</StepperContent>
+  <StepperContent value="review">Review and confirm.</StepperContent>
+</Stepper>
+```

@@ -1,0 +1,64 @@
+<ComponentPreview name="separator" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/separator
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="separator" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Separator } from '@/components/ui/separator'
+```
+
+```tsx
+<div>
+  <div className="space-y-1">
+    <h4 className="text-sm font-medium">Ledger Settings</h4>
+    <p className="text-sm text-muted-foreground">
+      Configure your ledger preferences and metadata.
+    </p>
+  </div>
+  <Separator className="my-4" />
+  <div className="space-y-1">
+    <h4 className="text-sm font-medium">Payment Connectors</h4>
+    <p className="text-sm text-muted-foreground">
+      Manage connected payment providers.
+    </p>
+  </div>
+</div>
+```

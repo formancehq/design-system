@@ -1,0 +1,54 @@
+<ComponentPreview name="radio-group-card" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/radio-group-card
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install radix-ui lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="radio-group-card" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { RadioGroupCard, RadioGroupCardItem } from '@/components/ui/radio-group-card'
+```
+
+```tsx
+<RadioGroupCard defaultValue="ledger" className="flex flex-wrap gap-3">
+  <RadioGroupCardItem value="ledger" label="Ledger" />
+  <RadioGroupCardItem value="payments" label="Payments" />
+  <RadioGroupCardItem value="wallets" label="Wallets" />
+</RadioGroupCard>
+```

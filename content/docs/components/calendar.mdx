@@ -1,0 +1,96 @@
+<ComponentPreview name="calendar" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/calendar
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install react-day-picker lucide-react class-variance-authority radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="calendar" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Calendar } from '@/components/ui/calendar'
+```
+
+```tsx
+const [date, setDate] = React.useState<Date | undefined>(new Date())
+
+return (
+  <Calendar
+    mode="single"
+    selected={date}
+    onSelect={setDate}
+  />
+)
+```
+
+## Examples
+
+### Range
+
+<ComponentPreview name="calendar-range" />
+
+### Dropdown
+
+<ComponentPreview name="calendar-dropdown" />
+
+### Presets
+
+<ComponentPreview name="calendar-presets" />
+
+### Week Numbers
+
+<ComponentPreview name="calendar-week-numbers" />
+
+### Disabled Dates
+
+<ComponentPreview name="calendar-disabled-dates" />
+
+### Disabled Function
+
+<ComponentPreview name="calendar-disabled-function" />
+
+### Default Month
+
+<ComponentPreview name="calendar-default-month" />
+
+### Responsive
+
+<ComponentPreview name="calendar-responsive" />
+
+### Date Picker
+
+<ComponentPreview name="calendar-date-picker" />

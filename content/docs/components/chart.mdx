@@ -1,0 +1,67 @@
+<ComponentPreview name="chart" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install recharts
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="chart" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+```
+
+```tsx
+const chartConfig = {
+  transactions: {
+    label: 'Transactions',
+    color: 'hsl(var(--chart-1))',
+  },
+  payments: {
+    label: 'Payments',
+    color: 'hsl(var(--chart-2))',
+  },
+}
+
+<ChartContainer config={chartConfig} className="min-h-[200px]">
+  <BarChart data={data}>
+    <Bar dataKey="transactions" fill="var(--color-transactions)" />
+    <Bar dataKey="payments" fill="var(--color-payments)" />
+    <ChartTooltip content={<ChartTooltipContent />} />
+  </BarChart>
+</ChartContainer>
+```

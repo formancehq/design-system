@@ -1,0 +1,82 @@
+<ComponentPreview name="page-section" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/page-section
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="page-section" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  PageSection,
+  PageSectionMeta,
+  PageSectionSummary,
+  PageSectionTitle,
+  PageSectionDescription,
+  PageSectionAside,
+  PageSectionContent,
+} from '@/components/ui/page-section'
+```
+
+```tsx
+<PageSection>
+  <PageSectionMeta>
+    <PageSectionSummary>
+      <PageSectionTitle>General</PageSectionTitle>
+      <PageSectionDescription>
+        Basic information about your organization.
+      </PageSectionDescription>
+    </PageSectionSummary>
+  </PageSectionMeta>
+  <PageSectionContent>
+    {/* Section content */}
+  </PageSectionContent>
+</PageSection>
+```
+
+## Examples
+
+### Horizontal
+
+Use `orientation="horizontal"` for a side-by-side layout where the summary appears on the left and content on the right.
+
+<ComponentPreview name="page-section-horizontal" />
+
+### With Aside
+
+<ComponentPreview name="page-section-with-aside" />

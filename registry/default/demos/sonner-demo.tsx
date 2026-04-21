@@ -10,7 +10,10 @@ export default function SonnerDemo() {
       <Button variant="outline" onClick={() => toast('Transaction recorded')}>
         Default
       </Button>
-      <Button variant="outline" onClick={() => toast.success('Payment processed')}>
+      <Button
+        variant="outline"
+        onClick={() => toast.success('Payment processed')}
+      >
         Success
       </Button>
       <Button variant="outline" onClick={() => toast.error('Transfer failed')}>

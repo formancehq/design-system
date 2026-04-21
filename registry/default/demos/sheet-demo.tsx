@@ -1,7 +1,14 @@
 'use client';
 
 import { Button } from '@/registry/default/ui/button';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/registry/default/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/registry/default/ui/sheet';
 
 export default function SheetDemo() {
   return (

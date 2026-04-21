@@ -1,8 +1,14 @@
 'use client';
 
 import {
-  TypographyH1, TypographyH2, TypographyH3, TypographyH4,
-  TypographyP, TypographyLead, TypographyInlineCode, TypographySmall,
+  TypographyH1,
+  TypographyH2,
+  TypographyH3,
+  TypographyH4,
+  TypographyP,
+  TypographyLead,
+  TypographyInlineCode,
+  TypographySmall,
 } from '@/registry/default/ui/typography';
 
 export default function TypographyDemo() {
@@ -13,7 +19,10 @@ export default function TypographyDemo() {
       <TypographyH3>Heading 3</TypographyH3>
       <TypographyH4>Heading 4</TypographyH4>
       <TypographyLead>This is a lead paragraph.</TypographyLead>
-      <TypographyP>This is a standard paragraph with <TypographyInlineCode>inline code</TypographyInlineCode>.</TypographyP>
+      <TypographyP>
+        This is a standard paragraph with{' '}
+        <TypographyInlineCode>inline code</TypographyInlineCode>.
+      </TypographyP>
       <TypographySmall>This is small text.</TypographySmall>
     </div>
   );

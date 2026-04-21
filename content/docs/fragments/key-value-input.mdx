@@ -1,0 +1,73 @@
+<ComponentPreview name="key-value-input" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/key-value-input
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the Sortable component first:</Step>
+
+```bash
+npx shadcn@latest add @formance/sortable
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="key-value-input" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { KeyValueInput } from '@/components/ui/key-value-input'
+```
+
+```tsx
+<KeyValueInput
+  value={pairs}
+  onValueChange={setPairs}
+  keyPlaceholder="Key"
+  valuePlaceholder="Value"
+/>
+```
+
+## Examples
+
+### Disabled
+
+<ComponentPreview name="key-value-input-disabled" />
+
+### Not Sortable
+
+Disable drag-to-reorder by setting `sortable={false}`.
+
+<ComponentPreview name="key-value-input-not-sortable" />
+
+### Metadata
+
+Custom placeholders and label for a metadata editing use case.
+
+<ComponentPreview name="key-value-input-metadata" />
