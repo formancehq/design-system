@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 
 export const h1Variants = cva([
-  'scroll-m-20 text-4xl font-display font-medium tracking-tight',
+  'scroll-m-20 text-4xl font-heading font-medium tracking-tight',
 ]);
 
 export function TypographyH1({
@@ -18,7 +18,7 @@ export function TypographyH1({
 }
 
 export const h2Variants = cva([
-  'scroll-m-20 text-3xl font-display font-medium tracking-tight first:mt-0',
+  'scroll-m-20 text-3xl font-heading font-medium tracking-tight first:mt-0',
 ]);
 
 export function TypographyH2({
@@ -34,7 +34,7 @@ export function TypographyH2({
 }
 
 export const h3Variants = cva([
-  'scroll-m-20 text-2xl font-display font-medium tracking-tight',
+  'scroll-m-20 text-2xl font-heading font-medium tracking-tight',
 ]);
 
 export function TypographyH3({
@@ -50,7 +50,7 @@ export function TypographyH3({
 }
 
 export const h4Variants = cva([
-  'scroll-m-20 text-xl font-display font-medium tracking-tight',
+  'scroll-m-20 text-xl font-heading font-medium tracking-tight',
 ]);
 
 export function TypographyH4({
@@ -66,7 +66,7 @@ export function TypographyH4({
 }
 
 export const h5Variants = cva([
-  'scroll-m-20 text-lg font-display font-medium tracking-tight',
+  'scroll-m-20 text-lg font-heading font-medium tracking-tight',
 ]);
 
 export function TypographyH5({

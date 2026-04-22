@@ -82,6 +82,47 @@ When copying components from platform-ui, adapt imports:
 - `@platform/ui/lib/utils` → `@/lib/utils`
 - `@platform/ui/components/X` → `@/registry/default/ui/X`
 
+## Syncing Components to Consumer Projects
+
+The DS is the **upstream source of truth**. To push components to consumer projects:
+
+### Direct sync (no dev server needed)
+
+```bash
+# Sync all shared components to platform-ui (default target)
+./scripts/sync-to-project.sh
+
+# Sync specific components only
+./scripts/sync-to-project.sh button.tsx badge.tsx input.tsx
+
+# Preview what would change
+./scripts/sync-to-project.sh --dry-run
+
+# Sync to a different project
+./scripts/sync-to-project.sh --target-dir ../internal-ui/packages/ui/src/components \
+  --target-css ../internal-ui/packages/ui/src/styles/globals.css \
+  --alias "@internal/ui"
+
+# Only sync CSS tokens
+./scripts/sync-to-project.sh --css-only
+```
+
+The script copies files from `registry/default/ui/` and rewrites imports:
+- `@/lib/utils` → `@<alias>/lib/utils`
+- `@/lib/compose-refs` → `@<alias>/lib/compose-refs`
+- `@/registry/default/ui/X` → `@<alias>/components/X`
+
+By default it only syncs components that **already exist** in the target (safe override). Pass specific filenames to force-add new ones.
+
+### Via shadcn registry (needs dev server running)
+
+```bash
+pnpm dev  # start DS at localhost:3333
+./scripts/update-ds.sh --cwd ../internal-ui/packages/ui
+```
+
+This uses `shadcn add --overwrite` against the local registry. Import rewriting is handled by shadcn based on the target's `components.json` aliases.
+
 ## Dev Server
 
 ```

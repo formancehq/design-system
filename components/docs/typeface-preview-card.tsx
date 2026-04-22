@@ -11,7 +11,7 @@ const codeSnippets: Record<string, string> = {
   TypographyP,
 } from "@/components/ui/typography"
 
-{/* font-display — opsz 72, applied automatically on h1–h6 */}
+{/* font-heading — opsz 72, applied automatically on h1–h6 */}
 <TypographyH1>Stop Fighting Your Ledger</TypographyH1>
 <TypographyH2>Stop Fighting Your Ledger</TypographyH2>
 <TypographyH3>Stop Fighting Your Ledger</TypographyH3>

@@ -18,9 +18,9 @@ const badgeEyebrowVariants = cva(
         outline: 'border-border text-foreground',
       },
       size: {
-        sm: 'px-1.5 py-0.5 text-xs',
-        md: 'px-2.5 py-1 text-xs',
-        lg: 'px-3 py-1.5 text-sm',
+        sm: 'h-5 px-1.5 text-xs',
+        md: 'h-6 px-2.5 text-xs',
+        lg: 'h-7 px-3 text-sm',
       },
     },
     defaultVariants: {

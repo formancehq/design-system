@@ -1,14 +1,14 @@
 'use client';
 
+import { Button } from '@/registry/default/ui/button';
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from '@/registry/default/ui/card';
-import { Button } from '@/registry/default/ui/button';
 
 export default function CardDemo() {
   return (
@@ -24,10 +24,8 @@ export default function CardDemo() {
           Configure your ledger settings and start recording transactions.
         </p>
       </CardContent>
-      <CardFooter>
-        <Button variant="primary" size="sm">
-          Create
-        </Button>
+      <CardFooter className="justify-end">
+        <Button variant="primary">Create</Button>
       </CardFooter>
     </Card>
   );

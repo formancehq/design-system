@@ -32,7 +32,7 @@ function InputGroup({
       role="group"
       className={cn(
         'group/input-group border-input bg-muted-lighter dark:bg-input/30 relative flex w-full items-center rounded-md border transition-[color,box-shadow] outline-none',
-        'h-9 min-w-0 has-[>textarea]:h-auto',
+        'h-8 min-w-0 has-[>textarea]:h-auto',
         'has-[>[data-align=inline-start]]:[&>input]:pl-2',
         'has-[>[data-align=inline-end]]:[&>input]:pr-2',
         'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
@@ -95,11 +95,11 @@ const inputGroupButtonVariants = cva(
   {
     variants: {
       size: {
-        xs: "h-6 gap-1 px-2 rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-3.5 has-[>svg]:px-2",
-        sm: 'h-8 px-2.5 gap-1.5 rounded-md has-[>svg]:px-2.5',
+        xs: "h-5 gap-1 px-2 rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-3.5 has-[>svg]:px-2",
+        sm: 'h-7 px-2.5 gap-1.5 rounded-md has-[>svg]:px-2.5',
         'icon-xs':
-          'size-6 rounded-[calc(var(--radius)-5px)] p-0 has-[>svg]:p-0',
-        'icon-sm': 'size-8 p-0 has-[>svg]:p-0',
+          'size-5 rounded-[calc(var(--radius)-5px)] p-0 has-[>svg]:p-0',
+        'icon-sm': 'size-7 p-0 has-[>svg]:p-0',
       },
     },
     defaultVariants: {

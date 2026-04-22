@@ -41,9 +41,9 @@ const badgeVariants = cva(
         zinc: 'bg-zinc-background text-zinc-foreground',
       },
       size: {
-        sm: 'px-1.5 gap-1 py-0.5 text-[10px]',
-        md: 'px-2.5 gap-2 py-0.5 text-xs',
-        lg: 'px-3 gap-2 py-0.5 text-sm',
+        sm: 'h-5 px-1.5 gap-1 text-[10px]',
+        md: 'h-6 px-2.5 gap-2 text-xs',
+        lg: 'h-7 px-3 gap-2 text-sm',
       },
       isDisabled: {
         true: 'cursor-not-allowed opacity-50',

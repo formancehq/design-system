@@ -13,6 +13,7 @@ export function ModeToggle({
 }) {
   return (
     <Button
+      className="shrink-0"
       variant="outline"
       size="icon-md"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}

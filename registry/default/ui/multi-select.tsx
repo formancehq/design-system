@@ -175,9 +175,9 @@ export function MultiSelect({
 const multiSelectTriggerVariants = cva('', {
   variants: {
     size: {
-      sm: 'min-h-8 py-1',
-      md: 'min-h-9 py-1.5',
-      lg: 'min-h-10 py-2',
+      sm: 'min-h-7 py-1',
+      md: 'min-h-8 py-1.5',
+      lg: 'min-h-9 py-2',
     },
   },
   defaultVariants: {

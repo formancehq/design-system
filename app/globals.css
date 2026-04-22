@@ -24,6 +24,9 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  --font-opsz-heading: 72;
+  --font-opsz-text: 6;
+
   --white: var(--emerald-50);
   --black: var(--emerald-800);
 
@@ -514,7 +517,7 @@
   h4,
   h5,
   h6 {
-    @apply font-display;
+    @apply font-heading;
   }
 
   :not(pre) > code {
@@ -528,12 +531,12 @@
 }
 
 /* Font variation utilities */
-@utility font-display {
-  font-variation-settings: 'opsz' 72;
+@utility font-heading {
+  font-variation-settings: 'opsz' var(--font-opsz-heading);
 }
 
 @utility font-text {
-  font-variation-settings: 'opsz' 6;
+  font-variation-settings: 'opsz' var(--font-opsz-text);
 }
 
 /* Steps — numbered installation steps for MDX docs */
