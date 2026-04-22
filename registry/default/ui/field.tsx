@@ -63,7 +63,7 @@ function FieldGroup({
 }
 
 const fieldVariants = cva(
-  'group/field flex w-full gap-3 data-[invalid=true]:text-destructive-foreground',
+  'group/field flex w-full gap-3 data-[invalid=true]:text-destructive-foreground text-sm',
   {
     variants: {
       orientation: {
@@ -147,7 +147,7 @@ function FieldTitle({
     <div
       data-slot="field-label"
       className={cn(
-        'flex w-fit items-center gap-2 text-sm leading-snug font-medium group-data-[disabled=true]/field:opacity-50',
+        'flex w-fit items-center gap-2 text-sm leading-snug group-data-[disabled=true]/field:opacity-50',
         className
       )}
       {...props}

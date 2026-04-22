@@ -496,31 +496,27 @@
   outline-color: var(--ring);
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: var(--font-sans);
-  font-optical-sizing: auto;
-  font-variation-settings: 'opsz' 6;
-  color: var(--foreground);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-variation-settings: 'opsz' 72;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
-    @apply bg-muted-lighter text-foreground;
+    @apply font-text font-sans bg-muted-lighter text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-optical-sizing: auto;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+
   :not(pre) > code {
     position: relative;
     border-radius: var(--radius-sm);
