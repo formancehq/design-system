@@ -110,7 +110,7 @@ function PageSectionTitle({
   return (
     <h2
       data-slot="page-section-title"
-      className={cn('text-lg font-semibold tracking-tight', className)}
+      className={cn('text-lg font-medium tracking-tight', className)}
       {...props}
     >
       {children}

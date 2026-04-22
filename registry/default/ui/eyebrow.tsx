@@ -4,7 +4,7 @@ import { Slot as SlotPrimitive } from 'radix-ui';
 import { cn } from '@/lib/utils';
 
 const eyebrowVariants = cva(
-  'pointer-events-none inline-flex font-mono font-bold uppercase w-fit shrink-0 items-center justify-center rounded-md text-xs whitespace-nowrap border-transparent',
+  'pointer-events-none inline-flex font-mono font-medium uppercase w-fit shrink-0 items-center justify-center rounded-md text-xs whitespace-nowrap border-transparent',
   {
     variants: {
       variant: {
