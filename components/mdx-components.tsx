@@ -31,21 +31,31 @@ import {
   DarkVariables,
   BrandPaletteVariables,
 } from '@/components/docs/theming-code-blocks';
+import { AppCard } from '@/registry/default/fragments/app-card';
+import { AppCardEmpty } from '@/registry/default/fragments/app-card-empty';
 
 function MdxHeading({
   level,
   ...props
 }: React.ComponentProps<'h2'> & { level: 2 | 3 }) {
   const text = typeof props.children === 'string' ? props.children : '';
+  const id = slugify(text);
   const Tag = level === 2 ? 'h2' : 'h3';
   const size = level === 2 ? 'text-2xl' : 'text-xl';
 
   return (
     <Tag
-      id={slugify(text)}
-      className={`scroll-m-20 font-sans ${size} font-semibold tracking-tight`}
+      id={id}
+      className={`group scroll-m-20 font-sans ${size} font-semibold tracking-tight`}
       {...props}
-    />
+    >
+      <a href={`#${id}`} className="no-underline">
+        {props.children}
+        <span className="ml-2 text-muted-foreground/0 group-hover:text-muted-foreground/50 transition-colors">
+          #
+        </span>
+      </a>
+    </Tag>
   );
 }
 
@@ -110,4 +120,6 @@ export const mdxComponents: MDXComponents = {
   LightVariables,
   DarkVariables,
   BrandPaletteVariables,
+  AppCard,
+  AppCardEmpty,
 };

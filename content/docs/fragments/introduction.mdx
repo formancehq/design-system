@@ -1,5 +1,12 @@
-Fragments are pre-built composite components that combine multiple atoms to create reusable interface elements. Unlike atoms (basic building blocks like buttons and inputs) or patterns (guidelines for structuring entire sections), fragments are ready-to-use solutions for specific interface needs.
+Fragments solve a specific problem: when you find yourself combining the same atoms repeatedly — a combobox that pairs Command with Popover, a settings form that wires up Field, Card, and PageSection — a fragment packages that combination so you write it once.
 
-These components help maintain consistency across Formance products by providing standardized implementations for common interface patterns like data tables, date pickers, filter sidebars, and navigation elements.
+Each fragment is distributed via the Formance registry and can be installed directly into your project. Data tables, page headers, key-value inputs, and other common patterns ship as fragments, which keeps behavior consistent across Formance products without duplicating boilerplate.
 
-Fragments are distributed via the Formance registry and can be installed directly into your project. They encapsulate common combinations of atom components, reducing boilerplate and ensuring consistent behavior across similar features.
+<AppCard
+  title="App Card"
+  description="A card layout for app sections with optional icon, header action, separator, and footer."
+  iconVariant="emerald"
+>
+  Composed from the Card, Button, and Typography atoms. Use it to scaffold the
+  recurring header + body + action pattern across product surfaces.
+</AppCard>

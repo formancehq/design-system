@@ -8,13 +8,8 @@ import {
   Download,
 } from 'lucide-react';
 
+import { AppCard } from '@/registry/default/fragments/app-card';
 import { Badge } from '@/registry/default/ui/badge';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from '@/registry/default/ui/card';
 import {
   TypographyH1,
   TypographyH2,
@@ -59,7 +54,7 @@ const FEATURES = [
   },
   {
     title: 'Installation',
-    description: 'Get started with the shadcn CLI.',
+    description: 'Install components with the shadcn CLI.',
     href: '/docs/installation',
     icon: Download,
   },
@@ -101,29 +96,17 @@ export default function Home() {
       <section className="space-y-6">
         <TypographyH2>Explore</TypographyH2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map((feature) => {
-            const Icon = feature.icon;
-
-            return (
-              <Link key={feature.href} href={feature.href}>
-                <Card className="h-full transition-colors hover:bg-muted/50">
-                  <CardHeader>
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-md bg-muted">
-                        <Icon className="h-4 w-4" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-base">
-                          {feature.title}
-                        </CardTitle>
-                        <CardDescription>{feature.description}</CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                </Card>
-              </Link>
-            );
-          })}
+          {FEATURES.map((feature) => (
+            <Link key={feature.href} href={feature.href}>
+              <AppCard
+                className="h-full transition-colors hover:bg-muted/50"
+                title={feature.title}
+                description={feature.description}
+                appIcon={feature.icon}
+                iconVariant="outline"
+              />
+            </Link>
+          ))}
         </div>
         <TypographySmall className="block text-center text-muted-foreground pt-4">
           Press <TypographyInlineCode>⌘K</TypographyInlineCode> to search

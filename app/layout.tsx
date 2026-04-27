@@ -51,7 +51,7 @@ export default function RootLayout({
           <div className="flex min-h-[calc(100vh-3rem)] flex-col">
             <main>
               <div className="md:grid md:grid-cols-[240px_minmax(0,1fr)]">
-                <aside className="fixed top-12 z-30 hidden h-[calc(100vh-3rem)] w-[240px] shrink-0 md:sticky md:block border-r">
+                <aside className="fixed top-12 z-30 hidden h-[calc(100vh-3rem)] w-[240px] shrink-0 bg-sidebar md:sticky md:block border-r">
                   <ScrollArea className="h-full">
                     <SideNavigation />
                   </ScrollArea>

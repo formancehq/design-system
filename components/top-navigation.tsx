@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 
 import { SideNavigation } from '@/components/side-navigation';
 import { Button } from '@/registry/default/ui/button';
+import { Kbd } from '@/registry/default/ui/kbd';
 import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import {
   Sheet,
@@ -52,15 +53,12 @@ export function TopNavigation() {
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            size="sm"
             onClick={openSearch}
-            className="hidden sm:inline-flex gap-2 text-muted-foreground"
+            className="hidden sm:inline-flex gap-2"
           >
-            <Search className="h-3.5 w-3.5" />
-            <span className="text-xs">Search...</span>
-            <kbd className="pointer-events-none hidden rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono sm:inline-block">
-              ⌘K
-            </kbd>
+            <Search className="size-3.5" />
+            <span>Search...</span>
+            <Kbd>⌘K</Kbd>
           </Button>
           <Button
             variant="ghost"
@@ -72,7 +70,7 @@ export function TopNavigation() {
             <Search className="h-4 w-4" />
           </Button>
           <Button
-            variant="ghost"
+            variant="outline"
             size="icon-md"
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             aria-label="Toggle theme"

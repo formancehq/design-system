@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import { Badge } from '@/registry/default/ui/badge';
 import { Button } from '@/registry/default/ui/button';
 import {
@@ -16,7 +17,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/registry/default/ui/popover';
-import { cn } from '@/lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Command as CommandPrimitive } from 'cmdk';
 import { CheckIcon, ChevronsUpDownIcon, PlusIcon, XIcon } from 'lucide-react';
@@ -365,7 +365,7 @@ export function MultiSelectValue({
 
   if (selectedValues.size === 0 && placeholder) {
     return (
-      <span className="min-w-0 overflow-hidden font-normal text-muted-foreground">
+      <span className="min-w-0 overflow-hidden font-normal text-muted-foreground font-mono uppercase">
         {placeholder}
       </span>
     );
@@ -402,7 +402,7 @@ export function MultiSelectValue({
           >
             {items.get(value)}
             {clickToRemove && (
-              <XIcon className="size-2 text-muted-foreground group-hover:text-destructive" />
+              <XIcon className="size-2 text-muted-foreground group-hover:text-destructive-foreground" />
             )}
           </Badge>
         ))}

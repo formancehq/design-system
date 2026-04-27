@@ -761,6 +761,29 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   tooltip: {
     component: lazy(() => import('@/registry/default/demos/tooltip-demo')),
     sourceFile: 'registry/default/demos/tooltip-demo.tsx',
+    examples: [
+      {
+        title: 'Side',
+        component: lazy(
+          () => import('@/registry/default/examples/tooltip-side')
+        ),
+        sourceFile: 'registry/default/examples/tooltip-side.tsx',
+      },
+      {
+        title: 'Icon Button',
+        component: lazy(
+          () => import('@/registry/default/examples/tooltip-icon-button')
+        ),
+        sourceFile: 'registry/default/examples/tooltip-icon-button.tsx',
+      },
+      {
+        title: 'Disabled Button',
+        component: lazy(
+          () => import('@/registry/default/examples/tooltip-disabled-button')
+        ),
+        sourceFile: 'registry/default/examples/tooltip-disabled-button.tsx',
+      },
+    ],
   },
   typography: {
     component: lazy(() => import('@/registry/default/demos/typography-demo')),
@@ -934,10 +957,42 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       () => import('@/registry/default/demos/badge-eyebrow-demo')
     ),
     sourceFile: 'registry/default/demos/badge-eyebrow-demo.tsx',
+    examples: [
+      {
+        title: 'Colors',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-eyebrow-colors')
+        ),
+        sourceFile: 'registry/default/examples/badge-eyebrow-colors.tsx',
+      },
+      {
+        title: 'Prefix & Suffix',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-eyebrow-sizes')
+        ),
+        sourceFile: 'registry/default/examples/badge-eyebrow-sizes.tsx',
+      },
+    ],
   },
   'badge-status': {
     component: lazy(() => import('@/registry/default/demos/badge-status-demo')),
     sourceFile: 'registry/default/demos/badge-status-demo.tsx',
+    examples: [
+      {
+        title: 'Variants',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-status-variants')
+        ),
+        sourceFile: 'registry/default/examples/badge-status-variants.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-status-sizes')
+        ),
+        sourceFile: 'registry/default/examples/badge-status-sizes.tsx',
+      },
+    ],
   },
   'button-group': {
     component: lazy(() => import('@/registry/default/demos/button-group-demo')),
@@ -1092,6 +1147,39 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/sortable-horizontal')
         ),
         sourceFile: 'registry/default/examples/sortable-horizontal.tsx',
+      },
+    ],
+  },
+  'app-card': {
+    component: lazy(() => import('@/registry/default/demos/app-card-demo')),
+    sourceFile: 'registry/default/demos/app-card-demo.tsx',
+  },
+  'app-card-empty': {
+    component: lazy(
+      () => import('@/registry/default/demos/app-card-empty-demo')
+    ),
+    sourceFile: 'registry/default/demos/app-card-empty-demo.tsx',
+    examples: [
+      {
+        title: 'Default',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-empty-default')
+        ),
+        sourceFile: 'registry/default/examples/app-card-empty-default.tsx',
+      },
+      {
+        title: 'With Actions',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-empty-with-actions')
+        ),
+        sourceFile: 'registry/default/examples/app-card-empty-with-actions.tsx',
+      },
+      {
+        title: 'Inside an App Card',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-empty-nested')
+        ),
+        sourceFile: 'registry/default/examples/app-card-empty-nested.tsx',
       },
     ],
   },

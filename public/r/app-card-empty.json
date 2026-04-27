@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "app-card-empty",
+  "title": "App Card Empty",
+  "description": "Muted empty-state card with centered icon, title, description, and optional actions.",
+  "dependencies": [
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "https://design-system.localhost/r/button.json",
+    "https://design-system.localhost/r/card.json",
+    "https://design-system.localhost/r/typography.json"
+  ],
+  "files": [
+    {
+      "path": "registry/default/fragments/app-card-empty.tsx",
+      "content": "import { LucideIcon, SquareMinus } from 'lucide-react';\n\nimport { Button } from '@/registry/default/ui/button';\nimport { Card, CardContent } from '@/registry/default/ui/card';\nimport {\n  TypographyH4,\n  TypographyP,\n} from '@/registry/default/ui/typography';\n\nexport type TAppCardEmptyProps = {\n  title?: string;\n  description?: string;\n  appIcon?: LucideIcon;\n} & React.ComponentProps<typeof Card>;\n\nexport function AppCardEmpty({\n  title,\n  description,\n  appIcon,\n  children,\n  ...props\n}: TAppCardEmptyProps) {\n  const Icon = appIcon ?? SquareMinus;\n\n  return (\n    <Card variant=\"muted\" {...props}>\n      <CardContent className=\"text-center\">\n        {Icon && (\n          <Button variant=\"outline\" size=\"icon-xl\" notClickable>\n            <Icon />\n          </Button>\n        )}\n        <TypographyH4 className=\"pt-3 pb-1\">{title}</TypographyH4>\n        <TypographyP className=\"max-w-lg mx-auto\">{description}</TypographyP>\n        {children && (\n          <div className=\"flex justify-center gap-2 pt-3\">{children}</div>\n        )}\n      </CardContent>\n    </Card>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}
