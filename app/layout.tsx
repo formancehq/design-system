@@ -6,8 +6,8 @@ import { Figtree, Space_Mono } from 'next/font/google';
 
 import { CommandMenu } from '@/components/command-menu';
 import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
 import { SideNavigation } from '@/components/side-navigation';
-import { TopNavigation } from '@/components/top-navigation';
 import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import { SonnerToaster } from '@/registry/default/ui/sonner';
 
@@ -47,7 +47,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <CommandMenu />
-          <TopNavigation />
+          <Header />
           <div className="flex min-h-[calc(100vh-3rem)] flex-col">
             <main>
               <div className="md:grid md:grid-cols-[240px_minmax(0,1fr)]">

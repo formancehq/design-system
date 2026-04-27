@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
+import { Eyebrow } from './eyebrow';
 
 type THeading = {
   id: string;
@@ -43,9 +44,9 @@ function TableOfContents({ headings }: { headings: THeading[] }) {
 
   return (
     <nav className="space-y-2" aria-label="Table of contents">
-      <p className="font-medium text-sm text-muted-foreground font-mono uppercase">
+      <Eyebrow variant="gold" size="sm">
         On This Page
-      </p>
+      </Eyebrow>
       <ul className="space-y-1">
         {headings.map((heading) => (
           <li key={heading.id}>

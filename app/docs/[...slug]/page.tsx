@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
 import path from 'path';
-import rehypePrettyCode from 'rehype-pretty-code';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CompoundComponents } from '@/components/compound-components';
@@ -11,11 +10,18 @@ import { DocsPager } from '@/components/docs-pager';
 import { mdxComponents } from '@/components/mdx-components';
 import { SourceBanner } from '@/components/source-banner';
 import { componentMeta, docsConfig } from '@/config/docs';
-import { cssVarsTheme, getHighlighter } from '@/lib/shiki-theme';
 import { slugify } from '@/lib/slugify';
+import { PageContainer } from '@/registry/default/ui/page-container';
+import {
+  PageHeader,
+  PageHeaderDescription,
+  PageHeaderEyebrow,
+  PageHeaderMeta,
+  PageHeaderSummary,
+  PageHeaderTitle,
+} from '@/registry/default/ui/page-header';
 import { Separator } from '@/registry/default/ui/separator';
 import { TableOfContents } from '@/registry/default/ui/table-of-contents';
-import { TypographyH1, TypographyLead } from '@/registry/default/ui/typography';
 
 function findSidebarItem(slug: string) {
   for (const section of docsConfig.sidebarNav) {
@@ -107,53 +113,57 @@ export default async function DocsPage({
   const { content: mdxContent } = await compileMDX({
     source: mdxSource,
     components: mdxComponents,
-    options: {
-      parseFrontmatter: false,
-      mdxOptions: {
-        rehypePlugins: [
-          [
-            rehypePrettyCode,
-            { theme: cssVarsTheme, getHighlighter, keepBackground: false },
-          ],
-        ],
-      },
-    },
+    options: { parseFrontmatter: false },
   });
 
   return (
     <div className="xl:grid xl:grid-cols-[1fr_220px]">
-      <div className="min-w-0 space-y-8">
-        <div className="space-y-4">
-          <Breadcrumbs />
-          <div className="flex flex-col gap-2">
-            <TypographyH1>{found.item.title}</TypographyH1>
-            {meta && <TypographyLead>{meta.description}</TypographyLead>}
+      <div data-slot="docs-page">
+        <Breadcrumbs />
+        <PageHeader size="full" background border>
+          <PageHeaderMeta>
+            <PageHeaderSummary>
+              <PageHeaderEyebrow>{found.section}</PageHeaderEyebrow>
+              <PageHeaderTitle>{found.item.title}</PageHeaderTitle>
+              {meta && (
+                <PageHeaderDescription>
+                  {meta.description}
+                </PageHeaderDescription>
+              )}
+            </PageHeaderSummary>
+          </PageHeaderMeta>
+        </PageHeader>
+
+        <PageContainer size="large" className="py-8">
+          <div className="grid gap-8">
+            {meta && <SourceBanner source={meta.source} />}
+
+            <Separator />
+
+            <div className="space-y-8">{mdxContent}</div>
+
+            {meta?.subComponents && meta.subComponents.length > 0 && (
+              <div className="space-y-4">
+                <h2
+                  id="compound-components"
+                  className="scroll-m-20 font-sans text-2xl font-semibold tracking-tight"
+                >
+                  Compound Components
+                </h2>
+                <CompoundComponents subComponents={meta.subComponents} />
+              </div>
+            )}
+
+            <DocsPager />
           </div>
-        </div>
-
-        {meta && <SourceBanner source={meta.source} />}
-
-        <Separator />
-
-        <div className="space-y-8">{mdxContent}</div>
-
-        {meta?.subComponents && meta.subComponents.length > 0 && (
-          <div className="space-y-4">
-            <h2
-              id="compound-components"
-              className="scroll-m-20 font-sans text-2xl font-semibold tracking-tight"
-            >
-              Compound Components
-            </h2>
-            <CompoundComponents subComponents={meta.subComponents} />
-          </div>
-        )}
-
-        <DocsPager />
+        </PageContainer>
       </div>
 
       {headings.length > 0 && (
-        <aside className="hidden xl:block border-l bg-background">
+        <aside
+          data-slot="docs-sidebar"
+          className="hidden xl:block border-l bg-background"
+        >
           <div className="sticky top-12 h-[calc(100vh-3rem)] overflow-auto p-6">
             <TableOfContents headings={headings} />
           </div>

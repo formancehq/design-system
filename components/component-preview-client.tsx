@@ -2,8 +2,8 @@
 
 import { Suspense } from 'react';
 
-import { cn } from '@/lib/utils';
 import { findDemo } from '@/config/registry-demos';
+import { cn } from '@/lib/utils';
 import { Skeleton } from '@/registry/default/ui/skeleton';
 
 const alignClasses = {
@@ -38,7 +38,7 @@ export function ComponentPreviewClient({
         'flex min-h-[200px] w-full justify-center p-10',
         alignClasses[align],
         showGrid &&
-          'bg-[image:radial-gradient(var(--border)_1px,transparent_1px)] bg-[size:16px_16px]'
+          'bg-background bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-[size:16px_16px]'
       )}
     >
       <Suspense fallback={<Skeleton className="h-20 w-60" />}>

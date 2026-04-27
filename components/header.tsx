@@ -7,7 +7,9 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { SideNavigation } from '@/components/side-navigation';
+import { BadgeEyebrow } from '@/registry/default/ui/badge-eyebrow';
 import { Button } from '@/registry/default/ui/button';
+import { FormanceLogo } from '@/registry/default/ui/formance-logo';
 import { Kbd } from '@/registry/default/ui/kbd';
 import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import {
@@ -16,9 +18,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/registry/default/ui/sheet';
-import { h3Variants } from '@/registry/default/ui/typography';
 
-export function TopNavigation() {
+export function Header() {
   const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -46,9 +47,12 @@ export function TopNavigation() {
           >
             <Menu className="h-4 w-4" />
           </Button>
-          <Link href="/" className="flex items-center gap-3">
-            <span className={h3Variants({})}>Formance Design System</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <FormanceLogo />
+            </Link>
+            <BadgeEyebrow variant="cobalt">Design System</BadgeEyebrow>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Button

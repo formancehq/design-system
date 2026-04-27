@@ -539,6 +539,11 @@
   font-variation-settings: 'opsz' var(--font-opsz-text);
 }
 
+@utility container {
+  padding-inline: 1rem;
+  margin: 0 auto;
+}
+
 /* Steps — numbered installation steps for MDX docs */
 .step {
   counter-increment: step;

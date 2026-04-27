@@ -1,13 +1,16 @@
 import type { MDXComponents } from 'mdx/types';
+import { isValidElement } from 'react';
 
 import { slugify } from '@/lib/slugify';
 import { ComponentPreview } from '@/components/component-preview';
 import { ComponentSource } from '@/components/component-source';
-import { CodeBlock } from '@/components/code-block';
 import { CollapsibleCode } from '@/components/collapsible-code';
 import { InstallationTabs } from '@/components/installation-tabs';
 import { Steps, Step } from '@/components/steps';
-import { MdxCodeBlock } from '@/components/mdx-code-block';
+import {
+  CodeSnippet,
+  type TCodeSnippetProps,
+} from '@/registry/default/ui/code/code-snippet';
 import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
 import { Tabs as TabsPrimitive } from 'radix-ui';
 import { cn } from '@/lib/utils';
@@ -65,25 +68,42 @@ export const mdxComponents: MDXComponents = {
   p: (props) => (
     <p className="text-sm text-muted-foreground leading-relaxed" {...props} />
   ),
-  // Only style inline code — rehype-pretty-code handles code inside pre
-  code: ({ children, ...props }) => {
-    const isInline = !('data-language' in props);
+  code: ({ children, className, ...props }) => {
+    const isBlock = className?.startsWith('language-');
 
-    return isInline ? (
+    return isBlock ? (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    ) : (
       <code
         className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm"
         {...props}
       >
         {children}
       </code>
-    ) : (
-      <code {...props}>{children}</code>
     );
   },
-  pre: MdxCodeBlock,
+  pre: ({ children }: React.ComponentProps<'pre'>) => {
+    if (isValidElement<{ className?: string; children?: React.ReactNode }>(children)) {
+      const className = children.props.className ?? '';
+      const lang = className.replace('language-', '') as TCodeSnippetProps['language'];
+      const code = String(children.props.children ?? '').replace(/\n$/, '');
+
+      return (
+        <CodeSnippet
+          code={code}
+          language={lang || 'plaintext'}
+          size="sm"
+          bordered
+        />
+      );
+    }
+
+    return <pre>{children}</pre>;
+  },
   ComponentPreview,
   ComponentSource,
-  CodeBlock,
   CollapsibleCode,
   InstallationTabs,
   Steps,

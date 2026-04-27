@@ -1,5 +1,5 @@
-import { CodeBlock } from '@/components/code-block';
 import { CollapsibleCode } from '@/components/collapsible-code';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 
 const codeSnippets: Record<string, string> = {
   polymath: `import {
@@ -116,7 +116,7 @@ export async function TypefacePreviewCard({
       <div className="p-6">{children}</div>
       {code && (
         <CollapsibleCode>
-          <CodeBlock code={code} lang="tsx" noBorder />
+          <CodeSnippet code={code} language="tsx" size="sm" />
         </CollapsibleCode>
       )}
     </div>

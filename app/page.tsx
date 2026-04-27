@@ -18,7 +18,7 @@ import {
   TypographyInlineCode,
   TypographySmall,
 } from '@/registry/default/ui/typography';
-import { CodeBlock } from '@/components/code-block';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 import { REGISTRY_URL } from '@/lib/registry';
 
 const FEATURES = [
@@ -87,9 +87,11 @@ export default function Home() {
         <TypographyP>
           Add the Formance registry to your project, then install components:
         </TypographyP>
-        <CodeBlock
+        <CodeSnippet
           code={`npx shadcn add ${REGISTRY_URL}/r/button.json\nnpx shadcn add ${REGISTRY_URL}/r/card.json\nnpx shadcn add ${REGISTRY_URL}/r/input.json`}
-          lang="bash"
+          language="bash"
+          size="sm"
+          bordered
         />
       </section>
 
