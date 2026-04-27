@@ -1153,6 +1153,36 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'app-card': {
     component: lazy(() => import('@/registry/default/demos/app-card-demo')),
     sourceFile: 'registry/default/demos/app-card-demo.tsx',
+    examples: [
+      {
+        title: 'With Separator',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-separator')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-separator.tsx',
+      },
+      {
+        title: 'With Footer',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-footer')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-footer.tsx',
+      },
+      {
+        title: 'With Empty State',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-empty')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-empty.tsx',
+      },
+      {
+        title: 'With Data Table',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-data-table')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-data-table.tsx',
+      },
+    ],
   },
   'app-card-empty': {
     component: lazy(

@@ -56,7 +56,7 @@ export function AppCard({
       </CardHeader>
       {withSeparator && (
         <div className="px-6 pt-8 pb-5">
-          <hr className="border-border/30 w-1/4" />
+          <hr className="border-border" />
         </div>
       )}
       <CardContent>{children}</CardContent>

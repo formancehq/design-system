@@ -121,7 +121,7 @@ export default async function DocsPage({
   });
 
   return (
-    <div className="xl:grid xl:grid-cols-[1fr_220px] xl:gap-6">
+    <div className="xl:grid xl:grid-cols-[1fr_220px]">
       <div className="min-w-0 space-y-8">
         <div className="space-y-4">
           <Breadcrumbs />
@@ -153,11 +153,11 @@ export default async function DocsPage({
       </div>
 
       {headings.length > 0 && (
-        <div className="hidden xl:block">
-          <div className="sticky top-16 py-10">
+        <aside className="hidden xl:block border-l bg-background">
+          <div className="sticky top-12 h-[calc(100vh-3rem)] overflow-auto p-6">
             <TableOfContents headings={headings} />
           </div>
-        </div>
+        </aside>
       )}
     </div>
   );

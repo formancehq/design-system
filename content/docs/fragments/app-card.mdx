@@ -3,3 +3,27 @@
 A card layout for app sections with optional icon, header action, separator, and footer. Built on top of the `Card`, `Button`, and `Typography` atoms.
 
 For empty states, see [`AppCardEmpty`](/docs/fragments/app-card-empty).
+
+## With separator
+
+Use `withSeparator` to draw a thin divider between the header and the content.
+
+<ComponentPreview name="app-card-with-separator" />
+
+## With footer
+
+Pass a `CardFooter` to the `footer` prop for informative or destructive callouts below the content.
+
+<ComponentPreview name="app-card-with-footer" />
+
+## With empty state
+
+Render `AppCardEmpty` as the content when there is no data — typical for list pages before the first record exists.
+
+<ComponentPreview name="app-card-with-empty" />
+
+## With data table
+
+Wrap a `DataTable` to scope a section's listing inside its own card with title and actions.
+
+<ComponentPreview name="app-card-with-data-table" />

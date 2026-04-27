@@ -21,7 +21,7 @@ const pageHeaderVariants = cva(['flex flex-col gap-4 w-full'], {
       full: 'py-4',
     },
     background: {
-      true: 'bg-sidebar',
+      true: 'bg-background',
       false: '',
     },
     border: {

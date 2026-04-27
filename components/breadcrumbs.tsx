@@ -57,7 +57,10 @@ export function Breadcrumbs() {
   });
 
   return (
-    <nav aria-label="Breadcrumb">
+    <nav
+      aria-label="Breadcrumb"
+      className="flex h-12 items-center border-b bg-background px-6"
+    >
       <ol className="flex items-center gap-1.5 text-sm">{crumbs}</ol>
     </nav>
   );

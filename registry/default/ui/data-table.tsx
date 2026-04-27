@@ -184,10 +184,9 @@ function DataTableFacetedFilter<TData, TValue>({
 
   return (
     <Popover>
-      <PopoverTrigger size="sm" asChild>
+      <PopoverTrigger asChild>
         <Button
           variant="outlineDashed"
-          size="sm"
           data-testid={`datatable-filter-${title?.toLowerCase()}`}
         >
           <CirclePlus className="mr-2 h-4 w-4" />
@@ -363,7 +362,6 @@ function DataTableToolbar<TData>({
         {searchConfig?.map((search, index) => (
           <Input
             key={index}
-            size="sm"
             placeholder={search.placeholder}
             value={
               (table.getColumn(search.columnKey)?.getFilterValue() as string) ??
