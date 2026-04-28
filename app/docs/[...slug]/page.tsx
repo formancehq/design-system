@@ -1,19 +1,20 @@
-import fs from 'fs';
 import type { Metadata } from 'next';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
-import path from 'path';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CompoundComponents } from '@/components/compound-components';
+import { DocsCopyPage } from '@/components/docs-copy-page';
 import { DocsPager } from '@/components/docs-pager';
 import { mdxComponents } from '@/components/mdx-components';
 import { SourceBanner } from '@/components/source-banner';
 import { componentMeta, docsConfig } from '@/config/docs';
+import { buildLLMMarkdown, readMdxFile } from '@/lib/mdx';
 import { slugify } from '@/lib/slugify';
 import { PageContainer } from '@/registry/default/ui/page-container';
 import {
   PageHeader,
+  PageHeaderAside,
   PageHeaderDescription,
   PageHeaderEyebrow,
   PageHeaderMeta,
@@ -33,15 +34,6 @@ function findSidebarItem(slug: string) {
   }
 
   return null;
-}
-
-function readMdxFile(slug: string): string | null {
-  const filePath = path.join(process.cwd(), `content/docs/${slug}.mdx`);
-  try {
-    return fs.readFileSync(filePath, 'utf-8');
-  } catch {
-    return null;
-  }
 }
 
 /** Extract h2/h3 headings (markdown + <Section title="..."/>) from MDX source for the TOC. */
@@ -154,6 +146,18 @@ export default async function DocsPage({
                 </PageHeaderDescription>
               )}
             </PageHeaderSummary>
+            <PageHeaderAside>
+              <DocsCopyPage
+                page={buildLLMMarkdown({
+                  title: found.item.title,
+                  section: found.section,
+                  description: meta?.description,
+                  source: mdxSource,
+                  url: `https://design.formance.com/docs/${slugStr}`,
+                })}
+                url={`https://design.formance.com/docs/${slugStr}`}
+              />
+            </PageHeaderAside>
           </PageHeaderMeta>
         </PageHeader>
 
