@@ -9,13 +9,12 @@ export function CollapsibleCode({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden border-t border-border">
       {open && <div>{children}</div>}
       <button
         type="button"
         className={cn(
-          'flex w-full items-center justify-center gap-1 py-2 text-xs font-mono uppercase text-muted-foreground hover:text-foreground transition-colors',
-          open && 'border-t'
+          'flex w-full items-center justify-center gap-1 py-2 text-xs font-mono uppercase text-muted-foreground hover:text-foreground transition-colors'
         )}
         onClick={() => setOpen(!open)}
       >

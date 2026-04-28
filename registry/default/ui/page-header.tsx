@@ -21,7 +21,7 @@ const pageHeaderVariants = cva(['flex flex-col gap-4 w-full'], {
       full: 'py-4',
     },
     background: {
-      true: 'bg-sidebar',
+      true: 'bg-background',
       false: '',
     },
     border: {
@@ -175,7 +175,7 @@ function PageHeaderTitle({
   return (
     <h1
       data-slot="page-header-title"
-      className={cn('text-3xl font-medium tracking-tight scroll-m-20', className)}
+      className={cn('text-4xl font-medium font-heading scroll-m-20', className)}
       {...props}
     >
       {children}

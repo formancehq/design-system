@@ -1,19 +1,12 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, Eye } from 'lucide-react';
 
 import { Badge } from '@/registry/default/ui/badge';
 import { Button } from '@/registry/default/ui/button';
 import { Checkbox } from '@/registry/default/ui/checkbox';
 import { DataTable } from '@/registry/default/ui/data-table';
-import {
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from '@/registry/default/ui/dropdown-menu';
-import { DataTableRowActions } from '@/registry/default/ui/data-table';
 
 type TPayment = {
   id: string;
@@ -143,20 +136,12 @@ const columns: ColumnDef<TPayment>[] = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({ row }) => (
-      <DataTableRowActions>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(row.original.id)}
-          >
-            Copy payment ID
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>View customer</DropdownMenuItem>
-          <DropdownMenuItem>View payment details</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DataTableRowActions>
+    cell: () => (
+      <div className="text-right">
+        <Button variant="secondary" size="icon-md">
+          <Eye />
+        </Button>
+      </div>
     ),
   },
 ];

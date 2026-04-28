@@ -4,7 +4,7 @@
   "title": "Description List",
   "description": "A description list and row layout for key-value pairs.",
   "registryDependencies": [
-    "http://localhost:3333/r/separator.json"
+    "https://design-system.localhost/r/separator.json"
   ],
   "files": [
     {

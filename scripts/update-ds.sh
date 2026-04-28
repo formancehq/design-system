@@ -54,6 +54,6 @@ for item in data['items']:
 
 echo "Found ${#components[@]} components. Installing into $cwd..."
 
-pnpm dlx shadcn@latest add --cwd "$cwd" --overwrite "${components[@]}"
+NODE_TLS_REJECT_UNAUTHORIZED=0 pnpm dlx shadcn@latest add --cwd "$cwd" --overwrite "${components[@]}"
 
 echo "Done. Updated ${#components[@]} components."

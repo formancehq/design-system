@@ -30,7 +30,7 @@ export default function PageHeaderDemo() {
             </PageHeaderDescription>
           </PageHeaderSummary>
           <PageHeaderAside>
-            <Button variant="primary" size="sm">
+            <Button variant="primary">
               <Settings className="size-4 mr-2" />
               Manage module
             </Button>

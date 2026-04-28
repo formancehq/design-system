@@ -1,9 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-import { CodeBlock } from '@/components/code-block';
 import { CollapsibleCode } from '@/components/collapsible-code';
 import { ComponentPreviewClient } from '@/components/component-preview-client';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 
 /** Try reading source for a demo or example by convention. */
 function readSource(name: string): string {
@@ -44,11 +44,11 @@ export async function ComponentPreview({
       {hasCode &&
         (peekCode ? (
           <CollapsibleCode>
-            <CodeBlock code={source} lang="tsx" noBorder />
+            <CodeSnippet code={source} language="tsx" size="sm" bordered={false} />
           </CollapsibleCode>
         ) : (
           <div className="border-t">
-            <CodeBlock code={source} lang="tsx" noBorder />
+            <CodeSnippet code={source} language="tsx" size="sm" bordered={false} />
           </div>
         ))}
     </div>

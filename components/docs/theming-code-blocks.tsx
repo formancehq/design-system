@@ -1,5 +1,5 @@
-import { CodeBlock } from '@/components/code-block';
 import { CollapsibleCode } from '@/components/collapsible-code';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 
 const LIGHT_VARIABLES = `:root {
   --font-sans: 'Polymath', 'Figtree', sans-serif;
@@ -135,7 +135,7 @@ const BRAND_PALETTES = `:root {
 export function LightVariables() {
   return (
     <CollapsibleCode>
-      <CodeBlock code={LIGHT_VARIABLES} lang="css" />
+      <CodeSnippet code={LIGHT_VARIABLES} language="css" size="sm" />
     </CollapsibleCode>
   );
 }
@@ -143,7 +143,7 @@ export function LightVariables() {
 export function DarkVariables() {
   return (
     <CollapsibleCode>
-      <CodeBlock code={DARK_VARIABLES} lang="css" />
+      <CodeSnippet code={DARK_VARIABLES} language="css" size="sm" />
     </CollapsibleCode>
   );
 }
@@ -151,7 +151,7 @@ export function DarkVariables() {
 export function BrandPaletteVariables() {
   return (
     <CollapsibleCode>
-      <CodeBlock code={BRAND_PALETTES} lang="css" />
+      <CodeSnippet code={BRAND_PALETTES} language="css" size="sm" />
     </CollapsibleCode>
   );
 }

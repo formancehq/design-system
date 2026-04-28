@@ -4,7 +4,7 @@
   "title": "Numscript Validator",
   "description": "Validates Numscript code via the playground API and returns diagnostics for CodeEditor.",
   "registryDependencies": [
-    "http://localhost:3333/r/code-editor.json"
+    "https://design-system.localhost/r/code-editor.json"
   ],
   "files": [
     {

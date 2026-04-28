@@ -35,7 +35,7 @@ const codeSnippetVariants = cva(
     },
     defaultVariants: {
       size: 'sm',
-      bordered: false,
+      bordered: true,
       isSingleLine: false,
     },
   }

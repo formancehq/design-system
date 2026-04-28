@@ -4,7 +4,7 @@
   "title": "Loader",
   "description": "Loading skeleton placeholders.",
   "registryDependencies": [
-    "http://localhost:3333/r/skeleton.json"
+    "https://design-system.localhost/r/skeleton.json"
   ],
   "files": [
     {

@@ -7,9 +7,9 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "http://localhost:3333/r/code-themes.json",
-    "http://localhost:3333/r/badge.json",
-    "http://localhost:3333/r/select.json"
+    "https://design-system.localhost/r/code-themes.json",
+    "https://design-system.localhost/r/badge.json",
+    "https://design-system.localhost/r/select.json"
   ],
   "files": [
     {

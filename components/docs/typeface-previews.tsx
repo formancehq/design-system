@@ -39,7 +39,7 @@ export function PolymathPreview() {
       </div>
       <div className="space-y-3">
         <Label className="text-muted-foreground">
-          font-display{' '}
+          font-heading{' '}
           <code className="ml-1 rounded bg-muted px-1.5 py-0.5 font-mono text-xs">
             font-variation-settings: &apos;opsz&apos; 72
           </code>
@@ -142,7 +142,7 @@ export function FigtreePreview() {
         </span>
       </div>
       <div className="space-y-3">
-        <Label className="text-muted-foreground">font-display</Label>
+        <Label className="text-muted-foreground">font-heading</Label>
         <div className="space-y-3">
           <TypographyH1 style={{ fontFamily: 'Figtree' }}>
             Stop Fighting Your Ledger

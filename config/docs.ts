@@ -142,7 +142,7 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/context-menu': {
     registryName: 'context-menu',
-    description: 'A menu triggered by right-clicking.',
+    description: 'Opens a menu on right-click.',
     sourceFile: 'registry/default/ui/context-menu.tsx',
     source: 'shadcn',
   },
@@ -162,7 +162,7 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/dropdown-menu': {
     registryName: 'dropdown-menu',
-    description: 'A menu displayed on trigger click.',
+    description: 'Opens a menu when the user clicks a trigger.',
     sourceFile: 'registry/default/ui/dropdown-menu.tsx',
     source: 'shadcn',
   },
@@ -175,7 +175,7 @@ export const componentMeta: Record<string, TComponentMeta> = {
   },
   'components/hover-card': {
     registryName: 'hover-card',
-    description: 'A card displayed on hover for previewing content.',
+    description: 'Previews content in a floating card on hover.',
     sourceFile: 'registry/default/ui/hover-card.tsx',
     source: 'shadcn',
   },
@@ -702,6 +702,20 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/fragments/key-value-input.tsx',
     source: 'custom',
   },
+  'fragments/app-card': {
+    registryName: 'app-card',
+    description:
+      'A card layout for app sections with optional icon, header action, separator, and footer.',
+    sourceFile: 'registry/default/fragments/app-card.tsx',
+    source: 'custom',
+  },
+  'fragments/app-card-empty': {
+    registryName: 'app-card-empty',
+    description:
+      'Muted empty-state card with centered icon, title, description, and optional actions.',
+    sourceFile: 'registry/default/fragments/app-card-empty.tsx',
+    source: 'custom',
+  },
   'components/stepper': {
     registryName: 'stepper',
     description: 'A multi-step wizard component with validation.',
@@ -998,6 +1012,8 @@ export const docsConfig: TDocsConfig = {
           href: '/docs/fragments/introduction',
           priority: true,
         },
+        { title: 'App Card', href: '/docs/fragments/app-card' },
+        { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
         { title: 'Page Header', href: '/docs/fragments/page-header' },

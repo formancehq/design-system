@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { cn } from '@/lib/utils';
 import { docsConfig } from '@/config/docs';
+import { cn } from '@/lib/utils';
 import { Eyebrow } from '@/registry/default/ui/eyebrow';
 
 function NavigationItem({
@@ -23,7 +23,7 @@ function NavigationItem({
     <Link
       href={href}
       className={cn(
-        'relative flex items-center h-7 text-sm px-6 transition-all',
+        'relative flex items-center h-7 text-sm px-4 transition-all',
         'text-muted-foreground',
         !isActive && 'hover:bg-accent hover:text-accent-foreground',
         isActive && 'bg-accent text-foreground'
@@ -47,7 +47,7 @@ function NavigationItem({
 
 export function SideNavigation() {
   return (
-    <nav className="min-w-[220px] py-6 lg:py-8">
+    <nav className="min-w-[220px] py-4 px-2">
       {docsConfig.sidebarNav.map((section, i) => {
         const items =
           section.sortOrder === 'alphabetical'
@@ -62,12 +62,8 @@ export function SideNavigation() {
 
         return (
           <div key={`${section.title}-${i}`} className="pb-8 space-y-0.5">
-            <Eyebrow
-              variant="gold"
-              size="sm"
-              className="mb-2 px-6 tracking-widest"
-            >
-              {section.title}
+            <Eyebrow variant="gold" size="sm" className="px-4 pb-1">
+              _{section.title}
             </Eyebrow>
             {items.map((item) => (
               <NavigationItem

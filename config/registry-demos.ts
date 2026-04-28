@@ -761,6 +761,29 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   tooltip: {
     component: lazy(() => import('@/registry/default/demos/tooltip-demo')),
     sourceFile: 'registry/default/demos/tooltip-demo.tsx',
+    examples: [
+      {
+        title: 'Side',
+        component: lazy(
+          () => import('@/registry/default/examples/tooltip-side')
+        ),
+        sourceFile: 'registry/default/examples/tooltip-side.tsx',
+      },
+      {
+        title: 'Icon Button',
+        component: lazy(
+          () => import('@/registry/default/examples/tooltip-icon-button')
+        ),
+        sourceFile: 'registry/default/examples/tooltip-icon-button.tsx',
+      },
+      {
+        title: 'Disabled Button',
+        component: lazy(
+          () => import('@/registry/default/examples/tooltip-disabled-button')
+        ),
+        sourceFile: 'registry/default/examples/tooltip-disabled-button.tsx',
+      },
+    ],
   },
   typography: {
     component: lazy(() => import('@/registry/default/demos/typography-demo')),
@@ -898,6 +921,15 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'page-header': {
     component: lazy(() => import('@/registry/default/demos/page-header-demo')),
     sourceFile: 'registry/default/demos/page-header-demo.tsx',
+    examples: [
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/page-header-sizes')
+        ),
+        sourceFile: 'registry/default/examples/page-header-sizes.tsx',
+      },
+    ],
   },
   'page-section': {
     component: lazy(() => import('@/registry/default/demos/page-section-demo')),
@@ -934,10 +966,42 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       () => import('@/registry/default/demos/badge-eyebrow-demo')
     ),
     sourceFile: 'registry/default/demos/badge-eyebrow-demo.tsx',
+    examples: [
+      {
+        title: 'Colors',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-eyebrow-colors')
+        ),
+        sourceFile: 'registry/default/examples/badge-eyebrow-colors.tsx',
+      },
+      {
+        title: 'Prefix & Suffix',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-eyebrow-sizes')
+        ),
+        sourceFile: 'registry/default/examples/badge-eyebrow-sizes.tsx',
+      },
+    ],
   },
   'badge-status': {
     component: lazy(() => import('@/registry/default/demos/badge-status-demo')),
     sourceFile: 'registry/default/demos/badge-status-demo.tsx',
+    examples: [
+      {
+        title: 'Variants',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-status-variants')
+        ),
+        sourceFile: 'registry/default/examples/badge-status-variants.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-status-sizes')
+        ),
+        sourceFile: 'registry/default/examples/badge-status-sizes.tsx',
+      },
+    ],
   },
   'button-group': {
     component: lazy(() => import('@/registry/default/demos/button-group-demo')),
@@ -1095,6 +1159,69 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'app-card': {
+    component: lazy(() => import('@/registry/default/demos/app-card-demo')),
+    sourceFile: 'registry/default/demos/app-card-demo.tsx',
+    examples: [
+      {
+        title: 'With Separator',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-separator')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-separator.tsx',
+      },
+      {
+        title: 'With Footer',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-footer')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-footer.tsx',
+      },
+      {
+        title: 'With Empty State',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-empty')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-empty.tsx',
+      },
+      {
+        title: 'With Data Table',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-with-data-table')
+        ),
+        sourceFile: 'registry/default/examples/app-card-with-data-table.tsx',
+      },
+    ],
+  },
+  'app-card-empty': {
+    component: lazy(
+      () => import('@/registry/default/demos/app-card-empty-demo')
+    ),
+    sourceFile: 'registry/default/demos/app-card-empty-demo.tsx',
+    examples: [
+      {
+        title: 'Default',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-empty-default')
+        ),
+        sourceFile: 'registry/default/examples/app-card-empty-default.tsx',
+      },
+      {
+        title: 'With Actions',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-empty-with-actions')
+        ),
+        sourceFile: 'registry/default/examples/app-card-empty-with-actions.tsx',
+      },
+      {
+        title: 'Inside an App Card',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-empty-nested')
+        ),
+        sourceFile: 'registry/default/examples/app-card-empty-nested.tsx',
+      },
+    ],
+  },
   'key-value-input': {
     component: lazy(
       () => import('@/registry/default/demos/key-value-input-demo')
@@ -1161,6 +1288,20 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/code-snippet-fctl')
         ),
         sourceFile: 'registry/default/examples/code-snippet-fctl.tsx',
+      },
+      {
+        title: 'Borderless',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-borderless')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-borderless.tsx',
+      },
+      {
+        title: 'Single Line',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-single-line')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-single-line.tsx',
       },
     ],
   },

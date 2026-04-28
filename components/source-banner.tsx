@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import { ExternalLinkIcon } from 'lucide-react';
+import Link from 'next/link';
 
-import { FormanceIcon } from '@/registry/default/ui/formance-logo';
 import { cn } from '@/lib/utils';
+import { FormanceIcon } from '@/registry/default/ui/formance-logo';
 
 type TSource = 'shadcn' | 'custom';
 
@@ -67,8 +67,8 @@ function SourceBanner({ source }: { source: TSource }) {
   const config = sourceConfig[source];
 
   return (
-    <div className="flex items-center justify-between gap-4 rounded-lg border bg-muted/40 px-4 py-3">
-      <div className="flex items-center gap-3">
+    <div className="flex items-center justify-between gap-4 rounded-lg border bg-background px-4 py-3">
+      <div className="flex items-center gap-2">
         <span className="text-muted-foreground">{config.icon}</span>
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium">{config.label}</span>

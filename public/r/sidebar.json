@@ -9,12 +9,12 @@
     "radix-ui"
   ],
   "registryDependencies": [
-    "http://localhost:3333/r/button.json",
-    "http://localhost:3333/r/input.json",
-    "http://localhost:3333/r/separator.json",
-    "http://localhost:3333/r/sheet.json",
-    "http://localhost:3333/r/skeleton.json",
-    "http://localhost:3333/r/tooltip.json"
+    "https://design-system.localhost/r/button.json",
+    "https://design-system.localhost/r/input.json",
+    "https://design-system.localhost/r/separator.json",
+    "https://design-system.localhost/r/sheet.json",
+    "https://design-system.localhost/r/skeleton.json",
+    "https://design-system.localhost/r/tooltip.json"
   ],
   "files": [
     {

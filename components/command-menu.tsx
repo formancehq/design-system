@@ -3,7 +3,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { Command } from 'cmdk';
+import {
+  CommandDialog,
+  CommandInput,
+  CommandList,
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from '@/registry/default/ui/command';
 import {
   Moon,
   Sun,
@@ -24,9 +31,15 @@ export function CommandMenu() {
   const { setTheme } = useTheme();
 
   useEffect(() => {
+    let lastToggle = 0;
     function onKeyDown(e: KeyboardEvent) {
+      if (e.repeat) return;
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
+        e.stopImmediatePropagation();
+        const now = Date.now();
+        if (now - lastToggle < 200) return;
+        lastToggle = now;
         setOpen((prev) => !prev);
       }
       if (
@@ -37,9 +50,16 @@ export function CommandMenu() {
         setOpen(true);
       }
     }
+    function onOpen() {
+      setOpen(true);
+    }
     document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('command-menu:open', onOpen);
 
-    return () => document.removeEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('command-menu:open', onOpen);
+    };
   }, []);
 
   const runCommand = useCallback((command: () => void) => {
@@ -50,32 +70,18 @@ export function CommandMenu() {
   const navItems = flattenNav();
 
   return (
-    <Command.Dialog
+    <CommandDialog
       open={open}
       onOpenChange={setOpen}
-      label="Command Menu"
-      className="fixed inset-0 z-50"
+      title="Command Menu"
+      description="Search documentation, components, and switch theme."
     >
-      <div
-        className="fixed inset-0 bg-black/50"
-        onClick={() => setOpen(false)}
-      />
-      <div className="fixed top-[20%] left-1/2 w-full max-w-lg -translate-x-1/2 rounded-lg border bg-popover text-popover-foreground shadow-lg">
-        <Command.Input
-          placeholder="Type a command or search..."
-          className="h-12 w-full border-b bg-transparent px-4 text-sm outline-none placeholder:text-muted-foreground"
-        />
-        <Command.List className="max-h-[300px] overflow-y-auto p-2">
-          <Command.Empty className="py-6 text-center text-sm text-muted-foreground">
-            No results found.
-          </Command.Empty>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
 
-          {docsConfig.sidebarNav.map((section) => (
-            <Command.Group
-              key={section.title}
-              heading={section.title}
-              className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground"
-            >
+        {docsConfig.sidebarNav.map((section) => (
+          <CommandGroup key={section.title} heading={section.title}>
               {section.items.map((item) => {
                 const Icon =
                   section.title === 'Components'
@@ -91,51 +97,43 @@ export function CommandMenu() {
                             : FileText;
 
                 return (
-                  <Command.Item
+                  <CommandItem
                     key={item.href}
                     value={item.title}
                     onSelect={() => runCommand(() => router.push(item.href))}
-                    className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-sm aria-selected:bg-accent aria-selected:text-accent-foreground"
                   >
                     <Icon className="h-4 w-4 text-muted-foreground" />
                     {item.title}
-                  </Command.Item>
+                  </CommandItem>
                 );
               })}
-            </Command.Group>
-          ))}
+          </CommandGroup>
+        ))}
 
-          <Command.Group
-            heading="Theme"
-            className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-mono [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group-heading]]:text-muted-foreground"
+        <CommandGroup heading="Theme">
+          <CommandItem
+            value="Light theme"
+            onSelect={() => runCommand(() => setTheme('light'))}
           >
-            <Command.Item
-              value="Light theme"
-              onSelect={() => runCommand(() => setTheme('light'))}
-              className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-sm aria-selected:bg-accent aria-selected:text-accent-foreground"
-            >
-              <Sun className="h-4 w-4 text-muted-foreground" />
-              Light
-            </Command.Item>
-            <Command.Item
-              value="Dark theme"
-              onSelect={() => runCommand(() => setTheme('dark'))}
-              className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-sm aria-selected:bg-accent aria-selected:text-accent-foreground"
-            >
-              <Moon className="h-4 w-4 text-muted-foreground" />
-              Dark
-            </Command.Item>
-            <Command.Item
-              value="System theme"
-              onSelect={() => runCommand(() => setTheme('system'))}
-              className="flex cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-sm aria-selected:bg-accent aria-selected:text-accent-foreground"
-            >
-              <Monitor className="h-4 w-4 text-muted-foreground" />
-              System
-            </Command.Item>
-          </Command.Group>
-        </Command.List>
-      </div>
-    </Command.Dialog>
+            <Sun className="h-4 w-4 text-muted-foreground" />
+            Light
+          </CommandItem>
+          <CommandItem
+            value="Dark theme"
+            onSelect={() => runCommand(() => setTheme('dark'))}
+          >
+            <Moon className="h-4 w-4 text-muted-foreground" />
+            Dark
+          </CommandItem>
+          <CommandItem
+            value="System theme"
+            onSelect={() => runCommand(() => setTheme('system'))}
+          >
+            <Monitor className="h-4 w-4 text-muted-foreground" />
+            System
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
   );
 }

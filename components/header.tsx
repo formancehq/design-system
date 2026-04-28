@@ -1,13 +1,17 @@
 'use client';
 
-import { Menu, Moon, Search, Sun } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { SideNavigation } from '@/components/side-navigation';
+import { BadgeEyebrow } from '@/registry/default/ui/badge-eyebrow';
 import { Button } from '@/registry/default/ui/button';
+import { FormanceLogo } from '@/registry/default/ui/formance-logo';
+import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
+import { ModeToggle, type TTheme } from '@/registry/default/ui/mode-toggle';
 import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import {
   Sheet,
@@ -15,9 +19,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/registry/default/ui/sheet';
-import { h3Variants } from '@/registry/default/ui/typography';
 
-export function TopNavigation() {
+export function Header() {
   const { theme, setTheme } = useTheme();
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -27,14 +30,12 @@ export function TopNavigation() {
   }, [pathname]);
 
   function openSearch() {
-    document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'k', metaKey: true })
-    );
+    document.dispatchEvent(new CustomEvent('command-menu:open'));
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <nav className="flex h-12 items-center justify-between px-6">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
+      <nav className="flex h-12 items-center justify-between px-3">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
@@ -45,22 +46,25 @@ export function TopNavigation() {
           >
             <Menu className="h-4 w-4" />
           </Button>
-          <Link href="/" className="flex items-center gap-3">
-            <span className={h3Variants({})}>Formance Design System</span>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <FormanceLogo />
+            </Link>
+            <BadgeEyebrow variant="cobalt">Design System</BadgeEyebrow>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            size="sm"
             onClick={openSearch}
-            className="hidden sm:inline-flex gap-2 text-muted-foreground"
+            className="hidden sm:flex w-56 justify-start items-center gap-2"
           >
-            <Search className="h-3.5 w-3.5" />
-            <span className="text-xs">Search...</span>
-            <kbd className="pointer-events-none hidden rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono sm:inline-block">
-              ⌘K
-            </kbd>
+            <Search className="size-4" />
+            <span>Search</span>
+            <KbdGroup className="ml-auto">
+              <Kbd>⌘</Kbd>
+              <Kbd>K</Kbd>
+            </KbdGroup>
           </Button>
           <Button
             variant="ghost"
@@ -71,15 +75,10 @@ export function TopNavigation() {
           >
             <Search className="h-4 w-4" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon-md"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            aria-label="Toggle theme"
-          >
-            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          </Button>
+          <ModeToggle
+            theme={(theme as TTheme) ?? 'system'}
+            setTheme={setTheme}
+          />
         </div>
       </nav>
 

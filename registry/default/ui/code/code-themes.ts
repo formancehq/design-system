@@ -13,9 +13,11 @@ import numscriptGrammar from '@/registry/default/ui/code/numscript.tmLanguage.js
 
 export const CODE_LANGUAGES = [
   'typescript',
+  'tsx',
   'yaml',
   'json',
   'bash',
+  'css',
   'plaintext',
   'markdown',
   'numscript',

@@ -1,5 +1,5 @@
-import { CodeBlock } from '@/components/code-block';
 import { CollapsibleCode } from '@/components/collapsible-code';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 
 const codeSnippets: Record<string, string> = {
   polymath: `import {
@@ -11,7 +11,7 @@ const codeSnippets: Record<string, string> = {
   TypographyP,
 } from "@/components/ui/typography"
 
-{/* font-display — opsz 72, applied automatically on h1–h6 */}
+{/* font-heading — opsz 72, applied automatically on h1–h6 */}
 <TypographyH1>Stop Fighting Your Ledger</TypographyH1>
 <TypographyH2>Stop Fighting Your Ledger</TypographyH2>
 <TypographyH3>Stop Fighting Your Ledger</TypographyH3>
@@ -113,10 +113,10 @@ export async function TypefacePreviewCard({
 
   return (
     <div className="overflow-hidden rounded-lg border">
-      <div className="p-6">{children}</div>
+      <div className="bg-background p-6">{children}</div>
       {code && (
         <CollapsibleCode>
-          <CodeBlock code={code} lang="tsx" noBorder />
+          <CodeSnippet code={code} language="tsx" size="sm" />
         </CollapsibleCode>
       )}
     </div>
