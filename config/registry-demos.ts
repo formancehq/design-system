@@ -921,6 +921,15 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'page-header': {
     component: lazy(() => import('@/registry/default/demos/page-header-demo')),
     sourceFile: 'registry/default/demos/page-header-demo.tsx',
+    examples: [
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/page-header-sizes')
+        ),
+        sourceFile: 'registry/default/examples/page-header-sizes.tsx',
+      },
+    ],
   },
   'page-section': {
     component: lazy(() => import('@/registry/default/demos/page-section-demo')),
@@ -1279,6 +1288,20 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/code-snippet-fctl')
         ),
         sourceFile: 'registry/default/examples/code-snippet-fctl.tsx',
+      },
+      {
+        title: 'Borderless',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-borderless')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-borderless.tsx',
+      },
+      {
+        title: 'Single Line',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-single-line')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-single-line.tsx',
       },
     ],
   },

@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, Moon, Search, Sun } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -10,7 +10,8 @@ import { SideNavigation } from '@/components/side-navigation';
 import { BadgeEyebrow } from '@/registry/default/ui/badge-eyebrow';
 import { Button } from '@/registry/default/ui/button';
 import { FormanceLogo } from '@/registry/default/ui/formance-logo';
-import { Kbd } from '@/registry/default/ui/kbd';
+import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
+import { ModeToggle, type TTheme } from '@/registry/default/ui/mode-toggle';
 import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import {
   Sheet,
@@ -29,14 +30,12 @@ export function Header() {
   }, [pathname]);
 
   function openSearch() {
-    document.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'k', metaKey: true })
-    );
+    document.dispatchEvent(new CustomEvent('command-menu:open'));
   }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
-      <nav className="flex h-12 items-center justify-between px-6">
+      <nav className="flex h-12 items-center justify-between px-3">
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
@@ -58,11 +57,14 @@ export function Header() {
           <Button
             variant="outline"
             onClick={openSearch}
-            className="hidden sm:inline-flex gap-2"
+            className="hidden sm:flex w-56 justify-start items-center gap-2"
           >
-            <Search className="size-3.5" />
-            <span>Search...</span>
-            <Kbd>⌘K</Kbd>
+            <Search className="size-4" />
+            <span>Search</span>
+            <KbdGroup className="ml-auto">
+              <Kbd>⌘</Kbd>
+              <Kbd>K</Kbd>
+            </KbdGroup>
           </Button>
           <Button
             variant="ghost"
@@ -73,15 +75,10 @@ export function Header() {
           >
             <Search className="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            size="icon-md"
-            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            aria-label="Toggle theme"
-          >
-            <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          </Button>
+          <ModeToggle
+            theme={(theme as TTheme) ?? 'system'}
+            setTheme={setTheme}
+          />
         </div>
       </nav>
 

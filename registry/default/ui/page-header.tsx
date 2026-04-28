@@ -175,7 +175,10 @@ function PageHeaderTitle({
   return (
     <h1
       data-slot="page-header-title"
-      className={cn('text-3xl font-medium tracking-tight scroll-m-20', className)}
+      className={cn(
+        'text-3xl font-medium tracking-tight scroll-m-20',
+        className
+      )}
       {...props}
     >
       {children}

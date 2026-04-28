@@ -27,7 +27,6 @@ export default function CodeSnippetLight() {
         code={tsCode}
         language="typescript"
         showLineNumbers
-        bordered={false}
         isDark={false}
       />
     </div>

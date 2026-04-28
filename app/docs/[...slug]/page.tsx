@@ -120,7 +120,7 @@ export default async function DocsPage({
     <div className="xl:grid xl:grid-cols-[1fr_220px]">
       <div data-slot="docs-page">
         <Breadcrumbs />
-        <PageHeader size="full" background border>
+        <PageHeader size="large" background border>
           <PageHeaderMeta>
             <PageHeaderSummary>
               <PageHeaderEyebrow>{found.section}</PageHeaderEyebrow>
@@ -136,9 +136,12 @@ export default async function DocsPage({
 
         <PageContainer size="large" className="py-8">
           <div className="grid gap-8">
-            {meta && <SourceBanner source={meta.source} />}
-
-            <Separator />
+            {meta && (
+              <>
+                <SourceBanner source={meta.source} />
+                <Separator />
+              </>
+            )}
 
             <div className="space-y-8">{mdxContent}</div>
 
@@ -159,16 +162,14 @@ export default async function DocsPage({
         </PageContainer>
       </div>
 
-      {headings.length > 0 && (
-        <aside
-          data-slot="docs-sidebar"
-          className="hidden xl:block border-l bg-background"
-        >
-          <div className="sticky top-12 h-[calc(100vh-3rem)] overflow-auto p-6">
-            <TableOfContents headings={headings} />
-          </div>
-        </aside>
-      )}
+      <aside
+        data-slot="docs-sidebar"
+        className="hidden xl:block border-l bg-background"
+      >
+        <div className="sticky top-12 h-[calc(100vh-3rem)] overflow-auto p-6">
+          {headings.length > 0 && <TableOfContents headings={headings} />}
+        </div>
+      </aside>
     </div>
   );
 }
