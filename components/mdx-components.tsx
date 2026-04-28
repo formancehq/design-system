@@ -15,8 +15,10 @@ import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
 import { Tabs as TabsPrimitive } from 'radix-ui';
 import { cn } from '@/lib/utils';
 import { Eyebrow } from '@/registry/default/ui/eyebrow';
-import { BrandSwatches } from '@/components/docs/brand-swatches';
-import { SemanticColorsGrid } from '@/components/docs/semantic-colors-grid';
+import {
+  BrandSwatches,
+  BrandMainVariants,
+} from '@/components/docs/brand-swatches';
 import { UITokensGrid } from '@/components/docs/ui-tokens-grid';
 import { TypefacePreviewCard } from '@/components/docs/typeface-preview-card';
 import {
@@ -126,7 +128,7 @@ export const mdxComponents: MDXComponents = {
   TabsTrigger,
   Eyebrow,
   BrandSwatches,
-  SemanticColorsGrid,
+  BrandMainVariants,
   UITokensGrid,
   TypefacePreviewCard,
   PolymathPreview,
