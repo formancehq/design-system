@@ -2,9 +2,18 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ChevronRight } from 'lucide-react';
+import * as React from 'react';
 
 import { docsConfig } from '@/config/docs';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/registry/default/ui/breadcrumb';
+import { PageContainer } from '@/registry/default/ui/page-container';
 
 function resolveTitle(segment: string): string {
   for (const section of docsConfig.sidebarNav) {
@@ -32,36 +41,32 @@ export function Breadcrumbs() {
 
   if (segments.length === 0) return null;
 
-  const crumbs = segments.map((segment, i) => {
-    const href = '/' + segments.slice(0, i + 1).join('/');
-    const title = segment === 'docs' ? 'Docs' : resolveTitle(segment);
-    const isLast = i === segments.length - 1;
-
-    return (
-      <li key={href} className="flex items-center gap-1.5">
-        {i > 0 && (
-          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
-        )}
-        {isLast ? (
-          <span className="text-foreground">{title}</span>
-        ) : (
-          <Link
-            href={href}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {title}
-          </Link>
-        )}
-      </li>
-    );
-  });
-
   return (
-    <nav
-      aria-label="Breadcrumb"
-      className="flex h-12 items-center border-b bg-background px-6"
-    >
-      <ol className="flex items-center gap-1.5 text-sm">{crumbs}</ol>
-    </nav>
+    <Breadcrumb className="border-b bg-background">
+      <PageContainer size="large" className="flex h-12 items-center">
+        <BreadcrumbList>
+        {segments.map((segment, i) => {
+          const href = '/' + segments.slice(0, i + 1).join('/');
+          const title = segment === 'docs' ? 'Docs' : resolveTitle(segment);
+          const isLast = i === segments.length - 1;
+
+          return (
+            <React.Fragment key={href}>
+              {i > 0 && <BreadcrumbSeparator />}
+              <BreadcrumbItem>
+                {isLast ? (
+                  <BreadcrumbPage>{title}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link href={href}>{title}</Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+            </React.Fragment>
+          );
+        })}
+        </BreadcrumbList>
+      </PageContainer>
+    </Breadcrumb>
   );
 }

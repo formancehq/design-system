@@ -113,7 +113,7 @@ export async function TypefacePreviewCard({
 
   return (
     <div className="overflow-hidden rounded-lg border">
-      <div className="p-6">{children}</div>
+      <div className="bg-background p-6">{children}</div>
       {code && (
         <CollapsibleCode>
           <CodeSnippet code={code} language="tsx" size="sm" />
