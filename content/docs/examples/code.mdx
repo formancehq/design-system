@@ -1,8 +1,9 @@
 The code components use a shared Shiki highlighter singleton to avoid creating multiple instances. Set up a single instance for your application:
 
-## Shared Highlighter
-
-The `code-themes` package exports a `getHighlighter()` function that creates a singleton instance. Both `CodeSnippet` and `CodeEditor` use it internally, but you can also use it directly for custom highlighting.
+<Section
+  title="Shared Highlighter"
+  description="The code-themes package exports a getHighlighter() function that creates a singleton instance. Both CodeSnippet and CodeEditor use it internally, but you can also use it directly for custom highlighting."
+>
 
 ```tsx
 import { getHighlighter, cssVarsTheme } from '@/components/code/code-themes'
@@ -16,9 +17,12 @@ const html = highlighter.codeToHtml('const x = 42;', {
 })
 ```
 
-## Server-Side Highlighting
+</Section>
 
-For RSC or build-time highlighting, create a server-only wrapper around the same singleton:
+<Section
+  title="Server-Side Highlighting"
+  description="For RSC or build-time highlighting, create a server-only wrapper around the same singleton:"
+>
 
 ```tsx
 import 'server-only'
@@ -35,15 +39,19 @@ export async function highlightCode(code: string, lang = 'tsx') {
 }
 ```
 
-## Numscript Examples
+</Section>
 
-Multiple snippets sharing the same singleton — no extra instances created.
+<Section
+  title="Numscript Examples"
+  description="Multiple snippets sharing the same singleton — no extra instances created."
+>
+  <ComponentPreview name="code-preview-edit" />
+</Section>
 
-<ComponentPreview name="code-preview-edit" />
-
-## CSS Variables
-
-Syntax colors are defined as CSS custom properties so they automatically follow your theme. Override any token in your global CSS:
+<Section
+  title="CSS Variables"
+  description="Syntax colors are defined as CSS custom properties so they automatically follow your theme. Override any token in your global CSS:"
+>
 
 ```css
 :root {
@@ -80,3 +88,5 @@ Syntax colors are defined as CSS custom properties so they automatically follow 
   --shiki-token-monetary: var(--gold-300);
 }
 ```
+
+</Section>

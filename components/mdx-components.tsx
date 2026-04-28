@@ -64,6 +64,43 @@ function MdxHeading({
   );
 }
 
+type TSectionProps = {
+  title: string;
+  description?: React.ReactNode;
+  level?: 2 | 3;
+  children?: React.ReactNode;
+};
+
+function Section({ title, description, level = 2, children }: TSectionProps) {
+  const id = slugify(title);
+  const Tag = level === 2 ? 'h2' : 'h3';
+  const size = level === 2 ? 'text-2xl' : 'text-xl';
+
+  return (
+    <section className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <Tag
+          id={id}
+          className={`group scroll-m-20 font-sans ${size} font-semibold tracking-tight`}
+        >
+          <a href={`#${id}`} className="no-underline">
+            {title}
+            <span className="ml-2 text-muted-foreground/0 group-hover:text-muted-foreground/50 transition-colors">
+              #
+            </span>
+          </a>
+        </Tag>
+        {description && (
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {description}
+          </p>
+        )}
+      </div>
+      {children}
+    </section>
+  );
+}
+
 export const mdxComponents: MDXComponents = {
   h2: (props) => <MdxHeading level={2} {...props} />,
   h3: (props) => <MdxHeading level={3} {...props} />,
@@ -144,4 +181,5 @@ export const mdxComponents: MDXComponents = {
   BrandPaletteVariables,
   AppCard,
   AppCardEmpty,
+  Section,
 };

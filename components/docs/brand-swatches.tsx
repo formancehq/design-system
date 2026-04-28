@@ -16,7 +16,7 @@ const PALETTES: TPalette[] = [
     name: 'Emerald',
     prefix: 'emerald',
     main: '700',
-    pantone: '5463 C\n5463 U',
+    pantone: '547 C\n5463 U',
     shades: [
       { shade: '100', oklch: [0.9503, 0.0053, 197.07] },
       { shade: '200', oklch: [0.9225, 0.0096, 196.99] },

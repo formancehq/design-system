@@ -44,13 +44,36 @@ function readMdxFile(slug: string): string | null {
   }
 }
 
-/** Extract h2/h3 headings from MDX source for the table of contents. */
+/** Extract h2/h3 headings (markdown + <Section title="..."/>) from MDX source for the TOC. */
 function extractHeadings(source: string) {
-  return [...source.matchAll(/^(#{2,3})\s+(.+)/gm)].map((m) => ({
-    id: slugify(m[2].trim()),
-    title: m[2].trim(),
-    level: m[1].length,
-  }));
+  const items: { index: number; id: string; title: string; level: number }[] = [];
+
+  for (const m of source.matchAll(/^(#{2,3})\s+(.+)$/gm)) {
+    const title = m[2].trim();
+    items.push({
+      index: m.index ?? 0,
+      id: slugify(title),
+      title,
+      level: m[1].length,
+    });
+  }
+
+  for (const m of source.matchAll(/<Section\b([^>]*)>/g)) {
+    const attrs = m[1];
+    const title = /title="([^"]+)"/.exec(attrs)?.[1];
+    if (!title) continue;
+    const lvl = /level=\{?(\d)\}?/.exec(attrs)?.[1];
+    items.push({
+      index: m.index ?? 0,
+      id: slugify(title),
+      title,
+      level: lvl ? Number(lvl) : 2,
+    });
+  }
+
+  return items
+    .sort((a, b) => a.index - b.index)
+    .map(({ id, title, level }) => ({ id, title, level }));
 }
 
 export async function generateStaticParams() {

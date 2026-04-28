@@ -16,7 +16,7 @@ export async function ComponentSource({ name }: { name: string }) {
   return (
     <div className="overflow-hidden rounded-lg border">
       <CollapsibleCode>
-        <CodeSnippet code={source} language="tsx" size="sm" />
+        <CodeSnippet code={source} language="tsx" size="sm" bordered={false} />
       </CollapsibleCode>
     </div>
   );

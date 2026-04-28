@@ -100,6 +100,9 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
+type TTooltipValueType = number | string | Array<number | string>;
+type TTooltipNameType = number | string;
+
 function ChartTooltipContent({
   active,
   payload,
@@ -121,7 +124,13 @@ function ChartTooltipContent({
     indicator?: 'line' | 'dot' | 'dashed';
     nameKey?: string;
     labelKey?: string;
-  }) {
+  } & Omit<
+    RechartsPrimitive.DefaultTooltipContentProps<
+      TTooltipValueType,
+      TTooltipNameType
+    >,
+    'accessibilityLayer'
+  >) {
   const { config } = useChart();
 
   const tooltipLabel = React.useMemo(() => {
@@ -170,7 +179,7 @@ function ChartTooltipContent({
         {payload.map((item, index: number) => {
           const key = `${nameKey || item.name || item.dataKey || 'value'}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
-          const indicatorColor = color || item.payload.fill || item.color;
+          const indicatorColor = color || item.payload?.fill || item.color;
 
           return (
             <div
@@ -245,11 +254,9 @@ function ChartLegendContent({
   verticalAlign = 'bottom',
   nameKey,
 }: React.ComponentProps<'div'> & {
-    payload?: RechartsPrimitive.LegendProps['payload'];
-    verticalAlign?: 'top' | 'middle' | 'bottom';
-    hideIcon?: boolean;
-    nameKey?: string;
-  }) {
+  hideIcon?: boolean;
+  nameKey?: string;
+} & RechartsPrimitive.DefaultLegendContentProps) {
   const { config } = useChart();
   if (!payload?.length) return null;
 

@@ -4,26 +4,30 @@ A card layout for app sections with optional icon, header action, separator, and
 
 For empty states, see [`AppCardEmpty`](/docs/fragments/app-card-empty).
 
-## With separator
+<Section
+  title="With separator"
+  description="Use withSeparator to draw a thin divider between the header and the content."
+>
+  <ComponentPreview name="app-card-with-separator" />
+</Section>
 
-Use `withSeparator` to draw a thin divider between the header and the content.
+<Section
+  title="With footer"
+  description="Pass a CardFooter to the footer prop for informative or destructive callouts below the content."
+>
+  <ComponentPreview name="app-card-with-footer" />
+</Section>
 
-<ComponentPreview name="app-card-with-separator" />
+<Section
+  title="With empty state"
+  description="Render AppCardEmpty as the content when there is no data — typical for list pages before the first record exists."
+>
+  <ComponentPreview name="app-card-with-empty" />
+</Section>
 
-## With footer
-
-Pass a `CardFooter` to the `footer` prop for informative or destructive callouts below the content.
-
-<ComponentPreview name="app-card-with-footer" />
-
-## With empty state
-
-Render `AppCardEmpty` as the content when there is no data — typical for list pages before the first record exists.
-
-<ComponentPreview name="app-card-with-empty" />
-
-## With data table
-
-Wrap a `DataTable` to scope a section's listing inside its own card with title and actions.
-
-<ComponentPreview name="app-card-with-data-table" />
+<Section
+  title="With data table"
+  description="Wrap a DataTable to scope a section's listing inside its own card with title and actions."
+>
+  <ComponentPreview name="app-card-with-data-table" />
+</Section>
