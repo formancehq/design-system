@@ -110,7 +110,7 @@ function PageSectionTitle({
   return (
     <h2
       data-slot="page-section-title"
-      className={cn('text-lg font-medium tracking-tight', className)}
+      className={cn('text-lg font-medium', className)}
       {...props}
     >
       {children}
@@ -186,11 +186,11 @@ export {
   PageSectionMeta,
   PageSectionSummary,
   PageSectionTitle,
-  type TPageSectionProps,
-  type TPageSectionMetaProps,
-  type TPageSectionSummaryProps,
-  type TPageSectionTitleProps,
-  type TPageSectionDescriptionProps,
   type TPageSectionAsideProps,
   type TPageSectionContentProps,
+  type TPageSectionDescriptionProps,
+  type TPageSectionMetaProps,
+  type TPageSectionProps,
+  type TPageSectionSummaryProps,
+  type TPageSectionTitleProps,
 };

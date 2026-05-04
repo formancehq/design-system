@@ -19,7 +19,6 @@ export type TAppCardProps = {
   headerAction?: React.ReactNode;
   headerContent?: React.ReactNode;
   isEmpty?: boolean;
-  withSeparator?: boolean;
 } & React.ComponentProps<typeof Card>;
 
 export function AppCard({
@@ -32,7 +31,6 @@ export function AppCard({
   headerAction,
   headerContent,
   isEmpty,
-  withSeparator,
   ...cardProps
 }: TAppCardProps) {
   const Icon = appIcon;
@@ -54,11 +52,6 @@ export function AppCard({
         <CardDescription>{description}</CardDescription>
         {headerAction && !isEmpty && <CardAction>{headerAction}</CardAction>}
       </CardHeader>
-      {withSeparator && (
-        <div className="px-6 pt-8 pb-5">
-          <hr className="border-border" />
-        </div>
-      )}
       <CardContent>{children}</CardContent>
       {footer}
     </Card>
