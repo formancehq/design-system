@@ -6,10 +6,22 @@ import {
   ChevronRightIcon,
 } from 'lucide-react';
 import * as React from 'react';
-import { DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker';
+import {
+  type DateRange,
+  DayButton,
+  DayPicker,
+  getDefaultClassNames,
+} from 'react-day-picker';
 
 import { Button, buttonVariants } from '@/registry/default/ui/button';
+import { Input } from '@/registry/default/ui/input';
+import { Label } from '@/registry/default/ui/label';
 import { cn } from '@/lib/utils';
+
+type TCalendarProps = React.ComponentProps<typeof DayPicker> & {
+  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
+  withTime?: boolean;
+};
 
 function Calendar({
   className,
@@ -19,20 +31,19 @@ function Calendar({
   buttonVariant = 'ghost',
   formatters,
   components,
+  withTime,
   ...props
-}: React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
-}) {
+}: TCalendarProps) {
   const defaultClassNames = getDefaultClassNames();
 
-  return (
+  const dayPicker = (
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
         'bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
-        className
+        !withTime && className
       )}
       captionLayout={captionLayout}
       formatters={{
@@ -162,6 +173,134 @@ function Calendar({
       }}
       {...props}
     />
+  );
+
+  if (!withTime) return dayPicker;
+
+  const timeProps = props as {
+    mode?: TCalendarProps['mode'];
+    selected?: Date | DateRange;
+    onSelect?: (date: Date | DateRange | undefined) => void;
+  };
+
+  return (
+    <div
+      data-slot="calendar-with-time"
+      className={cn('flex flex-col w-fit', className)}
+    >
+      {dayPicker}
+      <div className="border-t p-3">
+        <CalendarTimePanel
+          mode={timeProps.mode}
+          selected={timeProps.selected}
+          onSelect={timeProps.onSelect}
+        />
+      </div>
+    </div>
+  );
+}
+
+function toTimeString(date: Date | undefined) {
+  if (!date) return '';
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(
+    date.getSeconds()
+  )}`;
+}
+
+function applyTimeString(base: Date | undefined, time: string) {
+  const [h, m, s] = time.split(':').map(Number);
+  const next = base ? new Date(base) : new Date();
+  next.setHours(Number.isFinite(h) ? h : 0);
+  next.setMinutes(Number.isFinite(m) ? m : 0);
+  next.setSeconds(Number.isFinite(s) ? s : 0);
+  next.setMilliseconds(0);
+
+  return next;
+}
+
+type TCalendarTimePanelProps = {
+  mode: TCalendarProps['mode'];
+  selected: Date | DateRange | undefined;
+  onSelect?: (date: Date | DateRange | undefined) => void;
+};
+
+function CalendarTimePanel({
+  mode,
+  selected,
+  onSelect,
+}: TCalendarTimePanelProps) {
+  const fromId = React.useId();
+  const toId = React.useId();
+
+  if (mode === 'range') {
+    const range = (selected as DateRange | undefined) ?? {
+      from: undefined,
+      to: undefined,
+    };
+
+    return (
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <Label htmlFor={fromId} className="text-xs">
+            Start
+          </Label>
+          <Input
+            id={fromId}
+            type="time"
+            step={1}
+            size="sm"
+            disabled={!range.from}
+            value={toTimeString(range.from)}
+            onChange={(e) =>
+              onSelect?.({
+                from: applyTimeString(range.from, e.target.value),
+                to: range.to,
+              })
+            }
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <Label htmlFor={toId} className="text-xs">
+            End
+          </Label>
+          <Input
+            id={toId}
+            type="time"
+            step={1}
+            size="sm"
+            disabled={!range.to}
+            value={toTimeString(range.to)}
+            onChange={(e) =>
+              onSelect?.({
+                from: range.from,
+                to: applyTimeString(range.to, e.target.value),
+              })
+            }
+          />
+        </div>
+      </div>
+    );
+  }
+
+  const date = selected as Date | undefined;
+
+  return (
+    <div className="flex items-center gap-2">
+      <Label htmlFor={fromId} className="text-xs">
+        Time
+      </Label>
+      <Input
+        id={fromId}
+        type="time"
+        step={1}
+        size="sm"
+        disabled={!date}
+        value={toTimeString(date)}
+        onChange={(e) => onSelect?.(applyTimeString(date, e.target.value))}
+      />
+    </div>
   );
 }
 

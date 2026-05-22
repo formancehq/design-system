@@ -276,6 +276,36 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/calendar-date-picker.tsx',
       },
+      {
+        title: 'With Time',
+        component: lazy(
+          () => import('@/registry/default/examples/calendar-with-time')
+        ),
+        sourceFile: 'registry/default/examples/calendar-with-time.tsx',
+      },
+      {
+        title: 'Range With Time',
+        component: lazy(
+          () => import('@/registry/default/examples/calendar-range-with-time')
+        ),
+        sourceFile: 'registry/default/examples/calendar-range-with-time.tsx',
+      },
+      {
+        title: 'Range With Presets',
+        component: lazy(
+          () => import('@/registry/default/examples/calendar-range-presets')
+        ),
+        sourceFile: 'registry/default/examples/calendar-range-presets.tsx',
+      },
+      {
+        title: 'Date Picker With Time',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/calendar-date-picker-with-time')
+        ),
+        sourceFile:
+          'registry/default/examples/calendar-date-picker-with-time.tsx',
+      },
     ],
   },
   carousel: {
@@ -1163,13 +1193,6 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     component: lazy(() => import('@/registry/default/demos/app-card-demo')),
     sourceFile: 'registry/default/demos/app-card-demo.tsx',
     examples: [
-      {
-        title: 'With Separator',
-        component: lazy(
-          () => import('@/registry/default/examples/app-card-with-separator')
-        ),
-        sourceFile: 'registry/default/examples/app-card-with-separator.tsx',
-      },
       {
         title: 'With Footer',
         component: lazy(
