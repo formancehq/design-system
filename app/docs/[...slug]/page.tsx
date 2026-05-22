@@ -132,7 +132,7 @@ export default async function DocsPage({
   });
 
   return (
-    <div className="xl:grid xl:grid-cols-[1fr_220px]">
+    <div className="xl:grid xl:grid-cols-[1fr_var(--sidebar-width)]">
       <div data-slot="docs-page">
         <Breadcrumbs />
         <PageHeader size="large" background border>

@@ -27,6 +27,8 @@
   --font-opsz-heading: 72;
   --font-opsz-text: 6;
 
+  --sidebar-width: 16rem;
+
   --white: var(--emerald-50);
   --black: var(--emerald-800);
 
@@ -40,7 +42,7 @@
   --foreground: var(--black);
 
   --muted: var(--secondary);
-  --muted-lighter: color-mix(in oklch, var(--emerald-100) 40%, white);
+  --muted-lighter: color-mix(in oklch, var(--emerald-900) 2%, white);
   --muted-foreground: var(--emerald-600);
 
   --card: var(--white);
