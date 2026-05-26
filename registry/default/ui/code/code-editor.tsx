@@ -76,7 +76,6 @@ const MONACO_THEME_BASE = 'formance-css-vars';
 // exactly once. Without this, React StrictMode's double-mount causes
 // "Cannot register two commands with the same id" errors.
 type TMonacoSetupResult = {
-   
   monaco: any;
   /** Original setTheme before shikiToMonaco's override */
   setTheme: (name: string) => void;
@@ -157,9 +156,9 @@ function CodeEditor({
   const adaptiveHeight = !fill && adaptiveHeightProp;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-   
+
   const editorRef = useRef<any>(null);
-   
+
   const monacoRef = useRef<any>(null);
   const setThemeRef = useRef<((name: string) => void) | null>(null);
   const validationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
@@ -273,7 +272,7 @@ function CodeEditor({
       const resolvedTheme = buildMonacoThemeFromCSSVars(containerRef.current);
       monaco.editor.defineTheme(
         MONACO_THEME_BASE,
-         
+
         resolvedTheme as any
       );
       setTheme(MONACO_THEME_BASE);
@@ -341,7 +340,7 @@ function CodeEditor({
     const applyTheme = () => {
       if (!monaco || !containerRef.current) return;
       const theme = buildMonacoThemeFromCSSVars(containerRef.current);
-       
+
       monaco.editor.defineTheme(MONACO_THEME_BASE, theme as any);
       setThemeRef.current?.(MONACO_THEME_BASE);
     };

@@ -294,7 +294,6 @@ export const MONACO_EDITOR_OPTIONS = {
   bracketPairColorization: { enabled: false },
 } as const;
 
- 
 const _global = typeof window !== 'undefined' ? (window as any) : undefined;
 
 export function setupMonacoEnvironment(): void {
