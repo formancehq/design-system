@@ -3,15 +3,8 @@
   "name": "calendar",
   "title": "Calendar",
   "description": "A date picker calendar component.",
-  "dependencies": [
-    "react-day-picker",
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "button",
-    "input",
-    "label"
-  ],
+  "dependencies": ["react-day-picker", "lucide-react"],
+  "registryDependencies": ["button", "input", "label"],
   "files": [
     {
       "path": "registry/default/ui/calendar.tsx",

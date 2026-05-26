@@ -3,13 +3,8 @@
   "name": "mode-toggle",
   "title": "Mode Toggle",
   "description": "A theme toggle button for dark and light mode.",
-  "dependencies": [
-    "lucide-react",
-    "next-themes"
-  ],
-  "registryDependencies": [
-    "https://design-system.localhost/r/button.json"
-  ],
+  "dependencies": ["lucide-react", "next-themes"],
+  "registryDependencies": ["https://design-system.localhost/r/button.json"],
   "files": [
     {
       "path": "registry/default/ui/mode-toggle.tsx",

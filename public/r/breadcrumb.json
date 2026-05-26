@@ -3,10 +3,7 @@
   "name": "breadcrumb",
   "title": "Breadcrumb",
   "description": "Navigation breadcrumb showing the current page hierarchy.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/default/ui/breadcrumb.tsx",

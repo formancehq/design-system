@@ -9,7 +9,8 @@ function findSidebarItem(slug: string) {
       }
     }
   }
-  return null;
+  
+return null;
 }
 
 export async function GET(

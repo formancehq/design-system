@@ -62,8 +62,8 @@ export function PolymathPreview() {
         </Label>
         <TypographyP>
           Stop Fighting Your Ledger. Formance Ledger is a programmable financial
-          database. Model any financial flow with Numscript and never worry about
-          consistency again.
+          database. Model any financial flow with Numscript and never worry
+          about consistency again.
         </TypographyP>
       </div>
     </div>
@@ -166,8 +166,8 @@ export function FigtreePreview() {
         <Label className="text-muted-foreground">font-text</Label>
         <TypographyP style={{ fontFamily: 'Figtree' }}>
           Stop Fighting Your Ledger. Formance Ledger is a programmable financial
-          database. Model any financial flow with Numscript and never worry about
-          consistency again.
+          database. Model any financial flow with Numscript and never worry
+          about consistency again.
         </TypographyP>
       </div>
     </div>

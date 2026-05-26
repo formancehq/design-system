@@ -3,9 +3,7 @@
   "name": "aspect-ratio",
   "title": "Aspect Ratio",
   "description": "Displays content within a desired ratio.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/aspect-ratio.tsx",

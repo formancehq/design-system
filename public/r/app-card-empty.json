@@ -3,9 +3,7 @@
   "name": "app-card-empty",
   "title": "App Card Empty",
   "description": "Muted empty-state card with centered icon, title, description, and optional actions.",
-  "dependencies": [
-    "lucide-react"
-  ],
+  "dependencies": ["lucide-react"],
   "registryDependencies": [
     "https://design-system.localhost/r/button.json",
     "https://design-system.localhost/r/card.json",

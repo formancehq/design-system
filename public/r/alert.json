@@ -3,9 +3,7 @@
   "name": "alert",
   "title": "Alert",
   "description": "Displays a callout for important messages.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/default/ui/alert.tsx",

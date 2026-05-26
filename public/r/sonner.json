@@ -3,10 +3,7 @@
   "name": "sonner",
   "title": "Sonner",
   "description": "Toast notification component.",
-  "dependencies": [
-    "next-themes",
-    "sonner"
-  ],
+  "dependencies": ["next-themes", "sonner"],
   "files": [
     {
       "path": "registry/default/ui/sonner.tsx",

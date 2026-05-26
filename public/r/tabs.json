@@ -3,10 +3,7 @@
   "name": "tabs",
   "title": "Tabs",
   "description": "A tabs component built on Radix UI.",
-  "dependencies": [
-    "class-variance-authority",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/tabs.tsx",

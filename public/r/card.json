@@ -3,9 +3,7 @@
   "name": "card",
   "title": "Card",
   "description": "A card container component with variants.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/default/ui/card.tsx",

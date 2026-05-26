@@ -3,10 +3,7 @@
   "name": "command",
   "title": "Command",
   "description": "A command palette for quick actions and search.",
-  "dependencies": [
-    "cmdk",
-    "lucide-react"
-  ],
+  "dependencies": ["cmdk", "lucide-react"],
   "files": [
     {
       "path": "registry/default/ui/command.tsx",

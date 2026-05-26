@@ -24,7 +24,7 @@ function toTimeString(date: Date | undefined) {
 }
 
 function applyTimeString(base: Date | undefined, time: string) {
-  const [h, m, s] = time.split(':').map(Number);
+  const [h = 0, m = 0, s = 0] = time.split(':').map(Number);
   const next = base ? new Date(base) : new Date();
   next.setHours(Number.isFinite(h) ? h : 0);
   next.setMinutes(Number.isFinite(m) ? m : 0);

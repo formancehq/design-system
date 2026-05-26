@@ -23,7 +23,7 @@ import {
   Shapes,
 } from 'lucide-react';
 
-import { docsConfig, flattenNav } from '@/config/docs';
+import { docsConfig } from '@/config/docs';
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
@@ -67,8 +67,6 @@ export function CommandMenu() {
     command();
   }, []);
 
-  const navItems = flattenNav();
-
   return (
     <CommandDialog
       open={open}
@@ -82,31 +80,31 @@ export function CommandMenu() {
 
         {docsConfig.sidebarNav.map((section) => (
           <CommandGroup key={section.title} heading={section.title}>
-              {section.items.map((item) => {
-                const Icon =
-                  section.title === 'Components'
-                    ? Package
-                    : item.title === 'Colors'
-                      ? Palette
-                      : item.title === 'Typography'
-                        ? Type
-                        : item.title === 'Theming'
-                          ? Paintbrush
-                          : item.title === 'Formance Logo'
-                            ? Shapes
-                            : FileText;
+            {section.items.map((item) => {
+              const Icon =
+                section.title === 'Components'
+                  ? Package
+                  : item.title === 'Colors'
+                    ? Palette
+                    : item.title === 'Typography'
+                      ? Type
+                      : item.title === 'Theming'
+                        ? Paintbrush
+                        : item.title === 'Formance Logo'
+                          ? Shapes
+                          : FileText;
 
-                return (
-                  <CommandItem
-                    key={item.href}
-                    value={item.title}
-                    onSelect={() => runCommand(() => router.push(item.href))}
-                  >
-                    <Icon className="h-4 w-4 text-muted-foreground" />
-                    {item.title}
-                  </CommandItem>
-                );
-              })}
+              return (
+                <CommandItem
+                  key={item.href}
+                  value={item.title}
+                  onSelect={() => runCommand(() => router.push(item.href))}
+                >
+                  <Icon className="h-4 w-4 text-muted-foreground" />
+                  {item.title}
+                </CommandItem>
+              );
+            })}
           </CommandGroup>
         ))}
 

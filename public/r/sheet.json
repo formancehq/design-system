@@ -3,10 +3,7 @@
   "name": "sheet",
   "title": "Sheet",
   "description": "A slide-out sheet component built on Radix UI.",
-  "dependencies": [
-    "lucide-react",
-    "radix-ui"
-  ],
+  "dependencies": ["lucide-react", "radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/sheet.tsx",

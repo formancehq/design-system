@@ -3,9 +3,7 @@
   "name": "page-section",
   "title": "Page Section",
   "description": "A compound page section with title, description, and content areas.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/default/ui/page-section.tsx",

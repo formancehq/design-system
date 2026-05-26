@@ -1,4 +1,3 @@
-import { Eyebrow } from '@/registry/default/ui/eyebrow';
 import { cn } from '@/lib/utils';
 
 type TOklch = readonly [L: number, C: number, h: number];
@@ -99,7 +98,7 @@ const PALETTES: TPalette[] = [
   },
 ];
 
-const ROWS = PALETTES[0].shades.length;
+const ROWS = PALETTES[0]?.shades.length ?? 0;
 
 function oklchToRgb([L, C, h]: TOklch): [number, number, number] {
   const hr = (h * Math.PI) / 180;
@@ -117,7 +116,8 @@ function oklchToRgb([L, C, h]: TOklch): [number, number, number] {
   const enc = (v: number) =>
     v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
   const clamp = (v: number) => Math.max(0, Math.min(1, v));
-  return [
+  
+return [
     Math.round(clamp(enc(r)) * 255),
     Math.round(clamp(enc(g)) * 255),
     Math.round(clamp(enc(bl)) * 255),
@@ -145,7 +145,8 @@ function rgbToCmyk([r, g, b]: [number, number, number]): [
   const bN = b / 255;
   const k = 1 - Math.max(rN, gN, bN);
   if (k >= 0.999) return [0, 0, 0, 100];
-  return [
+  
+return [
     Math.round(((1 - rN - k) / (1 - k)) * 100),
     Math.round(((1 - gN - k) / (1 - k)) * 100),
     Math.round(((1 - bN - k) / (1 - k)) * 100),
@@ -178,7 +179,8 @@ function ColorCell({
   const hex = rgbToHex(rgb);
   const light = isLight(rgb);
   const tone = light ? 'text-emerald-900' : 'text-emerald-50';
-  return (
+  
+return (
     <div
       className={cn(
         'flex flex-col justify-between gap-6 border-l border-border/40 p-5',
@@ -224,6 +226,8 @@ export function BrandSwatches() {
       {Array.from({ length: ROWS }).map((_, rowIdx) =>
         PALETTES.map((p) => {
           const cell = p.shades[rowIdx];
+          if (!cell) return null;
+
           return (
             <ColorCell
               key={`${p.prefix}-${cell.shade}`}
@@ -270,7 +274,8 @@ const MAIN_VARIANTS: TMainEntry[] = (() => {
       heading: 'Slate',
     });
   }
-  return entries;
+  
+return entries;
 })();
 
 export function BrandMainVariants() {
@@ -281,8 +286,7 @@ export function BrandMainVariants() {
         gridTemplateColumns: `repeat(${MAIN_VARIANTS.length}, minmax(0, 1fr))`,
       }}
     >
-      {MAIN_VARIANTS.map((entry) => {
-        return (
+      {MAIN_VARIANTS.map((entry) => (
           <ColorCell
             key={entry.key}
             palette={entry.palette}
@@ -291,8 +295,7 @@ export function BrandMainVariants() {
             heading={entry.heading}
             showCmyk
           />
-        );
-      })}
+        ))}
     </div>
   );
 }

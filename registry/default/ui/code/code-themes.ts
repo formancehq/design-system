@@ -294,7 +294,7 @@ export const MONACO_EDITOR_OPTIONS = {
   bracketPairColorization: { enabled: false },
 } as const;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 const _global = typeof window !== 'undefined' ? (window as any) : undefined;
 
 export function setupMonacoEnvironment(): void {

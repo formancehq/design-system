@@ -125,9 +125,16 @@ export const mdxComponents: MDXComponents = {
     );
   },
   pre: ({ children }: React.ComponentProps<'pre'>) => {
-    if (isValidElement<{ className?: string; children?: React.ReactNode }>(children)) {
+    if (
+      isValidElement<{ className?: string; children?: React.ReactNode }>(
+        children
+      )
+    ) {
       const className = children.props.className ?? '';
-      const lang = className.replace('language-', '') as TCodeSnippetProps['language'];
+      const lang = className.replace(
+        'language-',
+        ''
+      ) as TCodeSnippetProps['language'];
       const code = String(children.props.children ?? '').replace(/\n$/, '');
 
       return (

@@ -40,9 +40,7 @@ export default function AlertDemo() {
       <Alert variant="success">
         <CheckCircle2 className="size-4" />
         <AlertTitle>Saved</AlertTitle>
-        <AlertDescription>
-          Your changes have been published.
-        </AlertDescription>
+        <AlertDescription>Your changes have been published.</AlertDescription>
       </Alert>
       <Alert variant="destructive">
         <AlertCircle className="size-4" />

@@ -3,10 +3,7 @@
   "name": "carousel",
   "title": "Carousel",
   "description": "A carousel for cycling through content.",
-  "dependencies": [
-    "embla-carousel-react",
-    "lucide-react"
-  ],
+  "dependencies": ["embla-carousel-react", "lucide-react"],
   "files": [
     {
       "path": "registry/default/ui/carousel.tsx",

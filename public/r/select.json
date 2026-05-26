@@ -3,11 +3,7 @@
   "name": "select",
   "title": "Select",
   "description": "A select component built on Radix UI.",
-  "dependencies": [
-    "class-variance-authority",
-    "lucide-react",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/select.tsx",

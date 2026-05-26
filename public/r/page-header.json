@@ -3,9 +3,7 @@
   "name": "page-header",
   "title": "Page Header",
   "description": "A compound page header with breadcrumb, icon, title, description, and navigation tabs.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "registryDependencies": [
     "https://design-system.localhost/r/breadcrumb.json",
     "https://design-system.localhost/r/eyebrow.json",

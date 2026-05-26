@@ -12,10 +12,20 @@ const eslintConfig = [
       'next-env.d.ts',
       'node_modules',
       '.cache',
+      '.turbo',
+      '.github',
+      '.helm',
+      'public/build',
+      '.dockerignore',
+      'docker-compose.yml',
+      'otel-config.yml',
+      '.env',
+      '.react-router',
     ],
   },
   {
     rules: {
+      // Apply consistent rules from platform-ui's @platform/eslint-config/next.mjs
       'no-console': 'warn',
       'newline-before-return': 'error',
       'arrow-body-style': 'error',

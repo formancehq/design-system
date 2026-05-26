@@ -3,9 +3,7 @@
   "name": "slider",
   "title": "Slider",
   "description": "A range slider input.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/slider.tsx",

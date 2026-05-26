@@ -3,10 +3,7 @@
   "name": "input-otp",
   "title": "Input OTP",
   "description": "One-time password input with individual slots.",
-  "dependencies": [
-    "input-otp",
-    "lucide-react"
-  ],
+  "dependencies": ["input-otp", "lucide-react"],
   "files": [
     {
       "path": "registry/default/ui/input-otp.tsx",

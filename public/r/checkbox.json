@@ -3,10 +3,7 @@
   "name": "checkbox",
   "title": "Checkbox",
   "description": "A checkbox component built on Radix UI.",
-  "dependencies": [
-    "lucide-react",
-    "radix-ui"
-  ],
+  "dependencies": ["lucide-react", "radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/checkbox.tsx",

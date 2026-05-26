@@ -38,20 +38,21 @@ function findSidebarItem(slug: string) {
 
 /** Extract h2/h3 headings (markdown + <Section title="..."/>) from MDX source for the TOC. */
 function extractHeadings(source: string) {
-  const items: { index: number; id: string; title: string; level: number }[] = [];
+  const items: { index: number; id: string; title: string; level: number }[] =
+    [];
 
   for (const m of source.matchAll(/^(#{2,3})\s+(.+)$/gm)) {
-    const title = m[2].trim();
+    const title = m[2]?.trim() ?? '';
     items.push({
       index: m.index ?? 0,
       id: slugify(title),
       title,
-      level: m[1].length,
+      level: m[1]?.length ?? 2,
     });
   }
 
   for (const m of source.matchAll(/<Section\b([^>]*)>/g)) {
-    const attrs = m[1];
+    const attrs = m[1] ?? '';
     const title = /title="([^"]+)"/.exec(attrs)?.[1];
     if (!title) continue;
     const lvl = /level=\{?(\d)\}?/.exec(attrs)?.[1];
