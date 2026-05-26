@@ -210,11 +210,11 @@ function toTimeString(date: Date | undefined) {
 }
 
 function applyTimeString(base: Date | undefined, time: string) {
-  const [h, m, s] = time.split(':').map(Number);
+  const parts = time.split(':').map(Number);
   const next = base ? new Date(base) : new Date();
-  next.setHours(Number.isFinite(h) ? h : 0);
-  next.setMinutes(Number.isFinite(m) ? m : 0);
-  next.setSeconds(Number.isFinite(s) ? s : 0);
+  next.setHours(Number.isFinite(parts[0]) ? parts[0]! : 0);
+  next.setMinutes(Number.isFinite(parts[1]) ? parts[1]! : 0);
+  next.setSeconds(Number.isFinite(parts[2]) ? parts[2]! : 0);
   next.setMilliseconds(0);
 
   return next;
