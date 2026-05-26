@@ -8,18 +8,52 @@ const badgeEyebrowVariants = cva(
   {
     variants: {
       variant: {
-        emerald:
-          'bg-emerald-100 border-emerald-600 text-emerald-800 dark:bg-emerald-800 dark:border-emerald-400 dark:text-emerald-50',
-        lilac:
-          'bg-lilac-300 border-lilac-800 text-lilac-900 dark:bg-lilac-900 dark:border-lilac-500 dark:text-emerald-50',
-        gold: 'bg-gold-100 border-gold-700 text-gold-700 dark:bg-gold-900 dark:border-gold-300 dark:text-emerald-100',
-        mint: 'bg-mint-300 border-mint-800 text-mint-900 dark:bg-mint-900 dark:border-mint-200 dark:text-mint-200',
-        cobalt:
-          'bg-cobalt-200 border-cobalt-700 text-cobalt-800 dark:bg-cobalt-900 dark:border-cobalt-200 dark:text-cobalt-200',
+        primary: 'bg-primary border-primary text-primary-foreground',
+        secondary: 'bg-secondary border-border text-secondary-foreground',
+        outline: 'border-border text-foreground',
+        emerald: 'bg-emerald-600 border-emerald-700 text-emerald-200',
+        slate: 'bg-emerald-300 border-emerald-500 text-emerald-800',
+        lilac: 'bg-lilac-400 border-lilac-600 text-lilac-800',
+        gold: 'bg-gold-500 border-gold-700 text-emerald-100',
+        cobalt: 'bg-cobalt-500 border-cobalt-700 text-emerald-100',
+        cobaltDark: 'bg-cobalt-700 border-cobalt-900 text-emerald-100',
+        mint: 'bg-mint-500 border-mint-700 text-mint-900',
+        valid: 'bg-valid border-valid-foreground/40 text-valid-foreground',
+        destructive:
+          'bg-destructive border-destructive-foreground/40 text-destructive-foreground',
+        info: 'bg-info border-info-foreground/40 text-info-foreground',
+        warning:
+          'bg-warning border-warning-foreground/40 text-warning-foreground',
+
+        red: 'bg-red-background border-red-foreground/40 text-red-foreground',
+        orange:
+          'bg-orange-background border-orange-foreground/40 text-orange-foreground',
+        amber:
+          'bg-amber-background border-amber-foreground/40 text-amber-foreground',
+        yellow:
+          'bg-yellow-background border-yellow-foreground/40 text-yellow-foreground',
+        lime: 'bg-lime-background border-lime-foreground/40 text-lime-foreground',
+        green:
+          'bg-green-background border-green-foreground/40 text-green-foreground',
+        teal: 'bg-teal-background border-teal-foreground/40 text-teal-foreground',
+        cyan: 'bg-cyan-background border-cyan-foreground/40 text-cyan-foreground',
+        sky: 'bg-sky-background border-sky-foreground/40 text-sky-foreground',
+        blue: 'bg-blue-background border-blue-foreground/40 text-blue-foreground',
+        indigo:
+          'bg-indigo-background border-indigo-foreground/40 text-indigo-foreground',
+        violet:
+          'bg-violet-background border-violet-foreground/40 text-violet-foreground',
+        purple:
+          'bg-purple-background border-purple-foreground/40 text-purple-foreground',
+        fuchsia:
+          'bg-fuchsia-background border-fuchsia-foreground/40 text-fuchsia-foreground',
+        pink: 'bg-pink-background border-pink-foreground/40 text-pink-foreground',
+        rose: 'bg-rose-background border-rose-foreground/40 text-rose-foreground',
+        zinc: 'bg-zinc-background border-zinc-foreground/40 text-zinc-foreground',
       },
     },
     defaultVariants: {
-      variant: 'emerald',
+      variant: 'primary',
     },
   }
 );
@@ -30,9 +64,13 @@ const decoratorColorMap: Partial<
     string
   >
 > = {
-  emerald: 'text-gold-500',
-  lilac: 'text-gold-500 dark:text-lilac-500',
-  gold: 'dark:text-gold-500',
+  emerald: 'text-emerald-400',
+  lilac: 'text-lilac-600',
+  gold: 'text-emerald-300',
+  mint: 'text-mint-700',
+  cobalt: 'text-emerald-300',
+  cobaltDark: 'text-emerald-400',
+  slate: 'text-emerald-600',
 };
 
 type TBadgeEyebrowProps = React.ComponentProps<'span'> &

@@ -3,9 +3,7 @@
   "name": "button-group",
   "title": "Button Group",
   "description": "A group of buttons with separator.",
-  "registryDependencies": [
-    "https://design-system.localhost/r/separator.json"
-  ],
+  "registryDependencies": ["https://design-system.localhost/r/separator.json"],
   "files": [
     {
       "path": "registry/default/ui/button-group.tsx",

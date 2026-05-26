@@ -3,9 +3,7 @@
   "name": "multi-select",
   "title": "Multi Select",
   "description": "A multi-select component with badges and search.",
-  "dependencies": [
-    "lucide-react"
-  ],
+  "dependencies": ["lucide-react"],
   "registryDependencies": [
     "https://design-system.localhost/r/badge.json",
     "https://design-system.localhost/r/button.json",

@@ -45,26 +45,26 @@ export function Breadcrumbs() {
     <Breadcrumb className="border-b bg-background">
       <PageContainer size="large" className="flex h-12 items-center">
         <BreadcrumbList>
-        {segments.map((segment, i) => {
-          const href = '/' + segments.slice(0, i + 1).join('/');
-          const title = segment === 'docs' ? 'Docs' : resolveTitle(segment);
-          const isLast = i === segments.length - 1;
+          {segments.map((segment, i) => {
+            const href = '/' + segments.slice(0, i + 1).join('/');
+            const title = segment === 'docs' ? 'Docs' : resolveTitle(segment);
+            const isLast = i === segments.length - 1;
 
-          return (
-            <React.Fragment key={href}>
-              {i > 0 && <BreadcrumbSeparator />}
-              <BreadcrumbItem>
-                {isLast ? (
-                  <BreadcrumbPage>{title}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink asChild>
-                    <Link href={href}>{title}</Link>
-                  </BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-            </React.Fragment>
-          );
-        })}
+            return (
+              <React.Fragment key={href}>
+                {i > 0 && <BreadcrumbSeparator />}
+                <BreadcrumbItem>
+                  {isLast ? (
+                    <BreadcrumbPage>{title}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink asChild>
+                      <Link href={href}>{title}</Link>
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+              </React.Fragment>
+            );
+          })}
         </BreadcrumbList>
       </PageContainer>
     </Breadcrumb>

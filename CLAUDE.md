@@ -108,6 +108,7 @@ The DS is the **upstream source of truth**. To push components to consumer proje
 ```
 
 The script copies files from `registry/default/ui/` and rewrites imports:
+
 - `@/lib/utils` → `@<alias>/lib/utils`
 - `@/lib/compose-refs` → `@<alias>/lib/compose-refs`
 - `@/registry/default/ui/X` → `@<alias>/components/X`

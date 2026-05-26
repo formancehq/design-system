@@ -76,7 +76,6 @@ const MONACO_THEME_BASE = 'formance-css-vars';
 // exactly once. Without this, React StrictMode's double-mount causes
 // "Cannot register two commands with the same id" errors.
 type TMonacoSetupResult = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   monaco: any;
   /** Original setTheme before shikiToMonaco's override */
   setTheme: (name: string) => void;
@@ -157,9 +156,9 @@ function CodeEditor({
   const adaptiveHeight = !fill && adaptiveHeightProp;
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const editorRef = useRef<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const monacoRef = useRef<any>(null);
   const setThemeRef = useRef<((name: string) => void) | null>(null);
   const validationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
@@ -216,16 +215,14 @@ function CodeEditor({
     if (!model) return;
 
     const results = await validate(content);
-    const markers = results.map(
-      (d: TDiagnostic) => ({
-        startLineNumber: d.startLineNumber,
-        startColumn: d.startColumn,
-        endLineNumber: d.endLineNumber,
-        endColumn: d.endColumn,
-        message: d.message,
-        severity: SEVERITY_MAP[d.severity],
-      })
-    );
+    const markers = results.map((d: TDiagnostic) => ({
+      startLineNumber: d.startLineNumber,
+      startColumn: d.startColumn,
+      endLineNumber: d.endLineNumber,
+      endColumn: d.endColumn,
+      message: d.message,
+      severity: SEVERITY_MAP[d.severity],
+    }));
 
     if (editor.getModel() === model) {
       monaco.editor.setModelMarkers(model, 'custom-validation', markers);
@@ -275,7 +272,7 @@ function CodeEditor({
       const resolvedTheme = buildMonacoThemeFromCSSVars(containerRef.current);
       monaco.editor.defineTheme(
         MONACO_THEME_BASE,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         resolvedTheme as any
       );
       setTheme(MONACO_THEME_BASE);
@@ -343,7 +340,7 @@ function CodeEditor({
     const applyTheme = () => {
       if (!monaco || !containerRef.current) return;
       const theme = buildMonacoThemeFromCSSVars(containerRef.current);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       monaco.editor.defineTheme(MONACO_THEME_BASE, theme as any);
       setThemeRef.current?.(MONACO_THEME_BASE);
     };

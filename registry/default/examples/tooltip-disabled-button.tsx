@@ -15,9 +15,7 @@ export default function TooltipDisabledButton() {
           <Button disabled>Disabled</Button>
         </span>
       </TooltipTrigger>
-      <TooltipContent>
-        This action is currently unavailable
-      </TooltipContent>
+      <TooltipContent>This action is currently unavailable</TooltipContent>
     </Tooltip>
   );
 }

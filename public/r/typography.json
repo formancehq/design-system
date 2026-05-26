@@ -3,9 +3,7 @@
   "name": "typography",
   "title": "Typography",
   "description": "Typography components with Formance brand styles.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/default/ui/typography.tsx",

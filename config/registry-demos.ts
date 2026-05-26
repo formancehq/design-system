@@ -276,6 +276,36 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/calendar-date-picker.tsx',
       },
+      {
+        title: 'With Time',
+        component: lazy(
+          () => import('@/registry/default/examples/calendar-with-time')
+        ),
+        sourceFile: 'registry/default/examples/calendar-with-time.tsx',
+      },
+      {
+        title: 'Range With Time',
+        component: lazy(
+          () => import('@/registry/default/examples/calendar-range-with-time')
+        ),
+        sourceFile: 'registry/default/examples/calendar-range-with-time.tsx',
+      },
+      {
+        title: 'Range With Presets',
+        component: lazy(
+          () => import('@/registry/default/examples/calendar-range-presets')
+        ),
+        sourceFile: 'registry/default/examples/calendar-range-presets.tsx',
+      },
+      {
+        title: 'Date Picker With Time',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/calendar-date-picker-with-time')
+        ),
+        sourceFile:
+          'registry/default/examples/calendar-date-picker-with-time.tsx',
+      },
     ],
   },
   carousel: {
@@ -528,9 +558,7 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         title: 'With Action',
         component: lazy(
           () =>
-            import(
-              '@/registry/default/examples/radio-group-stacked-with-action'
-            )
+            import('@/registry/default/examples/radio-group-stacked-with-action')
         ),
         sourceFile:
           'registry/default/examples/radio-group-stacked-with-action.tsx',
@@ -1164,13 +1192,6 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     sourceFile: 'registry/default/demos/app-card-demo.tsx',
     examples: [
       {
-        title: 'With Separator',
-        component: lazy(
-          () => import('@/registry/default/examples/app-card-with-separator')
-        ),
-        sourceFile: 'registry/default/examples/app-card-with-separator.tsx',
-      },
-      {
         title: 'With Footer',
         component: lazy(
           () => import('@/registry/default/examples/app-card-with-footer')
@@ -1209,7 +1230,8 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       {
         title: 'With Actions',
         component: lazy(
-          () => import('@/registry/default/examples/app-card-empty-with-actions')
+          () =>
+            import('@/registry/default/examples/app-card-empty-with-actions')
         ),
         sourceFile: 'registry/default/examples/app-card-empty-with-actions.tsx',
       },
@@ -1239,9 +1261,7 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         title: 'Not Sortable',
         component: lazy(
           () =>
-            import(
-              '@/registry/default/examples/key-value-input-not-sortable'
-            )
+            import('@/registry/default/examples/key-value-input-not-sortable')
         ),
         sourceFile:
           'registry/default/examples/key-value-input-not-sortable.tsx',
@@ -1256,9 +1276,7 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     ],
   },
   'code-snippet': {
-    component: lazy(
-      () => import('@/registry/default/demos/code-snippet-demo')
-    ),
+    component: lazy(() => import('@/registry/default/demos/code-snippet-demo')),
     sourceFile: 'registry/default/demos/code-snippet-demo.tsx',
     examples: [
       {
@@ -1312,9 +1330,7 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     sourceFile: 'registry/default/demos/code-preview-edit-demo.tsx',
   },
   'code-editor': {
-    component: lazy(
-      () => import('@/registry/default/demos/code-editor-demo')
-    ),
+    component: lazy(() => import('@/registry/default/demos/code-editor-demo')),
     sourceFile: 'registry/default/demos/code-editor-demo.tsx',
     examples: [
       {

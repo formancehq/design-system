@@ -18,11 +18,13 @@ function readFirstExisting(...candidates: string[]): string | null {
       // try next
     }
   }
+
   return null;
 }
 
 function readDemoSource(name: string): string | null {
   const cwd = process.cwd();
+
   return readFirstExisting(
     path.join(cwd, `registry/default/demos/${name}-demo.tsx`),
     path.join(cwd, `registry/default/examples/${name}.tsx`)
@@ -53,6 +55,7 @@ export function processMdxForLLM(source: string): string {
       if (!name) return '';
       const code = readDemoSource(name);
       if (!code) return '';
+
       return `**Example — \`${name}\`:**\n\n${fence(code)}`;
     }
   );
@@ -64,6 +67,7 @@ export function processMdxForLLM(source: string): string {
       if (!name) return '';
       const code = readUiSource(name);
       if (!code) return '';
+
       return `**Source — \`${name}.tsx\`:**\n\n${fence(code)}`;
     }
   );

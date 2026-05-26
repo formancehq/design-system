@@ -9,6 +9,7 @@ function findSidebarItem(slug: string) {
       }
     }
   }
+
   return null;
 }
 

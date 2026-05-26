@@ -3,9 +3,7 @@
   "name": "page-container",
   "title": "Page Container",
   "description": "A responsive page container with size variants.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/default/ui/page-container.tsx",

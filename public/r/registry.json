@@ -327,6 +327,7 @@
       "title": "Calendar",
       "description": "A date picker calendar component.",
       "dependencies": ["react-day-picker", "lucide-react"],
+      "registryDependencies": ["button", "input", "label"],
       "files": [
         { "path": "registry/default/ui/calendar.tsx", "type": "registry:ui" }
       ]
@@ -554,7 +555,9 @@
       "type": "registry:ui",
       "title": "Button Group",
       "description": "A group of buttons with separator.",
-      "registryDependencies": ["https://design-system.localhost/r/separator.json"],
+      "registryDependencies": [
+        "https://design-system.localhost/r/separator.json"
+      ],
       "files": [
         {
           "path": "registry/default/ui/button-group.tsx",
@@ -576,7 +579,9 @@
       "type": "registry:ui",
       "title": "Description List",
       "description": "A description list and row layout for key-value pairs.",
-      "registryDependencies": ["https://design-system.localhost/r/separator.json"],
+      "registryDependencies": [
+        "https://design-system.localhost/r/separator.json"
+      ],
       "files": [
         {
           "path": "registry/default/ui/description-list.tsx",
@@ -621,7 +626,9 @@
       "type": "registry:ui",
       "title": "Loader",
       "description": "Loading skeleton placeholders.",
-      "registryDependencies": ["https://design-system.localhost/r/skeleton.json"],
+      "registryDependencies": [
+        "https://design-system.localhost/r/skeleton.json"
+      ],
       "files": [
         { "path": "registry/default/ui/loader.tsx", "type": "registry:ui" }
       ]
@@ -680,7 +687,9 @@
       "type": "registry:ui",
       "title": "Item",
       "description": "A list item system with media, content, and actions.",
-      "registryDependencies": ["https://design-system.localhost/r/separator.json"],
+      "registryDependencies": [
+        "https://design-system.localhost/r/separator.json"
+      ],
       "files": [
         { "path": "registry/default/ui/item.tsx", "type": "registry:ui" }
       ]
@@ -861,9 +870,21 @@
       "description": "Shared Formance Shiki/Monaco themes, language config, and highlighter singleton using CSS variables.",
       "dependencies": ["shiki"],
       "files": [
-        { "path": "registry/default/ui/code/code-themes.ts", "type": "registry:ui", "target": "components/code/code-themes.ts" },
-        { "path": "registry/default/ui/code/code-themes.css", "type": "registry:ui", "target": "components/code/code-themes.css" },
-        { "path": "registry/default/ui/code/numscript.tmLanguage.json", "type": "registry:ui", "target": "components/code/numscript.tmLanguage.json" }
+        {
+          "path": "registry/default/ui/code/code-themes.ts",
+          "type": "registry:ui",
+          "target": "components/code/code-themes.ts"
+        },
+        {
+          "path": "registry/default/ui/code/code-themes.css",
+          "type": "registry:ui",
+          "target": "components/code/code-themes.css"
+        },
+        {
+          "path": "registry/default/ui/code/numscript.tmLanguage.json",
+          "type": "registry:ui",
+          "target": "components/code/numscript.tmLanguage.json"
+        }
       ]
     },
     {
@@ -876,7 +897,11 @@
         "https://design-system.localhost/r/code-themes.json"
       ],
       "files": [
-        { "path": "registry/default/ui/code/code-snippet.tsx", "type": "registry:ui", "target": "components/code/code-snippet.tsx" }
+        {
+          "path": "registry/default/ui/code/code-snippet.tsx",
+          "type": "registry:ui",
+          "target": "components/code/code-snippet.tsx"
+        }
       ]
     },
     {
@@ -884,13 +909,22 @@
       "type": "registry:ui",
       "title": "Code Editor",
       "description": "An editable Monaco code editor with Shiki tokenization and CSS variable theming.",
-      "dependencies": ["shiki", "monaco-editor-core", "@shikijs/monaco", "lucide-react"],
+      "dependencies": [
+        "shiki",
+        "monaco-editor-core",
+        "@shikijs/monaco",
+        "lucide-react"
+      ],
       "registryDependencies": [
         "https://design-system.localhost/r/code-themes.json",
         "https://design-system.localhost/r/code-navigator.json"
       ],
       "files": [
-        { "path": "registry/default/ui/code/code-editor.tsx", "type": "registry:ui", "target": "components/code/code-editor.tsx" }
+        {
+          "path": "registry/default/ui/code/code-editor.tsx",
+          "type": "registry:ui",
+          "target": "components/code/code-editor.tsx"
+        }
       ]
     },
     {
@@ -905,8 +939,16 @@
         "https://design-system.localhost/r/select.json"
       ],
       "files": [
-        { "path": "registry/default/ui/code/code-navigator.tsx", "type": "registry:ui", "target": "components/code/code-navigator.tsx" },
-        { "path": "registry/default/ui/code/parse-navigation-tree.ts", "type": "registry:ui", "target": "components/code/parse-navigation-tree.ts" }
+        {
+          "path": "registry/default/ui/code/code-navigator.tsx",
+          "type": "registry:ui",
+          "target": "components/code/code-navigator.tsx"
+        },
+        {
+          "path": "registry/default/ui/code/parse-navigation-tree.ts",
+          "type": "registry:ui",
+          "target": "components/code/parse-navigation-tree.ts"
+        }
       ]
     },
     {
@@ -918,7 +960,11 @@
         "https://design-system.localhost/r/code-editor.json"
       ],
       "files": [
-        { "path": "registry/default/ui/code/numscript-validator.ts", "type": "registry:ui", "target": "components/code/numscript-validator.ts" }
+        {
+          "path": "registry/default/ui/code/numscript-validator.ts",
+          "type": "registry:ui",
+          "target": "components/code/numscript-validator.ts"
+        }
       ]
     }
   ]

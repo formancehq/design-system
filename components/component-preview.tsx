@@ -44,11 +44,21 @@ export async function ComponentPreview({
       {hasCode &&
         (peekCode ? (
           <CollapsibleCode>
-            <CodeSnippet code={source} language="tsx" size="sm" bordered={false} />
+            <CodeSnippet
+              code={source}
+              language="tsx"
+              size="sm"
+              bordered={false}
+            />
           </CollapsibleCode>
         ) : (
           <div className="border-t">
-            <CodeSnippet code={source} language="tsx" size="sm" bordered={false} />
+            <CodeSnippet
+              code={source}
+              language="tsx"
+              size="sm"
+              bordered={false}
+            />
           </div>
         ))}
     </div>

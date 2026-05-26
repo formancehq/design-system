@@ -3,9 +3,7 @@
   "name": "tooltip",
   "title": "Tooltip",
   "description": "A tooltip component built on Radix UI.",
-  "dependencies": [
-    "radix-ui"
-  ],
+  "dependencies": ["radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/tooltip.tsx",

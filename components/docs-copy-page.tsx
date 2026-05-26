@@ -37,7 +37,11 @@ const ClaudeIcon = () => (
   </svg>
 );
 
-const menuItems: { label: string; href: (url: string) => string; icon: React.ReactNode }[] = [
+const menuItems: {
+  label: string;
+  href: (url: string) => string;
+  icon: React.ReactNode;
+}[] = [
   {
     label: 'View as Markdown',
     href: (url) => `${url}.md`,

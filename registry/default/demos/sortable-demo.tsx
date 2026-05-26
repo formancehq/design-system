@@ -50,6 +50,7 @@ export default function SortableDemo() {
         {({ value: activeId }) => {
           const item = items.find((i) => i.id === activeId);
           if (!item) return null;
+
           return (
             <div className="flex items-center gap-2 rounded-md border bg-background px-3 py-2 shadow-lg">
               <GripVertical className="size-4 text-muted-foreground" />

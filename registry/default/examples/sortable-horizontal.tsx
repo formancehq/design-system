@@ -51,6 +51,7 @@ export default function SortableHorizontal() {
         {({ value: activeId }) => {
           const tag = tags.find((t) => t.id === activeId);
           if (!tag) return null;
+
           return (
             <div className="flex items-center gap-1.5 rounded-full border bg-background px-3 py-1 shadow-lg">
               <GripVertical className="size-3 text-muted-foreground" />

@@ -3,11 +3,7 @@
   "name": "button",
   "title": "Button",
   "description": "A button component with Formance brand variants.",
-  "dependencies": [
-    "class-variance-authority",
-    "lucide-react",
-    "radix-ui"
-  ],
+  "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/button.tsx",

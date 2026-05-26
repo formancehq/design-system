@@ -3,9 +3,7 @@
   "name": "input",
   "title": "Input",
   "description": "An input component with size variants.",
-  "dependencies": [
-    "class-variance-authority"
-  ],
+  "dependencies": ["class-variance-authority"],
   "files": [
     {
       "path": "registry/default/ui/input.tsx",

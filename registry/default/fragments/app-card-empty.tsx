@@ -2,10 +2,7 @@ import { LucideIcon, SquareMinus } from 'lucide-react';
 
 import { Button } from '@/registry/default/ui/button';
 import { Card, CardContent } from '@/registry/default/ui/card';
-import {
-  TypographyH4,
-  TypographyP,
-} from '@/registry/default/ui/typography';
+import { TypographyH4, TypographyP } from '@/registry/default/ui/typography';
 
 export type TAppCardEmptyProps = {
   title?: string;

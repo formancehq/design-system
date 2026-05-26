@@ -3,10 +3,7 @@
   "name": "dialog",
   "title": "Dialog",
   "description": "A modal dialog component built on Radix UI.",
-  "dependencies": [
-    "lucide-react",
-    "radix-ui"
-  ],
+  "dependencies": ["lucide-react", "radix-ui"],
   "files": [
     {
       "path": "registry/default/ui/dialog.tsx",

@@ -11,6 +11,14 @@ import {
   CodeSnippet,
   type TCodeSnippetProps,
 } from '@/registry/default/ui/code/code-snippet';
+import {
+  TypographyH2,
+  TypographyH3,
+  TypographyH4,
+  TypographyH5,
+  TypographyP,
+  TypographyInlineCode,
+} from '@/registry/default/ui/typography';
 import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
 import { Tabs as TabsPrimitive } from 'radix-ui';
 import { cn } from '@/lib/utils';
@@ -39,62 +47,58 @@ import {
 import { AppCard } from '@/registry/default/fragments/app-card';
 import { AppCardEmpty } from '@/registry/default/fragments/app-card-empty';
 
+type TMdxHeadingLevel = 2 | 3 | 4 | 5;
+
+const headingByLevel = {
+  2: TypographyH2,
+  3: TypographyH3,
+  4: TypographyH4,
+  5: TypographyH5,
+} as const;
+
 function MdxHeading({
   level,
   ...props
-}: React.ComponentProps<'h2'> & { level: 2 | 3 }) {
+}: React.ComponentProps<'h2'> & { level: TMdxHeadingLevel }) {
   const text = typeof props.children === 'string' ? props.children : '';
   const id = slugify(text);
-  const Tag = level === 2 ? 'h2' : 'h3';
-  const size = level === 2 ? 'text-2xl' : 'text-xl';
+  const Heading = headingByLevel[level];
 
   return (
-    <Tag
-      id={id}
-      className={`group scroll-m-20 font-sans ${size} font-semibold tracking-tight`}
-      {...props}
-    >
+    <Heading id={id} className="group" {...props}>
       <a href={`#${id}`} className="no-underline">
         {props.children}
         <span className="ml-2 text-muted-foreground/0 group-hover:text-muted-foreground/50 transition-colors">
           #
         </span>
       </a>
-    </Tag>
+    </Heading>
   );
 }
 
 type TSectionProps = {
   title: string;
   description?: React.ReactNode;
-  level?: 2 | 3;
+  level?: TMdxHeadingLevel;
   children?: React.ReactNode;
 };
 
 function Section({ title, description, level = 2, children }: TSectionProps) {
   const id = slugify(title);
-  const Tag = level === 2 ? 'h2' : 'h3';
-  const size = level === 2 ? 'text-2xl' : 'text-xl';
+  const Heading = headingByLevel[level];
 
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <Tag
-          id={id}
-          className={`group scroll-m-20 font-sans ${size} font-semibold tracking-tight`}
-        >
+        <Heading id={id} className="group">
           <a href={`#${id}`} className="no-underline">
             {title}
             <span className="ml-2 text-muted-foreground/0 group-hover:text-muted-foreground/50 transition-colors">
               #
             </span>
           </a>
-        </Tag>
-        {description && (
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {description}
-          </p>
-        )}
+        </Heading>
+        {description && <TypographyP>{description}</TypographyP>}
       </div>
       {children}
     </section>
@@ -104,9 +108,9 @@ function Section({ title, description, level = 2, children }: TSectionProps) {
 export const mdxComponents: MDXComponents = {
   h2: (props) => <MdxHeading level={2} {...props} />,
   h3: (props) => <MdxHeading level={3} {...props} />,
-  p: (props) => (
-    <p className="text-sm text-muted-foreground leading-relaxed" {...props} />
-  ),
+  h4: (props) => <MdxHeading level={4} {...props} />,
+  h5: (props) => <MdxHeading level={5} {...props} />,
+  p: (props) => <TypographyP {...props} />,
   code: ({ children, className, ...props }) => {
     const isBlock = className?.startsWith('language-');
 
@@ -115,18 +119,22 @@ export const mdxComponents: MDXComponents = {
         {children}
       </code>
     ) : (
-      <code
-        className="rounded bg-muted px-1.5 py-0.5 font-mono text-sm"
-        {...props}
-      >
+      <TypographyInlineCode className={className} {...props}>
         {children}
-      </code>
+      </TypographyInlineCode>
     );
   },
   pre: ({ children }: React.ComponentProps<'pre'>) => {
-    if (isValidElement<{ className?: string; children?: React.ReactNode }>(children)) {
+    if (
+      isValidElement<{ className?: string; children?: React.ReactNode }>(
+        children
+      )
+    ) {
       const className = children.props.className ?? '';
-      const lang = className.replace('language-', '') as TCodeSnippetProps['language'];
+      const lang = className.replace(
+        'language-',
+        ''
+      ) as TCodeSnippetProps['language'];
       const code = String(children.props.children ?? '').replace(/\n$/, '');
 
       return (

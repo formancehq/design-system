@@ -3,10 +3,7 @@
   "name": "radio-group-stacked",
   "title": "Radio Group Stacked",
   "description": "A stacked radio group with labels and descriptions for form selections.",
-  "dependencies": [
-    "radix-ui",
-    "lucide-react"
-  ],
+  "dependencies": ["radix-ui", "lucide-react"],
   "files": [
     {
       "path": "registry/default/ui/radio-group-stacked.tsx",

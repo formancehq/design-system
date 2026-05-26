@@ -3,13 +3,8 @@
   "name": "form",
   "title": "Form",
   "description": "Form components with React Hook Form and Zod integration.",
-  "dependencies": [
-    "radix-ui",
-    "react-hook-form"
-  ],
-  "registryDependencies": [
-    "https://design-system.localhost/r/label.json"
-  ],
+  "dependencies": ["radix-ui", "react-hook-form"],
+  "registryDependencies": ["https://design-system.localhost/r/label.json"],
   "files": [
     {
       "path": "registry/default/ui/form.tsx",
