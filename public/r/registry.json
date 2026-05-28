@@ -591,7 +591,7 @@
     },
     {
       "name": "combobox",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Combobox",
       "description": "A combobox with search built on Command and Popover.",
       "dependencies": ["lucide-react"],
@@ -601,7 +601,11 @@
         "https://design-system.localhost/r/popover.json"
       ],
       "files": [
-        { "path": "registry/default/ui/combobox.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/combobox.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/combobox.tsx"
+        }
       ]
     },
     {
@@ -635,24 +639,32 @@
     },
     {
       "name": "mode-toggle",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Mode Toggle",
       "description": "A theme toggle button for dark and light mode.",
       "dependencies": ["lucide-react", "next-themes"],
       "registryDependencies": ["https://design-system.localhost/r/button.json"],
       "files": [
-        { "path": "registry/default/ui/mode-toggle.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/mode-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/mode-toggle.tsx"
+        }
       ]
     },
     {
       "name": "nav-tabs",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Nav Tabs",
       "description": "Navigation tabs with pending state.",
       "dependencies": ["class-variance-authority"],
       "registryDependencies": ["https://design-system.localhost/r/tabs.json"],
       "files": [
-        { "path": "registry/default/ui/nav-tabs.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/nav-tabs.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/nav-tabs.tsx"
+        }
       ]
     },
     {
@@ -696,7 +708,7 @@
     },
     {
       "name": "multi-select",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Multi Select",
       "description": "A multi-select component with badges and search.",
       "dependencies": ["lucide-react"],
@@ -709,7 +721,8 @@
       "files": [
         {
           "path": "registry/default/ui/multi-select.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/multi-select.tsx"
         }
       ]
     },
@@ -733,30 +746,35 @@
     },
     {
       "name": "stepper",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Stepper",
       "description": "A multi-step wizard component with validation.",
       "dependencies": ["lucide-react", "radix-ui"],
       "files": [
-        { "path": "registry/default/ui/stepper.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/stepper.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/stepper.tsx"
+        }
       ]
     },
     {
       "name": "page-container",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Page Container",
       "description": "A responsive page container with size variants.",
       "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "registry/default/ui/page-container.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/page-container.tsx"
         }
       ]
     },
     {
       "name": "page-header",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Page Header",
       "description": "A compound page header with breadcrumb, icon, title, description, and navigation tabs.",
       "dependencies": ["class-variance-authority"],
@@ -766,25 +784,30 @@
         "https://design-system.localhost/r/page-container.json"
       ],
       "files": [
-        { "path": "registry/default/ui/page-header.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/page-header.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/page-header.tsx"
+        }
       ]
     },
     {
       "name": "page-section",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Page Section",
       "description": "A compound page section with title, description, and content areas.",
       "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "registry/default/ui/page-section.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/page-section.tsx"
         }
       ]
     },
     {
       "name": "app-card",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "App Card",
       "description": "A card layout for app sections with optional icon, header action, separator, and footer.",
       "dependencies": ["lucide-react"],
@@ -795,13 +818,14 @@
       "files": [
         {
           "path": "registry/default/fragments/app-card.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/app-card.tsx"
         }
       ]
     },
     {
       "name": "app-card-empty",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "App Card Empty",
       "description": "Muted empty-state card with centered icon, title, description, and optional actions.",
       "dependencies": ["lucide-react"],
@@ -813,7 +837,8 @@
       "files": [
         {
           "path": "registry/default/fragments/app-card-empty.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/app-card-empty.tsx"
         }
       ]
     },
@@ -839,27 +864,29 @@
     },
     {
       "name": "radio-group-card",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Radio Group Card",
       "description": "A card-style radio group for visual selection with optional children content.",
       "dependencies": ["radix-ui", "lucide-react"],
       "files": [
         {
           "path": "registry/default/ui/radio-group-card.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/radio-group-card.tsx"
         }
       ]
     },
     {
       "name": "radio-group-stacked",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Radio Group Stacked",
       "description": "A stacked radio group with labels and descriptions for form selections.",
       "dependencies": ["radix-ui", "lucide-react"],
       "files": [
         {
           "path": "registry/default/ui/radio-group-stacked.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/radio-group-stacked.tsx"
         }
       ]
     },

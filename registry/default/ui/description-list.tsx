@@ -36,7 +36,7 @@ export function DescriptionDetails({
     <dd
       {...props}
       className={cn(
-        'col-span-2 pb-3 pt-1 text-sm font-mono sm:border-t sm:border-border sm:py-4 sm:nth-2:border-none',
+        'col-span-2 pb-3 pt-1 font-mono sm:border-t sm:border-border sm:py-4 sm:nth-2:border-none',
         className
       )}
     />
