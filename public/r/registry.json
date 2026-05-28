@@ -280,7 +280,8 @@
       "type": "registry:ui",
       "title": "Alert Dialog",
       "description": "A modal dialog that interrupts the user for a critical action.",
-      "dependencies": ["radix-ui"],
+      "dependencies": ["radix-ui", "sonner"],
+      "registryDependencies": ["https://design-system.localhost/r/button.json"],
       "files": [
         {
           "path": "registry/default/ui/alert-dialog.tsx",

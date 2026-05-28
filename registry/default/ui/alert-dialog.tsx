@@ -2,8 +2,9 @@
 
 import { AlertDialog as AlertDialogPrimitive } from 'radix-ui';
 import * as React from 'react';
+import { toast } from 'sonner';
 
-import { buttonVariants } from '@/registry/default/ui/button';
+import { Button, buttonVariants } from '@/registry/default/ui/button';
 import { cn } from '@/lib/utils';
 
 function AlertDialog({
@@ -142,7 +143,82 @@ function AlertDialogCancel({
   );
 }
 
+export type TConfirmAlertProps = {
+  title: string;
+  description: string;
+  open?: boolean;
+  children?: React.ReactNode;
+  close: () => void;
+  onOpenChange: () => void;
+  disabledAction?: boolean;
+  action: {
+    toast?: string;
+    variant?:
+      | 'link'
+      | 'default'
+      | 'destructive'
+      | 'outline'
+      | 'secondary'
+      | 'ghost';
+    label: string;
+    onClick?: () => void;
+  };
+};
+
+function AlertConfirm({
+  title,
+  description,
+  open,
+  close,
+  onOpenChange,
+  action,
+  disabledAction = false,
+  children,
+}: TConfirmAlertProps) {
+  return (
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        </AlertDialogHeader>
+        {children && children}
+        <AlertDialogFooter>
+          <AlertDialogCancel
+            onClick={() => {
+              close();
+            }}
+          >
+            Cancel
+          </AlertDialogCancel>
+          <Button
+            disabled={disabledAction}
+            variant={
+              action.variant === 'default'
+                ? 'primary'
+                : (action.variant ?? 'destructive')
+            }
+            onClick={() => {
+              close();
+              if (action.toast) {
+                toast.success(action.toast);
+              }
+              if (action.onClick && !disabledAction) {
+                action.onClick();
+              }
+            }}
+            data-testid={`confirm-${action.label.toLowerCase()}`}
+          >
+            {action.label}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
 export {
+  AlertConfirm,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
