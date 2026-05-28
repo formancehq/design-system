@@ -592,7 +592,7 @@
     },
     {
       "name": "combobox",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Combobox",
       "description": "A combobox with search built on Command and Popover.",
       "dependencies": ["lucide-react"],
@@ -602,11 +602,7 @@
         "https://design-system.localhost/r/popover.json"
       ],
       "files": [
-        {
-          "path": "registry/default/ui/combobox.tsx",
-          "type": "registry:component",
-          "target": "components/fragments/combobox.tsx"
-        }
+        { "path": "registry/default/ui/combobox.tsx", "type": "registry:ui" }
       ]
     },
     {
@@ -640,32 +636,24 @@
     },
     {
       "name": "mode-toggle",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Mode Toggle",
       "description": "A theme toggle button for dark and light mode.",
       "dependencies": ["lucide-react", "next-themes"],
       "registryDependencies": ["https://design-system.localhost/r/button.json"],
       "files": [
-        {
-          "path": "registry/default/ui/mode-toggle.tsx",
-          "type": "registry:component",
-          "target": "components/fragments/mode-toggle.tsx"
-        }
+        { "path": "registry/default/ui/mode-toggle.tsx", "type": "registry:ui" }
       ]
     },
     {
       "name": "nav-tabs",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Nav Tabs",
       "description": "Navigation tabs with pending state.",
       "dependencies": ["class-variance-authority"],
       "registryDependencies": ["https://design-system.localhost/r/tabs.json"],
       "files": [
-        {
-          "path": "registry/default/ui/nav-tabs.tsx",
-          "type": "registry:component",
-          "target": "components/fragments/nav-tabs.tsx"
-        }
+        { "path": "registry/default/ui/nav-tabs.tsx", "type": "registry:ui" }
       ]
     },
     {
@@ -709,7 +697,7 @@
     },
     {
       "name": "multi-select",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Multi Select",
       "description": "A multi-select component with badges and search.",
       "dependencies": ["lucide-react"],
@@ -722,8 +710,7 @@
       "files": [
         {
           "path": "registry/default/ui/multi-select.tsx",
-          "type": "registry:component",
-          "target": "components/fragments/multi-select.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -747,16 +734,12 @@
     },
     {
       "name": "stepper",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Stepper",
       "description": "A multi-step wizard component with validation.",
       "dependencies": ["lucide-react", "radix-ui"],
       "files": [
-        {
-          "path": "registry/default/ui/stepper.tsx",
-          "type": "registry:component",
-          "target": "components/fragments/stepper.tsx"
-        }
+        { "path": "registry/default/ui/stepper.tsx", "type": "registry:ui" }
       ]
     },
     {
@@ -845,7 +828,7 @@
     },
     {
       "name": "data-table",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Data Table",
       "description": "A data table built on TanStack Table with sorting, filtering, pagination, and skeleton loading.",
       "dependencies": ["@tanstack/react-table", "lucide-react"],
@@ -860,34 +843,36 @@
         "https://design-system.localhost/r/table.json"
       ],
       "files": [
-        { "path": "registry/default/ui/data-table.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/data-table.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/data-table.tsx"
+        }
       ]
     },
     {
       "name": "radio-group-card",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Radio Group Card",
       "description": "A card-style radio group for visual selection with optional children content.",
       "dependencies": ["radix-ui", "lucide-react"],
       "files": [
         {
           "path": "registry/default/ui/radio-group-card.tsx",
-          "type": "registry:component",
-          "target": "components/fragments/radio-group-card.tsx"
+          "type": "registry:ui"
         }
       ]
     },
     {
       "name": "radio-group-stacked",
-      "type": "registry:component",
+      "type": "registry:ui",
       "title": "Radio Group Stacked",
       "description": "A stacked radio group with labels and descriptions for form selections.",
       "dependencies": ["radix-ui", "lucide-react"],
       "files": [
         {
           "path": "registry/default/ui/radio-group-stacked.tsx",
-          "type": "registry:component",
-          "target": "components/fragments/radio-group-stacked.tsx"
+          "type": "registry:ui"
         }
       ]
     },
@@ -992,6 +977,43 @@
           "path": "registry/default/ui/code/numscript-validator.ts",
           "type": "registry:ui",
           "target": "components/code/numscript-validator.ts"
+        }
+      ]
+    },
+    {
+      "name": "sortable",
+      "type": "registry:ui",
+      "title": "Sortable",
+      "description": "A composable sortable list built on dnd-kit with drag handles, overlay, and keyboard support.",
+      "dependencies": [
+        "@dnd-kit/core",
+        "@dnd-kit/modifiers",
+        "@dnd-kit/sortable",
+        "@dnd-kit/utilities",
+        "radix-ui"
+      ],
+      "files": [
+        { "path": "registry/default/ui/sortable.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "key-value-input",
+      "type": "registry:component",
+      "title": "Key Value Input",
+      "description": "A sortable key/value editor with optional secret reveal and JSON preview.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://design-system.localhost/r/button.json",
+        "https://design-system.localhost/r/code-snippet.json",
+        "https://design-system.localhost/r/input.json",
+        "https://design-system.localhost/r/popover.json",
+        "https://design-system.localhost/r/sortable.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/fragments/key-value-input.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/key-value-input.tsx"
         }
       ]
     }
