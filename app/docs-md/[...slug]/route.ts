@@ -32,7 +32,7 @@ export async function GET(
     section: found.section,
     description: meta?.description,
     source,
-    url: `https://design.formance.com/docs/${slugStr}`,
+    url: `https://ds.formance.com/docs/${slugStr}`,
   });
 
   return new Response(markdown, {

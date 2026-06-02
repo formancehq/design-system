@@ -2,10 +2,10 @@
 
 ## Mission
 
-Build a **public shadcn registry** for Formance's design system, hosted at `https://design.formance.com`. Anyone can install components via:
+Build a **public shadcn registry** for Formance's design system, hosted at `https://ds.formance.com`. Anyone can install components via:
 
 ```
-npx shadcn add https://design.formance.com/r/<component>.json
+npx shadcn add https://ds.formance.com/r/<component>.json
 ```
 
 ### Component Taxonomy
