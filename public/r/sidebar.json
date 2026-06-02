@@ -5,12 +5,12 @@
   "description": "A collapsible sidebar with mobile support.",
   "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
   "registryDependencies": [
-    "https://design-system.localhost/r/button.json",
-    "https://design-system.localhost/r/input.json",
-    "https://design-system.localhost/r/separator.json",
-    "https://design-system.localhost/r/sheet.json",
-    "https://design-system.localhost/r/skeleton.json",
-    "https://design-system.localhost/r/tooltip.json"
+    "https://ds.formance.com/r/button.json",
+    "https://ds.formance.com/r/input.json",
+    "https://ds.formance.com/r/separator.json",
+    "https://ds.formance.com/r/sheet.json",
+    "https://ds.formance.com/r/skeleton.json",
+    "https://ds.formance.com/r/tooltip.json"
   ],
   "files": [
     {

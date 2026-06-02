@@ -5,9 +5,9 @@
   "description": "A combobox with search built on Command and Popover.",
   "dependencies": ["lucide-react"],
   "registryDependencies": [
-    "https://design-system.localhost/r/button.json",
-    "https://design-system.localhost/r/command.json",
-    "https://design-system.localhost/r/popover.json"
+    "https://ds.formance.com/r/button.json",
+    "https://ds.formance.com/r/command.json",
+    "https://ds.formance.com/r/popover.json"
   ],
   "files": [
     {

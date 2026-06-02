@@ -4,7 +4,7 @@
   "title": "Badge Status",
   "description": "A status badge with animated ping indicator.",
   "dependencies": ["class-variance-authority"],
-  "registryDependencies": ["https://design-system.localhost/r/badge.json"],
+  "registryDependencies": ["https://ds.formance.com/r/badge.json"],
   "files": [
     {
       "path": "registry/default/ui/badge-status.tsx",

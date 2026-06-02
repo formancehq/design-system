@@ -5,8 +5,8 @@
   "description": "A card layout for app sections with optional icon, header action, separator, and footer.",
   "dependencies": ["lucide-react"],
   "registryDependencies": [
-    "https://design-system.localhost/r/button.json",
-    "https://design-system.localhost/r/card.json"
+    "https://ds.formance.com/r/button.json",
+    "https://ds.formance.com/r/card.json"
   ],
   "files": [
     {
