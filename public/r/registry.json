@@ -280,7 +280,8 @@
       "type": "registry:ui",
       "title": "Alert Dialog",
       "description": "A modal dialog that interrupts the user for a critical action.",
-      "dependencies": ["radix-ui"],
+      "dependencies": ["radix-ui", "sonner"],
+      "registryDependencies": ["https://design-system.localhost/r/button.json"],
       "files": [
         {
           "path": "registry/default/ui/alert-dialog.tsx",
@@ -743,20 +744,21 @@
     },
     {
       "name": "page-container",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Page Container",
       "description": "A responsive page container with size variants.",
       "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "registry/default/ui/page-container.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/page-container.tsx"
         }
       ]
     },
     {
       "name": "page-header",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Page Header",
       "description": "A compound page header with breadcrumb, icon, title, description, and navigation tabs.",
       "dependencies": ["class-variance-authority"],
@@ -766,25 +768,30 @@
         "https://design-system.localhost/r/page-container.json"
       ],
       "files": [
-        { "path": "registry/default/ui/page-header.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/page-header.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/page-header.tsx"
+        }
       ]
     },
     {
       "name": "page-section",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Page Section",
       "description": "A compound page section with title, description, and content areas.",
       "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "registry/default/ui/page-section.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/page-section.tsx"
         }
       ]
     },
     {
       "name": "app-card",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "App Card",
       "description": "A card layout for app sections with optional icon, header action, separator, and footer.",
       "dependencies": ["lucide-react"],
@@ -795,13 +802,14 @@
       "files": [
         {
           "path": "registry/default/fragments/app-card.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/app-card.tsx"
         }
       ]
     },
     {
       "name": "app-card-empty",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "App Card Empty",
       "description": "Muted empty-state card with centered icon, title, description, and optional actions.",
       "dependencies": ["lucide-react"],
@@ -813,13 +821,14 @@
       "files": [
         {
           "path": "registry/default/fragments/app-card-empty.tsx",
-          "type": "registry:ui"
+          "type": "registry:component",
+          "target": "components/fragments/app-card-empty.tsx"
         }
       ]
     },
     {
       "name": "data-table",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Data Table",
       "description": "A data table built on TanStack Table with sorting, filtering, pagination, and skeleton loading.",
       "dependencies": ["@tanstack/react-table", "lucide-react"],
@@ -834,7 +843,11 @@
         "https://design-system.localhost/r/table.json"
       ],
       "files": [
-        { "path": "registry/default/ui/data-table.tsx", "type": "registry:ui" }
+        {
+          "path": "registry/default/ui/data-table.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/data-table.tsx"
+        }
       ]
     },
     {
@@ -964,6 +977,43 @@
           "path": "registry/default/ui/code/numscript-validator.ts",
           "type": "registry:ui",
           "target": "components/code/numscript-validator.ts"
+        }
+      ]
+    },
+    {
+      "name": "sortable",
+      "type": "registry:ui",
+      "title": "Sortable",
+      "description": "A composable sortable list built on dnd-kit with drag handles, overlay, and keyboard support.",
+      "dependencies": [
+        "@dnd-kit/core",
+        "@dnd-kit/modifiers",
+        "@dnd-kit/sortable",
+        "@dnd-kit/utilities",
+        "radix-ui"
+      ],
+      "files": [
+        { "path": "registry/default/ui/sortable.tsx", "type": "registry:ui" }
+      ]
+    },
+    {
+      "name": "key-value-input",
+      "type": "registry:component",
+      "title": "Key Value Input",
+      "description": "A sortable key/value editor with optional secret reveal and JSON preview.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://design-system.localhost/r/button.json",
+        "https://design-system.localhost/r/code-snippet.json",
+        "https://design-system.localhost/r/input.json",
+        "https://design-system.localhost/r/popover.json",
+        "https://design-system.localhost/r/sortable.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/fragments/key-value-input.tsx",
+          "type": "registry:component",
+          "target": "components/fragments/key-value-input.tsx"
         }
       ]
     }

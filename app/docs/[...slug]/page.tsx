@@ -154,9 +154,9 @@ export default async function DocsPage({
                   section: found.section,
                   description: meta?.description,
                   source: mdxSource,
-                  url: `https://design.formance.com/docs/${slugStr}`,
+                  url: `https://ds.formance.com/docs/${slugStr}`,
                 })}
-                url={`https://design.formance.com/docs/${slugStr}`}
+                url={`https://ds.formance.com/docs/${slugStr}`}
               />
             </PageHeaderAside>
           </PageHeaderMeta>

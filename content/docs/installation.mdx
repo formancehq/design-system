@@ -1,23 +1,27 @@
 <Section
   title="Quick Start"
-  description="The Formance design system is distributed as a shadcn registry. Install components directly into your project using the CLI."
+  description="The Formance design system ships as a shadcn registry plus a CLI. The CLI is the fastest way to add one, many, or all components."
 >
 
 ```bash
-npx shadcn add https://design-system-three-mauve.vercel.app/r/button.json
+pnpm dlx @formance/ds add button card input
+pnpm dlx @formance/ds add --all
+pnpm dlx @formance/ds list
 ```
+
+Your project needs an existing shadcn setup (`pnpm dlx shadcn@latest init`).
 
 </Section>
 
 <Section
   title="@formance Namespace"
-  description="To avoid repeating the full URL on each install, add the Formance registry to your components.json:"
+  description="If you prefer to install components via the shadcn CLI directly, add the Formance registry to your components.json:"
 >
 
 ```json
 {
   "registries": {
-    "@formance": "https://design-system-three-mauve.vercel.app/r/{name}.json"
+    "@formance": "https://ds.formance.com/r/{name}.json"
   }
 }
 ```
@@ -38,7 +42,7 @@ npx shadcn@latest add @formance/input
 >
 
 ```bash
-npx shadcn add https://design-system-three-mauve.vercel.app/r/button.json
+npx shadcn add https://ds.formance.com/r/button.json
 ```
 
 </Section>

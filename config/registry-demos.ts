@@ -52,6 +52,15 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   alert: {
     component: lazy(() => import('@/registry/default/demos/alert-demo')),
     sourceFile: 'registry/default/demos/alert-demo.tsx',
+    examples: [
+      {
+        title: 'With content',
+        component: lazy(
+          () => import('@/registry/default/examples/alert-with-content')
+        ),
+        sourceFile: 'registry/default/examples/alert-with-content.tsx',
+      },
+    ],
   },
   'alert-dialog': {
     component: lazy(() => import('@/registry/default/demos/alert-dialog-demo')),

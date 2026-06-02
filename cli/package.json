@@ -1,0 +1,34 @@
+{
+  "name": "@formance/ds",
+  "version": "0.1.0",
+  "description": "CLI for installing Formance design system components.",
+  "type": "module",
+  "bin": {
+    "formance-ds": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "execa": "^9.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.17",
+    "tsup": "^8.4.0",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
