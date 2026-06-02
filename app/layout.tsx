@@ -1,6 +1,7 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
+import { GoogleTagManager } from '@next/third-parties/google';
 import { ThemeProvider } from 'next-themes';
 import { Figtree, Space_Mono } from 'next/font/google';
 
@@ -25,9 +26,42 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Formance Design System',
+  title: 'Design System - Formance',
   description:
     'The open-source design system for Formance. Browse components, copy code, or install via the shadcn registry.',
+  manifest: '/favicons/site.webmanifest',
+  icons: [
+    { rel: 'shortcut icon', url: '/favicons/favicon.ico' },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '192x192',
+      url: '/favicons/android-chrome-192x192.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '512x512',
+      url: '/favicons/android-chrome-512x512.png',
+    },
+    {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      url: '/favicons/apple-touch-icon.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      url: '/favicons/favicon-32x32.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      url: '/favicons/favicon-16x16.png',
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -37,6 +71,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <GoogleTagManager gtmId="GTM-PTCLLFMG" />
       <body
         className={`${figtree.variable} ${spaceMono.variable} min-h-screen font-sans antialiased`}
       >
