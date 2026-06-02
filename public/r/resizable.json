@@ -3,7 +3,10 @@
   "name": "resizable",
   "title": "Resizable",
   "description": "Resizable panel groups with drag handles.",
-  "dependencies": ["react-resizable-panels", "lucide-react"],
+  "dependencies": [
+    "react-resizable-panels",
+    "lucide-react"
+  ],
   "files": [
     {
       "path": "registry/default/ui/resizable.tsx",

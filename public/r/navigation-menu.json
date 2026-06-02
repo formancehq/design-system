@@ -3,7 +3,11 @@
   "name": "navigation-menu",
   "title": "Navigation Menu",
   "description": "A navigation menu with dropdown content.",
-  "dependencies": ["radix-ui", "class-variance-authority", "lucide-react"],
+  "dependencies": [
+    "radix-ui",
+    "class-variance-authority",
+    "lucide-react"
+  ],
   "files": [
     {
       "path": "registry/default/ui/navigation-menu.tsx",

@@ -3,7 +3,10 @@
   "name": "badge-eyebrow",
   "title": "Badge Eyebrow",
   "description": "A badge eyebrow with brand color variants.",
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/badge-eyebrow.tsx",

@@ -3,7 +3,9 @@
   "name": "formance-logo",
   "title": "Formance Logo",
   "description": "The Formance logo and icon component.",
-  "dependencies": ["class-variance-authority"],
+  "dependencies": [
+    "class-variance-authority"
+  ],
   "files": [
     {
       "path": "registry/default/ui/formance-logo.tsx",

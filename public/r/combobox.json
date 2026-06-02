@@ -3,7 +3,9 @@
   "name": "combobox",
   "title": "Combobox",
   "description": "A combobox with search built on Command and Popover.",
-  "dependencies": ["lucide-react"],
+  "dependencies": [
+    "lucide-react"
+  ],
   "registryDependencies": [
     "https://ds.formance.com/r/button.json",
     "https://ds.formance.com/r/command.json",

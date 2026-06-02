@@ -3,7 +3,9 @@
   "name": "hover-card",
   "title": "Hover Card",
   "description": "A card displayed on hover for previewing content.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/hover-card.tsx",

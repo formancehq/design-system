@@ -3,7 +3,11 @@
   "name": "sidebar",
   "title": "Sidebar",
   "description": "A collapsible sidebar with mobile support.",
-  "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "lucide-react",
+    "radix-ui"
+  ],
   "registryDependencies": [
     "https://ds.formance.com/r/button.json",
     "https://ds.formance.com/r/input.json",

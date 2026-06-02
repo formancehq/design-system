@@ -3,7 +3,10 @@
   "name": "popover",
   "title": "Popover",
   "description": "A popover component built on Radix UI.",
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/popover.tsx",

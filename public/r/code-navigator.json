@@ -3,7 +3,9 @@
   "name": "code-navigator",
   "title": "Code Navigator",
   "description": "A breadcrumb navigator toolbar for jumping to sections in JSON/YAML code editors.",
-  "dependencies": ["lucide-react"],
+  "dependencies": [
+    "lucide-react"
+  ],
   "registryDependencies": [
     "https://ds.formance.com/r/code-themes.json",
     "https://ds.formance.com/r/badge.json",

@@ -3,7 +3,9 @@
   "name": "switch",
   "title": "Switch",
   "description": "A switch toggle component built on Radix UI.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/switch.tsx",

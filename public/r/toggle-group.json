@@ -3,7 +3,10 @@
   "name": "toggle-group",
   "title": "Toggle Group",
   "description": "A group of toggle buttons.",
-  "dependencies": ["radix-ui", "class-variance-authority"],
+  "dependencies": [
+    "radix-ui",
+    "class-variance-authority"
+  ],
   "files": [
     {
       "path": "registry/default/ui/toggle-group.tsx",

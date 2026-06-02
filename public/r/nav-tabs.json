@@ -3,8 +3,12 @@
   "name": "nav-tabs",
   "title": "Nav Tabs",
   "description": "Navigation tabs with pending state.",
-  "dependencies": ["class-variance-authority"],
-  "registryDependencies": ["https://ds.formance.com/r/tabs.json"],
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "https://ds.formance.com/r/tabs.json"
+  ],
   "files": [
     {
       "path": "registry/default/ui/nav-tabs.tsx",

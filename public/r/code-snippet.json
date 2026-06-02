@@ -3,8 +3,14 @@
   "name": "code-snippet",
   "title": "Code Snippet",
   "description": "A read-only syntax-highlighted code viewer powered by Shiki with CSS variable theming.",
-  "dependencies": ["shiki", "class-variance-authority", "lucide-react"],
-  "registryDependencies": ["https://ds.formance.com/r/code-themes.json"],
+  "dependencies": [
+    "shiki",
+    "class-variance-authority",
+    "lucide-react"
+  ],
+  "registryDependencies": [
+    "https://ds.formance.com/r/code-themes.json"
+  ],
   "files": [
     {
       "path": "registry/default/ui/code/code-snippet.tsx",

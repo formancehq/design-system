@@ -3,7 +3,9 @@
   "name": "code-themes",
   "title": "Code Themes",
   "description": "Shared Formance Shiki/Monaco themes, language config, and highlighter singleton using CSS variables.",
-  "dependencies": ["shiki"],
+  "dependencies": [
+    "shiki"
+  ],
   "files": [
     {
       "path": "registry/default/ui/code/code-themes.ts",

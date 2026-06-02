@@ -3,7 +3,9 @@
   "name": "chart",
   "title": "Chart",
   "description": "Chart components built on Recharts.",
-  "dependencies": ["recharts"],
+  "dependencies": [
+    "recharts"
+  ],
   "files": [
     {
       "path": "registry/default/ui/chart.tsx",

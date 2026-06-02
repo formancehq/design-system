@@ -3,7 +3,9 @@
   "name": "label",
   "title": "Label",
   "description": "A label component built on Radix UI.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/label.tsx",

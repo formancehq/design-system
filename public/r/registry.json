@@ -1326,7 +1326,7 @@
         {
           "path": "registry/default/ui/page-container.tsx",
           "type": "registry:component",
-          "target": "components/fragments/page-container.tsx"
+          "target": "components/ui-fragments/page-container.tsx"
         }
       ]
     },
@@ -1345,7 +1345,7 @@
         {
           "path": "registry/default/ui/page-header.tsx",
           "type": "registry:component",
-          "target": "components/fragments/page-header.tsx"
+          "target": "components/ui-fragments/page-header.tsx"
         }
       ]
     },
@@ -1359,7 +1359,7 @@
         {
           "path": "registry/default/ui/page-section.tsx",
           "type": "registry:component",
-          "target": "components/fragments/page-section.tsx"
+          "target": "components/ui-fragments/page-section.tsx"
         }
       ]
     },
@@ -1377,7 +1377,7 @@
         {
           "path": "registry/default/fragments/app-card.tsx",
           "type": "registry:component",
-          "target": "components/fragments/app-card.tsx"
+          "target": "components/ui-fragments/app-card.tsx"
         }
       ]
     },
@@ -1396,7 +1396,7 @@
         {
           "path": "registry/default/fragments/app-card-empty.tsx",
           "type": "registry:component",
-          "target": "components/fragments/app-card-empty.tsx"
+          "target": "components/ui-fragments/app-card-empty.tsx"
         }
       ]
     },
@@ -1420,7 +1420,7 @@
         {
           "path": "registry/default/ui/data-table.tsx",
           "type": "registry:component",
-          "target": "components/fragments/data-table.tsx"
+          "target": "components/ui-fragments/data-table.tsx"
         }
       ]
     },
@@ -1586,7 +1586,7 @@
         {
           "path": "registry/default/fragments/key-value-input.tsx",
           "type": "registry:component",
-          "target": "components/fragments/key-value-input.tsx"
+          "target": "components/ui-fragments/key-value-input.tsx"
         }
       ]
     }

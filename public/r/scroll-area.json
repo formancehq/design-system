@@ -3,7 +3,9 @@
   "name": "scroll-area",
   "title": "Scroll Area",
   "description": "A custom scroll area built on Radix UI.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/scroll-area.tsx",
