@@ -3,7 +3,10 @@
   "name": "menubar",
   "title": "Menubar",
   "description": "A horizontal menu bar component.",
-  "dependencies": ["radix-ui", "lucide-react"],
+  "dependencies": [
+    "radix-ui",
+    "lucide-react"
+  ],
   "files": [
     {
       "path": "registry/default/ui/menubar.tsx",

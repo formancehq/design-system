@@ -3,7 +3,9 @@
   "name": "drawer",
   "title": "Drawer",
   "description": "A drawer component built on Vaul.",
-  "dependencies": ["vaul"],
+  "dependencies": [
+    "vaul"
+  ],
   "files": [
     {
       "path": "registry/default/ui/drawer.tsx",

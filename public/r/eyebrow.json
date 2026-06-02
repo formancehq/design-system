@@ -3,7 +3,10 @@
   "name": "eyebrow",
   "title": "Eyebrow",
   "description": "A small label component with a colored square indicator.",
-  "dependencies": ["class-variance-authority", "radix-ui"],
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/eyebrow.tsx",

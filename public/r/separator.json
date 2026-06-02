@@ -3,7 +3,9 @@
   "name": "separator",
   "title": "Separator",
   "description": "A visual separator component.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/separator.tsx",

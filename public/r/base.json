@@ -3,7 +3,10 @@
   "name": "base",
   "title": "Formance Base",
   "description": "Brand tokens, fonts, and Tailwind @theme mapping. Install with `formance-ds init`.",
-  "dependencies": ["tw-animate-css", "@tailwindcss/typography"],
+  "dependencies": [
+    "tw-animate-css",
+    "@tailwindcss/typography"
+  ],
   "cssVars": {
     "theme": {
       "font-sans": "'Polymath', 'Figtree', ui-sans-serif, system-ui, sans-serif,\n    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",

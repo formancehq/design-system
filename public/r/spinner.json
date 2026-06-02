@@ -3,7 +3,9 @@
   "name": "spinner",
   "title": "Spinner",
   "description": "A loading spinner indicator.",
-  "dependencies": ["lucide-react"],
+  "dependencies": [
+    "lucide-react"
+  ],
   "files": [
     {
       "path": "registry/default/ui/spinner.tsx",

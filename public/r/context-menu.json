@@ -3,7 +3,10 @@
   "name": "context-menu",
   "title": "Context Menu",
   "description": "A menu triggered by right-clicking.",
-  "dependencies": ["radix-ui", "lucide-react"],
+  "dependencies": [
+    "radix-ui",
+    "lucide-react"
+  ],
   "files": [
     {
       "path": "registry/default/ui/context-menu.tsx",

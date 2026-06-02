@@ -3,7 +3,9 @@
   "name": "empty",
   "title": "Empty",
   "description": "Empty state placeholder with media, title, and description.",
-  "dependencies": ["class-variance-authority"],
+  "dependencies": [
+    "class-variance-authority"
+  ],
   "files": [
     {
       "path": "registry/default/ui/empty.tsx",

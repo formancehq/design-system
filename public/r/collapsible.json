@@ -3,7 +3,9 @@
   "name": "collapsible",
   "title": "Collapsible",
   "description": "A collapsible component built on Radix UI.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/collapsible.tsx",

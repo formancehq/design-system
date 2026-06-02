@@ -3,7 +3,10 @@
   "name": "radio-group",
   "title": "Radio Group",
   "description": "A radio group component built on Radix UI.",
-  "dependencies": ["lucide-react", "radix-ui"],
+  "dependencies": [
+    "lucide-react",
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/radio-group.tsx",

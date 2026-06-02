@@ -3,7 +3,10 @@
   "name": "dropdown-menu",
   "title": "Dropdown Menu",
   "description": "A menu displayed on trigger click.",
-  "dependencies": ["radix-ui", "lucide-react"],
+  "dependencies": [
+    "radix-ui",
+    "lucide-react"
+  ],
   "files": [
     {
       "path": "registry/default/ui/dropdown-menu.tsx",

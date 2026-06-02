@@ -3,7 +3,9 @@
   "name": "progress",
   "title": "Progress",
   "description": "A progress bar indicator.",
-  "dependencies": ["radix-ui"],
+  "dependencies": [
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/progress.tsx",

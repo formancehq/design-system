@@ -3,7 +3,10 @@
   "name": "accordion",
   "title": "Accordion",
   "description": "An accordion component built on Radix UI.",
-  "dependencies": ["lucide-react", "radix-ui"],
+  "dependencies": [
+    "lucide-react",
+    "radix-ui"
+  ],
   "files": [
     {
       "path": "registry/default/ui/accordion.tsx",
