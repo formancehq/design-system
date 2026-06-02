@@ -1,22 +1,111 @@
 <Section
   title="Quick Start"
-  description="The Formance design system ships as a shadcn registry plus a CLI. The CLI is the fastest way to add one, many, or all components."
+  description="One command installs the brand tokens, fonts, Tailwind @theme mapping, and every component into your project."
 >
 
 ```bash
-pnpm dlx @formance/ds add button card input
-pnpm dlx @formance/ds add --all
-pnpm dlx @formance/ds list
+pnpm dlx @formance/ds init --all
 ```
 
-Your project needs an existing shadcn setup (`pnpm dlx shadcn@latest init`).
+Your project must already have a `components.json` (`pnpm dlx shadcn@latest init`). The CLI reads `tailwind.css` from that file, so the same command works for both single-app and monorepo setups — tokens land wherever your `components.json` declares the globals path.
 
 </Section>
 
 <Section
-  title="@formance Namespace"
-  description="If you prefer to install components via the shadcn CLI directly, add the Formance registry to your components.json:"
+  title="Commands"
+  description="The CLI ships three commands. Pick the one that matches what you want."
 >
+
+```bash
+# Base styles, tokens, and fonts only.
+pnpm dlx @formance/ds init
+
+# Base + every component.
+pnpm dlx @formance/ds init --all
+
+# Components only (no globals.css patching).
+pnpm dlx @formance/ds add button card input
+pnpm dlx @formance/ds add --all
+
+# Show everything available in the registry.
+pnpm dlx @formance/ds list
+```
+
+Shared flags on `init` and `add`:
+
+- `--cwd <path>` — target project directory (defaults to the current working directory)
+- `--overwrite` — overwrite existing files
+- `--yes` / `-y` — skip confirmation prompts
+- `--registry <url>` — point at a custom registry (e.g. a local dev server)
+- `--insecure` — accept self-signed TLS certs (handy for local-dev registries on `*.localhost`)
+
+</Section>
+
+<Section
+  title="What `init` installs"
+  description="The base item ships the brand foundation as a single shadcn registry style."
+>
+
+- Brand palettes (Emerald, Lilac, Gold, Cobalt, Mint) plus the semantic tokens that reference them — see [Theming](/docs/theming) for the full list.
+- Optical-size variables (`--font-opsz-heading`, `--font-opsz-text`) and the `@theme inline` block that maps everything to Tailwind utilities like `bg-emerald-500`, `text-primary`, `font-display`. See [Typography](/docs/typography).
+- Web fonts: Figtree via Google Fonts, Polymath and Berkeley Mono via Formance's CDN — pulled in through `@import url(...)` directives so consumers don't need `next/font` plumbing.
+- Required Tailwind plugins: `tw-animate-css` and `@tailwindcss/typography` (added to your `package.json` automatically).
+- Light + dark mode token overrides, plus the keyframes used by accordion/collapsible components.
+
+`init` uses shadcn's native `cssVars` + `css` merge, so it patches your existing `globals.css` rather than replacing it. A post-process step then hoists the new `@import` directives to the top of the file and dedupes them — that keeps the result valid CSS regardless of what your project already had.
+
+</Section>
+
+<Section
+  title="Layout"
+  description="A minimal `app/layout.tsx` that matches the rest of the Formance product family:"
+>
+
+```tsx
+import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased bg-muted-lighter text-foreground">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+No `next/font/google` calls needed — Figtree, Polymath, and Berkeley Mono are loaded via the `@import` lines inserted into `globals.css` by `init`. The `--font-sans` and `--font-mono` `@theme` tokens point at them with full fallbacks.
+
+</Section>
+
+<Section
+  title="Monorepo"
+  description="The CLI reads the active `components.json` to decide where to write."
+>
+
+In a workspace setup (e.g. an `apps/web` package whose `components.json` declares `tailwind.css = ../../packages/ui/src/styles/globals.css`), run `init` from the app directory:
+
+```bash
+cd apps/web
+pnpm dlx @formance/ds init --all
+```
+
+Tokens land in `packages/ui/src/styles/globals.css`. Components land in whatever path `aliases.ui` resolves to (e.g. `packages/ui/src/components/`). Dependencies are installed in the same package as `components.json`. No extra flags required.
+
+</Section>
+
+<Section
+  title="Direct shadcn install"
+  description="If you prefer to drive shadcn yourself instead of using the @formance/ds CLI:"
+>
+
+Add the Formance registry to your `components.json`:
 
 ```json
 {
@@ -26,24 +115,17 @@ Your project needs an existing shadcn setup (`pnpm dlx shadcn@latest init`).
 }
 ```
 
-Then install any component using the namespace:
+Then install by namespace or URL:
 
 ```bash
-npx shadcn@latest add @formance/button
-npx shadcn@latest add @formance/card
-npx shadcn@latest add @formance/input
+npx shadcn@latest add @formance/base
+npx shadcn@latest add @formance/button @formance/card
+
+# or by direct URL:
+npx shadcn add https://ds.formance.com/r/base.json
 ```
 
-</Section>
-
-<Section
-  title="Direct URL"
-  description="You can also install components directly without configuring the namespace:"
->
-
-```bash
-npx shadcn add https://ds.formance.com/r/button.json
-```
+Note: when going through `shadcn add` directly, the import-reorder pass that the Formance CLI applies after install does not run. If your existing `globals.css` already contains rules (e.g. `@import "shadcn/tailwind.css"`), reorder the `@import url(...)` lines emitted by `base` so they sit at the very top of the file.
 
 </Section>
 
@@ -52,4 +134,5 @@ npx shadcn add https://ds.formance.com/r/button.json
 - Tailwind CSS v4
 - React 19+
 - TypeScript 5+
-- A `components.json` file configured for the default style
+- An existing `components.json` (`shadcn init`)
+- Node 20+ (the CLI uses `pnpm dlx`)
