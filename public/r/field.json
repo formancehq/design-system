@@ -4,8 +4,8 @@
   "title": "Field",
   "description": "A full form field system with labels, descriptions, and errors.",
   "registryDependencies": [
-    "https://design-system.localhost/r/label.json",
-    "https://design-system.localhost/r/separator.json"
+    "https://ds.formance.com/r/label.json",
+    "https://ds.formance.com/r/separator.json"
   ],
   "files": [
     {

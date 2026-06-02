@@ -3,7 +3,7 @@
   "name": "description-list",
   "title": "Description List",
   "description": "A description list and row layout for key-value pairs.",
-  "registryDependencies": ["https://design-system.localhost/r/separator.json"],
+  "registryDependencies": ["https://ds.formance.com/r/separator.json"],
   "files": [
     {
       "path": "registry/default/ui/description-list.tsx",

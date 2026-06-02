@@ -3,7 +3,7 @@
   "name": "item",
   "title": "Item",
   "description": "A list item system with media, content, and actions.",
-  "registryDependencies": ["https://design-system.localhost/r/separator.json"],
+  "registryDependencies": ["https://ds.formance.com/r/separator.json"],
   "files": [
     {
       "path": "registry/default/ui/item.tsx",

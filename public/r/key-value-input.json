@@ -5,11 +5,11 @@
   "description": "A sortable key/value editor with optional secret reveal and JSON preview.",
   "dependencies": ["lucide-react"],
   "registryDependencies": [
-    "https://design-system.localhost/r/button.json",
-    "https://design-system.localhost/r/code-snippet.json",
-    "https://design-system.localhost/r/input.json",
-    "https://design-system.localhost/r/popover.json",
-    "https://design-system.localhost/r/sortable.json"
+    "https://ds.formance.com/r/button.json",
+    "https://ds.formance.com/r/code-snippet.json",
+    "https://ds.formance.com/r/input.json",
+    "https://ds.formance.com/r/popover.json",
+    "https://ds.formance.com/r/sortable.json"
   ],
   "files": [
     {

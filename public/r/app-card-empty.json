@@ -5,9 +5,9 @@
   "description": "Muted empty-state card with centered icon, title, description, and optional actions.",
   "dependencies": ["lucide-react"],
   "registryDependencies": [
-    "https://design-system.localhost/r/button.json",
-    "https://design-system.localhost/r/card.json",
-    "https://design-system.localhost/r/typography.json"
+    "https://ds.formance.com/r/button.json",
+    "https://ds.formance.com/r/card.json",
+    "https://ds.formance.com/r/typography.json"
   ],
   "files": [
     {

@@ -10,8 +10,8 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "https://design-system.localhost/r/code-themes.json",
-    "https://design-system.localhost/r/code-navigator.json"
+    "https://ds.formance.com/r/code-themes.json",
+    "https://ds.formance.com/r/code-navigator.json"
   ],
   "files": [
     {

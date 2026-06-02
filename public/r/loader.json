@@ -3,7 +3,7 @@
   "name": "loader",
   "title": "Loader",
   "description": "Loading skeleton placeholders.",
-  "registryDependencies": ["https://design-system.localhost/r/skeleton.json"],
+  "registryDependencies": ["https://ds.formance.com/r/skeleton.json"],
   "files": [
     {
       "path": "registry/default/ui/loader.tsx",

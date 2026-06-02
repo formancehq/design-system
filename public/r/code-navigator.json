@@ -5,9 +5,9 @@
   "description": "A breadcrumb navigator toolbar for jumping to sections in JSON/YAML code editors.",
   "dependencies": ["lucide-react"],
   "registryDependencies": [
-    "https://design-system.localhost/r/code-themes.json",
-    "https://design-system.localhost/r/badge.json",
-    "https://design-system.localhost/r/select.json"
+    "https://ds.formance.com/r/code-themes.json",
+    "https://ds.formance.com/r/badge.json",
+    "https://ds.formance.com/r/select.json"
   ],
   "files": [
     {

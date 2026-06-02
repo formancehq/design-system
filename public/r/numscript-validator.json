@@ -3,9 +3,7 @@
   "name": "numscript-validator",
   "title": "Numscript Validator",
   "description": "Validates Numscript code via the playground API and returns diagnostics for CodeEditor.",
-  "registryDependencies": [
-    "https://design-system.localhost/r/code-editor.json"
-  ],
+  "registryDependencies": ["https://ds.formance.com/r/code-editor.json"],
   "files": [
     {
       "path": "registry/default/ui/code/numscript-validator.ts",
