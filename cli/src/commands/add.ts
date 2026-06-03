@@ -5,6 +5,7 @@ import {
   DEFAULT_REGISTRY,
   fetchRegistryIndex,
 } from '../lib/registry.js';
+import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
 
 type TAddOptions = {
@@ -56,5 +57,19 @@ export const addCommand = new Command('add')
       yes: options.yes,
       insecure: options.insecure,
     });
+
+    if (exitCode === 0) {
+      const result = await rewriteFragmentImports(
+        options.cwd ?? process.cwd(),
+        base,
+        names
+      );
+      if (result.replacements > 0) {
+        console.log(
+          `✔ Rewrote ${result.replacements} fragment import${result.replacements === 1 ? '' : 's'} across ${result.filesChanged} file${result.filesChanged === 1 ? '' : 's'}`
+        );
+      }
+    }
+
     process.exitCode = exitCode;
   });
