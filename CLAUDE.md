@@ -129,3 +129,43 @@ This uses `shadcn add --overwrite` against the local registry. Import rewriting 
 ```
 pnpm dev     # localhost:3333
 ```
+
+## CLI: `@formance/ds`
+
+The `cli/` package publishes `formance-ds` (used as `npx @formance/ds <cmd>`). It wraps `shadcn add` against the registry and post-processes `globals.css`.
+
+### `init` — install base styles, tokens, fonts
+
+Run from a project that already has a `components.json`.
+
+```bash
+npx @formance/ds init              # external (default) — Formance CDN fonts stripped
+npx @formance/ds init --internal   # Formance team — keeps Polymath + Berkeley Mono
+```
+
+Common flags: `--all`, `--overwrite`, `-y/--yes`, `--cwd <path>`, `--registry <url>`, `--insecure`.
+
+Typical Formance install: `npx @formance/ds init --internal --all -y --overwrite`.
+
+### globals.css template rewrite
+
+After `shadcn add` writes the file, `init` runs `rewriteGlobalsFromTemplate` (`cli/src/lib/rewrite-globals.ts`):
+
+1. Parses the freshly installed `globals.css` with postcss; extracts `:root`, `.dark`, and `@theme inline` variable values.
+2. Loads the canonical template from `cli/src/templates/globals.css` (a copy of `platform-ui/packages/ui/src/styles/globals.css`).
+3. Injects the extracted values into the template, keeping the template's order, spacing, and comments. `--font-sans` and `--font-mono` always come from the template (listed in `TEMPLATE_OWNED_KEYS`), never from the installed file.
+4. When `--internal` is **not** set, strips Formance-CDN `@font-face` blocks and removes `'Polymath'` / `'Berkeley Mono'` from `--font-sans` / `--font-mono` (Google Fonts Figtree import and remaining fallbacks are preserved).
+5. Writes the result back.
+
+`add` is intentionally **not** rewritten — adding components rarely brings new tokens.
+
+### Keeping the template in sync with platform-ui
+
+The canonical layout source is `platform-ui/packages/ui/src/styles/globals.css`. Token _values_ are injected from the registry, so token edits in platform-ui flow through automatically once the registry is regenerated.
+
+Only re-sync the template when **layout** changes (section order, comments, `@font-face` URLs, or the canonical `--font-sans` / `--font-mono` strings):
+
+```bash
+cp ../platform-ui/packages/ui/src/styles/globals.css cli/src/templates/globals.css
+cd cli && pnpm build
+```

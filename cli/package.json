@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "commander": "^12.1.0",
-    "execa": "^9.5.2"
+    "execa": "^9.5.2",
+    "postcss": "^8.4.49"
   },
   "devDependencies": {
     "@types/node": "^22.19.17",

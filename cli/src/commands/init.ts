@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 
-import { normalizeGlobalsCss } from '../lib/normalize-globals.js';
+import { rewriteGlobalsFromTemplate } from '../lib/rewrite-globals.js';
 import {
   componentUrl,
   DEFAULT_REGISTRY,
@@ -15,6 +15,7 @@ type TInitOptions = {
   overwrite?: boolean;
   yes?: boolean;
   insecure?: boolean;
+  internal?: boolean;
 };
 
 const BASE_ITEM = 'base';
@@ -31,6 +32,10 @@ export const initCommand = new Command('init')
   .option(
     '--insecure',
     'Accept self-signed TLS certs (for local-dev registries)'
+  )
+  .option(
+    '--internal',
+    'Keep Formance CDN fonts (Polymath, Berkeley Mono). Off by default.'
   )
   .action(async (options: TInitOptions) => {
     if (options.insecure) process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -59,8 +64,11 @@ export const initCommand = new Command('init')
     });
 
     if (exitCode === 0) {
-      const normalized = normalizeGlobalsCss(options.cwd ?? process.cwd());
-      if (normalized) console.log(`✔ Normalized ${normalized}`);
+      const rewritten = rewriteGlobalsFromTemplate(
+        options.cwd ?? process.cwd(),
+        { internal: options.internal }
+      );
+      if (rewritten) console.log(`✔ Rewrote ${rewritten} from template`);
     }
 
     process.exitCode = exitCode;
