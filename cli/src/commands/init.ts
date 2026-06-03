@@ -1,11 +1,12 @@
 import { Command } from 'commander';
 
-import { rewriteGlobalsFromTemplate } from '../lib/rewrite-globals.js';
 import {
   componentUrl,
   DEFAULT_REGISTRY,
   fetchRegistryIndex,
 } from '../lib/registry.js';
+import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
+import { rewriteGlobalsFromTemplate } from '../lib/rewrite-globals.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
 
 type TInitOptions = {
@@ -69,6 +70,17 @@ export const initCommand = new Command('init')
         { internal: options.internal }
       );
       if (rewritten) console.log(`✔ Rewrote ${rewritten} from template`);
+
+      const fragmentResult = await rewriteFragmentImports(
+        options.cwd ?? process.cwd(),
+        base,
+        names
+      );
+      if (fragmentResult.replacements > 0) {
+        console.log(
+          `✔ Rewrote ${fragmentResult.replacements} fragment import${fragmentResult.replacements === 1 ? '' : 's'} across ${fragmentResult.filesChanged} file${fragmentResult.filesChanged === 1 ? '' : 's'}`
+        );
+      }
     }
 
     process.exitCode = exitCode;
