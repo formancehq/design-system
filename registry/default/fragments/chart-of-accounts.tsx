@@ -170,7 +170,7 @@ function ChartNode({
   }, [expanded]);
 
   const labelRow = (
-    <div className="flex items-center gap-1.5 py-px">
+    <div className="flex items-center gap-1.5 py-0.5">
       {depth > 0 && (
         <span className="select-none whitespace-pre text-muted-foreground/60">
           {prefix}
@@ -220,8 +220,8 @@ function ChartNode({
           {Object.entries(metadata).map(([k, v]) => {
             const def = v?.default;
             if (!def) return null;
-            
-return (
+
+            return (
               <Badge key={k} variant="secondary" size="sm">
                 {k}={def}
               </Badge>
