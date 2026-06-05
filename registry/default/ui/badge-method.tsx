@@ -8,13 +8,13 @@ const badgeMethodVariants = cva(
   {
     variants: {
       method: {
-        GET: 'bg-teal-background text-teal-foreground',
-        POST: 'bg-green-background text-green-foreground',
+        GET: 'bg-cobalt-500 text-emerald-100',
+        POST: 'bg-mint-500 text-mint-900',
         PUT: 'bg-lilac-400 text-lilac-800',
-        PATCH: 'bg-amber-background text-amber-foreground',
+        PATCH: 'bg-gold-500 text-emerald-100',
         DELETE: 'bg-red-background text-red-foreground',
-        HEAD: 'bg-violet-background text-violet-foreground',
-        OPTIONS: 'bg-zinc-background text-zinc-foreground',
+        HEAD: 'bg-cobalt-700 text-emerald-100',
+        OPTIONS: 'bg-emerald-300 text-emerald-800',
       },
       size: {
         sm: 'h-5 px-1.5 gap-1 text-[10px]/none',
