@@ -783,6 +783,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/demos/form-patterns-demo.tsx',
     source: 'custom',
   },
+  'fragments/api-snippet': {
+    registryName: 'api-snippet',
+    description:
+      'Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a Formance stack OpenAPI operationId.',
+    sourceFile: 'registry/default/fragments/api-snippet.tsx',
+    source: 'custom',
+  },
   'fragments/chart-of-accounts': {
     registryName: 'chart-of-accounts',
     description:
@@ -1027,6 +1034,7 @@ export const docsConfig: TDocsConfig = {
           href: '/docs/fragments/introduction',
           priority: true,
         },
+        { title: 'API Snippet', href: '/docs/fragments/api-snippet' },
         { title: 'App Card', href: '/docs/fragments/app-card' },
         {
           title: 'Chart of Accounts',

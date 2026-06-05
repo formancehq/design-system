@@ -1216,6 +1216,33 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'api-snippet': {
+    component: lazy(() => import('@/registry/default/demos/api-snippet-demo')),
+    sourceFile: 'registry/default/demos/api-snippet-demo.tsx',
+    examples: [
+      {
+        title: 'GET request',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-get')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-get.tsx',
+      },
+      {
+        title: 'Without fctl tab',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-no-fctl')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-no-fctl.tsx',
+      },
+      {
+        title: 'SDK as default tab',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-sdk-default')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-sdk-default.tsx',
+      },
+    ],
+  },
   'chart-of-accounts': {
     component: lazy(
       () => import('@/registry/default/demos/chart-of-accounts-demo')

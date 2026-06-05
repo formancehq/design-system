@@ -1600,6 +1600,44 @@
       ]
     },
     {
+      "name": "stack-operations",
+      "type": "registry:file",
+      "title": "Stack Operations Index",
+      "description": "Build-time extracted OpenAPI operation index for the Formance stack (method, path, SDK module/method per operationId).",
+      "files": [
+        {
+          "path": "registry/default/data/stack-operations.json",
+          "type": "registry:file",
+          "target": "lib/stack-operations.json"
+        }
+      ]
+    },
+    {
+      "name": "api-snippet",
+      "type": "registry:component",
+      "title": "API Snippet",
+      "description": "Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a stack OpenAPI operationId.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/badge-method.json",
+        "https://ds.formance.com/r/code-snippet.json",
+        "https://ds.formance.com/r/tabs.json",
+        "https://ds.formance.com/r/stack-operations.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/fragments/api-snippet.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/api-snippet.tsx"
+        },
+        {
+          "path": "registry/default/fragments/_api-snippet/generators.ts",
+          "type": "registry:component",
+          "target": "components/ui-fragments/_api-snippet/generators.ts"
+        }
+      ]
+    },
+    {
       "name": "key-value-input",
       "type": "registry:component",
       "title": "Key Value Input",
