@@ -1216,6 +1216,29 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'chart-of-accounts': {
+    component: lazy(
+      () => import('@/registry/default/demos/chart-of-accounts-demo')
+    ),
+    sourceFile: 'registry/default/demos/chart-of-accounts-demo.tsx',
+    examples: [
+      {
+        title: 'Collapsed by default',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/chart-of-accounts-collapsed')
+        ),
+        sourceFile: 'registry/default/examples/chart-of-accounts-collapsed.tsx',
+      },
+      {
+        title: 'Minimal',
+        component: lazy(
+          () => import('@/registry/default/examples/chart-of-accounts-small')
+        ),
+        sourceFile: 'registry/default/examples/chart-of-accounts-small.tsx',
+      },
+    ],
+  },
   'app-card': {
     component: lazy(() => import('@/registry/default/demos/app-card-demo')),
     sourceFile: 'registry/default/demos/app-card-demo.tsx',

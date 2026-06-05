@@ -783,6 +783,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/demos/form-patterns-demo.tsx',
     source: 'custom',
   },
+  'fragments/chart-of-accounts': {
+    registryName: 'chart-of-accounts',
+    description:
+      'Foldable tree view of a Formance ledger Chart of Accounts schema.',
+    sourceFile: 'registry/default/fragments/chart-of-accounts.tsx',
+    source: 'custom',
+  },
   'fragments/data-table': {
     registryName: 'data-table',
     description:
@@ -1021,6 +1028,10 @@ export const docsConfig: TDocsConfig = {
           priority: true,
         },
         { title: 'App Card', href: '/docs/fragments/app-card' },
+        {
+          title: 'Chart of Accounts',
+          href: '/docs/fragments/chart-of-accounts',
+        },
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
