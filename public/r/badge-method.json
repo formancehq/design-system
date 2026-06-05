@@ -1,0 +1,17 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "badge-method",
+  "title": "Badge Method",
+  "description": "HTTP method badge (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/badge-method.tsx",
+      "content": "import { cva, type VariantProps } from 'class-variance-authority';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\nconst badgeMethodVariants = cva(\n  'items-center flex whitespace-nowrap w-fit border border-transparent rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 font-mono uppercase tracking-wide',\n  {\n    variants: {\n      method: {\n        GET: 'bg-teal-background text-teal-foreground',\n        POST: 'bg-green-background text-green-foreground',\n        PUT: 'bg-lilac-400 text-lilac-800',\n        PATCH: 'bg-amber-background text-amber-foreground',\n        DELETE: 'bg-red-background text-red-foreground',\n        HEAD: 'bg-violet-background text-violet-foreground',\n        OPTIONS: 'bg-zinc-background text-zinc-foreground',\n      },\n      size: {\n        sm: 'h-5 px-1.5 gap-1 text-[10px]/none',\n        md: 'h-6 px-2.5 gap-2 text-xs/none',\n        lg: 'h-7 px-3 gap-2 text-sm/none',\n      },\n    },\n    defaultVariants: {\n      method: 'GET',\n      size: 'md',\n    },\n  }\n);\n\nexport type TBadgeMethodProps = React.HTMLAttributes<HTMLSpanElement> &\n  VariantProps<typeof badgeMethodVariants>;\n\nfunction BadgeMethod({\n  className,\n  method,\n  size,\n  ...props\n}: TBadgeMethodProps) {\n  return (\n    <span\n      data-slot=\"badge-method\"\n      className={cn(badgeMethodVariants({ method, size }), className)}\n      {...props}\n    >\n      {method}\n    </span>\n  );\n}\n\nexport { BadgeMethod, badgeMethodVariants };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

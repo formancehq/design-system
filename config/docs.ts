@@ -403,6 +403,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/badge-status.tsx',
     source: 'custom',
   },
+  'components/badge-method': {
+    registryName: 'badge-method',
+    description:
+      'HTTP method badge (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).',
+    sourceFile: 'registry/default/ui/badge-method.tsx',
+    source: 'custom',
+  },
   'components/button-group': {
     registryName: 'button-group',
     description: 'A group of buttons with separator.',
@@ -929,6 +936,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Avatar', href: '/docs/components/avatar' },
         { title: 'Badge', href: '/docs/components/badge' },
         { title: 'Badge Eyebrow', href: '/docs/components/badge-eyebrow' },
+        { title: 'Badge Method', href: '/docs/components/badge-method' },
         { title: 'Badge Status', href: '/docs/components/badge-status' },
         { title: 'Breadcrumb', href: '/docs/components/breadcrumb' },
         { title: 'Button', href: '/docs/components/button' },

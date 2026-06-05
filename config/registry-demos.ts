@@ -1040,6 +1040,26 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'badge-method': {
+    component: lazy(() => import('@/registry/default/demos/badge-method-demo')),
+    sourceFile: 'registry/default/demos/badge-method-demo.tsx',
+    examples: [
+      {
+        title: 'API Routes',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-method-list')
+        ),
+        sourceFile: 'registry/default/examples/badge-method-list.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/badge-method-sizes')
+        ),
+        sourceFile: 'registry/default/examples/badge-method-sizes.tsx',
+      },
+    ],
+  },
   'button-group': {
     component: lazy(() => import('@/registry/default/demos/button-group-demo')),
     sourceFile: 'registry/default/demos/button-group-demo.tsx',

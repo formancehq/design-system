@@ -1103,6 +1103,19 @@
       ]
     },
     {
+      "name": "badge-method",
+      "type": "registry:ui",
+      "title": "Badge Method",
+      "description": "HTTP method badge (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "registry/default/ui/badge-method.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
