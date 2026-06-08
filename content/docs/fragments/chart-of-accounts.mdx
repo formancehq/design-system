@@ -1,0 +1,31 @@
+<ComponentPreview name="chart-of-accounts" peekCode />
+
+A foldable tree visualization of a Formance ledger **Chart of Accounts** schema. Renders nested account segments with ASCII connectors (`├─` / `└─`), shows `.self` accounts, regex `.pattern` validators, and `.metadata` defaults as badges. Each branch with children gets a chevron and can be collapsed.
+
+<Section
+  title="Collapsed by default"
+  description="Use defaultOpenDepth to control how deep the tree starts expanded. Children beyond that depth render closed."
+>
+  <ComponentPreview name="chart-of-accounts-collapsed" />
+</Section>
+
+<Section
+  title="Complex"
+  description="A realistic Chart of Accounts for a multi-product platform — banks, custody pools, customer trees, exchanges, and counterparties. Use the toolbar to expand, collapse, and toggle details."
+>
+  <ComponentPreview name="chart-of-accounts-complex" />
+</Section>
+
+<Section
+  title="Minimal"
+  description="Works the same with small trees — useful for product onboarding flows or focused docs snippets."
+>
+  <ComponentPreview name="chart-of-accounts-small" />
+</Section>
+
+<Section
+  title="Hide details"
+  description="Set defaultShowDetails to false to render just the tree structure without pattern, account, or metadata badges."
+>
+  <ComponentPreview name="chart-of-accounts-hide-details" />
+</Section>

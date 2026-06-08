@@ -13,6 +13,7 @@
     "format:fix": "prettier \"**/*.{ts,tsx,md,json}\" --write",
     "typecheck": "tsc --noEmit",
     "registry:build": "shadcn build",
+    "extract:operations": "tsx scripts/extract-stack-operations.ts",
     "pre-commit": "lint-staged && pnpm run typecheck",
     "prepare": "husky"
   },

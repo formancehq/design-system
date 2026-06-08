@@ -403,6 +403,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/badge-status.tsx',
     source: 'custom',
   },
+  'components/endpoint': {
+    registryName: 'endpoint',
+    description:
+      'API endpoint pill combining HTTP method, response status code, and route path.',
+    sourceFile: 'registry/default/ui/endpoint.tsx',
+    source: 'custom',
+  },
   'components/button-group': {
     registryName: 'button-group',
     description: 'A group of buttons with separator.',
@@ -776,6 +783,27 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/demos/form-patterns-demo.tsx',
     source: 'custom',
   },
+  'fragments/api-snippet': {
+    registryName: 'api-snippet',
+    description:
+      'Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a Formance stack OpenAPI operationId.',
+    sourceFile: 'registry/default/fragments/api-snippet.tsx',
+    source: 'custom',
+  },
+  'fragments/chart-of-accounts': {
+    registryName: 'chart-of-accounts',
+    description:
+      'Foldable tree view of a Formance ledger Chart of Accounts schema.',
+    sourceFile: 'registry/default/fragments/chart-of-accounts.tsx',
+    source: 'custom',
+  },
+  'fragments/copy-page': {
+    registryName: 'copy-page',
+    description:
+      'A copy-to-clipboard button with a dropdown to view the page as Markdown or open it in ChatGPT / Claude.',
+    sourceFile: 'registry/default/fragments/copy-page.tsx',
+    source: 'custom',
+  },
   'fragments/data-table': {
     registryName: 'data-table',
     description:
@@ -952,6 +980,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Drawer', href: '/docs/components/drawer' },
         { title: 'Dropdown Menu', href: '/docs/components/dropdown-menu' },
         { title: 'Empty', href: '/docs/components/empty' },
+        { title: 'Endpoint', href: '/docs/components/endpoint' },
         { title: 'Eyebrow', href: '/docs/components/eyebrow' },
         { title: 'Field', href: '/docs/components/field' },
         { title: 'Form', href: '/docs/components/form' },
@@ -1012,8 +1041,14 @@ export const docsConfig: TDocsConfig = {
           href: '/docs/fragments/introduction',
           priority: true,
         },
+        { title: 'API Snippet', href: '/docs/fragments/api-snippet' },
         { title: 'App Card', href: '/docs/fragments/app-card' },
+        {
+          title: 'Chart of Accounts',
+          href: '/docs/fragments/chart-of-accounts',
+        },
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
+        { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
         { title: 'Page Header', href: '/docs/fragments/page-header' },

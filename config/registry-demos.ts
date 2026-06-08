@@ -1040,6 +1040,26 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  endpoint: {
+    component: lazy(() => import('@/registry/default/demos/endpoint-demo')),
+    sourceFile: 'registry/default/demos/endpoint-demo.tsx',
+    examples: [
+      {
+        title: 'API Routes',
+        component: lazy(
+          () => import('@/registry/default/examples/endpoint-list')
+        ),
+        sourceFile: 'registry/default/examples/endpoint-list.tsx',
+      },
+      {
+        title: 'States',
+        component: lazy(
+          () => import('@/registry/default/examples/endpoint-states')
+        ),
+        sourceFile: 'registry/default/examples/endpoint-states.tsx',
+      },
+    ],
+  },
   'button-group': {
     component: lazy(() => import('@/registry/default/demos/button-group-demo')),
     sourceFile: 'registry/default/demos/button-group-demo.tsx',
@@ -1196,6 +1216,72 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'api-snippet': {
+    component: lazy(() => import('@/registry/default/demos/api-snippet-demo')),
+    sourceFile: 'registry/default/demos/api-snippet-demo.tsx',
+    examples: [
+      {
+        title: 'GET request',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-get')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-get.tsx',
+      },
+      {
+        title: 'Without fctl tab',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-no-fctl')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-no-fctl.tsx',
+      },
+      {
+        title: 'SDK as default tab',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-sdk-default')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-sdk-default.tsx',
+      },
+    ],
+  },
+  'chart-of-accounts': {
+    component: lazy(
+      () => import('@/registry/default/demos/chart-of-accounts-demo')
+    ),
+    sourceFile: 'registry/default/demos/chart-of-accounts-demo.tsx',
+    examples: [
+      {
+        title: 'Collapsed by default',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/chart-of-accounts-collapsed')
+        ),
+        sourceFile: 'registry/default/examples/chart-of-accounts-collapsed.tsx',
+      },
+      {
+        title: 'Complex',
+        component: lazy(
+          () => import('@/registry/default/examples/chart-of-accounts-complex')
+        ),
+        sourceFile: 'registry/default/examples/chart-of-accounts-complex.tsx',
+      },
+      {
+        title: 'Minimal',
+        component: lazy(
+          () => import('@/registry/default/examples/chart-of-accounts-small')
+        ),
+        sourceFile: 'registry/default/examples/chart-of-accounts-small.tsx',
+      },
+      {
+        title: 'Hide details',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/chart-of-accounts-hide-details')
+        ),
+        sourceFile:
+          'registry/default/examples/chart-of-accounts-hide-details.tsx',
+      },
+    ],
+  },
   'app-card': {
     component: lazy(() => import('@/registry/default/demos/app-card-demo')),
     sourceFile: 'registry/default/demos/app-card-demo.tsx',
@@ -1220,6 +1306,33 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/app-card-with-data-table')
         ),
         sourceFile: 'registry/default/examples/app-card-with-data-table.tsx',
+      },
+    ],
+  },
+  'copy-page': {
+    component: lazy(() => import('@/registry/default/demos/copy-page-demo')),
+    sourceFile: 'registry/default/demos/copy-page-demo.tsx',
+    examples: [
+      {
+        title: 'Custom label',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-page-custom-label')
+        ),
+        sourceFile: 'registry/default/examples/copy-page-custom-label.tsx',
+      },
+      {
+        title: 'Custom AI prompt',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-page-custom-prompt')
+        ),
+        sourceFile: 'registry/default/examples/copy-page-custom-prompt.tsx',
+      },
+      {
+        title: 'Custom Markdown URL',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-page-custom-markdown')
+        ),
+        sourceFile: 'registry/default/examples/copy-page-custom-markdown.tsx',
       },
     ],
   },

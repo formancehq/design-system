@@ -1,0 +1,26 @@
+<ComponentPreview name="api-snippet" peekCode />
+
+A tabbed API call reference rendered from a Formance stack OpenAPI **operationId**. Provide an operation (`v2CreateLedger`, `v2GetLedger`, …), optional `params`, `body`, and `headers`, and the component generates curl, HTTPie, and TypeScript SDK snippets. Pass `fctl` to add a fourth tab with a hand-authored fctl one-liner.
+
+The operations index ships alongside the fragment as `lib/stack-operations.json` (a separate registry item, `stack-operations`). Re-generate it with `pnpm extract:operations` from the design-system repo when the stack OpenAPI spec changes.
+
+<Section
+  title="GET request"
+  description="Use without a body. The fctl tab appears whenever the fctl prop is set."
+>
+  <ComponentPreview name="api-snippet-get" />
+</Section>
+
+<Section
+  title="Without fctl tab"
+  description="Omit the fctl prop (or set noFctl) to render only curl, HTTPie, and the TypeScript SDK."
+>
+  <ComponentPreview name="api-snippet-no-fctl" />
+</Section>
+
+<Section
+  title="SDK as default tab"
+  description="Set defaultTab='sdk' when the SDK call is the canonical example."
+>
+  <ComponentPreview name="api-snippet-sdk-default" />
+</Section>

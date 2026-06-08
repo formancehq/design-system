@@ -5,6 +5,7 @@ import {
   DEFAULT_REGISTRY,
   fetchRegistryIndex,
 } from '../lib/registry.js';
+import { ensureFragmentDependencies } from '../lib/ensure-fragment-deps.js';
 import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
 
@@ -59,15 +60,20 @@ export const addCommand = new Command('add')
     });
 
     if (exitCode === 0) {
-      const result = await rewriteFragmentImports(
-        options.cwd ?? process.cwd(),
-        base,
-        names
-      );
+      const cwd = options.cwd ?? process.cwd();
+      const result = await rewriteFragmentImports(cwd, base, names);
       if (result.replacements > 0) {
         console.log(
           `✔ Rewrote ${result.replacements} fragment import${result.replacements === 1 ? '' : 's'} across ${result.filesChanged} file${result.filesChanged === 1 ? '' : 's'}`
         );
+      }
+
+      const depsResult = await ensureFragmentDependencies(cwd, base, names);
+      if (depsResult.added.length > 0) {
+        console.log(
+          `✔ Added ${depsResult.added.length} fragment dependenc${depsResult.added.length === 1 ? 'y' : 'ies'} to package.json: ${depsResult.added.join(', ')}`
+        );
+        console.log('  Run your package manager install to fetch them.');
       }
     }
 

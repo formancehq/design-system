@@ -356,7 +356,6 @@
         "@plugin '@tailwindcss/typography'": {},
         "@import 'tw-animate-css'": {},
         "@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap')": {},
-        "@import url('https://ds.formance.com/fonts.css')": {},
         "@layer base": {
           "*": {
             "border-color": "var(--border)",
@@ -1104,6 +1103,18 @@
       ]
     },
     {
+      "name": "endpoint",
+      "type": "registry:ui",
+      "title": "Endpoint",
+      "description": "API endpoint pill combining HTTP method, response status code, and route path.",
+      "files": [
+        {
+          "path": "registry/default/ui/endpoint.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
@@ -1401,6 +1412,24 @@
       ]
     },
     {
+      "name": "chart-of-accounts",
+      "type": "registry:component",
+      "title": "Chart of Accounts",
+      "description": "Foldable tree view of a Formance ledger Chart of Accounts schema.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/badge.json",
+        "https://ds.formance.com/r/collapsible.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/fragments/chart-of-accounts.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/chart-of-accounts.tsx"
+        }
+      ]
+    },
+    {
       "name": "data-table",
       "type": "registry:component",
       "title": "Data Table",
@@ -1566,6 +1595,62 @@
         {
           "path": "registry/default/ui/sortable.tsx",
           "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "stack-operations",
+      "type": "registry:file",
+      "title": "Stack Operations Index",
+      "description": "Build-time extracted OpenAPI operation index for the Formance stack (method, path, SDK module/method per operationId).",
+      "files": [
+        {
+          "path": "registry/default/data/stack-operations.json",
+          "type": "registry:file",
+          "target": "lib/stack-operations.json"
+        }
+      ]
+    },
+    {
+      "name": "api-snippet",
+      "type": "registry:component",
+      "title": "API Snippet",
+      "description": "Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a stack OpenAPI operationId.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/endpoint.json",
+        "https://ds.formance.com/r/code-snippet.json",
+        "https://ds.formance.com/r/tabs.json",
+        "https://ds.formance.com/r/stack-operations.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/fragments/api-snippet.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/api-snippet.tsx"
+        },
+        {
+          "path": "registry/default/fragments/_api-snippet/generators.ts",
+          "type": "registry:component",
+          "target": "components/ui-fragments/_api-snippet/generators.ts"
+        }
+      ]
+    },
+    {
+      "name": "copy-page",
+      "type": "registry:component",
+      "title": "Copy Page",
+      "description": "A copy-to-clipboard button with a dropdown to view the page as Markdown or open it in ChatGPT / Claude.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/dropdown-menu.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/fragments/copy-page.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/copy-page.tsx"
         }
       ]
     },

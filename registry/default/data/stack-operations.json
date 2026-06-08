@@ -1,0 +1,2745 @@
+{
+  "_meta": {
+    "specVersion": "3.2.4",
+    "specFile": "v3.2.4.json",
+    "generatedFrom": "openapi/stack"
+  },
+  "operations": {
+    "CreateTransactions": {
+      "method": "POST",
+      "path": "/api/ledger/{ledger}/transactions/batch",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "createTransactions"
+      },
+      "summary": "Create a new batch of transactions to a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "activateConfig": {
+      "method": "PUT",
+      "path": "/api/webhooks/configs/{id}/activate",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "activateConfig"
+      },
+      "summary": "Activate one config",
+      "tags": ["webhooks.v1"]
+    },
+    "addAccountToPool": {
+      "method": "POST",
+      "path": "/api/payments/pools/{poolId}/accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "addAccountToPool"
+      },
+      "summary": "Add an account to a pool",
+      "tags": ["payments.v1"]
+    },
+    "addMetadataOnTransaction": {
+      "method": "POST",
+      "path": "/api/ledger/{ledger}/transactions/{txid}/metadata",
+      "pathParams": ["ledger", "txid"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "addMetadataOnTransaction"
+      },
+      "summary": "Set the metadata of a transaction by its ID",
+      "tags": ["ledger.v1"]
+    },
+    "addMetadataToAccount": {
+      "method": "POST",
+      "path": "/api/ledger/{ledger}/accounts/{address}/metadata",
+      "pathParams": ["ledger", "address"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "addMetadataToAccount"
+      },
+      "summary": "Add metadata to an account",
+      "tags": ["ledger.v1"]
+    },
+    "cancelEvent": {
+      "method": "PUT",
+      "path": "/api/orchestration/instances/{instanceID}/abort",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "cancelEvent"
+      },
+      "summary": "Cancel a running workflow",
+      "tags": ["orchestration.v1"]
+    },
+    "changeConfigSecret": {
+      "method": "PUT",
+      "path": "/api/webhooks/configs/{id}/secret/change",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "changeConfigSecret"
+      },
+      "summary": "Change the signing secret of a config",
+      "tags": ["webhooks.v1"]
+    },
+    "confirmHold": {
+      "method": "POST",
+      "path": "/api/wallets/holds/{hold_id}/confirm",
+      "pathParams": ["hold_id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "confirmHold"
+      },
+      "summary": "Confirm a hold",
+      "tags": ["wallets.v1"]
+    },
+    "connectorsTransfer": {
+      "method": "POST",
+      "path": "/api/payments/connectors/{connector}/transfers",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "connectorsTransfer"
+      },
+      "summary": "Transfer funds between Connector accounts",
+      "tags": ["payments.v1"]
+    },
+    "countAccounts": {
+      "method": "HEAD",
+      "path": "/api/ledger/{ledger}/accounts",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "countAccounts"
+      },
+      "summary": "Count the accounts from a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "countTransactions": {
+      "method": "HEAD",
+      "path": "/api/ledger/{ledger}/transactions",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "countTransactions"
+      },
+      "summary": "Count the transactions from a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "createAccount": {
+      "method": "POST",
+      "path": "/api/payments/accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "createAccount"
+      },
+      "summary": "Create an account",
+      "tags": ["payments.v1"]
+    },
+    "createBalance": {
+      "method": "POST",
+      "path": "/api/wallets/wallets/{id}/balances",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "createBalance"
+      },
+      "summary": "Create a balance",
+      "tags": ["wallets.v1"]
+    },
+    "createBankAccount": {
+      "method": "POST",
+      "path": "/api/payments/bank-accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "createBankAccount"
+      },
+      "summary": "Create a BankAccount in Payments and on the PSP",
+      "tags": ["payments.v1"]
+    },
+    "createClient": {
+      "method": "POST",
+      "path": "/api/auth/clients",
+      "pathParams": [],
+      "sdk": {
+        "module": "authV1",
+        "method": "createClient"
+      },
+      "summary": "Create client",
+      "tags": ["auth.v1"]
+    },
+    "createPayment": {
+      "method": "POST",
+      "path": "/api/payments/payments",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "createPayment"
+      },
+      "summary": "Create a payment",
+      "tags": ["payments.v1"]
+    },
+    "createPolicy": {
+      "method": "POST",
+      "path": "/api/reconciliation/policies",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "createPolicy"
+      },
+      "summary": "Create a policy",
+      "tags": ["reconciliation.v1"]
+    },
+    "createPool": {
+      "method": "POST",
+      "path": "/api/payments/pools",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "createPool"
+      },
+      "summary": "Create a Pool",
+      "tags": ["payments.v1"]
+    },
+    "createSecret": {
+      "method": "POST",
+      "path": "/api/auth/clients/{clientId}/secrets",
+      "pathParams": ["clientId"],
+      "sdk": {
+        "module": "authV1",
+        "method": "createSecret"
+      },
+      "summary": "Add a secret to a client",
+      "tags": ["auth.v1"]
+    },
+    "createTransaction": {
+      "method": "POST",
+      "path": "/api/ledger/{ledger}/transactions",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "createTransaction"
+      },
+      "summary": "Create a new transaction to a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "createTransferInitiation": {
+      "method": "POST",
+      "path": "/api/payments/transfer-initiations",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "createTransferInitiation"
+      },
+      "summary": "Create a TransferInitiation",
+      "tags": ["payments.v1"]
+    },
+    "createTrigger": {
+      "method": "POST",
+      "path": "/api/orchestration/triggers",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "createTrigger"
+      },
+      "summary": "Create trigger",
+      "tags": ["orchestration.v1"]
+    },
+    "createWallet": {
+      "method": "POST",
+      "path": "/api/wallets/wallets",
+      "pathParams": [],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "createWallet"
+      },
+      "summary": "Create a new wallet",
+      "tags": ["wallets.v1"]
+    },
+    "createWorkflow": {
+      "method": "POST",
+      "path": "/api/orchestration/workflows",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "createWorkflow"
+      },
+      "summary": "Create workflow",
+      "tags": ["orchestration.v1"]
+    },
+    "creditWallet": {
+      "method": "POST",
+      "path": "/api/wallets/wallets/{id}/credit",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "creditWallet"
+      },
+      "summary": "Credit a wallet",
+      "tags": ["wallets.v1"]
+    },
+    "deactivateConfig": {
+      "method": "PUT",
+      "path": "/api/webhooks/configs/{id}/deactivate",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "deactivateConfig"
+      },
+      "summary": "Deactivate one config",
+      "tags": ["webhooks.v1"]
+    },
+    "debitWallet": {
+      "method": "POST",
+      "path": "/api/wallets/wallets/{id}/debit",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "debitWallet"
+      },
+      "summary": "Debit a wallet",
+      "tags": ["wallets.v1"]
+    },
+    "deleteClient": {
+      "method": "DELETE",
+      "path": "/api/auth/clients/{clientId}",
+      "pathParams": ["clientId"],
+      "sdk": {
+        "module": "authV1",
+        "method": "deleteClient"
+      },
+      "summary": "Delete client",
+      "tags": ["auth.v1"]
+    },
+    "deleteConfig": {
+      "method": "DELETE",
+      "path": "/api/webhooks/configs/{id}",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "deleteConfig"
+      },
+      "summary": "Delete one config",
+      "tags": ["webhooks.v1"]
+    },
+    "deletePolicy": {
+      "method": "DELETE",
+      "path": "/api/reconciliation/policies/{policyID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "deletePolicy"
+      },
+      "summary": "Delete a policy",
+      "tags": ["reconciliation.v1"]
+    },
+    "deletePool": {
+      "method": "DELETE",
+      "path": "/api/payments/pools/{poolId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "deletePool"
+      },
+      "summary": "Delete a Pool",
+      "tags": ["payments.v1"]
+    },
+    "deleteSecret": {
+      "method": "DELETE",
+      "path": "/api/auth/clients/{clientId}/secrets/{secretId}",
+      "pathParams": ["clientId", "secretId"],
+      "sdk": {
+        "module": "authV1",
+        "method": "deleteSecret"
+      },
+      "summary": "Delete a secret from a client",
+      "tags": ["auth.v1"]
+    },
+    "deleteTransferInitiation": {
+      "method": "DELETE",
+      "path": "/api/payments/transfer-initiations/{transferId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "deleteTransferInitiation"
+      },
+      "summary": "Delete a transfer initiation",
+      "tags": ["payments.v1"]
+    },
+    "deleteTrigger": {
+      "method": "DELETE",
+      "path": "/api/orchestration/triggers/{triggerID}",
+      "pathParams": ["triggerID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "deleteTrigger"
+      },
+      "summary": "Delete trigger",
+      "tags": ["orchestration.v1"]
+    },
+    "deleteWorkflow": {
+      "method": "DELETE",
+      "path": "/api/orchestration/workflows/{flowId}",
+      "pathParams": ["flowId"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "deleteWorkflow"
+      },
+      "summary": "Delete a flow by id",
+      "tags": ["orchestration.v1"]
+    },
+    "forwardBankAccount": {
+      "method": "POST",
+      "path": "/api/payments/bank-accounts/{bankAccountId}/forward",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "forwardBankAccount"
+      },
+      "summary": "Forward a bank account to a connector",
+      "tags": ["payments.v1"]
+    },
+    "getAccountBalances": {
+      "method": "GET",
+      "path": "/api/payments/accounts/{accountId}/balances",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getAccountBalances"
+      },
+      "summary": "Get account balances",
+      "tags": ["payments.v1"]
+    },
+    "getAccount_ledger": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/accounts/{address}",
+      "pathParams": ["ledger", "address"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "getAccount_ledger"
+      },
+      "summary": "Get account by its address",
+      "tags": ["ledger.v1"]
+    },
+    "getAccount_payments": {
+      "method": "GET",
+      "path": "/api/payments/accounts/{accountId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getAccount_payments"
+      },
+      "summary": "Get an account",
+      "tags": ["payments.v1"]
+    },
+    "getBalance": {
+      "method": "GET",
+      "path": "/api/wallets/wallets/{id}/balances/{balanceName}",
+      "pathParams": ["id", "balanceName"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "getBalance"
+      },
+      "summary": "Get detailed balance",
+      "tags": ["wallets.v1"]
+    },
+    "getBalances": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/balances",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "getBalances"
+      },
+      "summary": "Get the balances from a ledger's account",
+      "tags": ["ledger.v1"]
+    },
+    "getBalancesAggregated": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/aggregate/balances",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "getBalancesAggregated"
+      },
+      "summary": "Get the aggregated balances from selected accounts",
+      "tags": ["ledger.v1"]
+    },
+    "getBankAccount": {
+      "method": "GET",
+      "path": "/api/payments/bank-accounts/{bankAccountId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getBankAccount"
+      },
+      "summary": "Get a bank account created by user on Formance",
+      "tags": ["payments.v1"]
+    },
+    "getConnectorTask": {
+      "method": "GET",
+      "path": "/api/payments/connectors/{connector}/tasks/{taskId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getConnectorTask"
+      },
+      "summary": "Read a specific task of the connector",
+      "tags": ["payments.v1"]
+    },
+    "getConnectorTaskV1": {
+      "method": "GET",
+      "path": "/api/payments/connectors/{connector}/{connectorId}/tasks/{taskId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getConnectorTaskV1"
+      },
+      "summary": "Read a specific task of the connector",
+      "tags": ["payments.v1"]
+    },
+    "getHold": {
+      "method": "GET",
+      "path": "/api/wallets/holds/{holdID}",
+      "pathParams": ["holdID"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "getHold"
+      },
+      "summary": "Get a hold",
+      "tags": ["wallets.v1"]
+    },
+    "getHolds": {
+      "method": "GET",
+      "path": "/api/wallets/holds",
+      "pathParams": [],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "getHolds"
+      },
+      "summary": "Get all holds for a wallet",
+      "tags": ["wallets.v1"]
+    },
+    "getInfo": {
+      "method": "GET",
+      "path": "/api/ledger/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "getInfo"
+      },
+      "summary": "Show server information",
+      "tags": ["ledger.v1"]
+    },
+    "getInstance": {
+      "method": "GET",
+      "path": "/api/orchestration/instances/{instanceID}",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "getInstance"
+      },
+      "summary": "Get a workflow instance by id",
+      "tags": ["orchestration.v1"]
+    },
+    "getInstanceHistory": {
+      "method": "GET",
+      "path": "/api/orchestration/instances/{instanceID}/history",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "getInstanceHistory"
+      },
+      "summary": "Get a workflow instance history by id",
+      "tags": ["orchestration.v1"]
+    },
+    "getInstanceStageHistory": {
+      "method": "GET",
+      "path": "/api/orchestration/instances/{instanceID}/stages/{number}/history",
+      "pathParams": ["instanceID", "number"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "getInstanceStageHistory"
+      },
+      "summary": "Get a workflow instance stage history",
+      "tags": ["orchestration.v1"]
+    },
+    "getLedgerInfo": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/_info",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "getLedgerInfo"
+      },
+      "summary": "Get information about a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "getManyConfigs": {
+      "method": "GET",
+      "path": "/api/webhooks/configs",
+      "pathParams": [],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "getManyConfigs"
+      },
+      "summary": "Get many configs",
+      "tags": ["webhooks.v1"]
+    },
+    "getMapping": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/mapping",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "getMapping"
+      },
+      "summary": "Get the mapping of a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "getMetrics": {
+      "method": "GET",
+      "path": "/api/ledger/_/metrics",
+      "pathParams": [],
+      "sdk": {
+        "module": "ledger",
+        "method": "getMetrics"
+      },
+      "summary": "Read in memory metrics",
+      "tags": ["ledger"]
+    },
+    "getOIDCWellKnowns": {
+      "method": "GET",
+      "path": "/api/auth/.well-known/openid-configuration",
+      "pathParams": [],
+      "sdk": {
+        "module": "authV1",
+        "method": "getOIDCWellKnowns"
+      },
+      "summary": "Retrieve OpenID connect well-knowns.",
+      "tags": ["auth.v1"]
+    },
+    "getPayment": {
+      "method": "GET",
+      "path": "/api/payments/payments/{paymentId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getPayment"
+      },
+      "summary": "Get a payment",
+      "tags": ["payments.v1"]
+    },
+    "getPolicy": {
+      "method": "GET",
+      "path": "/api/reconciliation/policies/{policyID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "getPolicy"
+      },
+      "summary": "Get a policy",
+      "tags": ["reconciliation.v1"]
+    },
+    "getPool": {
+      "method": "GET",
+      "path": "/api/payments/pools/{poolId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getPool"
+      },
+      "summary": "Get a Pool",
+      "tags": ["payments.v1"]
+    },
+    "getPoolBalances": {
+      "method": "GET",
+      "path": "/api/payments/pools/{poolId}/balances",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getPoolBalances"
+      },
+      "summary": "Get historical pool balances at a particular point in time",
+      "tags": ["payments.v1"]
+    },
+    "getPoolBalancesLatest": {
+      "method": "GET",
+      "path": "/api/payments/pools/{poolId}/balances/latest",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getPoolBalancesLatest"
+      },
+      "summary": "Get latest pool balances",
+      "tags": ["payments.v1"]
+    },
+    "getReconciliation": {
+      "method": "GET",
+      "path": "/api/reconciliation/reconciliations/{reconciliationID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "getReconciliation"
+      },
+      "summary": "Get a reconciliation",
+      "tags": ["reconciliation.v1"]
+    },
+    "getServerInfo_auth": {
+      "method": "GET",
+      "path": "/api/auth/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "authV1",
+        "method": "getServerInfo_auth"
+      },
+      "summary": "Get server info",
+      "tags": ["auth.v1"]
+    },
+    "getServerInfo_orchestration": {
+      "method": "GET",
+      "path": "/api/orchestration/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "getServerInfo_orchestration"
+      },
+      "summary": "Get server info",
+      "tags": ["orchestration.v1"]
+    },
+    "getServerInfo_payments": {
+      "method": "GET",
+      "path": "/api/payments/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getServerInfo_payments"
+      },
+      "summary": "Get server info",
+      "tags": ["payments.v1"]
+    },
+    "getServerInfo_reconciliation": {
+      "method": "GET",
+      "path": "/api/reconciliation/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "getServerInfo_reconciliation"
+      },
+      "summary": "Get server info",
+      "tags": ["reconciliation.v1"]
+    },
+    "getServerInfo_search": {
+      "method": "GET",
+      "path": "/api/search/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "searchV1",
+        "method": "getServerInfo_search"
+      },
+      "summary": "Get server info",
+      "tags": ["search.v1"]
+    },
+    "getServerInfo_wallets": {
+      "method": "GET",
+      "path": "/api/wallets/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "getServerInfo_wallets"
+      },
+      "summary": "Get server info",
+      "tags": ["wallets.v1"]
+    },
+    "getTransaction": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/transactions/{txid}",
+      "pathParams": ["ledger", "txid"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "getTransaction"
+      },
+      "summary": "Get transaction from a ledger by its ID",
+      "tags": ["ledger.v1"]
+    },
+    "getTransactions": {
+      "method": "GET",
+      "path": "/api/wallets/transactions",
+      "pathParams": [],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "getTransactions"
+      },
+      "tags": ["wallets.v1"]
+    },
+    "getTransferInitiation": {
+      "method": "GET",
+      "path": "/api/payments/transfer-initiations/{transferId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "getTransferInitiation"
+      },
+      "summary": "Get a transfer initiation",
+      "tags": ["payments.v1"]
+    },
+    "getVersions": {
+      "method": "GET",
+      "path": "/versions",
+      "pathParams": [],
+      "sdk": {
+        "module": "",
+        "method": "getVersions"
+      },
+      "summary": "Show stack version information"
+    },
+    "getWallet": {
+      "method": "GET",
+      "path": "/api/wallets/wallets/{id}",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "getWallet"
+      },
+      "summary": "Get a wallet",
+      "tags": ["wallets.v1"]
+    },
+    "getWalletSummary": {
+      "method": "GET",
+      "path": "/api/wallets/wallets/{id}/summary",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "getWalletSummary"
+      },
+      "summary": "Get wallet summary",
+      "tags": ["wallets.v1"]
+    },
+    "getWorkflow": {
+      "method": "GET",
+      "path": "/api/orchestration/workflows/{flowId}",
+      "pathParams": ["flowId"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "getWorkflow"
+      },
+      "summary": "Get a flow by id",
+      "tags": ["orchestration.v1"]
+    },
+    "insertConfig": {
+      "method": "POST",
+      "path": "/api/webhooks/configs",
+      "pathParams": [],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "insertConfig"
+      },
+      "summary": "Insert a new config",
+      "tags": ["webhooks.v1"]
+    },
+    "installConnector": {
+      "method": "POST",
+      "path": "/api/payments/connectors/{connector}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "installConnector"
+      },
+      "summary": "Install a connector",
+      "tags": ["payments.v1"]
+    },
+    "listAccounts_ledger": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/accounts",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "listAccounts_ledger"
+      },
+      "summary": "List accounts from a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "listAccounts_payments": {
+      "method": "GET",
+      "path": "/api/payments/accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listAccounts_payments"
+      },
+      "summary": "List accounts",
+      "tags": ["payments.v1"]
+    },
+    "listAllConnectors": {
+      "method": "GET",
+      "path": "/api/payments/connectors",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listAllConnectors"
+      },
+      "summary": "List all installed connectors",
+      "tags": ["payments.v1"]
+    },
+    "listBalances": {
+      "method": "GET",
+      "path": "/api/wallets/wallets/{id}/balances",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "listBalances"
+      },
+      "summary": "List balances of a wallet",
+      "tags": ["wallets.v1"]
+    },
+    "listBankAccounts": {
+      "method": "GET",
+      "path": "/api/payments/bank-accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listBankAccounts"
+      },
+      "summary": "List bank accounts created by user on Formance",
+      "tags": ["payments.v1"]
+    },
+    "listClients": {
+      "method": "GET",
+      "path": "/api/auth/clients",
+      "pathParams": [],
+      "sdk": {
+        "module": "authV1",
+        "method": "listClients"
+      },
+      "summary": "List clients",
+      "tags": ["auth.v1"]
+    },
+    "listConfigsAvailableConnectors": {
+      "method": "GET",
+      "path": "/api/payments/connectors/configs",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listConfigsAvailableConnectors"
+      },
+      "summary": "List the configs of each available connector",
+      "tags": ["payments.v1"]
+    },
+    "listConnectorTasks": {
+      "method": "GET",
+      "path": "/api/payments/connectors/{connector}/tasks",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listConnectorTasks"
+      },
+      "summary": "List tasks from a connector",
+      "tags": ["payments.v1"]
+    },
+    "listConnectorTasksV1": {
+      "method": "GET",
+      "path": "/api/payments/connectors/{connector}/{connectorId}/tasks",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listConnectorTasksV1"
+      },
+      "summary": "List tasks from a connector",
+      "tags": ["payments.v1"]
+    },
+    "listInstances": {
+      "method": "GET",
+      "path": "/api/orchestration/instances",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "listInstances"
+      },
+      "summary": "List instances of a workflow",
+      "tags": ["orchestration.v1"]
+    },
+    "listLogs": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/logs",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "listLogs"
+      },
+      "summary": "List the logs from a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "listPayments": {
+      "method": "GET",
+      "path": "/api/payments/payments",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listPayments"
+      },
+      "summary": "List payments",
+      "tags": ["payments.v1"]
+    },
+    "listPolicies": {
+      "method": "GET",
+      "path": "/api/reconciliation/policies",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "listPolicies"
+      },
+      "summary": "List policies",
+      "tags": ["reconciliation.v1"]
+    },
+    "listPools": {
+      "method": "GET",
+      "path": "/api/payments/pools",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listPools"
+      },
+      "summary": "List Pools",
+      "tags": ["payments.v1"]
+    },
+    "listReconciliations": {
+      "method": "GET",
+      "path": "/api/reconciliation/reconciliations",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "listReconciliations"
+      },
+      "summary": "List reconciliations",
+      "tags": ["reconciliation.v1"]
+    },
+    "listTransactions": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/transactions",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "listTransactions"
+      },
+      "summary": "List transactions from a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "listTransferInitiations": {
+      "method": "GET",
+      "path": "/api/payments/transfer-initiations",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "listTransferInitiations"
+      },
+      "summary": "List Transfer Initiations",
+      "tags": ["payments.v1"]
+    },
+    "listTriggers": {
+      "method": "GET",
+      "path": "/api/orchestration/triggers",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "listTriggers"
+      },
+      "summary": "List triggers",
+      "tags": ["orchestration.v1"]
+    },
+    "listTriggersOccurrences": {
+      "method": "GET",
+      "path": "/api/orchestration/triggers/{triggerID}/occurrences",
+      "pathParams": ["triggerID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "listTriggersOccurrences"
+      },
+      "summary": "List triggers occurrences",
+      "tags": ["orchestration.v1"]
+    },
+    "listUsers": {
+      "method": "GET",
+      "path": "/api/auth/users",
+      "pathParams": [],
+      "sdk": {
+        "module": "authV1",
+        "method": "listUsers"
+      },
+      "summary": "List users",
+      "tags": ["auth.v1"]
+    },
+    "listWallets": {
+      "method": "GET",
+      "path": "/api/wallets/wallets",
+      "pathParams": [],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "listWallets"
+      },
+      "summary": "List all wallets",
+      "tags": ["wallets.v1"]
+    },
+    "listWorkflows": {
+      "method": "GET",
+      "path": "/api/orchestration/workflows",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "listWorkflows"
+      },
+      "summary": "List registered workflows",
+      "tags": ["orchestration.v1"]
+    },
+    "readClient": {
+      "method": "GET",
+      "path": "/api/auth/clients/{clientId}",
+      "pathParams": ["clientId"],
+      "sdk": {
+        "module": "authV1",
+        "method": "readClient"
+      },
+      "summary": "Read client",
+      "tags": ["auth.v1"]
+    },
+    "readConnectorConfig": {
+      "method": "GET",
+      "path": "/api/payments/connectors/{connector}/config",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "readConnectorConfig"
+      },
+      "summary": "Read the config of a connector",
+      "tags": ["payments.v1"]
+    },
+    "readConnectorConfigV1": {
+      "method": "GET",
+      "path": "/api/payments/connectors/{connector}/{connectorId}/config",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "readConnectorConfigV1"
+      },
+      "summary": "Read the config of a connector",
+      "tags": ["payments.v1"]
+    },
+    "readStats": {
+      "method": "GET",
+      "path": "/api/ledger/{ledger}/stats",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "readStats"
+      },
+      "summary": "Get statistics from a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "readTrigger": {
+      "method": "GET",
+      "path": "/api/orchestration/triggers/{triggerID}",
+      "pathParams": ["triggerID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "readTrigger"
+      },
+      "summary": "Read trigger",
+      "tags": ["orchestration.v1"]
+    },
+    "readUser": {
+      "method": "GET",
+      "path": "/api/auth/users/{userId}",
+      "pathParams": ["userId"],
+      "sdk": {
+        "module": "authV1",
+        "method": "readUser"
+      },
+      "summary": "Read user",
+      "tags": ["auth.v1"]
+    },
+    "reconcile": {
+      "method": "POST",
+      "path": "/api/reconciliation/policies/{policyID}/reconciliation",
+      "pathParams": [],
+      "sdk": {
+        "module": "reconciliationV1",
+        "method": "reconcile"
+      },
+      "summary": "Reconcile using a policy",
+      "tags": ["reconciliation.v1"]
+    },
+    "removeAccountFromPool": {
+      "method": "DELETE",
+      "path": "/api/payments/pools/{poolId}/accounts/{accountId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "removeAccountFromPool"
+      },
+      "summary": "Remove an account from a pool",
+      "tags": ["payments.v1"]
+    },
+    "resetConnector": {
+      "method": "POST",
+      "path": "/api/payments/connectors/{connector}/reset",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "resetConnector"
+      },
+      "summary": "Reset a connector",
+      "tags": ["payments.v1"]
+    },
+    "resetConnectorV1": {
+      "method": "POST",
+      "path": "/api/payments/connectors/{connector}/{connectorId}/reset",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "resetConnectorV1"
+      },
+      "summary": "Reset a connector",
+      "tags": ["payments.v1"]
+    },
+    "retryTransferInitiation": {
+      "method": "POST",
+      "path": "/api/payments/transfer-initiations/{transferId}/retry",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "retryTransferInitiation"
+      },
+      "summary": "Retry a failed transfer initiation",
+      "tags": ["payments.v1"]
+    },
+    "reverseTransferInitiation": {
+      "method": "POST",
+      "path": "/api/payments/transfer-initiations/{transferId}/reverse",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "reverseTransferInitiation"
+      },
+      "summary": "Reverse a transfer initiation",
+      "tags": ["payments.v1"]
+    },
+    "revertTransaction": {
+      "method": "POST",
+      "path": "/api/ledger/{ledger}/transactions/{txid}/revert",
+      "pathParams": ["ledger", "txid"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "revertTransaction"
+      },
+      "summary": "Revert a ledger transaction by its ID",
+      "tags": ["ledger.v1"]
+    },
+    "runScript": {
+      "method": "POST",
+      "path": "/api/ledger/{ledger}/script",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "runScript"
+      },
+      "summary": "Execute a Numscript",
+      "tags": ["ledger.v1"]
+    },
+    "runWorkflow": {
+      "method": "POST",
+      "path": "/api/orchestration/workflows/{workflowID}/instances",
+      "pathParams": ["workflowID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "runWorkflow"
+      },
+      "summary": "Run workflow",
+      "tags": ["orchestration.v1"]
+    },
+    "search": {
+      "method": "POST",
+      "path": "/api/search/",
+      "pathParams": [],
+      "sdk": {
+        "module": "searchV1",
+        "method": "search"
+      },
+      "summary": "search.v1",
+      "tags": ["search.v1"]
+    },
+    "sendEvent": {
+      "method": "POST",
+      "path": "/api/orchestration/instances/{instanceID}/events",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV1",
+        "method": "sendEvent"
+      },
+      "summary": "Send an event to a running workflow",
+      "tags": ["orchestration.v1"]
+    },
+    "testConfig": {
+      "method": "GET",
+      "path": "/api/webhooks/configs/{id}/test",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "testConfig"
+      },
+      "summary": "Test one config",
+      "tags": ["webhooks.v1"]
+    },
+    "testTrigger": {
+      "method": "POST",
+      "path": "/api/orchestration/v2/triggers/{triggerID}/test",
+      "pathParams": ["triggerID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "testTrigger"
+      },
+      "summary": "Test trigger",
+      "tags": ["orchestration.v2"]
+    },
+    "uninstallConnector": {
+      "method": "DELETE",
+      "path": "/api/payments/connectors/{connector}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "uninstallConnector"
+      },
+      "summary": "Uninstall a connector",
+      "tags": ["payments.v1"]
+    },
+    "uninstallConnectorV1": {
+      "method": "DELETE",
+      "path": "/api/payments/connectors/{connector}/{connectorId}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "uninstallConnectorV1"
+      },
+      "summary": "Uninstall a connector",
+      "tags": ["payments.v1"]
+    },
+    "updateBankAccountMetadata": {
+      "method": "PATCH",
+      "path": "/api/payments/bank-accounts/{bankAccountId}/metadata",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "updateBankAccountMetadata"
+      },
+      "summary": "Update metadata of a bank account",
+      "tags": ["payments.v1"]
+    },
+    "updateClient": {
+      "method": "PUT",
+      "path": "/api/auth/clients/{clientId}",
+      "pathParams": ["clientId"],
+      "sdk": {
+        "module": "authV1",
+        "method": "updateClient"
+      },
+      "summary": "Update client",
+      "tags": ["auth.v1"]
+    },
+    "updateConfig": {
+      "method": "PUT",
+      "path": "/api/webhooks/configs/{id}",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "webhooksV1",
+        "method": "updateConfig"
+      },
+      "summary": "Update one config",
+      "tags": ["webhooks.v1"]
+    },
+    "updateConnectorConfigV1": {
+      "method": "POST",
+      "path": "/api/payments/connectors/{connector}/{connectorId}/config",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "updateConnectorConfigV1"
+      },
+      "summary": "Update the config of a connector",
+      "tags": ["payments.v1"]
+    },
+    "updateMapping": {
+      "method": "PUT",
+      "path": "/api/ledger/{ledger}/mapping",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV1",
+        "method": "updateMapping"
+      },
+      "summary": "Update the mapping of a ledger",
+      "tags": ["ledger.v1"]
+    },
+    "updateMetadata": {
+      "method": "PATCH",
+      "path": "/api/payments/payments/{paymentId}/metadata",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "updateMetadata"
+      },
+      "summary": "Update metadata",
+      "tags": ["payments.v1"]
+    },
+    "updatePoolQuery": {
+      "method": "PATCH",
+      "path": "/api/payments/pools/{poolId}/query",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "updatePoolQuery"
+      },
+      "summary": "Update the query of a pool",
+      "tags": ["payments.v1"]
+    },
+    "updateTransferInitiationStatus": {
+      "method": "POST",
+      "path": "/api/payments/transfer-initiations/{transferId}/status",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV1",
+        "method": "updateTransferInitiationStatus"
+      },
+      "summary": "Update the status of a transfer initiation",
+      "tags": ["payments.v1"]
+    },
+    "updateWallet": {
+      "method": "PATCH",
+      "path": "/api/wallets/wallets/{id}",
+      "pathParams": ["id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "updateWallet"
+      },
+      "summary": "Update a wallet",
+      "tags": ["wallets.v1"]
+    },
+    "v2AddMetadataOnTransaction": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/transactions/{id}/metadata",
+      "pathParams": ["ledger", "id"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "addMetadataOnTransaction"
+      },
+      "summary": "Set the metadata of a transaction by its ID",
+      "tags": ["ledger.v2"]
+    },
+    "v2AddMetadataToAccount": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/accounts/{address}/metadata",
+      "pathParams": ["ledger", "address"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "addMetadataToAccount"
+      },
+      "summary": "Add metadata to an account",
+      "tags": ["ledger.v2"]
+    },
+    "v2CancelEvent": {
+      "method": "PUT",
+      "path": "/api/orchestration/v2/instances/{instanceID}/abort",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "cancelEvent"
+      },
+      "summary": "Cancel a running workflow",
+      "tags": ["orchestration.v2"]
+    },
+    "v2CountAccounts": {
+      "method": "HEAD",
+      "path": "/api/ledger/v2/{ledger}/accounts",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "countAccounts"
+      },
+      "summary": "Count the accounts from a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2CountTransactions": {
+      "method": "HEAD",
+      "path": "/api/ledger/v2/{ledger}/transactions",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "countTransactions"
+      },
+      "summary": "Count the transactions from a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2CreateBulk": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/_bulk",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "createBulk"
+      },
+      "summary": "Bulk request",
+      "tags": ["ledger.v2"]
+    },
+    "v2CreateExporter": {
+      "method": "POST",
+      "path": "/api/ledger/v2/_/exporters",
+      "pathParams": [],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "createExporter"
+      },
+      "summary": "Create exporter",
+      "tags": ["ledger.v2"]
+    },
+    "v2CreateLedger": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "createLedger"
+      },
+      "summary": "Create a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2CreatePipeline": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/pipelines",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "createPipeline"
+      },
+      "summary": "Create pipeline",
+      "tags": ["ledger.v2"]
+    },
+    "v2CreateTransaction": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/transactions",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "createTransaction"
+      },
+      "summary": "Create a new transaction to a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2CreateTrigger": {
+      "method": "POST",
+      "path": "/api/orchestration/v2/triggers",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "createTrigger"
+      },
+      "summary": "Create trigger",
+      "tags": ["orchestration.v2"]
+    },
+    "v2CreateWorkflow": {
+      "method": "POST",
+      "path": "/api/orchestration/v2/workflows",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "createWorkflow"
+      },
+      "summary": "Create workflow",
+      "tags": ["orchestration.v2"]
+    },
+    "v2DeleteAccountMetadata": {
+      "method": "DELETE",
+      "path": "/api/ledger/v2/{ledger}/accounts/{address}/metadata/{key}",
+      "pathParams": ["ledger", "address", "key"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "deleteAccountMetadata"
+      },
+      "summary": "Delete metadata by key",
+      "tags": ["ledger.v2"]
+    },
+    "v2DeleteBucket": {
+      "method": "DELETE",
+      "path": "/api/ledger/v2/_/buckets/{bucket}",
+      "pathParams": ["bucket"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "deleteBucket"
+      },
+      "summary": "Delete bucket",
+      "tags": ["ledger.v2"]
+    },
+    "v2DeleteExporter": {
+      "method": "DELETE",
+      "path": "/api/ledger/v2/_/exporters/{exporterID}",
+      "pathParams": ["exporterID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "deleteExporter"
+      },
+      "summary": "Delete exporter",
+      "tags": ["ledger.v2"]
+    },
+    "v2DeleteLedgerMetadata": {
+      "method": "DELETE",
+      "path": "/api/ledger/v2/{ledger}/metadata/{key}",
+      "pathParams": ["ledger", "key"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "deleteLedgerMetadata"
+      },
+      "summary": "Delete ledger metadata by key",
+      "tags": ["ledger.v2"]
+    },
+    "v2DeletePipeline": {
+      "method": "DELETE",
+      "path": "/api/ledger/v2/{ledger}/pipelines/{pipelineID}",
+      "pathParams": ["ledger", "pipelineID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "deletePipeline"
+      },
+      "summary": "Delete pipeline",
+      "tags": ["ledger.v2"]
+    },
+    "v2DeleteTransactionMetadata": {
+      "method": "DELETE",
+      "path": "/api/ledger/v2/{ledger}/transactions/{id}/metadata/{key}",
+      "pathParams": ["ledger", "id", "key"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "deleteTransactionMetadata"
+      },
+      "summary": "Delete metadata by key",
+      "tags": ["ledger.v2"]
+    },
+    "v2DeleteTrigger": {
+      "method": "DELETE",
+      "path": "/api/orchestration/v2/triggers/{triggerID}",
+      "pathParams": ["triggerID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "deleteTrigger"
+      },
+      "summary": "Delete trigger",
+      "tags": ["orchestration.v2"]
+    },
+    "v2DeleteWorkflow": {
+      "method": "DELETE",
+      "path": "/api/orchestration/v2/workflows/{flowId}",
+      "pathParams": ["flowId"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "deleteWorkflow"
+      },
+      "summary": "Delete a flow by id",
+      "tags": ["orchestration.v2"]
+    },
+    "v2ExportLogs": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/logs/export",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "exportLogs"
+      },
+      "summary": "Export logs",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetAccount": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/accounts/{address}",
+      "pathParams": ["ledger", "address"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getAccount"
+      },
+      "summary": "Get account by its address",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetBalancesAggregated": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/aggregate/balances",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getBalancesAggregated"
+      },
+      "summary": "Get the aggregated balances from selected accounts",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetExporterState": {
+      "method": "GET",
+      "path": "/api/ledger/v2/_/exporters/{exporterID}",
+      "pathParams": ["exporterID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getExporterState"
+      },
+      "summary": "Get exporter state",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetInfo": {
+      "method": "GET",
+      "path": "/api/ledger/_/info",
+      "pathParams": [],
+      "sdk": {
+        "module": "ledger",
+        "method": "getInfo"
+      },
+      "summary": "Show server information",
+      "tags": ["ledger"]
+    },
+    "v2GetInstance": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/instances/{instanceID}",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "getInstance"
+      },
+      "summary": "Get a workflow instance by id",
+      "tags": ["orchestration.v2"]
+    },
+    "v2GetInstanceHistory": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/instances/{instanceID}/history",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "getInstanceHistory"
+      },
+      "summary": "Get a workflow instance history by id",
+      "tags": ["orchestration.v2"]
+    },
+    "v2GetInstanceStageHistory": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/instances/{instanceID}/stages/{number}/history",
+      "pathParams": ["instanceID", "number"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "getInstanceStageHistory"
+      },
+      "summary": "Get a workflow instance stage history",
+      "tags": ["orchestration.v2"]
+    },
+    "v2GetLedger": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getLedger"
+      },
+      "summary": "Get a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetLedgerInfo": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/_info",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getLedgerInfo"
+      },
+      "summary": "Get information about a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetPipelineState": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/pipelines/{pipelineID}",
+      "pathParams": ["ledger", "pipelineID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getPipelineState"
+      },
+      "summary": "Get pipeline state",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetSchema": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/schemas/{version}",
+      "pathParams": ["ledger", "version"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getSchema"
+      },
+      "summary": "Get a schema for a ledger by version",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetServerInfo": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/_info",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "getServerInfo"
+      },
+      "summary": "Get server info",
+      "tags": ["orchestration.v2"]
+    },
+    "v2GetTransaction": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/transactions/{id}",
+      "pathParams": ["ledger", "id"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getTransaction"
+      },
+      "summary": "Get transaction from a ledger by its ID",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetVolumesWithBalances": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/volumes",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "getVolumesWithBalances"
+      },
+      "summary": "Get list of volumes with balances for (account/asset)",
+      "tags": ["ledger.v2"]
+    },
+    "v2GetWorkflow": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/workflows/{flowId}",
+      "pathParams": ["flowId"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "getWorkflow"
+      },
+      "summary": "Get a flow by id",
+      "tags": ["orchestration.v2"]
+    },
+    "v2ImportLogs": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/logs/import",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "importLogs"
+      },
+      "tags": ["ledger.v2"]
+    },
+    "v2InsertSchema": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/schemas/{version}",
+      "pathParams": ["ledger", "version"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "insertSchema"
+      },
+      "summary": "Insert a schema for a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListAccounts": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/accounts",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "listAccounts"
+      },
+      "summary": "List accounts from a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListExporters": {
+      "method": "GET",
+      "path": "/api/ledger/v2/_/exporters",
+      "pathParams": [],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "listExporters"
+      },
+      "summary": "List exporters",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListInstances": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/instances",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "listInstances"
+      },
+      "summary": "List instances of a workflow",
+      "tags": ["orchestration.v2"]
+    },
+    "v2ListLedgers": {
+      "method": "GET",
+      "path": "/api/ledger/v2",
+      "pathParams": [],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "listLedgers"
+      },
+      "summary": "List ledgers",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListLogs": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/logs",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "listLogs"
+      },
+      "summary": "List the logs from a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListPipelines": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/pipelines",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "listPipelines"
+      },
+      "summary": "List pipelines",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListSchemas": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/schemas",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "listSchemas"
+      },
+      "summary": "List all schemas for a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListTransactions": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/transactions",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "listTransactions"
+      },
+      "summary": "List transactions from a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2ListTriggers": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/triggers",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "listTriggers"
+      },
+      "summary": "List triggers",
+      "tags": ["orchestration.v2"]
+    },
+    "v2ListTriggersOccurrences": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/triggers/{triggerID}/occurrences",
+      "pathParams": ["triggerID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "listTriggersOccurrences"
+      },
+      "summary": "List triggers occurrences",
+      "tags": ["orchestration.v2"]
+    },
+    "v2ListWorkflows": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/workflows",
+      "pathParams": [],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "listWorkflows"
+      },
+      "summary": "List registered workflows",
+      "tags": ["orchestration.v2"]
+    },
+    "v2ReadStats": {
+      "method": "GET",
+      "path": "/api/ledger/v2/{ledger}/stats",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "readStats"
+      },
+      "summary": "Get statistics from a ledger",
+      "tags": ["ledger.v2"]
+    },
+    "v2ReadTrigger": {
+      "method": "GET",
+      "path": "/api/orchestration/v2/triggers/{triggerID}",
+      "pathParams": ["triggerID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "readTrigger"
+      },
+      "summary": "Read trigger",
+      "tags": ["orchestration.v2"]
+    },
+    "v2ResetPipeline": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/pipelines/{pipelineID}/reset",
+      "pathParams": ["ledger", "pipelineID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "resetPipeline"
+      },
+      "summary": "Reset pipeline",
+      "tags": ["ledger.v2"]
+    },
+    "v2RestoreBucket": {
+      "method": "POST",
+      "path": "/api/ledger/v2/_/buckets/{bucket}/restore",
+      "pathParams": ["bucket"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "restoreBucket"
+      },
+      "summary": "Restore bucket",
+      "tags": ["ledger.v2"]
+    },
+    "v2RevertTransaction": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/transactions/{id}/revert",
+      "pathParams": ["ledger", "id"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "revertTransaction"
+      },
+      "summary": "Revert a ledger transaction by its ID",
+      "tags": ["ledger.v2"]
+    },
+    "v2RunQuery": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/queries/{id}/run",
+      "pathParams": ["ledger", "id"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "runQuery"
+      },
+      "summary": "Run a query template",
+      "tags": ["ledger.v2"]
+    },
+    "v2RunWorkflow": {
+      "method": "POST",
+      "path": "/api/orchestration/v2/workflows/{workflowID}/instances",
+      "pathParams": ["workflowID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "runWorkflow"
+      },
+      "summary": "Run workflow",
+      "tags": ["orchestration.v2"]
+    },
+    "v2SendEvent": {
+      "method": "POST",
+      "path": "/api/orchestration/v2/instances/{instanceID}/events",
+      "pathParams": ["instanceID"],
+      "sdk": {
+        "module": "orchestrationV2",
+        "method": "sendEvent"
+      },
+      "summary": "Send an event to a running workflow",
+      "tags": ["orchestration.v2"]
+    },
+    "v2StartPipeline": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/pipelines/{pipelineID}/start",
+      "pathParams": ["ledger", "pipelineID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "startPipeline"
+      },
+      "summary": "Start pipeline",
+      "tags": ["ledger.v2"]
+    },
+    "v2StopPipeline": {
+      "method": "POST",
+      "path": "/api/ledger/v2/{ledger}/pipelines/{pipelineID}/stop",
+      "pathParams": ["ledger", "pipelineID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "stopPipeline"
+      },
+      "summary": "Stop pipeline",
+      "tags": ["ledger.v2"]
+    },
+    "v2UpdateExporter": {
+      "method": "PUT",
+      "path": "/api/ledger/v2/_/exporters/{exporterID}",
+      "pathParams": ["exporterID"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "updateExporter"
+      },
+      "summary": "Update exporter",
+      "tags": ["ledger.v2"]
+    },
+    "v2UpdateLedgerMetadata": {
+      "method": "PUT",
+      "path": "/api/ledger/v2/{ledger}/metadata",
+      "pathParams": ["ledger"],
+      "sdk": {
+        "module": "ledgerV2",
+        "method": "updateLedgerMetadata"
+      },
+      "summary": "Update ledger metadata",
+      "tags": ["ledger.v2"]
+    },
+    "v3AddAccountToPool": {
+      "method": "POST",
+      "path": "/api/payments/v3/pools/{poolID}/accounts/{accountID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "addAccountToPool"
+      },
+      "summary": "Add an account to a pool",
+      "tags": ["payments.v3"]
+    },
+    "v3AddBankAccountToPaymentServiceUser": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/bank-accounts/{bankAccountID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "addBankAccountToPaymentServiceUser"
+      },
+      "summary": "Add a bank account to a payment service user",
+      "tags": ["payments.v3"]
+    },
+    "v3ApprovePaymentInitiation": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}/approve",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "approvePaymentInitiation"
+      },
+      "summary": "Approve a payment initiation",
+      "tags": ["payments.v3"]
+    },
+    "v3CreateAccount": {
+      "method": "POST",
+      "path": "/api/payments/v3/accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "createAccount"
+      },
+      "summary": "Create a formance account object. This object will not be forwarded to the connector. It is only used for internal purposes.\n",
+      "tags": ["payments.v3"]
+    },
+    "v3CreateBankAccount": {
+      "method": "POST",
+      "path": "/api/payments/v3/bank-accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "createBankAccount"
+      },
+      "summary": "Create a formance bank account object. This object will not be forwarded to the connector until you called the forwardBankAccount method.\n",
+      "tags": ["payments.v3"]
+    },
+    "v3CreateLinkForPaymentServiceUser": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}/create-link",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "createLinkForPaymentServiceUser"
+      },
+      "summary": "Create an authentication link for a payment service user on a connector, for oauth flow",
+      "tags": ["payments.v3"]
+    },
+    "v3CreatePayment": {
+      "method": "POST",
+      "path": "/api/payments/v3/payments",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "createPayment"
+      },
+      "summary": "Create a formance payment object. This object will not be forwarded to the connector. It is only used for internal purposes.\n",
+      "tags": ["payments.v3"]
+    },
+    "v3CreatePaymentServiceUser": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-service-users",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "createPaymentServiceUser"
+      },
+      "summary": "Create a formance payment service user object",
+      "tags": ["payments.v3"]
+    },
+    "v3CreatePool": {
+      "method": "POST",
+      "path": "/api/payments/v3/pools",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "createPool"
+      },
+      "summary": "Create a formance pool object",
+      "tags": ["payments.v3"]
+    },
+    "v3DeletePaymentInitiation": {
+      "method": "DELETE",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "deletePaymentInitiation"
+      },
+      "summary": "Delete a payment initiation by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3DeletePaymentServiceUser": {
+      "method": "DELETE",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "deletePaymentServiceUser"
+      },
+      "summary": "Delete a payment service user by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3DeletePaymentServiceUserConnectionFromConnectorID": {
+      "method": "DELETE",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}/connections/{connectionID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "deletePaymentServiceUserConnectionFromConnectorID"
+      },
+      "summary": "Delete a connection for a payment service user on a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3DeletePaymentServiceUserConnector": {
+      "method": "DELETE",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "deletePaymentServiceUserConnector"
+      },
+      "summary": "Remove a payment service user from a connector, the PSU will still exist in Formance",
+      "tags": ["payments.v3"]
+    },
+    "v3DeletePool": {
+      "method": "DELETE",
+      "path": "/api/payments/v3/pools/{poolID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "deletePool"
+      },
+      "summary": "Delete a pool by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3ForwardBankAccount": {
+      "method": "POST",
+      "path": "/api/payments/v3/bank-accounts/{bankAccountID}/forward",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "forwardBankAccount"
+      },
+      "summary": "Forward a Bank Account to a PSP for creation",
+      "tags": ["payments.v3"]
+    },
+    "v3ForwardPaymentServiceUserBankAccount": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/bank-accounts/{bankAccountID}/forward",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "forwardPaymentServiceUserBankAccount"
+      },
+      "summary": "Forward a payment service user's bank account to a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3ForwardPaymentServiceUserToProvider": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}/forward",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "forwardPaymentServiceUserToProvider"
+      },
+      "summary": "Register/forward a payment service user on/to a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3GetAccount": {
+      "method": "GET",
+      "path": "/api/payments/v3/accounts/{accountID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getAccount"
+      },
+      "summary": "Get an account by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetAccountBalances": {
+      "method": "GET",
+      "path": "/api/payments/v3/accounts/{accountID}/balances",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getAccountBalances"
+      },
+      "summary": "Get account balances",
+      "tags": ["payments.v3"]
+    },
+    "v3GetBankAccount": {
+      "method": "GET",
+      "path": "/api/payments/v3/bank-accounts/{bankAccountID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getBankAccount"
+      },
+      "summary": "Get a Bank Account by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetConnectorConfig": {
+      "method": "GET",
+      "path": "/api/payments/v3/connectors/{connectorID}/config",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getConnectorConfig"
+      },
+      "summary": "Get a connector configuration by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetConnectorSchedule": {
+      "method": "GET",
+      "path": "/api/payments/v3/connectors/{connectorID}/schedules/{scheduleID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getConnectorSchedule"
+      },
+      "summary": "Get a connector schedule by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetPayment": {
+      "method": "GET",
+      "path": "/api/payments/v3/payments/{paymentID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getPayment"
+      },
+      "summary": "Get a payment by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetPaymentInitiation": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getPaymentInitiation"
+      },
+      "summary": "Get a payment initiation by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetPaymentServiceUser": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getPaymentServiceUser"
+      },
+      "summary": "Get a payment service user by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetPaymentServiceUserLinkAttemptFromConnectorID": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}/link-attempts/{attemptID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getPaymentServiceUserLinkAttemptFromConnectorID"
+      },
+      "summary": "Get a link attempt for a payment service user on a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3GetPool": {
+      "method": "GET",
+      "path": "/api/payments/v3/pools/{poolID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getPool"
+      },
+      "summary": "Get a pool by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3GetPoolBalances": {
+      "method": "GET",
+      "path": "/api/payments/v3/pools/{poolID}/balances",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getPoolBalances"
+      },
+      "summary": "Get historical pool balances from a particular point in time",
+      "tags": ["payments.v3"]
+    },
+    "v3GetPoolBalancesLatest": {
+      "method": "GET",
+      "path": "/api/payments/v3/pools/{poolID}/balances/latest",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getPoolBalancesLatest"
+      },
+      "summary": "Get latest pool balances",
+      "tags": ["payments.v3"]
+    },
+    "v3GetTask": {
+      "method": "GET",
+      "path": "/api/payments/v3/tasks/{taskID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "getTask"
+      },
+      "summary": "Get a task and its result by ID",
+      "tags": ["payments.v3"]
+    },
+    "v3InitiatePayment": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-initiations",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "initiatePayment"
+      },
+      "summary": "Initiate a payment",
+      "tags": ["payments.v3"]
+    },
+    "v3InstallConnector": {
+      "method": "POST",
+      "path": "/api/payments/v3/connectors/install/{connector}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "installConnector"
+      },
+      "summary": "Install a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3ListAccounts": {
+      "method": "GET",
+      "path": "/api/payments/v3/accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listAccounts"
+      },
+      "summary": "List all accounts",
+      "tags": ["payments.v3"]
+    },
+    "v3ListBankAccounts": {
+      "method": "GET",
+      "path": "/api/payments/v3/bank-accounts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listBankAccounts"
+      },
+      "summary": "List all bank accounts",
+      "tags": ["payments.v3"]
+    },
+    "v3ListConnectorConfigs": {
+      "method": "GET",
+      "path": "/api/payments/v3/connectors/configs",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listConnectorConfigs"
+      },
+      "summary": "List all connector configurations",
+      "tags": ["payments.v3"]
+    },
+    "v3ListConnectorScheduleInstances": {
+      "method": "GET",
+      "path": "/api/payments/v3/connectors/{connectorID}/schedules/{scheduleID}/instances",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listConnectorScheduleInstances"
+      },
+      "summary": "List all connector schedule instances",
+      "tags": ["payments.v3"]
+    },
+    "v3ListConnectorSchedules": {
+      "method": "GET",
+      "path": "/api/payments/v3/connectors/{connectorID}/schedules",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listConnectorSchedules"
+      },
+      "summary": "List all connector schedules",
+      "tags": ["payments.v3"]
+    },
+    "v3ListConnectors": {
+      "method": "GET",
+      "path": "/api/payments/v3/connectors",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listConnectors"
+      },
+      "summary": "List all connectors",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPaymentInitiationAdjustments": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}/adjustments",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPaymentInitiationAdjustments"
+      },
+      "summary": "List all payment initiation adjustments",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPaymentInitiationRelatedPayments": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}/payments",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPaymentInitiationRelatedPayments"
+      },
+      "summary": "List all payments related to a payment initiation",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPaymentInitiations": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-initiations",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPaymentInitiations"
+      },
+      "summary": "List all payment initiations",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPaymentServiceUserConnections": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connections",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPaymentServiceUserConnections"
+      },
+      "summary": "List all connections for a payment service user",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPaymentServiceUserConnectionsFromConnectorID": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}/connections",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPaymentServiceUserConnectionsFromConnectorID"
+      },
+      "summary": "List enabled connections for a payment service user on a connector (i.e. the various banks PSUser has enabled on the connector)",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPaymentServiceUserLinkAttemptsFromConnectorID": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}/link-attempts",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPaymentServiceUserLinkAttemptsFromConnectorID"
+      },
+      "summary": "List all link attempts for a payment service user on a connector.\nAllows to check if users used the link and completed the oauth flow.\n",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPaymentServiceUsers": {
+      "method": "GET",
+      "path": "/api/payments/v3/payment-service-users",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPaymentServiceUsers"
+      },
+      "summary": "List all payment service users",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPayments": {
+      "method": "GET",
+      "path": "/api/payments/v3/payments",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPayments"
+      },
+      "summary": "List all payments",
+      "tags": ["payments.v3"]
+    },
+    "v3ListPools": {
+      "method": "GET",
+      "path": "/api/payments/v3/pools",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "listPools"
+      },
+      "summary": "List all pools",
+      "tags": ["payments.v3"]
+    },
+    "v3RejectPaymentInitiation": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}/reject",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "rejectPaymentInitiation"
+      },
+      "summary": "Reject a payment initiation",
+      "tags": ["payments.v3"]
+    },
+    "v3RemoveAccountFromPool": {
+      "method": "DELETE",
+      "path": "/api/payments/v3/pools/{poolID}/accounts/{accountID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "removeAccountFromPool"
+      },
+      "summary": "Remove an account from a pool",
+      "tags": ["payments.v3"]
+    },
+    "v3ResetConnector": {
+      "method": "POST",
+      "path": "/api/payments/v3/connectors/{connectorID}/reset",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "resetConnector"
+      },
+      "summary": "Reset a connector. Be aware that this will delete all data and stop all existing tasks like payment initiations and bank account creations.",
+      "tags": ["payments.v3"]
+    },
+    "v3RetryPaymentInitiation": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}/retry",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "retryPaymentInitiation"
+      },
+      "summary": "Retry a payment initiation",
+      "tags": ["payments.v3"]
+    },
+    "v3ReversePaymentInitiation": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-initiations/{paymentInitiationID}/reverse",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "reversePaymentInitiation"
+      },
+      "summary": "Reverse a payment initiation",
+      "tags": ["payments.v3"]
+    },
+    "v3UninstallConnector": {
+      "method": "DELETE",
+      "path": "/api/payments/v3/connectors/{connectorID}",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "uninstallConnector"
+      },
+      "summary": "Uninstall a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3UpdateBankAccountMetadata": {
+      "method": "PATCH",
+      "path": "/api/payments/v3/bank-accounts/{bankAccountID}/metadata",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "updateBankAccountMetadata"
+      },
+      "summary": "Update a bank account's metadata",
+      "tags": ["payments.v3"]
+    },
+    "v3UpdateConnectorConfig": {
+      "method": "PATCH",
+      "path": "/api/payments/v3/connectors/{connectorID}/config",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "updateConnectorConfig"
+      },
+      "summary": "Update the config of a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3UpdateLinkForPaymentServiceUserOnConnector": {
+      "method": "POST",
+      "path": "/api/payments/v3/payment-service-users/{paymentServiceUserID}/connectors/{connectorID}/connections/{connectionID}/update-link",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "updateLinkForPaymentServiceUserOnConnector"
+      },
+      "summary": "Update/Regenerate a link for a payment service user on a connector",
+      "tags": ["payments.v3"]
+    },
+    "v3UpdatePaymentMetadata": {
+      "method": "PATCH",
+      "path": "/api/payments/v3/payments/{paymentID}/metadata",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "updatePaymentMetadata"
+      },
+      "summary": "Update a payment's metadata",
+      "tags": ["payments.v3"]
+    },
+    "v3UpdatePoolQuery": {
+      "method": "PATCH",
+      "path": "/api/payments/v3/pools/{poolID}/query",
+      "pathParams": [],
+      "sdk": {
+        "module": "paymentsV3",
+        "method": "updatePoolQuery"
+      },
+      "summary": "Update the query of a pool",
+      "tags": ["payments.v3"]
+    },
+    "voidHold": {
+      "method": "POST",
+      "path": "/api/wallets/holds/{hold_id}/void",
+      "pathParams": ["hold_id"],
+      "sdk": {
+        "module": "walletsV1",
+        "method": "voidHold"
+      },
+      "summary": "Cancel a hold",
+      "tags": ["wallets.v1"]
+    }
+  }
+}

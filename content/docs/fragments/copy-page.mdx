@@ -1,0 +1,26 @@
+<ComponentPreview name="copy-page" peekCode />
+
+A compact button group for sharing a documentation or article page with AI assistants. The main button copies the rendered page content to the clipboard; the dropdown links to the Markdown source, ChatGPT, and Claude with a pre-filled prompt that references the page URL.
+
+Pass `content` (the text to copy) and `url` (the canonical page URL). Customize the AI prompt with the `prompt` string, override the Markdown link with `markdownUrl`, or change the trigger copy with `label`.
+
+<Section
+  title="Custom label"
+  description="Override the main button label when the surface is not a doc page."
+>
+  <ComponentPreview name="copy-page-custom-label" />
+</Section>
+
+<Section
+  title="Custom AI prompt"
+  description="Pass a prompt string to tailor the ChatGPT / Claude handoff to the page subject."
+>
+  <ComponentPreview name="copy-page-custom-prompt" />
+</Section>
+
+<Section
+  title="Custom Markdown URL"
+  description="By default the Markdown link is `${url}.md`. Override it with markdownUrl when the raw source lives elsewhere."
+>
+  <ComponentPreview name="copy-page-custom-markdown" />
+</Section>

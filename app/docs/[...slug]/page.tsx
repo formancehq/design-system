@@ -4,13 +4,13 @@ import { notFound } from 'next/navigation';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CompoundComponents } from '@/components/compound-components';
-import { DocsCopyPage } from '@/components/docs-copy-page';
 import { DocsPager } from '@/components/docs-pager';
 import { mdxComponents } from '@/components/mdx-components';
 import { SourceBanner } from '@/components/source-banner';
 import { componentMeta, docsConfig } from '@/config/docs';
 import { buildLLMMarkdown, readMdxFile } from '@/lib/mdx';
 import { slugify } from '@/lib/slugify';
+import { CopyPage } from '@/registry/default/fragments/copy-page';
 import { PageContainer } from '@/registry/default/ui/page-container';
 import {
   PageHeader,
@@ -148,8 +148,8 @@ export default async function DocsPage({
               )}
             </PageHeaderSummary>
             <PageHeaderAside>
-              <DocsCopyPage
-                page={buildLLMMarkdown({
+              <CopyPage
+                content={buildLLMMarkdown({
                   title: found.item.title,
                   section: found.section,
                   description: meta?.description,
@@ -157,6 +157,8 @@ export default async function DocsPage({
                   url: `https://ds.formance.com/docs/${slugStr}`,
                 })}
                 url={`https://ds.formance.com/docs/${slugStr}`}
+                prompt={`I'm looking at this Formance Design System documentation: https://ds.formance.com/docs/${slugStr}.
+Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`}
               />
             </PageHeaderAside>
           </PageHeaderMeta>
