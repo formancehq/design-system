@@ -5,6 +5,7 @@ import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
+import { Button } from '@/registry/default/ui/button';
 import {
   cssVarsTheme,
   getHighlighter,
@@ -145,18 +146,15 @@ function CodeSnippet({
       )}
 
       {canCopy && (
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 backdrop-blur-sm transition-opacity hover:text-foreground group-hover/code-snippet:opacity-100"
+        <Button
+          variant="outline"
+          size="icon-sm"
           aria-label="Copy code"
+          onClick={handleCopy}
+          className="absolute right-3 top-3 bg-background/80 text-muted-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover/code-snippet:opacity-100"
         >
-          {copied ? (
-            <Check className="h-3.5 w-3.5" />
-          ) : (
-            <Copy className="h-3.5 w-3.5" />
-          )}
-        </button>
+          {copied ? <Check /> : <Copy />}
+        </Button>
       )}
     </div>
   );

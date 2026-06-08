@@ -6,7 +6,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'relative inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 font-mono font-medium',
+  'relative inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-md text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 font-mono font-medium leading-normal',
   {
     variants: {
       variant: {
@@ -14,7 +14,7 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
 
-        emerald: 'bg-emerald-600 text-emerald-200 hover:bg-emerald-500',
+        emerald: 'bg-emerald-600 text-emerald-50 hover:bg-emerald-500',
         emeraldDark: 'bg-emerald-700 text-emerald-200 hover:bg-emerald-500',
         slate: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         gold: 'bg-gold-500 text-gold-100 hover:bg-gold-400',
@@ -47,7 +47,7 @@ const buttonVariants = cva(
         md: 'px-4 h-8',
         lg: 'px-8 h-9',
         'icon-xs': 'h-5 w-5 p-0.5 [&>svg]:size-3.5',
-        'icon-sm': 'h-7 w-7 p-0.5 [&>svg]:size-4',
+        'icon-sm': 'h-7 w-7 p-0.5 [&>svg]:size-3.5',
         'icon-md': 'h-8 w-8 p-1.5 [&>svg]:size-4',
         'icon-lg': 'h-9 w-9 p-2 [&>svg]:size-4',
         'icon-xl': 'h-16 w-16 p-2 [&>svg]:size-10',

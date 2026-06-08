@@ -1103,14 +1103,13 @@
       ]
     },
     {
-      "name": "badge-method",
+      "name": "endpoint",
       "type": "registry:ui",
-      "title": "Badge Method",
-      "description": "HTTP method badge (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).",
-      "dependencies": ["class-variance-authority"],
+      "title": "Endpoint",
+      "description": "API endpoint pill combining HTTP method, response status code, and route path.",
       "files": [
         {
-          "path": "registry/default/ui/badge-method.tsx",
+          "path": "registry/default/ui/endpoint.tsx",
           "type": "registry:ui"
         }
       ]
@@ -1619,7 +1618,7 @@
       "description": "Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a stack OpenAPI operationId.",
       "dependencies": ["lucide-react"],
       "registryDependencies": [
-        "https://ds.formance.com/r/badge-method.json",
+        "https://ds.formance.com/r/endpoint.json",
         "https://ds.formance.com/r/code-snippet.json",
         "https://ds.formance.com/r/tabs.json",
         "https://ds.formance.com/r/stack-operations.json"
@@ -1634,6 +1633,24 @@
           "path": "registry/default/fragments/_api-snippet/generators.ts",
           "type": "registry:component",
           "target": "components/ui-fragments/_api-snippet/generators.ts"
+        }
+      ]
+    },
+    {
+      "name": "copy-page",
+      "type": "registry:component",
+      "title": "Copy Page",
+      "description": "A copy-to-clipboard button with a dropdown to view the page as Markdown or open it in ChatGPT / Claude.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/dropdown-menu.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/fragments/copy-page.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/copy-page.tsx"
         }
       ]
     },

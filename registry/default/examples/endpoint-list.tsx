@@ -1,39 +1,40 @@
 'use client';
 
-import { BadgeMethod } from '@/registry/default/ui/badge-method';
+import { Endpoint } from '@/registry/default/ui/endpoint';
 
 const ROUTES = [
   {
     method: 'POST',
+    statusCode: 201,
     path: '/api/membership/applications/{applicationId}/clients',
   },
   {
     method: 'GET',
+    statusCode: 404,
     path: '/api/membership/applications/{applicationId}/clients/{clientId}',
   },
   {
     method: 'PUT',
+    statusCode: 422,
     path: '/api/membership/applications/{applicationId}/clients/{clientId}',
   },
   {
     method: 'DELETE',
+    statusCode: 500,
     path: '/api/membership/applications/{applicationId}/clients/{clientId}',
   },
 ] as const;
 
-export default function BadgeMethodList() {
+export default function EndpointList() {
   return (
     <div className="flex flex-col gap-2">
       {ROUTES.map((route) => (
-        <div
-          key={`${route.method}-${route.path}`}
-          className="flex items-center gap-3"
-        >
-          <BadgeMethod method={route.method} />
-          <span className="font-mono text-sm text-foreground">
-            {route.path}
-          </span>
-        </div>
+        <Endpoint
+          key={`${route.method}-${route.statusCode}-${route.path}`}
+          method={route.method}
+          statusCode={route.statusCode}
+          path={route.path}
+        />
       ))}
     </div>
   );

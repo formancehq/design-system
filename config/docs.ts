@@ -403,11 +403,11 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/badge-status.tsx',
     source: 'custom',
   },
-  'components/badge-method': {
-    registryName: 'badge-method',
+  'components/endpoint': {
+    registryName: 'endpoint',
     description:
-      'HTTP method badge (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS).',
-    sourceFile: 'registry/default/ui/badge-method.tsx',
+      'API endpoint pill combining HTTP method, response status code, and route path.',
+    sourceFile: 'registry/default/ui/endpoint.tsx',
     source: 'custom',
   },
   'components/button-group': {
@@ -797,6 +797,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/fragments/chart-of-accounts.tsx',
     source: 'custom',
   },
+  'fragments/copy-page': {
+    registryName: 'copy-page',
+    description:
+      'A copy-to-clipboard button with a dropdown to view the page as Markdown or open it in ChatGPT / Claude.',
+    sourceFile: 'registry/default/fragments/copy-page.tsx',
+    source: 'custom',
+  },
   'fragments/data-table': {
     registryName: 'data-table',
     description:
@@ -950,7 +957,6 @@ export const docsConfig: TDocsConfig = {
         { title: 'Avatar', href: '/docs/components/avatar' },
         { title: 'Badge', href: '/docs/components/badge' },
         { title: 'Badge Eyebrow', href: '/docs/components/badge-eyebrow' },
-        { title: 'Badge Method', href: '/docs/components/badge-method' },
         { title: 'Badge Status', href: '/docs/components/badge-status' },
         { title: 'Breadcrumb', href: '/docs/components/breadcrumb' },
         { title: 'Button', href: '/docs/components/button' },
@@ -974,6 +980,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Drawer', href: '/docs/components/drawer' },
         { title: 'Dropdown Menu', href: '/docs/components/dropdown-menu' },
         { title: 'Empty', href: '/docs/components/empty' },
+        { title: 'Endpoint', href: '/docs/components/endpoint' },
         { title: 'Eyebrow', href: '/docs/components/eyebrow' },
         { title: 'Field', href: '/docs/components/field' },
         { title: 'Form', href: '/docs/components/form' },
@@ -1041,6 +1048,7 @@ export const docsConfig: TDocsConfig = {
           href: '/docs/fragments/chart-of-accounts',
         },
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
+        { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
         { title: 'Page Header', href: '/docs/fragments/page-header' },

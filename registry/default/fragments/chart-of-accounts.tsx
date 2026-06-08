@@ -1,6 +1,13 @@
 'use client';
 
-import { ChevronsDownUp, ChevronsUpDown, Eye, EyeOff } from 'lucide-react';
+import {
+  ChevronDown,
+  ChevronRight,
+  ChevronsDownUp,
+  ChevronsUpDown,
+  Eye,
+  EyeOff,
+} from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -170,9 +177,22 @@ function ChartNode({
             {connector}
           </span>
         )}
-        <span aria-hidden className="select-none text-muted-foreground/70">
-          {hasChildren ? (open ? '▾' : '▸') : ' '}
-        </span>
+        {hasChildren ? (
+          <span
+            aria-hidden
+            className="inline-flex w-[1ch] items-center justify-center align-middle text-muted-foreground/70"
+          >
+            {open ? (
+              <ChevronDown className="size-3.5 shrink-0" />
+            ) : (
+              <ChevronRight className="size-3.5 shrink-0" />
+            )}
+          </span>
+        ) : (
+          <span aria-hidden className="select-none">
+            {' '}
+          </span>
+        )}
         <span
           className={cn(
             isVariable ? 'text-gold-500 dark:text-gold-300' : 'text-foreground'

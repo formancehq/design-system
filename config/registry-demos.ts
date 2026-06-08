@@ -1040,23 +1040,23 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
-  'badge-method': {
-    component: lazy(() => import('@/registry/default/demos/badge-method-demo')),
-    sourceFile: 'registry/default/demos/badge-method-demo.tsx',
+  endpoint: {
+    component: lazy(() => import('@/registry/default/demos/endpoint-demo')),
+    sourceFile: 'registry/default/demos/endpoint-demo.tsx',
     examples: [
       {
         title: 'API Routes',
         component: lazy(
-          () => import('@/registry/default/examples/badge-method-list')
+          () => import('@/registry/default/examples/endpoint-list')
         ),
-        sourceFile: 'registry/default/examples/badge-method-list.tsx',
+        sourceFile: 'registry/default/examples/endpoint-list.tsx',
       },
       {
-        title: 'Sizes',
+        title: 'States',
         component: lazy(
-          () => import('@/registry/default/examples/badge-method-sizes')
+          () => import('@/registry/default/examples/endpoint-states')
         ),
-        sourceFile: 'registry/default/examples/badge-method-sizes.tsx',
+        sourceFile: 'registry/default/examples/endpoint-states.tsx',
       },
     ],
   },
@@ -1271,6 +1271,15 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/chart-of-accounts-small.tsx',
       },
+      {
+        title: 'Hide details',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/chart-of-accounts-hide-details')
+        ),
+        sourceFile:
+          'registry/default/examples/chart-of-accounts-hide-details.tsx',
+      },
     ],
   },
   'app-card': {
@@ -1297,6 +1306,33 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/app-card-with-data-table')
         ),
         sourceFile: 'registry/default/examples/app-card-with-data-table.tsx',
+      },
+    ],
+  },
+  'copy-page': {
+    component: lazy(() => import('@/registry/default/demos/copy-page-demo')),
+    sourceFile: 'registry/default/demos/copy-page-demo.tsx',
+    examples: [
+      {
+        title: 'Custom label',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-page-custom-label')
+        ),
+        sourceFile: 'registry/default/examples/copy-page-custom-label.tsx',
+      },
+      {
+        title: 'Custom AI prompt',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-page-custom-prompt')
+        ),
+        sourceFile: 'registry/default/examples/copy-page-custom-prompt.tsx',
+      },
+      {
+        title: 'Custom Markdown URL',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-page-custom-markdown')
+        ),
+        sourceFile: 'registry/default/examples/copy-page-custom-markdown.tsx',
       },
     ],
   },

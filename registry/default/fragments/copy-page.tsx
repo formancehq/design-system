@@ -12,11 +12,9 @@ import {
   DropdownMenuTrigger,
 } from '@/registry/default/ui/dropdown-menu';
 
-function getPromptUrl(baseURL: string, url: string) {
-  return `${baseURL}?q=${encodeURIComponent(
-    `I'm looking at this Formance Design System documentation: ${url}.
-Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`
-  )}`;
+function defaultPrompt(url: string) {
+  return `I'm looking at this page: ${url}.
+Help me understand it. Be ready to explain concepts, give examples, or help debug based on it.`;
 }
 
 const ChatGPTIcon = () => (
@@ -37,39 +35,63 @@ const ClaudeIcon = () => (
   </svg>
 );
 
-const menuItems: {
-  label: string;
-  href: (url: string) => string;
-  icon: React.ReactNode;
-}[] = [
-  {
-    label: 'View as Markdown',
-    href: (url) => `${url}.md`,
-    icon: <FileText />,
-  },
-  {
-    label: 'Open in ChatGPT',
-    href: (url) => getPromptUrl('https://chatgpt.com', url),
-    icon: <ChatGPTIcon />,
-  },
-  {
-    label: 'Open in Claude',
-    href: (url) => getPromptUrl('https://claude.ai/new', url),
-    icon: <ClaudeIcon />,
-  },
-];
+export type TCopyPageProps = {
+  /** Text content copied to the clipboard when the main button is clicked. */
+  content: string;
+  /** Canonical URL of the current page, used for AI prompts and the Markdown link. */
+  url: string;
+  /** URL exposed by the "View as Markdown" item. Defaults to `${url}.md`. */
+  markdownUrl?: string;
+  /** Main button label. Defaults to "Copy Page". */
+  label?: string;
+  /** Prompt sent to ChatGPT / Claude when opening the page in an AI chat. */
+  prompt?: string;
+  className?: string;
+};
 
-export function DocsCopyPage({ page, url }: { page: string; url: string }) {
+export function CopyPage({
+  content,
+  url,
+  markdownUrl,
+  label = 'Copy Page',
+  prompt,
+  className,
+}: TCopyPageProps) {
   const [copied, setCopied] = useState(false);
 
+  const encodedPrompt = encodeURIComponent(prompt ?? defaultPrompt(url));
+
+  const menuItems = [
+    {
+      label: 'View as Markdown',
+      href: markdownUrl ?? `${url}.md`,
+      icon: <FileText />,
+    },
+    {
+      label: 'Open in ChatGPT',
+      href: `https://chatgpt.com?q=${encodedPrompt}`,
+      icon: <ChatGPTIcon />,
+    },
+    {
+      label: 'Open in Claude',
+      href: `https://claude.ai/new?q=${encodedPrompt}`,
+      icon: <ClaudeIcon />,
+    },
+  ];
+
   async function handleCopy() {
-    await navigator.clipboard.writeText(page);
+    await navigator.clipboard.writeText(content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
 
   return (
-    <div className="flex items-stretch rounded-md border bg-background shadow-xs">
+    <div
+      className={cn(
+        'flex items-stretch rounded-md border bg-background',
+        className
+      )}
+    >
       <Button
         variant="ghost"
         onClick={handleCopy}
@@ -77,7 +99,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
         className="gap-2"
       >
         {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
-        Copy Page
+        {label}
       </Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -94,12 +116,10 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
           {menuItems.map(({ label, href, icon }) => (
             <DropdownMenuItem key={label} asChild>
               <a
-                href={href(url)}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  'flex items-center gap-2 [&>svg]:size-4 [&>svg]:text-muted-foreground'
-                )}
+                className="flex items-center gap-2 [&>svg]:size-4 [&>svg]:text-muted-foreground"
               >
                 {icon}
                 {label}

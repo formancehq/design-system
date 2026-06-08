@@ -4,14 +4,6 @@ import { Check, Copy } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { cn } from '@/lib/utils';
-import { BadgeMethod } from '@/registry/default/ui/badge-method';
-import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/registry/default/ui/tabs';
 import stackOperationsData from '@/registry/default/data/stack-operations.json';
 import {
   generateCurl,
@@ -21,6 +13,15 @@ import {
   type TStackOperation,
   type TStackOperationsIndex,
 } from '@/registry/default/fragments/_api-snippet/generators';
+import { Button } from '@/registry/default/ui/button';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
+import { Endpoint } from '@/registry/default/ui/endpoint';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/registry/default/ui/tabs';
 
 const operations = (stackOperationsData as TStackOperationsIndex).operations;
 
@@ -113,7 +114,7 @@ export function ApiSnippet({
         className="gap-0"
       >
         <div className="flex items-center border-b bg-muted/40 pr-2">
-          <TabsList variant="line" className="px-2">
+          <TabsList variant="line" className="px-2 pl-0 -ml-px">
             {showFctl && <TabsTrigger value="fctl">fctl</TabsTrigger>}
             <TabsTrigger value="curl">curl</TabsTrigger>
             <TabsTrigger value="httpie">HTTPie</TabsTrigger>
@@ -156,11 +157,8 @@ export function ApiSnippet({
           </TabsContent>
         )}
       </Tabs>
-      <div className="flex items-center gap-2 border-t bg-muted/40 px-3 py-1.5">
-        <BadgeMethod method={op.method} size="sm" />
-        <span className="truncate font-mono text-xs text-foreground">
-          {resolvedPath.split('?')[0]}
-        </span>
+      <div className="flex items-center border-t p-2">
+        <Endpoint method={op.method} path={resolvedPath.split('?')[0]} />
       </div>
     </div>
   );
@@ -168,26 +166,20 @@ export function ApiSnippet({
 
 function CopyButton({ text, className }: { text: string; className?: string }) {
   const [copied, setCopied] = useState(false);
-  
-return (
-    <button
-      type="button"
+
+  return (
+    <Button
+      variant="outline"
+      size="icon-sm"
       aria-label="Copy"
+      className={cn('text-muted-foreground', className)}
       onClick={async () => {
         await navigator.clipboard.writeText(text.trim());
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       }}
-      className={cn(
-        'inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground',
-        className
-      )}
     >
-      {copied ? (
-        <Check className="h-3.5 w-3.5" />
-      ) : (
-        <Copy className="h-3.5 w-3.5" />
-      )}
-    </button>
+      {copied ? <Check /> : <Copy />}
+    </Button>
   );
 }
