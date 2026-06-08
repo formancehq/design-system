@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  ChevronDown,
-  ChevronRight,
-  ChevronsDownUp,
-  ChevronsUpDown,
-  Eye,
-  EyeOff,
-} from 'lucide-react';
+import { ChevronsDownUp, ChevronsUpDown, Eye, EyeOff } from 'lucide-react';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
@@ -35,11 +28,8 @@ export type TChartSegment = {
 export type TChartOfAccountsProps = {
   data: Record<string, TChartSegment | null>;
   defaultOpenDepth?: number;
-  /** Initial fold state. Toolbar can override. */
   defaultExpanded?: boolean;
-  /** Initial details visibility. Toolbar can override. */
   defaultShowDetails?: boolean;
-  /** Hide the top-right toolbar. */
   hideToolbar?: boolean;
   className?: string;
 };
@@ -61,7 +51,7 @@ export function ChartOfAccounts({
   return (
     <div
       className={cn(
-        'relative rounded-md border bg-card text-card-foreground px-4 py-3 font-mono text-[13px]',
+        'relative rounded-md border bg-card text-card-foreground px-4 py-3 font-mono text-[13px] leading-6',
         className
       )}
     >
@@ -99,19 +89,21 @@ export function ChartOfAccounts({
           </Tooltip>
         </div>
       )}
-      {entries.map(([name, node], i) => (
-        <ChartNode
-          key={name}
-          name={name}
-          node={node}
-          depth={0}
-          prefix=""
-          isLast={i === entries.length - 1}
-          defaultOpenDepth={defaultOpenDepth}
-          expanded={expanded}
-          showDetails={showDetails}
-        />
-      ))}
+      <div role="tree">
+        {entries.map(([name, node], i) => (
+          <ChartNode
+            key={name}
+            name={name}
+            node={node}
+            depth={0}
+            prefix=""
+            isLast={i === entries.length - 1}
+            defaultOpenDepth={defaultOpenDepth}
+            expanded={expanded}
+            showDetails={showDetails}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -169,76 +161,77 @@ function ChartNode({
     if (expanded != null) setOpen(expanded);
   }, [expanded]);
 
-  const labelRow = (
-    <div className="flex items-center gap-1.5 py-0.5">
-      {depth > 0 && (
-        <span className="select-none whitespace-pre text-muted-foreground/60">
-          {prefix}
-        </span>
-      )}
-      {hasChildren ? (
-        <CollapsibleTrigger
-          aria-label={open ? `Collapse ${name}` : `Expand ${name}`}
-          className="-ml-0.5 inline-flex items-center text-muted-foreground/80 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-[2px]"
-        >
-          {open ? (
-            <ChevronDown className="size-3.5" />
-          ) : (
-            <ChevronRight className="size-3.5" />
-          )}
-          <span className="select-none whitespace-pre text-muted-foreground/60">
-            {depth > 0 ? ' ' : ''}
-          </span>
-        </CollapsibleTrigger>
-      ) : (
-        depth > 0 && (
-          <span className="select-none whitespace-pre text-muted-foreground/60">
+  const rowContent = (
+    <>
+      <span className="whitespace-pre">
+        {(prefix || connector) && (
+          <span aria-hidden className="select-none text-muted-foreground/60">
+            {prefix}
             {connector}
           </span>
-        )
-      )}
-      <span
-        className={cn(
-          'whitespace-pre',
-          isVariable ? 'text-gold-500 dark:text-gold-300' : 'text-foreground'
         )}
-      >
-        {name}
+        <span aria-hidden className="select-none text-muted-foreground/70">
+          {hasChildren ? (open ? '▾' : '▸') : ' '}
+        </span>
+        <span
+          className={cn(
+            isVariable ? 'text-gold-500 dark:text-gold-300' : 'text-foreground'
+          )}
+        >
+          {' '}
+          {name}
+        </span>
       </span>
+      {showDetails && pattern && (
+        <Badge
+          variant="outline"
+          size="sm"
+          className="font-mono normal-case text-muted-foreground"
+        >
+          {pattern}
+        </Badge>
+      )}
       {showDetails && isSelf && (
         <Badge variant="valid" size="sm">
           account
         </Badge>
       )}
-      {showDetails && pattern && (
-        <Badge variant="outline" size="sm" className="font-mono normal-case">
-          {pattern}
-        </Badge>
-      )}
-      {showDetails && metadata && (
-        <span className="inline-flex gap-1">
-          {Object.entries(metadata).map(([k, v]) => {
-            const def = v?.default;
-            if (!def) return null;
+      {showDetails &&
+        metadata &&
+        Object.entries(metadata).map(([k, v]) => {
+          const def = v?.default;
+          if (!def) return null;
 
-            return (
-              <Badge key={k} variant="secondary" size="sm">
-                {k}={def}
-              </Badge>
-            );
-          })}
-        </span>
-      )}
-    </div>
+          return (
+            <Badge key={k} variant="secondary" size="sm">
+              {k}={def}
+            </Badge>
+          );
+        })}
+    </>
   );
 
+  const rowClass = 'flex items-center gap-1.5';
+
   if (!hasChildren) {
-    return labelRow;
+    return (
+      <div className={rowClass} role="treeitem">
+        {rowContent}
+      </div>
+    );
   }
 
   return (
     <Collapsible open={open} onOpenChange={setOpen}>
-      {labelRow}
+      <CollapsibleTrigger
+        aria-label={open ? `Collapse ${name}` : `Expand ${name}`}
+        className={cn(
+          rowClass,
+          'w-full text-left rounded-sm hover:bg-muted/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+        )}
+      >
+        {rowContent}
+      </CollapsibleTrigger>
       <CollapsibleContent>
         {children.map(([key, val], i) => (
           <ChartNode

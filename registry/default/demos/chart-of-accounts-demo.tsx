@@ -52,6 +52,10 @@ const data = {
       revenue: { '.self': {} },
       chargeback_fees: { '.self': {} },
     },
+    treasury: {
+      '.self': {},
+      '.metadata': { type: { default: 'operating_reserve' } },
+    },
   },
 };
 

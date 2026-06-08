@@ -1258,6 +1258,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/chart-of-accounts-collapsed.tsx',
       },
       {
+        title: 'Complex',
+        component: lazy(
+          () => import('@/registry/default/examples/chart-of-accounts-complex')
+        ),
+        sourceFile: 'registry/default/examples/chart-of-accounts-complex.tsx',
+      },
+      {
         title: 'Minimal',
         component: lazy(
           () => import('@/registry/default/examples/chart-of-accounts-small')
