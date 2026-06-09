@@ -6,7 +6,10 @@ import {
   fetchRegistryIndex,
 } from '../lib/registry.js';
 import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
-import { rewriteGlobalsFromTemplate } from '../lib/rewrite-globals.js';
+import {
+  rewriteGlobalsFromTemplate,
+  writeGlobalsFromTemplate,
+} from '../lib/rewrite-globals.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
 
 type TInitOptions = {
@@ -65,10 +68,10 @@ export const initCommand = new Command('init')
     });
 
     if (exitCode === 0) {
-      const rewritten = rewriteGlobalsFromTemplate(
-        options.cwd ?? process.cwd(),
-        { internal: options.internal }
-      );
+      const cwd = options.cwd ?? process.cwd();
+      const rewritten = options.overwrite
+        ? writeGlobalsFromTemplate(cwd, { internal: options.internal })
+        : rewriteGlobalsFromTemplate(cwd, { internal: options.internal });
       if (rewritten) console.log(`✔ Rewrote ${rewritten} from template`);
 
       const fragmentResult = await rewriteFragmentImports(

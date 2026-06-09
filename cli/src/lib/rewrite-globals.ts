@@ -111,10 +111,7 @@ export type TRewriteOptions = {
   internal?: boolean;
 };
 
-export function rewriteGlobalsFromTemplate(
-  cwd: string,
-  options: TRewriteOptions = {}
-): string | null {
+const resolveCssPath = (cwd: string): string | null => {
   const componentsJsonPath = join(cwd, 'components.json');
   if (!existsSync(componentsJsonPath)) return null;
 
@@ -124,8 +121,32 @@ export function rewriteGlobalsFromTemplate(
   const cssRel = config.tailwind?.css;
   if (!cssRel) return null;
 
-  const cssAbs = resolve(cwd, cssRel);
-  if (!existsSync(cssAbs)) return null;
+  return resolve(cwd, cssRel);
+};
+
+export function writeGlobalsFromTemplate(
+  cwd: string,
+  options: TRewriteOptions = {}
+): string | null {
+  const cssAbs = resolveCssPath(cwd);
+  if (!cssAbs) return null;
+
+  const templatePath = findTemplate();
+  const templateRoot = postcss.parse(readFileSync(templatePath, 'utf8'));
+
+  if (!options.internal) stripFormanceFonts(templateRoot);
+
+  writeFileSync(cssAbs, templateRoot.toString());
+
+  return cssAbs;
+}
+
+export function rewriteGlobalsFromTemplate(
+  cwd: string,
+  options: TRewriteOptions = {}
+): string | null {
+  const cssAbs = resolveCssPath(cwd);
+  if (!cssAbs || !existsSync(cssAbs)) return null;
 
   const installedCss = readFileSync(cssAbs, 'utf8');
   const { rootVars, darkVars, themeVars } = extractValues(installedCss);
