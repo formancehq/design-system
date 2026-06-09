@@ -1,6 +1,6 @@
 import { Wallet } from 'lucide-react';
 
-import { AppCardEmpty } from '@/registry/default/fragments/app-card-empty';
+import { AppCardEmpty } from '@/components/ui-fragments/app-card-empty';
 import { Button } from '@/registry/default/ui/button';
 
 export default function AppCardEmptyWithActionsExample() {

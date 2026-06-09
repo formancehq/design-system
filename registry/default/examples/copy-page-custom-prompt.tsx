@@ -1,4 +1,4 @@
-import { CopyPage } from '@/registry/default/fragments/copy-page';
+import { CopyPage } from '@/components/ui-fragments/copy-page';
 
 const url = 'https://example.com/docs/api';
 

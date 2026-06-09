@@ -1,7 +1,7 @@
 import { Server } from 'lucide-react';
 
-import { AppCard } from '@/registry/default/fragments/app-card';
-import { AppCardEmpty } from '@/registry/default/fragments/app-card-empty';
+import { AppCard } from '@/components/ui-fragments/app-card';
+import { AppCardEmpty } from '@/components/ui-fragments/app-card-empty';
 import { Button } from '@/registry/default/ui/button';
 
 export default function AppCardWithEmptyExample() {

@@ -20,8 +20,8 @@ export function resolvePathParams(
   let resolved = path;
   for (const [k, v] of Object.entries(params))
     resolved = resolved.replace(`{${k}}`, v);
-  
-return resolved;
+
+  return resolved;
 }
 
 export function generateCurl(
@@ -45,15 +45,15 @@ export function generateCurl(
     parts.push(`  -H "Content-Type: application/json"`);
     parts.push(`  -d '${indented}'`);
   }
-  
-return parts.join(' \\\n');
+
+  return parts.join(' \\\n');
 }
 
 function jsonDepth(val: unknown): number {
   if (typeof val !== 'object' || val === null) return 0;
   if (Array.isArray(val)) return 1 + Math.max(0, ...val.map(jsonDepth));
-  
-return (
+
+  return (
     1 +
     Math.max(0, ...Object.values(val as Record<string, unknown>).map(jsonDepth))
   );
@@ -69,7 +69,7 @@ function flattenHttpieArgs(
     const key = prefix ? `${prefix}[${k}]` : k;
     if (v === null || v === undefined) continue;
     if (typeof v === 'string') {
-      const needsQuote = /[\s\[\](){}$@|&;!<>'"\\]/.test(v);
+      const needsQuote = /[\s[\](){}$@|&;!<>'"\\]/.test(v);
       parts.push(needsQuote ? `  ${key}='${v}'` : `  ${key}=${v}`);
     } else if (typeof v === 'number' || typeof v === 'boolean') {
       parts.push(`  ${key}:=${String(v)}`);
@@ -120,8 +120,8 @@ export function generateHttpie(
   } else if (body) {
     parts.push(`  <<< '${JSON.stringify(body)}'`);
   }
-  
-return parts.join(' \\\n');
+
+  return parts.join(' \\\n');
 }
 
 export function generateSdk(

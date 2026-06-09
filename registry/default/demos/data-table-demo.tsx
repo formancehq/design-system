@@ -6,7 +6,7 @@ import { ArrowUpDown, Eye } from 'lucide-react';
 import { Badge } from '@/registry/default/ui/badge';
 import { Button } from '@/registry/default/ui/button';
 import { Checkbox } from '@/registry/default/ui/checkbox';
-import { DataTable } from '@/registry/default/ui/data-table';
+import { DataTable } from '@/components/ui-fragments/data-table';
 
 type TPayment = {
   id: string;

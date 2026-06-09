@@ -1,4 +1,4 @@
-import { PageContainer } from '@/registry/default/ui/page-container';
+import { PageContainer } from '@/components/ui-fragments/page-container';
 
 export default function PageContainerDemo() {
   return (

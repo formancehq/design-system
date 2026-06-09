@@ -4,7 +4,7 @@ import { Check, Copy } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { cn } from '@/lib/utils';
-import stackOperationsData from '@/registry/default/data/stack-operations.json';
+import stackOperationsData from '@/registry/default/lib/stack-operations.json';
 import {
   generateCurl,
   generateHttpie,
@@ -12,7 +12,7 @@ import {
   resolvePathParams,
   type TStackOperation,
   type TStackOperationsIndex,
-} from '@/registry/default/fragments/_api-snippet/generators';
+} from '@/components/ui-fragments/_api-snippet/generators';
 import { Button } from '@/registry/default/ui/button';
 import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 import { Endpoint } from '@/registry/default/ui/endpoint';

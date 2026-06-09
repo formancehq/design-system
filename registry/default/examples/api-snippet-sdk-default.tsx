@@ -1,4 +1,4 @@
-import { ApiSnippet } from '@/registry/default/fragments/api-snippet';
+import { ApiSnippet } from '@/components/ui-fragments/api-snippet';
 
 export default function ApiSnippetSdkDefault() {
   return (

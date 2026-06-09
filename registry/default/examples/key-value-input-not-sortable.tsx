@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyValueInput } from '@/registry/default/fragments/key-value-input';
+import { KeyValueInput } from '@/components/ui-fragments/key-value-input';
 
 export default function KeyValueInputNotSortable() {
   return (

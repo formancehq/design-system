@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {
   KeyValueInput,
   type TKeyValuePair,
-} from '@/registry/default/fragments/key-value-input';
+} from '@/components/ui-fragments/key-value-input';
 
 export default function KeyValueInputDemo() {
   const [pairs, setPairs] = useState<TKeyValuePair[]>([

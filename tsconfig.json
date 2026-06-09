@@ -29,6 +29,7 @@
       }
     ],
     "paths": {
+      "@/components/ui-fragments/*": ["./registry/default/ui-fragments/*"],
       "@/*": ["./*"]
     }
   },

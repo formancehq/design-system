@@ -8,7 +8,7 @@ import {
   Download,
 } from 'lucide-react';
 
-import { AppCard } from '@/registry/default/fragments/app-card';
+import { AppCard } from '@/components/ui-fragments/app-card';
 import { Badge } from '@/registry/default/ui/badge';
 import {
   TypographyH2,
@@ -17,14 +17,14 @@ import {
   TypographySmall,
 } from '@/registry/default/ui/typography';
 import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
-import { PageContainer } from '@/registry/default/ui/page-container';
+import { PageContainer } from '@/components/ui-fragments/page-container';
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderMeta,
   PageHeaderSummary,
   PageHeaderTitle,
-} from '@/registry/default/ui/page-header';
+} from '@/components/ui-fragments/page-header';
 import { REGISTRY_URL } from '@/lib/registry';
 
 const FEATURES = [

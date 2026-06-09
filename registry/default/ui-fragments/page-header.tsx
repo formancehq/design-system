@@ -6,7 +6,7 @@ import { createContext, useContext, type ComponentProps } from 'react';
 import { cn } from '@/lib/utils';
 import { Breadcrumb } from '@/registry/default/ui/breadcrumb';
 import { Eyebrow } from '@/registry/default/ui/eyebrow';
-import { PageContainer } from '@/registry/default/ui/page-container';
+import { PageContainer } from '@/components/ui-fragments/page-container';
 
 // ============================================================================
 // Variants

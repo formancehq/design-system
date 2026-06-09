@@ -1335,7 +1335,7 @@
       "dependencies": ["class-variance-authority"],
       "files": [
         {
-          "path": "registry/default/ui/page-container.tsx",
+          "path": "registry/default/ui-fragments/page-container.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/page-container.tsx"
         }
@@ -1354,7 +1354,7 @@
       ],
       "files": [
         {
-          "path": "registry/default/ui/page-header.tsx",
+          "path": "registry/default/ui-fragments/page-header.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/page-header.tsx"
         }
@@ -1368,7 +1368,7 @@
       "dependencies": ["class-variance-authority"],
       "files": [
         {
-          "path": "registry/default/ui/page-section.tsx",
+          "path": "registry/default/ui-fragments/page-section.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/page-section.tsx"
         }
@@ -1386,7 +1386,7 @@
       ],
       "files": [
         {
-          "path": "registry/default/fragments/app-card.tsx",
+          "path": "registry/default/ui-fragments/app-card.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/app-card.tsx"
         }
@@ -1405,7 +1405,7 @@
       ],
       "files": [
         {
-          "path": "registry/default/fragments/app-card-empty.tsx",
+          "path": "registry/default/ui-fragments/app-card-empty.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/app-card-empty.tsx"
         }
@@ -1423,7 +1423,7 @@
       ],
       "files": [
         {
-          "path": "registry/default/fragments/chart-of-accounts.tsx",
+          "path": "registry/default/ui-fragments/chart-of-accounts.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/chart-of-accounts.tsx"
         }
@@ -1447,7 +1447,7 @@
       ],
       "files": [
         {
-          "path": "registry/default/ui/data-table.tsx",
+          "path": "registry/default/ui-fragments/data-table.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/data-table.tsx"
         }
@@ -1605,7 +1605,7 @@
       "description": "Build-time extracted OpenAPI operation index for the Formance stack (method, path, SDK module/method per operationId).",
       "files": [
         {
-          "path": "registry/default/data/stack-operations.json",
+          "path": "registry/default/lib/stack-operations.json",
           "type": "registry:file",
           "target": "lib/stack-operations.json"
         }
@@ -1625,12 +1625,12 @@
       ],
       "files": [
         {
-          "path": "registry/default/fragments/api-snippet.tsx",
+          "path": "registry/default/ui-fragments/api-snippet.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/api-snippet.tsx"
         },
         {
-          "path": "registry/default/fragments/_api-snippet/generators.ts",
+          "path": "registry/default/ui-fragments/_api-snippet/generators.ts",
           "type": "registry:component",
           "target": "components/ui-fragments/_api-snippet/generators.ts"
         }
@@ -1648,7 +1648,7 @@
       ],
       "files": [
         {
-          "path": "registry/default/fragments/copy-page.tsx",
+          "path": "registry/default/ui-fragments/copy-page.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/copy-page.tsx"
         }
@@ -1669,7 +1669,7 @@
       ],
       "files": [
         {
-          "path": "registry/default/fragments/key-value-input.tsx",
+          "path": "registry/default/ui-fragments/key-value-input.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/key-value-input.tsx"
         }

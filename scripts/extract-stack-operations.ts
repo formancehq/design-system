@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const SPEC_DIR = resolve(ROOT, '../openapi/stack');
-const OUT_FILE = resolve(ROOT, 'registry/default/data/stack-operations.json');
+const OUT_FILE = resolve(ROOT, 'registry/default/lib/stack-operations.json');
 const SDK_DIR = resolve(
   ROOT,
   '../platform-ui/packages/sdks/stack/formance/src/sdk'
@@ -42,13 +42,13 @@ function pickLatestSpec(): string {
       const bv = pb[i] ?? 0;
       if (av !== bv) return av - bv;
     }
-    
-return 0;
+
+    return 0;
   });
   const latest = files[files.length - 1];
   if (!latest) throw new Error(`No spec files found in ${SPEC_DIR}`);
-  
-return latest;
+
+  return latest;
 }
 
 function tagToModule(tag: string): string {
@@ -56,25 +56,25 @@ function tagToModule(tag: string): string {
   const last = parts[parts.length - 1] ?? '';
   if (/^v\d+$/i.test(last)) {
     const base = parts.slice(0, -1).join('');
-    
-return `${base}V${last.slice(1)}`;
+
+    return `${base}V${last.slice(1)}`;
   }
-  
-return parts.join('');
+
+  return parts.join('');
 }
 
 function operationIdToMethod(operationId: string): string {
   const stripped = operationId.replace(/^v\d+/, '');
   if (!stripped) return operationId;
-  
-return stripped.charAt(0).toLowerCase() + stripped.slice(1);
+
+  return stripped.charAt(0).toLowerCase() + stripped.slice(1);
 }
 
 function moduleFilenames(module: string): string[] {
   // ledgerV2 -> ledger-v2.ts
   const kebab = module.replace(/V(\d+)$/, '-v$1').toLowerCase();
-  
-return [`${kebab}.ts`];
+
+  return [`${kebab}.ts`];
 }
 
 function main() {

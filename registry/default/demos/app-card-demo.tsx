@@ -1,6 +1,6 @@
 import { Wallet } from 'lucide-react';
 
-import { AppCard } from '@/registry/default/fragments/app-card';
+import { AppCard } from '@/components/ui-fragments/app-card';
 import { Button } from '@/registry/default/ui/button';
 import { TypographyP } from '@/registry/default/ui/typography';
 

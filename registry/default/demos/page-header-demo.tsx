@@ -12,7 +12,7 @@ import {
   PageHeaderMeta,
   PageHeaderSummary,
   PageHeaderTitle,
-} from '@/registry/default/ui/page-header';
+} from '@/components/ui-fragments/page-header';
 
 export default function PageHeaderDemo() {
   return (

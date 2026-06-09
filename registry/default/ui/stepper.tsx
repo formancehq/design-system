@@ -1,6 +1,7 @@
 'use client';
 
-import { useComposedRefs, type PossibleRef } from '@/lib/compose-refs';
+import type { PossibleRef } from '@/lib/compose-refs';
+import { useComposedRefs } from '@/lib/compose-refs';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 import { Slot as SlotPrimitive } from 'radix-ui';

@@ -10,8 +10,8 @@ import { SourceBanner } from '@/components/source-banner';
 import { componentMeta, docsConfig } from '@/config/docs';
 import { buildLLMMarkdown, readMdxFile } from '@/lib/mdx';
 import { slugify } from '@/lib/slugify';
-import { CopyPage } from '@/registry/default/fragments/copy-page';
-import { PageContainer } from '@/registry/default/ui/page-container';
+import { CopyPage } from '@/components/ui-fragments/copy-page';
+import { PageContainer } from '@/components/ui-fragments/page-container';
 import {
   PageHeader,
   PageHeaderAside,
@@ -20,7 +20,7 @@ import {
   PageHeaderMeta,
   PageHeaderSummary,
   PageHeaderTitle,
-} from '@/registry/default/ui/page-header';
+} from '@/components/ui-fragments/page-header';
 import { Separator } from '@/registry/default/ui/separator';
 import { TableOfContents } from '@/registry/default/ui/table-of-contents';
 
