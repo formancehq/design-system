@@ -13,7 +13,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/registry/default/ui/breadcrumb';
-import { PageContainer } from '@/registry/default/ui/page-container';
+import { PageContainer } from '@/components/ui-fragments/page-container';
 
 function resolveTitle(segment: string): string {
   for (const section of docsConfig.sidebarNav) {

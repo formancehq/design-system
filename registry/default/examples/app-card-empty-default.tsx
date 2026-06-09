@@ -1,4 +1,4 @@
-import { AppCardEmpty } from '@/registry/default/fragments/app-card-empty';
+import { AppCardEmpty } from '@/components/ui-fragments/app-card-empty';
 
 export default function AppCardEmptyExample() {
   return (

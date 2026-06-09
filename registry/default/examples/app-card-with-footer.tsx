@@ -1,6 +1,6 @@
 import { CircleAlert, Wallet } from 'lucide-react';
 
-import { AppCard } from '@/registry/default/fragments/app-card';
+import { AppCard } from '@/components/ui-fragments/app-card';
 import { Button } from '@/registry/default/ui/button';
 import { CardFooter } from '@/registry/default/ui/card';
 import { TypographyP } from '@/registry/default/ui/typography';

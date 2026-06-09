@@ -1,4 +1,4 @@
-import { ChartOfAccounts } from '@/registry/default/fragments/chart-of-accounts';
+import { ChartOfAccounts } from '@/components/ui-fragments/chart-of-accounts';
 
 const data = {
   world: { '.self': {} },

@@ -706,21 +706,21 @@ export const componentMeta: Record<string, TComponentMeta> = {
     registryName: 'key-value-input',
     description:
       'A dynamic key-value pair input with drag-to-reorder, add, and remove rows.',
-    sourceFile: 'registry/default/fragments/key-value-input.tsx',
+    sourceFile: 'registry/default/ui-fragments/key-value-input.tsx',
     source: 'custom',
   },
   'fragments/app-card': {
     registryName: 'app-card',
     description:
       'A card layout for app sections with optional icon, header action, separator, and footer.',
-    sourceFile: 'registry/default/fragments/app-card.tsx',
+    sourceFile: 'registry/default/ui-fragments/app-card.tsx',
     source: 'custom',
   },
   'fragments/app-card-empty': {
     registryName: 'app-card-empty',
     description:
       'Muted empty-state card with centered icon, title, description, and optional actions.',
-    sourceFile: 'registry/default/fragments/app-card-empty.tsx',
+    sourceFile: 'registry/default/ui-fragments/app-card-empty.tsx',
     source: 'custom',
   },
   'components/stepper': {
@@ -787,28 +787,28 @@ export const componentMeta: Record<string, TComponentMeta> = {
     registryName: 'api-snippet',
     description:
       'Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a Formance stack OpenAPI operationId.',
-    sourceFile: 'registry/default/fragments/api-snippet.tsx',
+    sourceFile: 'registry/default/ui-fragments/api-snippet.tsx',
     source: 'custom',
   },
   'fragments/chart-of-accounts': {
     registryName: 'chart-of-accounts',
     description:
       'Foldable tree view of a Formance ledger Chart of Accounts schema.',
-    sourceFile: 'registry/default/fragments/chart-of-accounts.tsx',
+    sourceFile: 'registry/default/ui-fragments/chart-of-accounts.tsx',
     source: 'custom',
   },
   'fragments/copy-page': {
     registryName: 'copy-page',
     description:
       'A copy-to-clipboard button with a dropdown to view the page as Markdown or open it in ChatGPT / Claude.',
-    sourceFile: 'registry/default/fragments/copy-page.tsx',
+    sourceFile: 'registry/default/ui-fragments/copy-page.tsx',
     source: 'custom',
   },
   'fragments/data-table': {
     registryName: 'data-table',
     description:
       'A data table built on TanStack Table with sorting, filtering, pagination, and column visibility.',
-    sourceFile: 'registry/default/ui/data-table.tsx',
+    sourceFile: 'registry/default/ui-fragments/data-table.tsx',
     source: 'custom',
     subComponents: [
       {
@@ -849,14 +849,14 @@ export const componentMeta: Record<string, TComponentMeta> = {
     registryName: 'page-container',
     description:
       'Responsive container with size variants for consistent page widths.',
-    sourceFile: 'registry/default/ui/page-container.tsx',
+    sourceFile: 'registry/default/ui-fragments/page-container.tsx',
     source: 'custom',
   },
   'fragments/page-header': {
     registryName: 'page-header',
     description:
       'Compound page header with icon, title, description, breadcrumbs, and actions.',
-    sourceFile: 'registry/default/ui/page-header.tsx',
+    sourceFile: 'registry/default/ui-fragments/page-header.tsx',
     source: 'custom',
     subComponents: [
       {
@@ -896,7 +896,7 @@ export const componentMeta: Record<string, TComponentMeta> = {
     registryName: 'page-section',
     description:
       'A compound component for organizing page content into distinct sections.',
-    sourceFile: 'registry/default/ui/page-section.tsx',
+    sourceFile: 'registry/default/ui-fragments/page-section.tsx',
     source: 'custom',
     subComponents: [
       {

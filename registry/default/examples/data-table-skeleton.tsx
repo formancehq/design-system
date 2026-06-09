@@ -1,4 +1,4 @@
-import { DataTableSkeleton } from '@/registry/default/ui/data-table';
+import { DataTableSkeleton } from '@/components/ui-fragments/data-table';
 
 export default function DataTableSkeletonExample() {
   return (

@@ -7,7 +7,7 @@ import {
   PageHeaderMeta,
   PageHeaderSummary,
   PageHeaderTitle,
-} from '@/registry/default/ui/page-header';
+} from '@/components/ui-fragments/page-header';
 
 const sizes = ['small', 'default', 'large', 'full'] as const;
 

@@ -30,7 +30,7 @@ import {
   PageSectionMeta,
   PageSectionSummary,
   PageSectionTitle,
-} from '@/registry/default/ui/page-section';
+} from '@/components/ui-fragments/page-section';
 import {
   Select,
   SelectContent,

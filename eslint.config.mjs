@@ -27,6 +27,7 @@ const eslintConfig = [
     rules: {
       // Apply consistent rules from platform-ui's @platform/eslint-config/next.mjs
       'no-console': 'warn',
+      'no-useless-escape': 'error',
       'newline-before-return': 'error',
       'arrow-body-style': 'error',
       '@typescript-eslint/no-unused-vars': 'off',
