@@ -1,23 +1,13 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { componentUrl } from './registry.js';
+import { fetchRegistryItems, type TRegistryItemDetail } from './registry.js';
 
 type TComponentsJson = {
   aliases?: {
     ui?: string;
     components?: string;
   };
-};
-
-type TRegistryFile = {
-  path: string;
-  target?: string;
-};
-
-type TRegistryItemDetail = {
-  name: string;
-  files?: TRegistryFile[];
 };
 
 const stripExt = (p: string): string => p.replace(/\.tsx?$/, '');
@@ -28,18 +18,8 @@ const escapeForRegex = (s: string): string =>
 const readComponentsJson = (cwd: string): TComponentsJson | null => {
   const candidate = join(cwd, 'components.json');
   if (!existsSync(candidate)) return null;
-  
-return JSON.parse(readFileSync(candidate, 'utf8')) as TComponentsJson;
-};
 
-const fetchItem = async (
-  base: string,
-  name: string
-): Promise<TRegistryItemDetail | null> => {
-  const res = await fetch(componentUrl(base, name));
-  if (!res.ok) return null;
-  
-return (await res.json()) as TRegistryItemDetail;
+  return JSON.parse(readFileSync(candidate, 'utf8')) as TComponentsJson;
 };
 
 const resolveTargetImport = (
@@ -48,8 +28,8 @@ const resolveTargetImport = (
 ): string | null => {
   const noExt = stripExt(target);
   if (!noExt.startsWith('components/')) return null;
-  
-return `${componentsAlias}${noExt.slice('components'.length)}`;
+
+  return `${componentsAlias}${noExt.slice('components'.length)}`;
 };
 
 export type TRewriteResult = {
@@ -74,9 +54,9 @@ export async function rewriteFragmentImports(
   const componentsAlias = componentsJson?.aliases?.components;
   if (!uiAlias || !componentsAlias) return empty;
 
-  const items = (
-    await Promise.all(installedNames.map((name) => fetchItem(base, name)))
-  ).filter((x): x is TRegistryItemDetail => x !== null);
+  const items = (await fetchRegistryItems(base, installedNames)).filter(
+    (x): x is TRegistryItemDetail => x !== null
+  );
 
   const fixes: Array<{ pattern: RegExp; right: string }> = [];
   for (const item of items) {
@@ -112,8 +92,8 @@ export async function rewriteFragmentImports(
     for (const fix of fixes) {
       next = next.replace(fix.pattern, (_, open: string, close: string) => {
         replacements++;
-        
-return `${open}${fix.right}${close}`;
+
+        return `${open}${fix.right}${close}`;
       });
     }
     if (next !== original) {

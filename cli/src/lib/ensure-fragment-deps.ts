@@ -1,19 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { componentUrl } from './registry.js';
-
-type TRegistryFile = {
-  path: string;
-  target?: string;
-};
-
-type TRegistryItemDetail = {
-  name: string;
-  files?: TRegistryFile[];
-  dependencies?: string[];
-  devDependencies?: string[];
-};
+import { fetchRegistryItems, type TRegistryItemDetail } from './registry.js';
 
 type TPackageJson = {
   dependencies?: Record<string, string>;
@@ -27,16 +15,6 @@ const DEFAULT_VERSION_RANGES: Record<string, string> = {
   'lucide-react': '^1.17.0',
   'radix-ui': '^1.4.3',
   shiki: '^4.2.0',
-};
-
-const fetchItem = async (
-  base: string,
-  name: string
-): Promise<TRegistryItemDetail | null> => {
-  const res = await fetch(componentUrl(base, name));
-  if (!res.ok) return null;
-
-  return (await res.json()) as TRegistryItemDetail;
 };
 
 const hasTargetOutsideUi = (item: TRegistryItemDetail): boolean =>
@@ -56,9 +34,7 @@ export async function ensureFragmentDependencies(
   const pkgPath = join(cwd, 'package.json');
   if (!existsSync(pkgPath)) return { added: [] };
 
-  const items = (
-    await Promise.all(installedNames.map((name) => fetchItem(base, name)))
-  ).filter(
+  const items = (await fetchRegistryItems(base, installedNames)).filter(
     (item): item is TRegistryItemDetail =>
       item !== null && hasTargetOutsideUi(item)
   );
