@@ -198,7 +198,7 @@ function KeyValueRowContent({
             type="button"
             variant="outline"
             size="icon-sm"
-            className="size-8 shrink-0"
+            className="shrink-0"
             disabled={disabled}
           >
             <GripVertical className="size-4 text-muted-foreground" />

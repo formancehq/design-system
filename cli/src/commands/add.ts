@@ -7,6 +7,7 @@ import {
 } from '../lib/registry.js';
 import { ensureFragmentDependencies } from '../lib/ensure-fragment-deps.js';
 import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
+import { writeGlobalsFromTemplate } from '../lib/rewrite-globals.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
 
 type TAddOptions = {
@@ -16,6 +17,7 @@ type TAddOptions = {
   overwrite?: boolean;
   yes?: boolean;
   insecure?: boolean;
+  internal?: boolean;
 };
 
 export const addCommand = new Command('add')
@@ -32,6 +34,10 @@ export const addCommand = new Command('add')
   .option(
     '--insecure',
     'Accept self-signed TLS certs (for local-dev registries)'
+  )
+  .option(
+    '--internal',
+    'Keep Formance CDN fonts (Polymath, Berkeley Mono) when rewriting globals.css with --overwrite. Off by default.'
   )
   .action(async (components: string[], options: TAddOptions) => {
     if (options.insecure) process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -61,6 +67,14 @@ export const addCommand = new Command('add')
 
     if (exitCode === 0) {
       const cwd = options.cwd ?? process.cwd();
+
+      if (options.overwrite) {
+        const rewritten = writeGlobalsFromTemplate(cwd, {
+          internal: options.internal,
+        });
+        if (rewritten) console.log(`✔ Rewrote ${rewritten} from template`);
+      }
+
       const result = await rewriteFragmentImports(cwd, base, names);
       if (result.replacements > 0) {
         console.log(
