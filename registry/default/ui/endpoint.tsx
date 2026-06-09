@@ -90,7 +90,7 @@ function Endpoint({ method, statusCode, path, className }: TEndpointProps) {
       {hasMethod && (
         <span
           className={cn(
-            'inline-flex items-center select-text leading-none py-1 px-2 rounded-l-xs bg-emerald-50 text-foreground border uppercase tracking-wide',
+            'inline-flex items-center select-text leading-none py-1 px-2 rounded-l-xs bg-background text-foreground border uppercase tracking-wide',
             methodIsLast ? 'rounded-r-xs' : 'border-r-0'
           )}
         >
