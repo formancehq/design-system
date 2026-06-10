@@ -44,8 +44,15 @@ export type TApiSnippetProps = {
   noFctl?: boolean;
   /** Initial tab. Defaults to `curl`. */
   defaultTab?: TApiSnippetTab;
+  /**
+   * Cap the visible height of the code area. When true, long snippets scroll
+   * inside the box instead of expanding the parent layout.
+   */
+  clipCodeHeight?: boolean;
   className?: string;
 };
+
+const CLIPPED_CODE_HEIGHT = 240;
 
 export function ApiSnippet({
   operation,
@@ -56,8 +63,13 @@ export function ApiSnippet({
   fctl,
   noFctl,
   defaultTab = 'curl',
+  clipCodeHeight = false,
   className,
 }: TApiSnippetProps) {
+  const codeStyle = clipCodeHeight
+    ? { maxHeight: CLIPPED_CODE_HEIGHT }
+    : undefined;
+  const codeClassName = clipCodeHeight ? 'm-0 overflow-y-auto' : 'm-0';
   const op = operations[operation] as TStackOperation | undefined;
   const method = op?.method ?? 'GET';
   const rawPath = op?.path ?? '';
@@ -122,7 +134,7 @@ export function ApiSnippet({
           </TabsList>
           <CopyButton text={codeByTab[tab]} className="ml-auto" />
         </div>
-        <TabsContent value="curl" className="m-0">
+        <TabsContent value="curl" className={codeClassName} style={codeStyle}>
           <CodeSnippet
             code={curl}
             language="bash"
@@ -130,7 +142,7 @@ export function ApiSnippet({
             canCopy={false}
           />
         </TabsContent>
-        <TabsContent value="httpie" className="m-0">
+        <TabsContent value="httpie" className={codeClassName} style={codeStyle}>
           <CodeSnippet
             code={httpie}
             language="bash"
@@ -138,7 +150,7 @@ export function ApiSnippet({
             canCopy={false}
           />
         </TabsContent>
-        <TabsContent value="sdk" className="m-0">
+        <TabsContent value="sdk" className={codeClassName} style={codeStyle}>
           <CodeSnippet
             code={sdk}
             language="typescript"
@@ -147,7 +159,7 @@ export function ApiSnippet({
           />
         </TabsContent>
         {showFctl && (
-          <TabsContent value="fctl" className="m-0">
+          <TabsContent value="fctl" className={codeClassName} style={codeStyle}>
             <CodeSnippet
               code={fctl!}
               language="bash"

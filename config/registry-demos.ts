@@ -1241,6 +1241,15 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/api-snippet-sdk-default.tsx',
       },
+      {
+        title: 'Clipped code height',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/api-snippet-clip-code-height')
+        ),
+        sourceFile:
+          'registry/default/examples/api-snippet-clip-code-height.tsx',
+      },
     ],
   },
   'chart-of-accounts': {
