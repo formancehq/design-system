@@ -797,6 +797,25 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui-fragments/chart-of-accounts.tsx',
     source: 'custom',
   },
+  'fragments/markdown': {
+    registryName: 'markdown',
+    description:
+      'Formance-styled markdown renderer (GFM, code blocks, tables, math, mermaid) with an overridable component map.',
+    sourceFile: 'registry/default/ui-fragments/markdown.tsx',
+    source: 'custom',
+    subComponents: [
+      {
+        name: 'Markdown',
+        description:
+          'Renders a markdown string with Formance styling. Accepts a `components` prop merged over the defaults.',
+      },
+      {
+        name: 'markdownComponents',
+        description:
+          'The reusable element→component map. Spread it into react-markdown or streamdown to reuse the styling elsewhere.',
+      },
+    ],
+  },
   'fragments/copy-page': {
     registryName: 'copy-page',
     description:
@@ -1050,6 +1069,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
         { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
+        { title: 'Markdown', href: '/docs/fragments/markdown' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
         { title: 'Page Header', href: '/docs/fragments/page-header' },
         {

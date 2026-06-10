@@ -1637,6 +1637,28 @@
       ]
     },
     {
+      "name": "markdown",
+      "type": "registry:component",
+      "title": "Markdown",
+      "description": "Formance-styled markdown renderer (GFM, code blocks, tables, math, mermaid) with an overridable component map.",
+      "dependencies": [
+        "react-markdown",
+        "remark-gfm",
+        "remark-math",
+        "rehype-katex",
+        "katex",
+        "mermaid"
+      ],
+      "registryDependencies": ["https://ds.formance.com/r/code-snippet.json"],
+      "files": [
+        {
+          "path": "registry/default/ui-fragments/markdown.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/markdown.tsx"
+        }
+      ]
+    },
+    {
       "name": "copy-page",
       "type": "registry:component",
       "title": "Copy Page",

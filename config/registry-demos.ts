@@ -1252,6 +1252,47 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  markdown: {
+    component: lazy(() => import('@/registry/default/demos/markdown-demo')),
+    sourceFile: 'registry/default/demos/markdown-demo.tsx',
+    examples: [
+      {
+        title: 'GitHub Flavored Markdown',
+        component: lazy(
+          () => import('@/registry/default/examples/markdown-gfm')
+        ),
+        sourceFile: 'registry/default/examples/markdown-gfm.tsx',
+      },
+      {
+        title: 'Code blocks',
+        component: lazy(
+          () => import('@/registry/default/examples/markdown-code')
+        ),
+        sourceFile: 'registry/default/examples/markdown-code.tsx',
+      },
+      {
+        title: 'Extending the component map',
+        component: lazy(
+          () => import('@/registry/default/examples/markdown-extend')
+        ),
+        sourceFile: 'registry/default/examples/markdown-extend.tsx',
+      },
+      {
+        title: 'Math (KaTeX)',
+        component: lazy(
+          () => import('@/registry/default/examples/markdown-math')
+        ),
+        sourceFile: 'registry/default/examples/markdown-math.tsx',
+      },
+      {
+        title: 'Mermaid diagrams',
+        component: lazy(
+          () => import('@/registry/default/examples/markdown-mermaid')
+        ),
+        sourceFile: 'registry/default/examples/markdown-mermaid.tsx',
+      },
+    ],
+  },
   'chart-of-accounts': {
     component: lazy(
       () => import('@/registry/default/demos/chart-of-accounts-demo')

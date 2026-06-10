@@ -46,6 +46,14 @@ const eslintConfig = [
       'react-hooks/use-memo': 'off',
     },
   },
+  {
+    // Registry components are portable and installed into non-Next consumers,
+    // so they must not carry Next-specific lint directives.
+    files: ['registry/**/*.tsx'],
+    rules: {
+      '@next/next/no-img-element': 'off',
+    },
+  },
 ];
 
 export default eslintConfig;
