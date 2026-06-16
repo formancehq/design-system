@@ -8,7 +8,6 @@ import {
   EyeOff,
   Folder,
   FolderOpen,
-  Regex,
 } from 'lucide-react';
 import * as React from 'react';
 
@@ -124,22 +123,27 @@ function ChartLegend() {
   return (
     <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t pt-3 text-xs text-muted-foreground">
       <span className="flex items-center gap-1.5">
-        <Folder className="size-3.5 shrink-0 text-muted-foreground" />
+        <Folder className="size-3.5 shrink-0 text-cobalt-500" />
         folder
       </span>
       <span className="flex items-center gap-1.5">
-        <Coins className="size-3.5 shrink-0 text-green-foreground" />
+        <Coins className="size-3.5 shrink-0 text-mint-700 dark:text-mint-600" />
         account
       </span>
       <span className="flex items-center gap-1.5">
         <span className="inline-flex items-center gap-0.5">
-          <Folder className="size-3.5 shrink-0 text-muted-foreground" />
-          <Coins className="size-3.5 shrink-0 text-green-foreground" />
+          <Folder className="size-3.5 shrink-0 text-cobalt-500" />
+          <Coins className="size-3.5 shrink-0 text-mint-700 dark:text-mint-600" />
         </span>
         folder + account (.self)
       </span>
       <span className="flex items-center gap-1.5">
-        <Regex className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
+        <span
+          aria-hidden
+          className="shrink-0 select-none font-mono text-gold-500 dark:text-gold-300"
+        >
+          {'{}'}
+        </span>
         parameterized
       </span>
     </div>
@@ -215,15 +219,20 @@ function ChartNode({
         >
           {hasChildren &&
             (open ? (
-              <FolderOpen className="size-3.5 shrink-0 text-muted-foreground" />
+              <FolderOpen className="size-3.5 shrink-0 text-cobalt-500" />
             ) : (
-              <Folder className="size-3.5 shrink-0 text-muted-foreground" />
+              <Folder className="size-3.5 shrink-0 text-cobalt-500" />
             ))}
           {isPostable && (
-            <Coins className="size-3.5 shrink-0 text-green-foreground" />
+            <Coins className="size-3.5 shrink-0 text-mint-700 dark:text-mint-600" />
           )}
           {isVariable && (
-            <Regex className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
+            <span
+              aria-hidden
+              className="shrink-0 select-none font-mono text-gold-500 dark:text-gold-300"
+            >
+              {'{}'}
+            </span>
           )}
         </span>
       </span>
