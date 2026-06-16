@@ -8,7 +8,7 @@ import {
   EyeOff,
   Folder,
   FolderOpen,
-  Variable,
+  Regex,
 } from 'lucide-react';
 import * as React from 'react';
 
@@ -139,7 +139,7 @@ function ChartLegend() {
         folder + account (.self)
       </span>
       <span className="flex items-center gap-1.5">
-        <Variable className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
+        <Regex className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
         parameterized
       </span>
     </div>
@@ -223,7 +223,7 @@ function ChartNode({
             <Coins className="size-3.5 shrink-0 text-green-foreground" />
           )}
           {isVariable && (
-            <Variable className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
+            <Regex className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
           )}
         </span>
       </span>
