@@ -1,6 +1,6 @@
 <ComponentPreview name="chart-of-accounts" peekCode />
 
-A foldable tree visualization of a Formance ledger **Chart of Accounts** schema. Renders nested account segments with ASCII connectors (`├─` / `└─`) and a dual-icon gutter: a folder marks a namespace, a coin marks a postable account, and a node with `.self` shows both. Parameterized `$segments` get a gold `(x)` marker, and regex `.pattern` validators and `.metadata` defaults render as badges. Folders can be collapsed; pass `legend` to show the icon key.
+A foldable tree visualization of a Formance ledger **Chart of Accounts** schema. Renders nested account segments with ASCII connectors (`├─` / `└─`) and a dual-icon gutter: a folder marks a namespace, a coin marks a postable account, and a node with `.self` shows both. Parameterized `$segments` get a gold `{}` marker, and regex `.pattern` validators and `.metadata` defaults render as badges. Folders can be collapsed; pass `legend` to show the icon key.
 
 <Section
   title="Collapsed by default"
@@ -25,7 +25,7 @@ A foldable tree visualization of a Formance ledger **Chart of Accounts** schema.
 
 <Section
   title="Hide details"
-  description="Set defaultShowDetails to false to drop the pattern superscripts and metadata badges. The role icons stay so the structure is still readable."
+  description="Set defaultShowDetails to false to hide the pattern and metadata badges. The role icons stay so the structure is still readable."
 >
   <ComponentPreview name="chart-of-accounts-hide-details" />
 </Section>

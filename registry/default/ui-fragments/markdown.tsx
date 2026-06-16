@@ -126,7 +126,10 @@ function MermaidDiagram({ chart }: { chart: string }) {
           theme: 'base',
           themeVariables: isDark ? MERMAID_DARK : MERMAID_LIGHT,
           fontFamily: 'inherit',
-          securityLevel: 'loose',
+          // Strict sandboxing: Mermaid sanitizes labels and strips click
+          // handlers so the rendered SVG injected via dangerouslySetInnerHTML
+          // can't carry script when the markdown source is untrusted.
+          securityLevel: 'strict',
         });
         const { svg } = await mermaid.render(idRef.current, chart);
         if (!cancelled) {
