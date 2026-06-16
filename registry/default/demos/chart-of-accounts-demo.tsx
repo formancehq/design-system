@@ -4,6 +4,7 @@ const data = {
   cardholder: {
     $account_id: {
       '.pattern': '^[a-zA-Z0-9_-]+$',
+      '.self': {},
       main: {
         '.self': {},
         '.metadata': { type: { default: 'cardholder' } },
@@ -62,7 +63,7 @@ const data = {
 export default function ChartOfAccountsDemo() {
   return (
     <div className="w-full max-w-2xl">
-      <ChartOfAccounts data={data} />
+      <ChartOfAccounts data={data} legend />
     </div>
   );
 }

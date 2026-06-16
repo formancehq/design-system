@@ -1,12 +1,14 @@
 'use client';
 
 import {
-  ChevronDown,
-  ChevronRight,
   ChevronsDownUp,
   ChevronsUpDown,
+  Coins,
   Eye,
   EyeOff,
+  Folder,
+  FolderOpen,
+  Variable,
 } from 'lucide-react';
 import * as React from 'react';
 
@@ -38,6 +40,7 @@ export type TChartOfAccountsProps = {
   defaultExpanded?: boolean;
   defaultShowDetails?: boolean;
   hideToolbar?: boolean;
+  legend?: boolean;
   className?: string;
 };
 
@@ -47,6 +50,7 @@ export function ChartOfAccounts({
   defaultExpanded,
   defaultShowDetails = true,
   hideToolbar = false,
+  legend = false,
   className,
 }: TChartOfAccountsProps) {
   const entries = Object.entries(data);
@@ -111,6 +115,33 @@ export function ChartOfAccounts({
           />
         ))}
       </div>
+      {legend && <ChartLegend />}
+    </div>
+  );
+}
+
+function ChartLegend() {
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 border-t pt-3 text-xs text-muted-foreground">
+      <span className="flex items-center gap-1.5">
+        <Folder className="size-3.5 shrink-0 text-muted-foreground" />
+        folder
+      </span>
+      <span className="flex items-center gap-1.5">
+        <Coins className="size-3.5 shrink-0 text-green-foreground" />
+        account
+      </span>
+      <span className="flex items-center gap-1.5">
+        <span className="inline-flex items-center gap-0.5">
+          <Folder className="size-3.5 shrink-0 text-muted-foreground" />
+          <Coins className="size-3.5 shrink-0 text-green-foreground" />
+        </span>
+        folder + account (.self)
+      </span>
+      <span className="flex items-center gap-1.5">
+        <Variable className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
+        parameterized
+      </span>
     </div>
   );
 }
@@ -153,6 +184,7 @@ function ChartNode({
     | undefined;
 
   const hasChildren = children.length > 0;
+  const isPostable = isSelf || !hasChildren;
   const childPrefix = depth === 0 ? '' : prefix + (isLast ? '   ' : '│  ');
   const connector = depth === 0 ? '' : isLast ? '└─ ' : '├─ ';
 
@@ -177,30 +209,30 @@ function ChartNode({
             {connector}
           </span>
         )}
-        {hasChildren ? (
-          <span
-            aria-hidden
-            className="inline-flex w-[1ch] items-center justify-center align-middle text-muted-foreground/70"
-          >
-            {open ? (
-              <ChevronDown className="size-3.5 shrink-0" />
-            ) : (
-              <ChevronRight className="size-3.5 shrink-0" />
-            )}
-          </span>
-        ) : (
-          <span aria-hidden className="select-none">
-            {' '}
-          </span>
-        )}
         <span
-          className={cn(
-            isVariable ? 'text-gold-500 dark:text-gold-300' : 'text-foreground'
-          )}
+          aria-hidden
+          className="inline-flex items-center gap-0.5 align-middle"
         >
-          {' '}
-          {name}
+          {hasChildren &&
+            (open ? (
+              <FolderOpen className="size-3.5 shrink-0 text-muted-foreground" />
+            ) : (
+              <Folder className="size-3.5 shrink-0 text-muted-foreground" />
+            ))}
+          {isPostable && (
+            <Coins className="size-3.5 shrink-0 text-green-foreground" />
+          )}
+          {isVariable && (
+            <Variable className="size-3.5 shrink-0 text-gold-500 dark:text-gold-300" />
+          )}
         </span>
+      </span>
+      <span
+        className={cn(
+          isVariable ? 'text-gold-500 dark:text-gold-300' : 'text-foreground'
+        )}
+      >
+        {name}
       </span>
       {showDetails && pattern && (
         <Badge
@@ -211,11 +243,7 @@ function ChartNode({
           {pattern}
         </Badge>
       )}
-      {showDetails && isSelf && (
-        <Badge variant="valid" size="sm">
-          account
-        </Badge>
-      )}
+      {isPostable && <span className="sr-only">account</span>}
       {showDetails &&
         metadata &&
         Object.entries(metadata).map(([k, v]) => {
