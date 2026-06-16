@@ -1,0 +1,46 @@
+<ComponentPreview name="markdown" peekCode />
+
+A Formance-styled markdown renderer built on **react-markdown**. Pass a markdown string as children and it renders headings, prose, lists, links, tables, and code blocks with the design system's tokens and typography. Fenced code blocks route through `CodeSnippet` (Shiki) and inline code stays lightweight.
+
+Out of the box it supports GitHub Flavored Markdown (`remark-gfm`), math (`remark-math` + `rehype-katex`), and ` ```mermaid ` diagrams (loaded lazily). Every element renderer is overridable through the `components` prop, which is merged over the defaults — override one tag without losing the rest. The same map is exported as `markdownComponents` so you can reuse the styling in your own react-markdown (or streamdown) instance.
+
+```tsx
+import { Markdown } from '@/components/ui-fragments/markdown';
+
+<Markdown>{`# Hello\n\nSome **markdown** with a [link](https://formance.com).`}</Markdown>;
+```
+
+<Section
+  title="GitHub Flavored Markdown"
+  description="Tables, task lists, strikethrough, and autolinks via remark-gfm."
+>
+  <ComponentPreview name="markdown-gfm" />
+</Section>
+
+<Section
+  title="Code blocks"
+  description="Fenced blocks render through CodeSnippet (Shiki); unknown languages fall back to plain text."
+>
+  <ComponentPreview name="markdown-code" />
+</Section>
+
+<Section
+  title="Extending the component map"
+  description="Pass a components map to override or inject custom renderers. It is merged over the defaults, so the rest of the elements keep their styling."
+>
+  <ComponentPreview name="markdown-extend" />
+</Section>
+
+<Section
+  title="Math (KaTeX)"
+  description="Inline ($…$) and block ($$…$$) math via remark-math and rehype-katex."
+>
+  <ComponentPreview name="markdown-math" />
+</Section>
+
+<Section
+  title="Mermaid diagrams"
+  description="A ```mermaid fence renders as a diagram. The mermaid bundle is code-split and only loaded when a diagram is present."
+>
+  <ComponentPreview name="markdown-mermaid" />
+</Section>
