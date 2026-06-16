@@ -116,7 +116,9 @@ function Endpoint({ method, statusCode, path, className }: TEndpointProps) {
           className={cn(
             'inline-flex items-center select-text leading-none py-1 px-2 rounded-r-xs bg-muted/40 text-foreground border truncate',
             hasStatus && 'border-l-0',
-            hasMethod && !hasStatus && 'border-l-emerald-400',
+            hasMethod &&
+              !hasStatus &&
+              'border-l-emerald-400 dark:border-l-border',
             !hasMethod && !hasStatus && 'rounded-l-xs'
           )}
         >
