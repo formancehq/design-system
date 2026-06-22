@@ -92,12 +92,7 @@ export function CopyPage({
         className
       )}
     >
-      <Button
-        variant="ghost"
-        onClick={handleCopy}
-        caseSensitive
-        className="gap-2"
-      >
+      <Button variant="ghost" onClick={handleCopy} className="gap-2">
         {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
         {label}
       </Button>
