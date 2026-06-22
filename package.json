@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit",
     "registry:build": "shadcn build",
     "extract:operations": "tsx scripts/extract-stack-operations.ts",
+    "extract:membership-operations": "tsx scripts/extract-membership-operations.ts",
     "pre-commit": "lint-staged && pnpm run typecheck",
     "prepare": "husky"
   },
@@ -76,6 +77,7 @@
     "prettier": "^3.8.3",
     "shadcn": "^4.5.0",
     "tailwindcss": "^4.2.4",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "yaml": "^2.8.3"
   }
 }

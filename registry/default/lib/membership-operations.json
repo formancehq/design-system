@@ -1,0 +1,567 @@
+{
+  "_meta": {
+    "specVersion": "2.5.0",
+    "specFile": "v2.5.0.yaml",
+    "generatedFrom": "openapi/membership"
+  },
+  "operations": {
+    "acceptInvitation": {
+      "method": "POST",
+      "path": "/me/invitations/{invitationId}/accept",
+      "pathParams": ["invitationId"],
+      "summary": "Accept invitation"
+    },
+    "addDelegationToScope": {
+      "method": "POST",
+      "path": "/applications/{applicationId}/scopes/{scopeID}/delegations/{delegatesToScopeId}",
+      "pathParams": ["applicationId", "scopeID", "delegatesToScopeId"],
+      "summary": "Add delegation to scope"
+    },
+    "addFeatures": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/features",
+      "pathParams": ["organizationId"],
+      "summary": "Add Features"
+    },
+    "addGroupMember": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/groups/{groupId}/members/{userId}",
+      "pathParams": ["organizationId", "groupId", "userId"],
+      "summary": "Add member to group"
+    },
+    "addScopeToPolicy": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/policies/{policyId}/scopes/{scopeId}",
+      "pathParams": ["organizationId", "policyId", "scopeId"],
+      "summary": "Add scope to policy"
+    },
+    "createApplication": {
+      "method": "POST",
+      "path": "/applications",
+      "pathParams": [],
+      "summary": "Create application"
+    },
+    "createApplicationClient": {
+      "method": "POST",
+      "path": "/applications/{applicationId}/clients",
+      "pathParams": ["applicationId"],
+      "summary": "Create application client"
+    },
+    "createApplicationScope": {
+      "method": "POST",
+      "path": "/applications/{applicationId}/scopes",
+      "pathParams": ["applicationId"],
+      "summary": "Create application scope"
+    },
+    "createGroup": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/groups",
+      "pathParams": ["organizationId"],
+      "summary": "Create group"
+    },
+    "createInvitation": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/invitations",
+      "pathParams": ["organizationId"],
+      "summary": "Create invitation"
+    },
+    "createOrganization": {
+      "method": "POST",
+      "path": "/organizations",
+      "pathParams": [],
+      "summary": "Create organization"
+    },
+    "createOrganizationClient": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/client",
+      "pathParams": ["organizationId"],
+      "summary": "Create organization client (DEPRECATED) (until 12/31/2025)"
+    },
+    "createPolicy": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/policies",
+      "pathParams": ["organizationId"],
+      "summary": "Create policy"
+    },
+    "createPrivateRegion": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/regions",
+      "pathParams": ["organizationId"],
+      "summary": "Create a private region"
+    },
+    "createStack": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/stacks",
+      "pathParams": ["organizationId"],
+      "summary": "Create stack"
+    },
+    "createUser": {
+      "method": "POST",
+      "path": "/users",
+      "pathParams": [],
+      "summary": "Create user"
+    },
+    "declineInvitation": {
+      "method": "POST",
+      "path": "/me/invitations/{invitationId}/reject",
+      "pathParams": ["invitationId"],
+      "summary": "Decline invitation"
+    },
+    "deleteApplication": {
+      "method": "DELETE",
+      "path": "/applications/{applicationId}",
+      "pathParams": ["applicationId"],
+      "summary": "Delete application"
+    },
+    "deleteApplicationClient": {
+      "method": "DELETE",
+      "path": "/applications/{applicationId}/clients/{clientId}",
+      "pathParams": ["applicationId", "clientId"],
+      "summary": "Delete application client"
+    },
+    "deleteApplicationScope": {
+      "method": "DELETE",
+      "path": "/applications/{applicationId}/scopes/{scopeID}",
+      "pathParams": ["applicationId", "scopeID"],
+      "summary": "Delete application scope"
+    },
+    "deleteAuthenticationProvider": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/authentication-provider",
+      "pathParams": ["organizationId"],
+      "summary": "Delete authentication provider"
+    },
+    "deleteFeature": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/features/{name}",
+      "pathParams": ["organizationId", "name"],
+      "summary": "Delete feature"
+    },
+    "deleteGroup": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/groups/{groupId}",
+      "pathParams": ["organizationId", "groupId"],
+      "summary": "Delete group"
+    },
+    "deleteInvitation": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/invitations/{invitationId}",
+      "pathParams": ["organizationId", "invitationId"],
+      "summary": "Delete invitation"
+    },
+    "deleteOrganization": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}",
+      "pathParams": ["organizationId"],
+      "summary": "Delete organization"
+    },
+    "deleteOrganizationClient": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/client",
+      "pathParams": ["organizationId"],
+      "summary": "Delete organization client (DEPRECATED) (until 12/31/2025)"
+    },
+    "deletePolicy": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/policies/{policyId}",
+      "pathParams": ["organizationId", "policyId"],
+      "summary": "Delete policy"
+    },
+    "deleteRegion": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/regions/{regionID}",
+      "pathParams": ["organizationId", "regionID"],
+      "summary": "Delete region"
+    },
+    "deleteStack": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/stacks/{stackId}",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Delete stack"
+    },
+    "deleteStackUserAccess": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/users/{userId}",
+      "pathParams": ["organizationId", "stackId", "userId"],
+      "summary": "Delete stack user access within an organization"
+    },
+    "deleteUserFromOrganization": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/users/{userId}",
+      "pathParams": ["organizationId", "userId"],
+      "summary": "delete user from organization"
+    },
+    "disableApplicationForOrganization": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/applications/{applicationId}",
+      "pathParams": ["organizationId", "applicationId"],
+      "summary": "Disable application for organization"
+    },
+    "disableModule": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/modules",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "disable module"
+    },
+    "disableStack": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/disable",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Disable stack"
+    },
+    "disableStargate": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/stargate/disable",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Disable stargate on a stack"
+    },
+    "enableApplicationForOrganization": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/applications/{applicationId}",
+      "pathParams": ["organizationId", "applicationId"],
+      "summary": "Enable application for organization"
+    },
+    "enableModule": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/modules",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "enable module"
+    },
+    "enableStack": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/enable",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Enable stack"
+    },
+    "enableStargate": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/stargate/enable",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Enable stargate on a stack"
+    },
+    "getApplication": {
+      "method": "GET",
+      "path": "/applications/{applicationId}",
+      "pathParams": ["applicationId"],
+      "summary": "Get application"
+    },
+    "getApplicationClient": {
+      "method": "GET",
+      "path": "/applications/{applicationId}/clients/{clientId}",
+      "pathParams": ["applicationId", "clientId"],
+      "summary": "Get application client"
+    },
+    "getOrganizationApplication": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/applications/{applicationId}",
+      "pathParams": ["organizationId", "applicationId"],
+      "summary": "Get application for organization"
+    },
+    "getRegion": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/regions/{regionID}",
+      "pathParams": ["organizationId", "regionID"],
+      "summary": "Get region"
+    },
+    "getRegionVersions": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/regions/{regionID}/versions",
+      "pathParams": ["organizationId", "regionID"],
+      "summary": "Get region versions"
+    },
+    "getServerInfo": {
+      "method": "GET",
+      "path": "/_info",
+      "pathParams": [],
+      "summary": "Get server info"
+    },
+    "getStack": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/stacks/{stackId}",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Find stack"
+    },
+    "getWellKnownScopes": {
+      "method": "GET",
+      "path": "/.well-known/scopes",
+      "pathParams": [],
+      "summary": "List all available protected scopes"
+    },
+    "listApplications": {
+      "method": "GET",
+      "path": "/applications",
+      "pathParams": [],
+      "summary": "List applications"
+    },
+    "listDiscoveredGroups": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/authentication-provider/groups",
+      "pathParams": ["organizationId"],
+      "summary": "List discovered groups"
+    },
+    "listFeatures": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/features",
+      "pathParams": ["organizationId"],
+      "summary": "List features"
+    },
+    "listGroupMembers": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/groups/{groupId}/members",
+      "pathParams": ["organizationId", "groupId"],
+      "summary": "List group members"
+    },
+    "listGroups": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/groups",
+      "pathParams": ["organizationId"],
+      "summary": "List groups of organization"
+    },
+    "listInvitations": {
+      "method": "GET",
+      "path": "/me/invitations",
+      "pathParams": [],
+      "summary": "List invitations of the user"
+    },
+    "listLogs": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/logs",
+      "pathParams": ["organizationId"],
+      "summary": "List logs"
+    },
+    "listModules": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/modules",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "List modules of a stack"
+    },
+    "listOrganizationApplications": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/applications",
+      "pathParams": ["organizationId"],
+      "summary": "List applications enabled for organization"
+    },
+    "listOrganizationInvitations": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/invitations",
+      "pathParams": ["organizationId"],
+      "summary": "List invitations of the organization"
+    },
+    "listOrganizations": {
+      "method": "GET",
+      "path": "/organizations",
+      "pathParams": [],
+      "summary": "List organizations of the connected user"
+    },
+    "listOrganizationsExpanded": {
+      "method": "GET",
+      "path": "/organizations/expanded",
+      "pathParams": [],
+      "summary": "List organizations of the connected user with expanded data"
+    },
+    "listPolicies": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/policies",
+      "pathParams": ["organizationId"],
+      "summary": "List policies of organization"
+    },
+    "listRegions": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/regions",
+      "pathParams": ["organizationId"],
+      "summary": "List regions"
+    },
+    "listStackUsersAccesses": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/users",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "List stack users accesses within an organization"
+    },
+    "listStacks": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/stacks",
+      "pathParams": ["organizationId"],
+      "summary": "List stacks"
+    },
+    "listUsersOfOrganization": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/users",
+      "pathParams": ["organizationId"],
+      "summary": "List users of organization"
+    },
+    "mapDiscoveredGroup": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/authentication-provider/groups/{externalGroupId}",
+      "pathParams": ["organizationId", "externalGroupId"],
+      "summary": "Map discovered group to local group"
+    },
+    "organizationClientCreate": {
+      "method": "POST",
+      "path": "/organizations/{organizationId}/clients",
+      "pathParams": ["organizationId"],
+      "summary": "Create organization client"
+    },
+    "organizationClientDelete": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/clients/{clientId}",
+      "pathParams": ["organizationId", "clientId"],
+      "summary": "Delete organization client"
+    },
+    "organizationClientRead": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/clients/{clientId}",
+      "pathParams": ["organizationId", "clientId"],
+      "summary": "Read organization client"
+    },
+    "organizationClientUpdate": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/clients/{clientId}",
+      "pathParams": ["organizationId", "clientId"],
+      "summary": "Update organization client"
+    },
+    "organizationClientsRead": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/clients",
+      "pathParams": ["organizationId"],
+      "summary": "Read organization clients"
+    },
+    "readAuthenticationProvider": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/authentication-provider",
+      "pathParams": ["organizationId"],
+      "summary": "Read authentication provider"
+    },
+    "readConnectedUser": {
+      "method": "GET",
+      "path": "/me",
+      "pathParams": [],
+      "summary": "Read user"
+    },
+    "readGroup": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/groups/{groupId}",
+      "pathParams": ["organizationId", "groupId"],
+      "summary": "Read group"
+    },
+    "readOrganization": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}",
+      "pathParams": ["organizationId"],
+      "summary": "Read organization"
+    },
+    "readOrganizationClient": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/client",
+      "pathParams": ["organizationId"],
+      "summary": "Read organization client (DEPRECATED) (until 12/31/2025)"
+    },
+    "readPolicy": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/policies/{policyId}",
+      "pathParams": ["organizationId", "policyId"],
+      "summary": "Read policy with scopes"
+    },
+    "readStackUserAccess": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/users/{userId}",
+      "pathParams": ["organizationId", "stackId", "userId"],
+      "summary": "Read stack user access within an organization"
+    },
+    "readUserOfOrganization": {
+      "method": "GET",
+      "path": "/organizations/{organizationId}/users/{userId}",
+      "pathParams": ["organizationId", "userId"],
+      "summary": "Read user of organization"
+    },
+    "removeDelegationFromScope": {
+      "method": "DELETE",
+      "path": "/applications/{applicationId}/scopes/{scopeID}/delegations/{delegatesToScopeId}",
+      "pathParams": ["applicationId", "scopeID", "delegatesToScopeId"],
+      "summary": "Remove delegation from scope"
+    },
+    "removeGroupMember": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/groups/{groupId}/members/{userId}",
+      "pathParams": ["organizationId", "groupId", "userId"],
+      "summary": "Remove member from group"
+    },
+    "removeScopeFromPolicy": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/policies/{policyId}/scopes/{scopeId}",
+      "pathParams": ["organizationId", "policyId", "scopeId"],
+      "summary": "Remove scope from policy"
+    },
+    "restoreStack": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/restore",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Restore stack"
+    },
+    "unmapDiscoveredGroup": {
+      "method": "DELETE",
+      "path": "/organizations/{organizationId}/authentication-provider/groups/{externalGroupId}",
+      "pathParams": ["organizationId", "externalGroupId"],
+      "summary": "Unmap discovered group"
+    },
+    "updateApplication": {
+      "method": "PUT",
+      "path": "/applications/{applicationId}",
+      "pathParams": ["applicationId"],
+      "summary": "Update application"
+    },
+    "updateApplicationClient": {
+      "method": "PUT",
+      "path": "/applications/{applicationId}/clients/{clientId}",
+      "pathParams": ["applicationId", "clientId"],
+      "summary": "Update application client"
+    },
+    "updateGroup": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/groups/{groupId}",
+      "pathParams": ["organizationId", "groupId"],
+      "summary": "Update group"
+    },
+    "updateOrganization": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}",
+      "pathParams": ["organizationId"],
+      "summary": "Update organization"
+    },
+    "updatePolicy": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/policies/{policyId}",
+      "pathParams": ["organizationId", "policyId"],
+      "summary": "Update policy"
+    },
+    "updateStack": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Update stack"
+    },
+    "upgradeStack": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/upgrade",
+      "pathParams": ["organizationId", "stackId"],
+      "summary": "Upgrade stack"
+    },
+    "upsertAuthenticationProvider": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/authentication-provider",
+      "pathParams": ["organizationId"],
+      "summary": "Upsert an authentication provider"
+    },
+    "upsertOrganizationUser": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/users/{userId}",
+      "pathParams": ["organizationId", "userId"],
+      "summary": "Update user within an organization"
+    },
+    "upsertStackUserAccess": {
+      "method": "PUT",
+      "path": "/organizations/{organizationId}/stacks/{stackId}/users/{userId}",
+      "pathParams": ["organizationId", "stackId", "userId"],
+      "summary": "Update stack user access within an organization"
+    }
+  }
+}

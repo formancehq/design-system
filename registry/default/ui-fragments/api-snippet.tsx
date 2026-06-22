@@ -23,13 +23,38 @@ import {
   TabsTrigger,
 } from '@/registry/default/ui/tabs';
 
-const operations = (stackOperationsData as TStackOperationsIndex).operations;
+const stackOperations = (stackOperationsData as TStackOperationsIndex)
+  .operations;
 
 export type TApiSnippetTab = 'curl' | 'httpie' | 'sdk' | 'fctl';
 
+const TAB_LABEL: Record<TApiSnippetTab, string> = {
+  curl: 'curl',
+  httpie: 'HTTPie',
+  sdk: 'TypeScript',
+  fctl: 'fctl',
+};
+
+const TAB_LANGUAGE: Record<TApiSnippetTab, 'bash' | 'typescript'> = {
+  curl: 'bash',
+  httpie: 'bash',
+  sdk: 'typescript',
+  fctl: 'bash',
+};
+
 export type TApiSnippetProps = {
-  /** OpenAPI operationId, resolved against the bundled stack operations index. */
-  operation: string;
+  /**
+   * OpenAPI operationId, resolved against the `operations` index. Optional —
+   * omit it to render an fctl-only snippet (`tabs={['fctl']}`) with no
+   * generated request and no endpoint footer.
+   */
+  operation?: string;
+  /**
+   * Operations index the `operation` is resolved against. Defaults to the
+   * bundled stack operations. Pass a different index (e.g. membership/cloud
+   * operations) to generate snippets for another API.
+   */
+  operations?: Record<string, TStackOperation>;
   /** Path parameter values, e.g. `{ ledger: 'testing' }`. */
   params?: Record<string, string>;
   /** Request body. JSON-serialized for curl/sdk, flattened to key=value for HTTPie. */
@@ -38,11 +63,16 @@ export type TApiSnippetProps = {
   headers?: Record<string, string>;
   /** Override the base URL placeholder. */
   baseUrl?: string;
-  /** Optional fctl one-liner. When present, an fctl tab is shown. */
+  /** fctl one-liner. Required for the `fctl` tab to render. */
   fctl?: string;
-  /** Hide the fctl tab even if a fctl prop is provided. */
-  noFctl?: boolean;
-  /** Initial tab. Defaults to `curl`. */
+  /**
+   * Which tabs to show, in order. Defaults to `['curl', 'httpie', 'sdk']`,
+   * with `'fctl'` prepended when a `fctl` string is provided. A requested tab
+   * is only rendered when it has content (`'fctl'` needs the `fctl` prop,
+   * `'sdk'` needs the operation to declare an SDK module/method).
+   */
+  tabs?: TApiSnippetTab[];
+  /** Initial tab. Falls back to the first visible tab when not shown. */
   defaultTab?: TApiSnippetTab;
   /**
    * Cap the visible height of the code area. When true, long snippets scroll
@@ -56,12 +86,13 @@ const CLIPPED_CODE_HEIGHT = 240;
 
 export function ApiSnippet({
   operation,
+  operations = stackOperations,
   params,
   body,
   headers,
   baseUrl,
   fctl,
-  noFctl,
+  tabs,
   defaultTab = 'curl',
   clipCodeHeight = false,
   className,
@@ -70,11 +101,12 @@ export function ApiSnippet({
     ? { maxHeight: CLIPPED_CODE_HEIGHT }
     : undefined;
   const codeClassName = clipCodeHeight ? 'm-0 overflow-y-auto' : 'm-0';
-  const op = operations[operation] as TStackOperation | undefined;
+  const op = operation
+    ? (operations[operation] as TStackOperation | undefined)
+    : undefined;
   const method = op?.method ?? 'GET';
   const rawPath = op?.path ?? '';
   const resolvedPath = resolvePathParams(rawPath, params);
-  const showFctl = !noFctl && !!fctl;
 
   const curl = useMemo(
     () => generateCurl(method, resolvedPath, body, headers, baseUrl),
@@ -89,21 +121,40 @@ export function ApiSnippet({
     [op, params, body]
   );
 
-  const initialTab: TApiSnippetTab =
-    defaultTab === 'fctl' && !showFctl ? 'curl' : defaultTab;
+  const hasContent: Record<TApiSnippetTab, boolean> = {
+    curl: !!op,
+    httpie: !!op,
+    sdk: !!op?.sdk,
+    fctl: !!fctl,
+  };
+  const requestedTabs =
+    tabs ??
+    (fctl ? ['fctl', 'curl', 'httpie', 'sdk'] : ['curl', 'httpie', 'sdk']);
+  const visibleTabs = requestedTabs.filter((t) => hasContent[t]);
+  const isSingleTab = visibleTabs.length === 1;
+  const initialTab = visibleTabs.includes(defaultTab)
+    ? defaultTab
+    : (visibleTabs[0] ?? 'curl');
   const [tab, setTab] = useState<TApiSnippetTab>(initialTab);
+  const activeTab = visibleTabs.includes(tab)
+    ? tab
+    : (visibleTabs[0] ?? 'curl');
 
-  if (!op) {
-    return (
-      <div
-        className={cn(
-          'rounded-md border border-destructive/40 bg-destructive/10 p-3 font-mono text-xs text-destructive-foreground',
-          className
-        )}
-      >
-        Unknown operation: <code>{operation}</code>
-      </div>
-    );
+  if (visibleTabs.length === 0) {
+    if (operation && !op) {
+      return (
+        <div
+          className={cn(
+            'rounded-md border border-destructive/40 bg-destructive/10 p-3 font-mono text-xs text-destructive-foreground',
+            className
+          )}
+        >
+          Unknown operation: <code>{operation}</code>
+        </div>
+      );
+    }
+
+    return null;
   }
 
   const codeByTab: Record<TApiSnippetTab, string> = {
@@ -121,57 +172,45 @@ export function ApiSnippet({
       )}
     >
       <Tabs
-        value={tab}
+        value={activeTab}
         onValueChange={(v) => setTab(v as TApiSnippetTab)}
         className="gap-0"
       >
         <div className="flex items-center border-b bg-muted/40 pr-2">
           <TabsList variant="line" className="px-2 pl-0 -ml-px">
-            {showFctl && <TabsTrigger value="fctl">fctl</TabsTrigger>}
-            <TabsTrigger value="curl">curl</TabsTrigger>
-            <TabsTrigger value="httpie">HTTPie</TabsTrigger>
-            <TabsTrigger value="sdk">TypeScript</TabsTrigger>
+            {visibleTabs.map((t) => (
+              <TabsTrigger
+                key={t}
+                value={t}
+                className={isSingleTab ? 'after:hidden' : undefined}
+              >
+                {TAB_LABEL[t]}
+              </TabsTrigger>
+            ))}
           </TabsList>
-          <CopyButton text={codeByTab[tab]} className="ml-auto" />
+          <CopyButton text={codeByTab[activeTab]} className="ml-auto" />
         </div>
-        <TabsContent value="curl" className={codeClassName} style={codeStyle}>
-          <CodeSnippet
-            code={curl}
-            language="bash"
-            bordered={false}
-            canCopy={false}
-          />
-        </TabsContent>
-        <TabsContent value="httpie" className={codeClassName} style={codeStyle}>
-          <CodeSnippet
-            code={httpie}
-            language="bash"
-            bordered={false}
-            canCopy={false}
-          />
-        </TabsContent>
-        <TabsContent value="sdk" className={codeClassName} style={codeStyle}>
-          <CodeSnippet
-            code={sdk}
-            language="typescript"
-            bordered={false}
-            canCopy={false}
-          />
-        </TabsContent>
-        {showFctl && (
-          <TabsContent value="fctl" className={codeClassName} style={codeStyle}>
+        {visibleTabs.map((t) => (
+          <TabsContent
+            key={t}
+            value={t}
+            className={codeClassName}
+            style={codeStyle}
+          >
             <CodeSnippet
-              code={fctl!}
-              language="bash"
+              code={codeByTab[t]}
+              language={TAB_LANGUAGE[t]}
               bordered={false}
               canCopy={false}
             />
           </TabsContent>
-        )}
+        ))}
       </Tabs>
-      <div className="flex items-center border-t p-2">
-        <Endpoint method={op.method} path={resolvedPath.split('?')[0]} />
-      </div>
+      {op && (
+        <div className="flex items-center border-t p-2">
+          <Endpoint method={op.method} path={resolvedPath.split('?')[0]} />
+        </div>
+      )}
     </div>
   );
 }

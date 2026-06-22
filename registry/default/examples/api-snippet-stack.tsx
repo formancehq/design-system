@@ -1,13 +1,13 @@
 import { ApiSnippet } from '@/components/ui-fragments/api-snippet';
 
-export default function ApiSnippetNoFctl() {
+/*
+ * Stack API: `operation` resolves against the bundled stack operations index
+ * (the default), so curl, HTTPie, the TypeScript SDK, and the fctl tab all
+ * render.
+ */
+export default function ApiSnippetStack() {
   return (
     <div className="w-full">
-      {/*
-       * An fctl one-liner is provided, but `tabs` omits it — so only curl,
-       * HTTPie, and the TypeScript SDK render. Restricting `tabs` is how you
-       * hide a tab whose content is otherwise available.
-       */}
       <ApiSnippet
         operation="v2CreateTransaction"
         params={{ ledger: 'testing' }}
@@ -16,8 +16,8 @@ export default function ApiSnippetNoFctl() {
             plain: 'send [USD/2 100] (source = @world allocating to @alice)',
           },
         }}
+        headers={{ Authorization: 'Bearer $AUTH_TOKEN' }}
         fctl="fctl ledger transactions num testing"
-        tabs={['curl', 'httpie', 'sdk']}
       />
     </div>
   );
