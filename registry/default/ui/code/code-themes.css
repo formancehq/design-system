@@ -17,7 +17,7 @@
   --shiki-token-string-expression: var(--lilac-700);
   --shiki-token-punctuation: var(--emerald-800);
   --shiki-token-link: var(--emerald-600);
-  --shiki-token-monetary: var(--lilac-600);
+  --shiki-token-monetary: var(--lilac-800);
 }
 
 /* Dark theme */

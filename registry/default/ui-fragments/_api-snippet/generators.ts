@@ -34,14 +34,19 @@ export function generateCurl(
   path: string,
   body?: unknown,
   headers?: Record<string, string>,
-  baseUrl = '$FORMANCE_API_URL'
+  baseUrl = '$FORMANCE_API_URL',
+  bodyFile?: string,
+  rawArgs?: string
 ): string {
   const parts = [`curl -X ${method} ${baseUrl}${path}`];
   if (headers) {
     for (const [k, v] of Object.entries(headers))
       parts.push(`  -H "${k}: ${v}"`);
   }
-  if (body) {
+  if (bodyFile) {
+    parts.push(`  -H "Content-Type: application/json"`);
+    parts.push(`  -d @${bodyFile}`);
+  } else if (body) {
     const formatted = JSON.stringify(body, null, 2);
     const indented = formatted
       .split('\n')
@@ -50,6 +55,7 @@ export function generateCurl(
     parts.push(`  -H "Content-Type: application/json"`);
     parts.push(`  -d '${indented}'`);
   }
+  if (rawArgs) parts.push(`  ${rawArgs}`);
 
   return parts.join(' \\\n');
 }
@@ -95,7 +101,9 @@ export function generateHttpie(
   path: string,
   body?: unknown,
   headers?: Record<string, string>,
-  baseUrl = '$FORMANCE_API_URL'
+  baseUrl = '$FORMANCE_API_URL',
+  bodyFile?: string,
+  rawArgs?: string
 ): string {
   const verb = method === 'GET' ? '' : method + ' ';
   const [basePath, queryString] = path.split('?');
@@ -109,22 +117,22 @@ export function generateHttpie(
   if (headers) {
     for (const [k, v] of Object.entries(headers)) parts.push(`  ${k}:${v}`);
   }
-  if (body && typeof body === 'object' && !Array.isArray(body)) {
+  if (bodyFile) {
+    parts.push(`  < ${bodyFile}`);
+  } else if (body && typeof body === 'object' && !Array.isArray(body)) {
     if (jsonDepth(body) > 2) {
-      const formatted = JSON.stringify(body, null, 2);
-      const indented = formatted
+      const indented = JSON.stringify(body, null, 2)
         .split('\n')
-        .map((l) => '  ' + l)
+        .map((l, i) => (i === 0 ? l : '  ' + l))
         .join('\n');
-      parts.push(`  <<< '`);
-      parts.push(indented);
-      parts.push(`  '`);
+      parts.push(`  <<< '${indented}'`);
     } else {
       flattenHttpieArgs(body as Record<string, unknown>, '', parts);
     }
   } else if (body) {
     parts.push(`  <<< '${JSON.stringify(body)}'`);
   }
+  if (rawArgs) parts.push(`  ${rawArgs}`);
 
   return parts.join(' \\\n');
 }

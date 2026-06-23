@@ -1278,6 +1278,34 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile:
           'registry/default/examples/api-snippet-clip-code-height.tsx',
       },
+      {
+        title: 'Method and path',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-method-path')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-method-path.tsx',
+      },
+      {
+        title: 'Body from a file',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-body-file')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-body-file.tsx',
+      },
+      {
+        title: 'Raw args',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-raw-args')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-raw-args.tsx',
+      },
+      {
+        title: 'Controlled tabs',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-controlled')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-controlled.tsx',
+      },
     ],
   },
   markdown: {
@@ -1485,6 +1513,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/code-snippet-numscript')
         ),
         sourceFile: 'registry/default/examples/code-snippet-numscript.tsx',
+      },
+      {
+        title: 'Numscript playground',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-playground')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-playground.tsx',
       },
       {
         title: 'Dark Theme',
