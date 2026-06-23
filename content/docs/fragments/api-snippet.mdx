@@ -1,8 +1,12 @@
 <ComponentPreview name="api-snippet" peekCode />
 
-A tabbed API call reference rendered from a Formance stack OpenAPI **operationId**. Provide an operation (`v2CreateLedger`, `v2GetLedger`, …), optional `params`, `body`, and `headers`, and the component generates curl, HTTPie, and TypeScript SDK snippets. Pass `fctl` to add a fourth tab with a hand-authored fctl one-liner.
+A tabbed API call reference rendered from a Formance OpenAPI **operationId**. Provide an operation (`v2CreateLedger`, `v2GetLedger`, …), optional `params`, `body`, and `headers`, and the component generates curl, HTTPie, and TypeScript SDK snippets. Pass `fctl` to add a tab with a hand-authored fctl one-liner.
 
 The operations index ships alongside the fragment as `lib/stack-operations.json` (a separate registry item, `stack-operations`). Re-generate it with `pnpm extract:operations` from the design-system repo when the stack OpenAPI spec changes.
+
+To render snippets for another API, pass a different index via the `operations` prop. A membership/cloud index ships as `lib/membership-operations.json` (`membership-operations`), generated with `pnpm extract:membership-operations`. Membership operations have no public TypeScript SDK, so the `sdk` tab is omitted for them.
+
+Use the `tabs` prop to choose which tabs render and in what order (e.g. `tabs={['curl', 'httpie', 'fctl']}`). A requested tab is only shown when it has content: `'fctl'` needs the `fctl` prop, and `'sdk'` needs the operation to declare an SDK module/method.
 
 <Section
   title="GET request"
@@ -13,9 +17,37 @@ The operations index ships alongside the fragment as `lib/stack-operations.json`
 
 <Section
   title="Without fctl tab"
-  description="Omit the fctl prop (or set noFctl) to render only curl, HTTPie, and the TypeScript SDK."
+  description="An fctl one-liner is provided, but `tabs` omits it — restricting tabs hides a tab whose content is otherwise available. Omitting the fctl prop entirely has the same effect."
 >
   <ComponentPreview name="api-snippet-no-fctl" />
+</Section>
+
+<Section
+  title="Custom tabs"
+  description="Use the tabs prop to pick which tabs render and in what order. Here only fctl and curl are shown, with fctl first and selected by default."
+>
+  <ComponentPreview name="api-snippet-tabs" />
+</Section>
+
+<Section
+  title="Stack API"
+  description="The default: operation resolves against the bundled stack operations index, so curl, HTTPie, the TypeScript SDK, and fctl all render."
+>
+  <ComponentPreview name="api-snippet-stack" />
+</Section>
+
+<Section
+  title="Membership API"
+  description="Pass the membership operations index via the operations prop. Membership operations declare no SDK, so the TypeScript tab is omitted automatically."
+>
+  <ComponentPreview name="api-snippet-membership" />
+</Section>
+
+<Section
+  title="fctl only"
+  description="Omit operation entirely and pass tabs={['fctl']} to render a standalone fctl card — no generated request, no endpoint footer."
+>
+  <ComponentPreview name="api-snippet-fctl-only" />
 </Section>
 
 <Section

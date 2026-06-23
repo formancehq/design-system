@@ -55,6 +55,11 @@ type TCodeSnippetProps = {
   showLineNumbers?: boolean;
   /** Show copy-to-clipboard button */
   canCopy?: boolean;
+  /**
+   * Render a top bar showing the language label on the left and the copy
+   * button on the right, instead of the floating hover copy button.
+   */
+  showHeader?: boolean;
   /** Force a specific theme instead of inheriting from the document */
   isDark?: boolean;
   /** Additional class names on the outer wrapper */
@@ -66,6 +71,7 @@ function CodeSnippet({
   language = 'typescript',
   showLineNumbers = false,
   canCopy = true,
+  showHeader = false,
   size,
   bordered,
   isDark,
@@ -125,37 +131,77 @@ function CodeSnippet({
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const dataShikiTheme =
+    isDark !== undefined
+      ? { 'data-shiki-theme': isDark ? 'dark' : 'light' }
+      : {};
+
+  const codeAreaClassName = cn(
+    codeSnippetVariants({
+      size,
+      bordered: showHeader ? false : bordered,
+      isSingleLine,
+    }),
+    showHeader && 'rounded-none'
+  );
+
+  const codeArea = html ? (
+    <div
+      className={codeAreaClassName}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  ) : (
+    <div className={codeAreaClassName}>
+      <pre>
+        <code className="font-mono">{code}</code>
+      </pre>
+    </div>
+  );
+
+  const copyButton = canCopy && (
+    <Button
+      variant="outline"
+      size="icon-sm"
+      aria-label="Copy code"
+      onClick={handleCopy}
+      className={cn(
+        'text-muted-foreground',
+        !showHeader &&
+          'absolute right-3 top-3 bg-background/80 opacity-0 backdrop-blur-sm transition-opacity group-hover/code-snippet:opacity-100'
+      )}
+    >
+      {copied ? <Check /> : <Copy />}
+    </Button>
+  );
+
+  if (showHeader) {
+    return (
+      <div
+        className={cn(
+          'group/code-snippet overflow-hidden rounded-lg',
+          bordered !== false && 'border border-border',
+          className
+        )}
+        {...dataShikiTheme}
+      >
+        <div className="flex items-center justify-between border-b bg-muted/40 p-1.5 pl-3">
+          <span className="font-mono text-xs uppercase text-muted-foreground">
+            {language}
+          </span>
+          {copyButton}
+        </div>
+        {codeArea}
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn('group/code-snippet relative', className)}
-      {...(isDark !== undefined && {
-        'data-shiki-theme': isDark ? 'dark' : 'light',
-      })}
+      {...dataShikiTheme}
     >
-      {html ? (
-        <div
-          className={codeSnippetVariants({ size, bordered, isSingleLine })}
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-      ) : (
-        <div className={codeSnippetVariants({ size, bordered, isSingleLine })}>
-          <pre>
-            <code className="font-mono">{code}</code>
-          </pre>
-        </div>
-      )}
-
-      {canCopy && (
-        <Button
-          variant="outline"
-          size="icon-sm"
-          aria-label="Copy code"
-          onClick={handleCopy}
-          className="absolute right-3 top-3 bg-background/80 text-muted-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover/code-snippet:opacity-100"
-        >
-          {copied ? <Check /> : <Copy />}
-        </Button>
-      )}
+      {codeArea}
+      {copyButton}
     </div>
   );
 }

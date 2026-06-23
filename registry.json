@@ -1612,10 +1612,23 @@
       ]
     },
     {
+      "name": "membership-operations",
+      "type": "registry:file",
+      "title": "Membership Operations Index",
+      "description": "Build-time extracted OpenAPI operation index for the Formance membership/cloud API (method, path, path params per operationId). No SDK metadata — the membership API has no public TypeScript SDK.",
+      "files": [
+        {
+          "path": "registry/default/lib/membership-operations.json",
+          "type": "registry:file",
+          "target": "lib/membership-operations.json"
+        }
+      ]
+    },
+    {
       "name": "api-snippet",
       "type": "registry:component",
       "title": "API Snippet",
-      "description": "Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a stack OpenAPI operationId.",
+      "description": "Tabbed API call reference (curl, HTTPie, TypeScript SDK, fctl) rendered from an OpenAPI operationId. Defaults to the stack operations index; pass a different `operations` index and select tabs via the `tabs` prop for other APIs (e.g. membership/cloud).",
       "dependencies": ["lucide-react"],
       "registryDependencies": [
         "https://ds.formance.com/r/endpoint.json",

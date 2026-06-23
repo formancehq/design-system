@@ -2,7 +2,12 @@ export type TStackOperation = {
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
   path: string;
   pathParams: string[];
-  sdk: { module: string; method: string };
+  /**
+   * SDK module/method for the TypeScript snippet. Absent for operations that
+   * have no public TypeScript SDK (e.g. the membership/cloud API), in which
+   * case the `sdk` tab is not rendered.
+   */
+  sdk?: { module: string; method: string };
   summary?: string;
   tags?: string[];
 };
@@ -129,6 +134,8 @@ export function generateSdk(
   params?: Record<string, string>,
   body?: Record<string, unknown>
 ): string {
+  if (!op.sdk) return '';
+
   const args: Record<string, unknown> = { ...(params ?? {}) };
   if (body && typeof body === 'object' && !Array.isArray(body))
     Object.assign(args, body);

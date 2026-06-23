@@ -1235,6 +1235,34 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/api-snippet-no-fctl.tsx',
       },
       {
+        title: 'Custom tabs',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-tabs')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-tabs.tsx',
+      },
+      {
+        title: 'Stack API',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-stack')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-stack.tsx',
+      },
+      {
+        title: 'Membership API',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-membership')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-membership.tsx',
+      },
+      {
+        title: 'fctl only',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-fctl-only')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-fctl-only.tsx',
+      },
+      {
         title: 'SDK as default tab',
         component: lazy(
           () => import('@/registry/default/examples/api-snippet-sdk-default')
@@ -1492,6 +1520,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/code-snippet-single-line')
         ),
         sourceFile: 'registry/default/examples/code-snippet-single-line.tsx',
+      },
+      {
+        title: 'Header bar',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-header')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-header.tsx',
       },
     ],
   },
