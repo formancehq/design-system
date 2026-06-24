@@ -4,8 +4,9 @@ export default function ApiSnippetRawArgs() {
   return (
     <div className="w-full">
       {/*
-       * `rawArgs` appends extra flags to the generated curl/HTTPie command —
-       * e.g. `--fail-with-body` to make curl surface error responses.
+       * `rawArgs` appends extra flags to the generated command. Flags are
+       * tool-specific, so scope the example to the matching tab — here
+       * `--fail-with-body` is curl-only (it makes curl surface error responses).
        */}
       <ApiSnippet
         operation="v2CreateTransaction"
@@ -16,7 +17,7 @@ export default function ApiSnippetRawArgs() {
           },
         }}
         rawArgs="--fail-with-body"
-        tabs={['curl', 'httpie']}
+        tabs={['curl']}
       />
     </div>
   );

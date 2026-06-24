@@ -136,10 +136,12 @@ export function ApiSnippet({
   const op = operation
     ? (operations[operation] as TStackOperation | undefined)
     : undefined;
-  const hasRequest = !!op || !!methodProp || !!pathProp;
   const method = methodProp ?? op?.method ?? 'GET';
   const rawPath = pathProp ?? op?.path ?? '';
   const resolvedPath = resolvePathParams(rawPath, params);
+  // Fail closed: a request needs a resolved path (or a known operation).
+  // `method` alone is an incomplete override and shouldn't render a snippet.
+  const hasRequest = !!op || !!resolvedPath;
 
   const curl = useMemo(
     () =>

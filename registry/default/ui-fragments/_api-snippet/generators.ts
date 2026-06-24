@@ -29,6 +29,15 @@ export function resolvePathParams(
   return resolved;
 }
 
+/**
+ * Wrap a value in shell single quotes, escaping any embedded single quotes via
+ * the `'\''` idiom. Keeps generated commands valid for filenames with spaces
+ * and JSON payloads containing apostrophes (e.g. `{"name":"Alice's ledger"}`).
+ */
+function shellSingleQuote(value: string): string {
+  return `'${value.replace(/'/g, `'\\''`)}'`;
+}
+
 export function generateCurl(
   method: string,
   path: string,
@@ -45,7 +54,7 @@ export function generateCurl(
   }
   if (bodyFile) {
     parts.push(`  -H "Content-Type: application/json"`);
-    parts.push(`  -d @${bodyFile}`);
+    parts.push(`  -d @${shellSingleQuote(bodyFile)}`);
   } else if (body) {
     const formatted = JSON.stringify(body, null, 2);
     const indented = formatted
@@ -53,7 +62,7 @@ export function generateCurl(
       .map((l, i) => (i === 0 ? l : '  ' + l))
       .join('\n');
     parts.push(`  -H "Content-Type: application/json"`);
-    parts.push(`  -d '${indented}'`);
+    parts.push(`  -d ${shellSingleQuote(indented)}`);
   }
   if (rawArgs) parts.push(`  ${rawArgs}`);
 
@@ -81,14 +90,16 @@ function flattenHttpieArgs(
     if (v === null || v === undefined) continue;
     if (typeof v === 'string') {
       const needsQuote = /[\s[\](){}$@|&;!<>'"\\]/.test(v);
-      parts.push(needsQuote ? `  ${key}='${v}'` : `  ${key}=${v}`);
+      parts.push(
+        needsQuote ? `  ${key}=${shellSingleQuote(v)}` : `  ${key}=${v}`
+      );
     } else if (typeof v === 'number' || typeof v === 'boolean') {
       parts.push(`  ${key}:=${String(v)}`);
     } else if (Array.isArray(v)) {
-      parts.push(`  ${key}:='${JSON.stringify(v)}'`);
+      parts.push(`  ${key}:=${shellSingleQuote(JSON.stringify(v))}`);
     } else if (typeof v === 'object') {
       if (depth >= 1 || Object.keys(v as object).length === 0) {
-        parts.push(`  ${key}:='${JSON.stringify(v)}'`);
+        parts.push(`  ${key}:=${shellSingleQuote(JSON.stringify(v))}`);
       } else {
         flattenHttpieArgs(v as Record<string, unknown>, key, parts, depth + 1);
       }
@@ -118,19 +129,19 @@ export function generateHttpie(
     for (const [k, v] of Object.entries(headers)) parts.push(`  ${k}:${v}`);
   }
   if (bodyFile) {
-    parts.push(`  < ${bodyFile}`);
+    parts.push(`  < ${shellSingleQuote(bodyFile)}`);
   } else if (body && typeof body === 'object' && !Array.isArray(body)) {
     if (jsonDepth(body) > 2) {
       const indented = JSON.stringify(body, null, 2)
         .split('\n')
         .map((l, i) => (i === 0 ? l : '  ' + l))
         .join('\n');
-      parts.push(`  <<< '${indented}'`);
+      parts.push(`  <<< ${shellSingleQuote(indented)}`);
     } else {
       flattenHttpieArgs(body as Record<string, unknown>, '', parts);
     }
   } else if (body) {
-    parts.push(`  <<< '${JSON.stringify(body)}'`);
+    parts.push(`  <<< ${shellSingleQuote(JSON.stringify(body))}`);
   }
   if (rawArgs) parts.push(`  ${rawArgs}`);
 
