@@ -1412,20 +1412,34 @@
       ]
     },
     {
-      "name": "chart-of-accounts",
+      "name": "ledger-schema",
       "type": "registry:component",
-      "title": "Chart of Accounts",
-      "description": "Foldable tree view of a Formance ledger Chart of Accounts schema.",
+      "title": "Ledger Schema",
+      "description": "Interactive viewer for a Formance ledger schema — chart of accounts, transactions (Numscript), and queries — with a tabbed full view and props to show a single section, transaction, or chart subtree.",
       "dependencies": ["lucide-react"],
       "registryDependencies": [
+        "https://ds.formance.com/r/code-snippet.json",
+        "https://ds.formance.com/r/tabs.json",
         "https://ds.formance.com/r/badge.json",
-        "https://ds.formance.com/r/collapsible.json"
+        "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/collapsible.json",
+        "https://ds.formance.com/r/tooltip.json"
       ],
       "files": [
         {
-          "path": "registry/default/ui-fragments/chart-of-accounts.tsx",
+          "path": "registry/default/ui-fragments/ledger-schema.tsx",
           "type": "registry:component",
-          "target": "components/ui-fragments/chart-of-accounts.tsx"
+          "target": "components/ui-fragments/ledger-schema.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/_ledger-schema/chart-of-accounts.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/_ledger-schema/chart-of-accounts.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/_ledger-schema/numscript.ts",
+          "type": "registry:component",
+          "target": "components/ui-fragments/_ledger-schema/numscript.ts"
         }
       ]
     },

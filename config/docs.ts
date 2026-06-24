@@ -790,11 +790,11 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui-fragments/api-snippet.tsx',
     source: 'custom',
   },
-  'fragments/chart-of-accounts': {
-    registryName: 'chart-of-accounts',
+  'fragments/ledger-schema': {
+    registryName: 'ledger-schema',
     description:
-      'Foldable tree view of a Formance ledger Chart of Accounts schema.',
-    sourceFile: 'registry/default/ui-fragments/chart-of-accounts.tsx',
+      'Interactive viewer for a Formance ledger schema — chart of accounts, transactions (Numscript), and queries — with a tabbed full view and props to show a single section, transaction, or chart subtree.',
+    sourceFile: 'registry/default/ui-fragments/ledger-schema.tsx',
     source: 'custom',
   },
   'fragments/markdown': {
@@ -1063,8 +1063,8 @@ export const docsConfig: TDocsConfig = {
         { title: 'API Snippet', href: '/docs/fragments/api-snippet' },
         { title: 'App Card', href: '/docs/fragments/app-card' },
         {
-          title: 'Chart of Accounts',
-          href: '/docs/fragments/chart-of-accounts',
+          title: 'Ledger Schema',
+          href: '/docs/fragments/ledger-schema',
         },
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
         { title: 'Copy Page', href: '/docs/fragments/copy-page' },
