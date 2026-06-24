@@ -55,8 +55,8 @@ function isFeatureFlag(id: string): id is TFeatureFlag {
 export function normalizeFlags(flags: readonly string[]): TFeatureFlag[] {
   const seen = new Set<TFeatureFlag>();
   for (const f of flags) if (isFeatureFlag(f)) seen.add(f);
-  
-return [...seen].sort(
+
+  return [...seen].sort(
     (a, b) => (FLAG_INDEX.get(a) ?? 0) - (FLAG_INDEX.get(b) ?? 0)
   );
 }
@@ -120,12 +120,12 @@ function sanitize(script: string): string {
  */
 function extractShebangFlags(script: string): TFeatureFlag[] {
   const match = stripComments(script).match(
-    /#!\[feature\s*\(\s*([^)]+)\s*\)\s*\]/
+    /^\s*#!\[feature\s*\(\s*([^)]+)\s*\)\s*\]/
   );
   if (!match?.[1]) return [];
   const ids = [...match[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]!);
-  
-return normalizeFlags(ids);
+
+  return normalizeFlags(ids);
 }
 
 /** Minimum feature-flag set a snippet needs, inferred from lexical signals. */
@@ -136,8 +136,8 @@ export function inferFlags(script: string): TFeatureFlag[] {
   for (const { flag, re } of SHEBANGS) {
     if (re.test(sanitized)) hits.add(flag);
   }
-  
-return normalizeFlags([...hits]);
+
+  return normalizeFlags([...hits]);
 }
 
 /**

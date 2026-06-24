@@ -29,14 +29,14 @@ import {
   ChartOfAccounts,
   type TChartOfAccountsProps,
   type TChartSegment,
-} from '@/registry/default/ui-fragments/_ledger-schema/chart-of-accounts';
+} from '@/components/ui-fragments/_ledger-schema/chart-of-accounts';
 import {
   flagShortName,
   inferFlags,
   inferInterpreter,
   normalizeFlags,
   type TInterpreter,
-} from '@/registry/default/ui-fragments/_ledger-schema/numscript';
+} from '@/components/ui-fragments/_ledger-schema/numscript';
 import { Badge } from '@/registry/default/ui/badge';
 import { Button } from '@/registry/default/ui/button';
 import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
@@ -446,7 +446,7 @@ function SchemaCard({
     className
   );
 
-  if (!foldable) {
+  if (!foldable || !code) {
     return (
       <div className={cardClassName}>
         <div className="flex items-start gap-2 px-2 pt-2">
@@ -483,10 +483,9 @@ function ScriptTags({
 }) {
   if (render) return <>{render(code)}</>;
 
-  const flags =
-    tx.featureFlags && tx.featureFlags.length
-      ? normalizeFlags(tx.featureFlags)
-      : inferFlags(code);
+  const flags = tx.featureFlags
+    ? normalizeFlags(tx.featureFlags)
+    : inferFlags(code);
   const interpreter = tx.interpreter ?? inferInterpreter(flags);
 
   return (
