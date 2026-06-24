@@ -166,10 +166,10 @@ export function LedgerSchema({
     );
   }
 
-  if (chart && data.chart?.[chart]) {
+  if (chart && data.chart && Object.hasOwn(data.chart, chart)) {
     return (
       <ChartOfAccounts
-        data={{ [chart]: data.chart[chart] }}
+        data={{ [chart]: data.chart[chart] ?? null }}
         {...chartProps}
         className={className}
       />
