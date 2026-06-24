@@ -2,7 +2,7 @@
 
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Check, Copy } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
@@ -60,6 +60,11 @@ type TCodeSnippetProps = {
    * button on the right, instead of the floating hover copy button.
    */
   showHeader?: boolean;
+  /**
+   * Extra actions rendered alongside the copy button — in the header
+   * (when `showHeader`) or in the floating hover cluster otherwise.
+   */
+  headerActions?: ReactNode;
   /** Force a specific theme instead of inheriting from the document */
   isDark?: boolean;
   /** Additional class names on the outer wrapper */
@@ -72,6 +77,7 @@ function CodeSnippet({
   showLineNumbers = false,
   canCopy = true,
   showHeader = false,
+  headerActions,
   size,
   bordered,
   isDark,
@@ -92,8 +98,13 @@ function CodeSnippet({
       }
 
       const highlighter = await getHighlighter();
+      // Fall back to plaintext for any language the highlighter didn't load,
+      // so an unsupported `language` renders unhighlighted instead of throwing.
+      const safeLang = highlighter.getLoadedLanguages().includes(language)
+        ? language
+        : 'plaintext';
       const result = highlighter.codeToHtml(code, {
-        lang: language,
+        lang: safeLang,
         theme: cssVarsTheme.name!,
         transformers: showLineNumbers
           ? [
@@ -166,8 +177,7 @@ function CodeSnippet({
       onClick={handleCopy}
       className={cn(
         'text-muted-foreground',
-        !showHeader &&
-          'absolute right-3 top-3 bg-background/80 opacity-0 backdrop-blur-sm transition-opacity group-hover/code-snippet:opacity-100'
+        !showHeader && 'bg-background/80 backdrop-blur-sm'
       )}
     >
       {copied ? <Check /> : <Copy />}
@@ -188,7 +198,10 @@ function CodeSnippet({
           <span className="font-mono text-xs uppercase text-muted-foreground">
             {language}
           </span>
-          {copyButton}
+          <div className="flex items-center gap-1">
+            {headerActions}
+            {copyButton}
+          </div>
         </div>
         {codeArea}
       </div>
@@ -201,7 +214,12 @@ function CodeSnippet({
       {...dataShikiTheme}
     >
       {codeArea}
-      {copyButton}
+      {(copyButton || headerActions) && (
+        <div className="absolute right-3 top-3 flex items-center gap-1 opacity-0 transition-opacity group-hover/code-snippet:opacity-100">
+          {headerActions}
+          {copyButton}
+        </div>
+      )}
     </div>
   );
 }

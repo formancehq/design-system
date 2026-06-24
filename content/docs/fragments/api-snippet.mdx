@@ -8,6 +8,10 @@ To render snippets for another API, pass a different index via the `operations` 
 
 Use the `tabs` prop to choose which tabs render and in what order (e.g. `tabs={['curl', 'httpie', 'fctl']}`). A requested tab is only shown when it has content: `'fctl'` needs the `fctl` prop, and `'sdk'` needs the operation to declare an SDK module/method.
 
+To document an endpoint that isn't in an operations index, pass `method` and `path` directly instead of `operation` (the `path` may include a query string). Use `bodyFile` to reference the request body from a file (`curl -d @file.json`, `http < file.json`) rather than inlining it, and `rawArgs` to append extra flags to the generated curl/HTTPie command.
+
+The active tab is uncontrolled by default (seeded by `defaultTab`). Pass `value` + `onValueChange` to control it from the host — e.g. to persist the curl/HTTPie choice across multiple snippets on a page.
+
 <Section
   title="GET request"
   description="Use without a body. The fctl tab appears whenever the fctl prop is set."
@@ -44,13 +48,6 @@ Use the `tabs` prop to choose which tabs render and in what order (e.g. `tabs={[
 </Section>
 
 <Section
-  title="fctl only"
-  description="Omit operation entirely and pass tabs={['fctl']} to render a standalone fctl card — no generated request, no endpoint footer."
->
-  <ComponentPreview name="api-snippet-fctl-only" />
-</Section>
-
-<Section
   title="SDK as default tab"
   description="Set defaultTab='sdk' when the SDK call is the canonical example."
 >
@@ -62,4 +59,32 @@ Use the `tabs` prop to choose which tabs render and in what order (e.g. `tabs={[
   description="Set clipCodeHeight when the snippet lives inside a constrained surface (dialog, sidebar) so a tall body scrolls inside the box instead of expanding the parent layout."
 >
   <ComponentPreview name="api-snippet-clip-code-height" />
+</Section>
+
+<Section
+  title="Method and path"
+  description="Pass method and path directly to document an endpoint that isn't in an operations index. The path may include a query string, which HTTPie splits into == params and the endpoint footer drops."
+>
+  <ComponentPreview name="api-snippet-method-path" />
+</Section>
+
+<Section
+  title="Body from a file"
+  description="Use bodyFile to reference the request body from a file instead of inlining it — curl renders -d @file and HTTPie renders < file."
+>
+  <ComponentPreview name="api-snippet-body-file" />
+</Section>
+
+<Section
+  title="Raw args"
+  description="rawArgs appends extra flags to the generated curl/HTTPie command, e.g. --fail-with-body."
+>
+  <ComponentPreview name="api-snippet-raw-args" />
+</Section>
+
+<Section
+  title="Controlled tabs"
+  description="Pass value + onValueChange to control the active tab from the host. Here two snippets share one tab state, so switching curl/HTTPie on one switches the other — the pattern for persisting the reader's HTTP-client choice across a page."
+>
+  <ComponentPreview name="api-snippet-controlled" />
 </Section>

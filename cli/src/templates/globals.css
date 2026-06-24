@@ -657,7 +657,10 @@
     @apply text-foreground;
   }
 
-  a {
+  /* Exclude `not-prose` subtrees so links inside opted-out regions (e.g. an
+     action in a CodeSnippet header) keep their own color instead of the prose
+     link color. Mirrors how @tailwindcss/typography scopes its own rules. */
+  :where(a):not(:where([class~='not-prose'], [class~='not-prose'] *)) {
     @apply text-foreground underline-offset-4 hover:underline;
   }
 }

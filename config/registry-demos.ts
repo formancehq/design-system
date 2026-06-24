@@ -689,6 +689,20 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   tabs: {
     component: lazy(() => import('@/registry/default/demos/tabs-demo')),
     sourceFile: 'registry/default/demos/tabs-demo.tsx',
+    examples: [
+      {
+        title: 'Line',
+        component: lazy(() => import('@/registry/default/examples/tabs-line')),
+        sourceFile: 'registry/default/examples/tabs-line.tsx',
+      },
+      {
+        title: 'Vertical',
+        component: lazy(
+          () => import('@/registry/default/examples/tabs-vertical')
+        ),
+        sourceFile: 'registry/default/examples/tabs-vertical.tsx',
+      },
+    ],
   },
   textarea: {
     component: lazy(() => import('@/registry/default/demos/textarea-demo')),
@@ -1278,6 +1292,34 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile:
           'registry/default/examples/api-snippet-clip-code-height.tsx',
       },
+      {
+        title: 'Method and path',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-method-path')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-method-path.tsx',
+      },
+      {
+        title: 'Body from a file',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-body-file')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-body-file.tsx',
+      },
+      {
+        title: 'Raw args',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-raw-args')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-raw-args.tsx',
+      },
+      {
+        title: 'Controlled tabs',
+        component: lazy(
+          () => import('@/registry/default/examples/api-snippet-controlled')
+        ),
+        sourceFile: 'registry/default/examples/api-snippet-controlled.tsx',
+      },
     ],
   },
   markdown: {
@@ -1321,42 +1363,53 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
-  'chart-of-accounts': {
+  'ledger-schema': {
     component: lazy(
-      () => import('@/registry/default/demos/chart-of-accounts-demo')
+      () => import('@/registry/default/demos/ledger-schema-demo')
     ),
-    sourceFile: 'registry/default/demos/chart-of-accounts-demo.tsx',
+    sourceFile: 'registry/default/demos/ledger-schema-demo.tsx',
     examples: [
       {
-        title: 'Collapsed by default',
+        title: 'Chart only',
         component: lazy(
-          () =>
-            import('@/registry/default/examples/chart-of-accounts-collapsed')
+          () => import('@/registry/default/examples/ledger-schema-chart')
         ),
-        sourceFile: 'registry/default/examples/chart-of-accounts-collapsed.tsx',
+        sourceFile: 'registry/default/examples/ledger-schema-chart.tsx',
       },
       {
-        title: 'Complex',
+        title: 'Chart with legend',
         component: lazy(
-          () => import('@/registry/default/examples/chart-of-accounts-complex')
+          () => import('@/registry/default/examples/ledger-schema-chart-legend')
         ),
-        sourceFile: 'registry/default/examples/chart-of-accounts-complex.tsx',
+        sourceFile: 'registry/default/examples/ledger-schema-chart-legend.tsx',
       },
       {
-        title: 'Minimal',
+        title: 'Transactions',
         component: lazy(
-          () => import('@/registry/default/examples/chart-of-accounts-small')
+          () => import('@/registry/default/examples/ledger-schema-transactions')
         ),
-        sourceFile: 'registry/default/examples/chart-of-accounts-small.tsx',
+        sourceFile: 'registry/default/examples/ledger-schema-transactions.tsx',
       },
       {
-        title: 'Hide details',
+        title: 'Single transaction',
         component: lazy(
-          () =>
-            import('@/registry/default/examples/chart-of-accounts-hide-details')
+          () => import('@/registry/default/examples/ledger-schema-transaction')
         ),
-        sourceFile:
-          'registry/default/examples/chart-of-accounts-hide-details.tsx',
+        sourceFile: 'registry/default/examples/ledger-schema-transaction.tsx',
+      },
+      {
+        title: 'Queries',
+        component: lazy(
+          () => import('@/registry/default/examples/ledger-schema-queries')
+        ),
+        sourceFile: 'registry/default/examples/ledger-schema-queries.tsx',
+      },
+      {
+        title: 'Single query',
+        component: lazy(
+          () => import('@/registry/default/examples/ledger-schema-query')
+        ),
+        sourceFile: 'registry/default/examples/ledger-schema-query.tsx',
       },
     ],
   },
@@ -1485,6 +1538,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/code-snippet-numscript')
         ),
         sourceFile: 'registry/default/examples/code-snippet-numscript.tsx',
+      },
+      {
+        title: 'Numscript playground',
+        component: lazy(
+          () => import('@/registry/default/examples/code-snippet-playground')
+        ),
+        sourceFile: 'registry/default/examples/code-snippet-playground.tsx',
       },
       {
         title: 'Dark Theme',

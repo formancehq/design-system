@@ -1,0 +1,47 @@
+<ComponentPreview name="ledger-schema" peekCode />
+
+An interactive viewer for a Formance **ledger schema** — its **chart of accounts**, **transactions** (Numscript), and **queries** — in a single component. The default view tabs between each section that's present; narrowing props render just one part. Pass the schema as a parsed object via `data`.
+
+Transactions show their Numscript with syntax highlighting, and an interpreter (`machine` / `experimental`) plus feature-flag pills predicted from the script. Provide explicit `interpreter` / `featureFlags` fields on a transaction to override the prediction, and use the optional `renderScriptTags` / `renderScriptActions` / `renderScriptFooter` slots to inject host-specific tooling (e.g. a playground launcher). The chart tab renders a foldable Chart of Accounts tree: namespaces, postable accounts, parameterized `$segments`, and `.pattern` / `.metadata` badges.
+
+<Section
+  title="Chart only"
+  description="Render just the chart of accounts with section=&quot;chart&quot; — no tab bar."
+>
+  <ComponentPreview name="ledger-schema-chart" />
+</Section>
+
+<Section
+  title="Chart with legend"
+  description="Pass legend to render the icon key beneath the tree — folder, account, folder + account (.self), and parameterized segments."
+>
+  <ComponentPreview name="ledger-schema-chart-legend" />
+</Section>
+
+<Section
+  title="Transactions"
+  description="Render the schema's transactions as a list with section=&quot;transactions&quot;. Each row folds to reveal its Numscript."
+>
+  <ComponentPreview name="ledger-schema-transactions" />
+</Section>
+
+<Section
+  title="Single transaction"
+  description="Focus on one transaction with the tx prop. Renders flat with no fold — useful inline in a walkthrough next to the prose that explains it."
+>
+  <ComponentPreview name="ledger-schema-transaction" />
+</Section>
+
+<Section
+  title="Queries"
+  description="Render the schema's saved queries with section=&quot;queries&quot;, each with its resource and JSON body."
+>
+  <ComponentPreview name="ledger-schema-queries" />
+</Section>
+
+<Section
+  title="Single query"
+  description="Focus on one query with the query prop. Renders flat with no fold, like a single transaction."
+>
+  <ComponentPreview name="ledger-schema-query" />
+</Section>

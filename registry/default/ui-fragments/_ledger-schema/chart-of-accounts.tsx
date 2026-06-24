@@ -66,7 +66,7 @@ export function ChartOfAccounts({
       )}
     >
       {!hideToolbar && (
-        <div className="absolute right-2 top-2 flex items-center gap-0.5">
+        <div className="absolute right-2.5 top-2.5 flex items-center gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
