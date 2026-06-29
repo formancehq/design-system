@@ -177,7 +177,7 @@ Help me understand how to use it. Be ready to explain concepts, give examples, o
         </PageHeader>
 
         <PageContainer size="large" className="py-8">
-          <div className="grid gap-8">
+          <div className="grid gap-8 [&>*]:min-w-0">
             {meta && (
               <>
                 <SourceBanner source={meta.source} />
