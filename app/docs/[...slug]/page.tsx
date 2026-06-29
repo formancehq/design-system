@@ -1,3 +1,4 @@
+import { Braces } from 'lucide-react';
 import type { Metadata } from 'next';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
@@ -157,6 +158,17 @@ export default async function DocsPage({
                   url: `https://ds.formance.com/docs/${slugStr}`,
                 })}
                 url={`https://ds.formance.com/docs/${slugStr}`}
+                extraItems={
+                  meta
+                    ? [
+                        {
+                          label: 'View as JSON',
+                          href: `https://ds.formance.com/r/${meta.registryName}.json`,
+                          icon: <Braces />,
+                        },
+                      ]
+                    : undefined
+                }
                 prompt={`I'm looking at this Formance Design System documentation: https://ds.formance.com/docs/${slugStr}.
 Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.`}
               />
@@ -165,7 +177,7 @@ Help me understand how to use it. Be ready to explain concepts, give examples, o
         </PageHeader>
 
         <PageContainer size="large" className="py-8">
-          <div className="grid gap-8">
+          <div className="grid gap-8 [&>*]:min-w-0">
             {meta && (
               <>
                 <SourceBanner source={meta.source} />

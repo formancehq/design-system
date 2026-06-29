@@ -1,6 +1,7 @@
 'use client';
 
 import { Check, ChevronDown, Copy, FileText } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -35,6 +36,12 @@ const ClaudeIcon = () => (
   </svg>
 );
 
+export type TCopyPageMenuItem = {
+  label: string;
+  href: string;
+  icon?: ReactNode;
+};
+
 export type TCopyPageProps = {
   /** Text content copied to the clipboard when the main button is clicked. */
   content: string;
@@ -42,6 +49,8 @@ export type TCopyPageProps = {
   url: string;
   /** URL exposed by the "View as Markdown" item. Defaults to `${url}.md`. */
   markdownUrl?: string;
+  /** Extra dropdown items appended after the defaults (e.g. "View as JSON"). */
+  extraItems?: TCopyPageMenuItem[];
   /** Main button label. Defaults to "Copy Page". */
   label?: string;
   /** Prompt sent to ChatGPT / Claude when opening the page in an AI chat. */
@@ -53,6 +62,7 @@ export function CopyPage({
   content,
   url,
   markdownUrl,
+  extraItems = [],
   label = 'Copy Page',
   prompt,
   className,
@@ -61,11 +71,11 @@ export function CopyPage({
 
   const encodedPrompt = encodeURIComponent(prompt ?? defaultPrompt(url));
 
-  const menuItems = [
+  const menuItems: TCopyPageMenuItem[] = [
     {
-      label: 'View as Markdown',
-      href: markdownUrl ?? `${url}.md`,
-      icon: <FileText />,
+      label: 'Open in Claude',
+      href: `https://claude.ai/new?q=${encodedPrompt}`,
+      icon: <ClaudeIcon />,
     },
     {
       label: 'Open in ChatGPT',
@@ -73,10 +83,11 @@ export function CopyPage({
       icon: <ChatGPTIcon />,
     },
     {
-      label: 'Open in Claude',
-      href: `https://claude.ai/new?q=${encodedPrompt}`,
-      icon: <ClaudeIcon />,
+      label: 'View as Markdown',
+      href: markdownUrl ?? `${url}.md`,
+      icon: <FileText />,
     },
+    ...extraItems,
   ];
 
   async function handleCopy() {
