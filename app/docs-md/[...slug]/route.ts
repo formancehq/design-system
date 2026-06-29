@@ -1,6 +1,21 @@
 import { componentMeta, docsConfig } from '@/config/docs';
 import { buildLLMMarkdown, readMdxFile } from '@/lib/mdx';
 
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  const params: { slug: string[] }[] = [];
+  for (const section of docsConfig.sidebarNav) {
+    for (const item of section.items) {
+      if (item.href.startsWith('/docs/')) {
+        params.push({ slug: item.href.replace('/docs/', '').split('/') });
+      }
+    }
+  }
+
+  return params;
+}
+
 function findSidebarItem(slug: string) {
   for (const section of docsConfig.sidebarNav) {
     for (const item of section.items) {
