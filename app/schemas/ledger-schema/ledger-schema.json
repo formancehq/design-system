@@ -1,0 +1,199 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ds.formance.com/schemas/ledger-schema",
+  "title": "Formance Ledger Schema",
+  "description": "Canonical schema for a Formance ledger schema document: chart of accounts, transaction templates, and query templates.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "chart": {
+      "type": "object",
+      "description": "Chart of accounts structure.",
+      "additionalProperties": {
+        "$ref": "#/$defs/chartSegment"
+      }
+    },
+    "transactions": {
+      "description": "Transaction templates (object keyed by template ID, or array with id field).",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/transactionTemplate"
+          }
+        },
+        {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "Transaction template identifier"
+                  }
+                },
+                "required": ["id"]
+              },
+              {
+                "$ref": "#/$defs/transactionTemplate"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "queries": {
+      "type": "object",
+      "description": "Query templates keyed by template ID.",
+      "additionalProperties": {
+        "$ref": "#/$defs/queryTemplate"
+      }
+    }
+  },
+  "$defs": {
+    "transactionTemplate": {
+      "type": "object",
+      "description": "Transaction template with numscript.",
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the transaction."
+        },
+        "script": {
+          "type": "string",
+          "description": "Numscript source code."
+        },
+        "runtime": {
+          "type": "string",
+          "description": "Numscript runtime engine.",
+          "enum": ["experimental-interpreter", "machine"]
+        }
+      },
+      "required": ["script"],
+      "additionalProperties": true
+    },
+    "queryTemplate": {
+      "type": "object",
+      "description": "Query template for pre-defined ledger queries.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the query."
+        },
+        "resource": {
+          "type": "string",
+          "description": "Resource type to query.",
+          "enum": ["transactions", "accounts", "logs", "volumes"]
+        },
+        "params": {
+          "type": "object",
+          "description": "Query parameters (pageSize, cursor, expand, pit, sort).",
+          "properties": {
+            "pageSize": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "expand": {
+              "type": "string"
+            },
+            "pit": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "sort": {
+              "type": "string"
+            },
+            "useInsertionDate": {
+              "type": "boolean"
+            },
+            "groupLvl": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            }
+          },
+          "additionalProperties": true
+        },
+        "vars": {
+          "type": "object",
+          "description": "Variable definitions for the query template.",
+          "additionalProperties": {
+            "$ref": "#/$defs/queryTemplateVar"
+          }
+        },
+        "body": {
+          "type": "object",
+          "description": "Query body (filter expression).",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "queryTemplateVar": {
+      "type": "object",
+      "description": "Variable definition for a query template.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Variable type"
+        },
+        "default": {
+          "type": "string",
+          "description": "Default value"
+        }
+      },
+      "additionalProperties": true
+    },
+    "chartSegment": {
+      "description": "Segment within a chart of accounts (can be null for leaf nodes or an object).",
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            ".self": {
+              "description": "Self reference marker (can be an empty object or null)."
+            },
+            ".pattern": {
+              "type": "string",
+              "description": "Regex pattern for segment validation."
+            },
+            ".description": {
+              "type": "string",
+              "description": "Human-readable description of this account. Ignored by the ledger; surfaced in tooling and docs."
+            },
+            ".metadata": {
+              "type": "object",
+              "description": "Metadata configuration for this segment.",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "default": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            ".rules": {
+              "type": "object",
+              "description": "Rules for this segment.",
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": {
+            "$ref": "#/$defs/chartSegment"
+          }
+        }
+      ]
+    }
+  }
+}
