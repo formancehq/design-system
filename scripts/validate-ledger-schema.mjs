@@ -4,8 +4,8 @@
  */
 import Ajv from 'ajv';
 
-import ledgerSchemaBase from '../app/schemas/ledger-schema/ledger-schema.json';
-import ledgerSchemaExtended from '../app/schemas/ledger-schema/ledger-schema.extended.json';
+import ledgerSchemaBase from '../app/schemas/ledger-schema/ledger-schema.json' with { type: 'json' };
+import ledgerSchemaExtended from '../app/schemas/ledger-schema/ledger-schema.extended.json' with { type: 'json' };
 
 const ajv = new Ajv({ allErrors: true, strict: false });
 const validateBase = ajv.compile(ledgerSchemaBase);
@@ -53,14 +53,7 @@ const withMeta = {
 
 const withUnknownTopLevel = { chart: {}, bogus: true };
 
-type TCase = {
-  name: string;
-  data: unknown;
-  base: boolean;
-  extended: boolean;
-};
-
-const cases: TCase[] = [
+const cases = [
   {
     name: 'valid full document',
     data: validDocument,

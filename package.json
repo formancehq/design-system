@@ -13,7 +13,7 @@
     "format:fix": "prettier \"**/*.{ts,tsx,md,json}\" --write",
     "typecheck": "tsc --noEmit",
     "registry:build": "shadcn build",
-    "schemas:validate": "tsx scripts/validate-ledger-schema.ts",
+    "schemas:validate": "node scripts/validate-ledger-schema.mjs",
     "extract:operations": "tsx scripts/extract-stack-operations.ts",
     "extract:membership-operations": "tsx scripts/extract-membership-operations.ts",
     "pre-commit": "lint-staged && pnpm run typecheck",
