@@ -31,7 +31,9 @@ npm install shiki monaco-editor @shikijs/monaco lucide-react
 
 <ComponentSource name="code-editor" />
 
-<Step>Add the `--shiki-*` CSS variables to your global CSS (same as Code Snippet).</Step>
+<Step>
+  Add the `--shiki-*` CSS variables to your global CSS (same as Code Snippet).
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -44,17 +46,13 @@ npm install shiki monaco-editor @shikijs/monaco lucide-react
 ## Usage
 
 ```tsx
-import { CodeEditor } from '@/components/code/code-editor'
+import { CodeEditor } from '@/components/code/code-editor';
 ```
 
 ```tsx
 const [value, setValue] = useState('{"key": "value"}');
 
-<CodeEditor
-  value={value}
-  language="json"
-  onChange={setValue}
-/>
+<CodeEditor value={value} language="json" onChange={setValue} />;
 ```
 
 ## Numscript Language
@@ -72,12 +70,15 @@ npx shadcn@latest add https://ds.formance.com/r/numscript-validator.json
 ```
 
 ```tsx
-import { CodeEditor, type TDiagnosticsConfig } from '@/components/code/code-editor'
-import { createNumscriptValidator } from '@/components/code/numscript-validator'
+import {
+  CodeEditor,
+  type TDiagnosticsConfig,
+} from '@/components/code/code-editor';
+import { createNumscriptValidator } from '@/components/code/numscript-validator';
 
 const diagnostics: TDiagnosticsConfig = {
   validate: createNumscriptValidator({
-    balances: { "orders:1234": { "USD/2": 50000 } },
+    balances: { 'orders:1234': { 'USD/2': 50000 } },
     variables: {},
     metadata: {},
   }),
@@ -88,7 +89,7 @@ const diagnostics: TDiagnosticsConfig = {
   language="numscript"
   onChange={setScript}
   diagnostics={diagnostics}
-/>
+/>;
 ```
 
 The `createNumscriptValidator` accepts an optional context with `balances`, `variables`, and `metadata` to validate against — the same inputs the Numscript playground uses.
@@ -104,12 +105,7 @@ The example below starts with a syntax error (`sendd` instead of `send`). The er
 The `withNavigator` prop adds a breadcrumb toolbar above the editor that parses JSON or YAML content into a navigation tree. Users can drill into nested sections and jump to the corresponding line in the editor.
 
 ```tsx
-<CodeEditor
-  value={yamlContent}
-  language="yaml"
-  isReadonly
-  withNavigator
-/>
+<CodeEditor value={yamlContent} language="yaml" isReadonly withNavigator />
 ```
 
 <ComponentPreview name="code-editor-navigator" />
@@ -123,3 +119,11 @@ The `withNavigator` prop adds a breadcrumb toolbar above the editor that parses 
 ### Readonly
 
 <ComponentPreview name="code-editor-readonly" />
+
+### Ledger Schema Validator
+
+`diagnostics.validate` is editor-agnostic — it can wrap anything that returns markers, including a JSON Schema validator. This example validates a ledger schema (YAML) against the canonical [ledger schema](https://ds.formance.com/schemas/ledger-schema) hosted by this design system: it fetches the schema, compiles it with [Ajv](https://ajv.js.org), and maps each error to a diagnostic. The `.description` on the client account is accepted, while the invalid `resource` on `CLIENT_BALANCE` (it must be one of `transactions`, `accounts`, `logs`, `volumes`) is flagged.
+
+This is the same pattern Studio uses to lint ledger schemas — point the validator at the hosted URL instead of a bundled file, and the editor stays in sync with the published contract.
+
+<ComponentPreview name="code-editor-ledger-schema" />

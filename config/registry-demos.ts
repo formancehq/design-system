@@ -154,6 +154,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/button-outline.tsx',
       },
       {
+        title: 'Outline Dashed',
+        component: lazy(
+          () => import('@/registry/default/examples/button-outline-dashed')
+        ),
+        sourceFile: 'registry/default/examples/button-outline-dashed.tsx',
+      },
+      {
         title: 'Ghost',
         component: lazy(
           () => import('@/registry/default/examples/button-ghost')
@@ -1620,6 +1627,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/code-editor-validator')
         ),
         sourceFile: 'registry/default/examples/code-editor-validator.tsx',
+      },
+      {
+        title: 'Ledger Schema Validator',
+        component: lazy(
+          () => import('@/registry/default/examples/code-editor-ledger-schema')
+        ),
+        sourceFile: 'registry/default/examples/code-editor-ledger-schema.tsx',
       },
       {
         title: 'Navigator',
