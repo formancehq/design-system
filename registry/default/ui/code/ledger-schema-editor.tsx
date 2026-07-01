@@ -76,9 +76,12 @@ function diagnosticsToStatus(
   diagnostics: TDiagnostic[]
 ): TLedgerSchemaStatus {
   if (!value.trim()) return { kind: 'empty' };
-  if (diagnostics.length === 0) return { kind: 'valid' };
+  // Only hard errors block validity; non-error notices (e.g. the "validation
+  // paused" warning when the hosted schema can't be loaded) must not disable saves.
+  const errors = diagnostics.filter((d) => d.severity === 'error');
+  if (errors.length === 0) return { kind: 'valid' };
 
-  return { kind: 'errors', count: diagnostics.length };
+  return { kind: 'errors', count: errors.length };
 }
 
 function StatusPill({ status }: { status: TLedgerSchemaStatus }) {

@@ -202,7 +202,9 @@ export async function validateLedgerSchema(
     ];
   }
 
-  if (parsed === null || parsed === undefined) return [];
+  // Truly-empty input is already handled above; a non-empty document that
+  // parses to null (e.g. `null` or `~`) is still validated — the schema
+  // requires an object, so it should be flagged, not silently passed.
 
   let validate: TCompiledValidator;
   if (options.schema) {
