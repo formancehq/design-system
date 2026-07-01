@@ -115,6 +115,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/code-editor.tsx',
     source: 'custom',
   },
+  'components/ledger-schema-editor': {
+    registryName: 'ledger-schema-editor',
+    description:
+      'A ledger schema editor: a Monaco CodeEditor with a YAML/JSON toggle, live validation against the hosted canonical schema, and a valid / error status.',
+    sourceFile: 'registry/default/ui/code/ledger-schema-editor.tsx',
+    source: 'custom',
+  },
   'components/chart': {
     registryName: 'chart',
     description: 'Chart components built on Recharts.',
@@ -986,6 +993,10 @@ export const docsConfig: TDocsConfig = {
         { title: 'Chart', href: '/docs/components/chart' },
         { title: 'Checkbox', href: '/docs/components/checkbox' },
         { title: 'Code Editor', href: '/docs/components/code-editor' },
+        {
+          title: 'Ledger Schema Editor',
+          href: '/docs/components/ledger-schema-editor',
+        },
         { title: 'Code Snippet', href: '/docs/components/code-snippet' },
         { title: 'Collapsible', href: '/docs/components/collapsible' },
         { title: 'Combobox', href: '/docs/components/combobox' },

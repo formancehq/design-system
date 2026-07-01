@@ -1,0 +1,125 @@
+<ComponentPreview name="ledger-schema-editor" />
+
+A self-contained editor for Formance ledger schemas: a Monaco `CodeEditor` with a YAML⇄JSON toggle, live validation against the canonical [ledger schema](https://ds.formance.com/schemas/ledger-schema) hosted by this design system, and a valid / error status. Toggle to JSON and back — comments and formatting are preserved across the round-trip. Change the `resource` on a query to an invalid value to see validation flag it.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add https://ds.formance.com/r/ledger-schema-editor.json
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install ajv yaml
+```
+
+<Step>Add the Code Editor and the validator it builds on.</Step>
+
+```bash
+npx shadcn@latest add https://ds.formance.com/r/code-editor.json
+npx shadcn@latest add https://ds.formance.com/r/ledger-schema-validator.json
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="ledger-schema-editor" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { LedgerSchemaEditor } from '@/components/code/ledger-schema-editor';
+```
+
+```tsx
+const [value, setValue] = useState('');
+
+<LedgerSchemaEditor value={value} onChange={setValue} />;
+```
+
+It forwards any [Code Editor](/docs/components/code-editor) prop — `isReadonly`, `canCopy`, `bordered`, `fill`, `height`, `withNavigator` (on by default here), and so on — except `language` and `diagnostics`, which it controls via the YAML/JSON toggle and the validator.
+
+## Schema: base, extended, or custom
+
+Validation runs against the canonical schema hosted here, so every consumer agrees on what's valid. The `type` prop selects which one:
+
+- `base` (default) — the strict contract; rejects unknown top-level keys. Use it to author ledger schemas. ([JSON Schema](https://ds.formance.com/schemas/ledger-schema))
+- `extended` — the base contract plus a top-level `meta` block, for docs / library entries that carry metadata. ([JSON Schema](https://ds.formance.com/schemas/ledger-schema/extended))
+
+```tsx
+<LedgerSchemaEditor value={value} onChange={setValue} type="extended" />
+```
+
+### Custom schema
+
+Pass your own JSON Schema via `schema` to override the hosted one entirely — no fetch happens and `type` is ignored. Useful for a private contract or local iteration.
+
+```tsx
+import mySchema from './my-ledger-schema.json';
+
+<LedgerSchemaEditor value={value} onChange={setValue} schema={mySchema} />;
+```
+
+## Reacting to validity
+
+`onValidityChange` fires whenever the status changes (`empty` / `valid` / `errors`), so a host can drive its own UI (a save button, a header pill, …) from it.
+
+```tsx
+<LedgerSchemaEditor
+  value={value}
+  onChange={setValue}
+  onValidityChange={(status) => setCanSave(status.kind === 'valid')}
+/>
+```
+
+## Just the validator
+
+If you need the validation logic without this editor's chrome — to wire into your own editor, a form, or a build step — use `ledger-schema-validator` directly. It's the same logic this component runs, so the verdict is identical.
+
+```bash
+npx shadcn@latest add https://ds.formance.com/r/ledger-schema-validator.json
+```
+
+```tsx
+import {
+  CodeEditor,
+  type TDiagnosticsConfig,
+} from '@/components/code/code-editor';
+import { createLedgerSchemaValidator } from '@/components/code/ledger-schema-validator';
+
+const diagnostics: TDiagnosticsConfig = {
+  validate: createLedgerSchemaValidator({ type: 'base' }),
+};
+
+<CodeEditor
+  value={value}
+  language="yaml"
+  onChange={setValue}
+  diagnostics={diagnostics}
+/>;
+```
+
+<ComponentPreview name="code-editor-ledger-schema" />

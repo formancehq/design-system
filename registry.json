@@ -1444,6 +1444,40 @@
       ]
     },
     {
+      "name": "ledger-schema-validator",
+      "type": "registry:ui",
+      "title": "Ledger Schema Validator",
+      "description": "Validates a Formance ledger schema (YAML or JSON) against the canonical hosted schema and returns diagnostics for CodeEditor. Select base or extended, or pass a custom schema.",
+      "dependencies": ["ajv", "yaml"],
+      "registryDependencies": ["https://ds.formance.com/r/code-editor.json"],
+      "files": [
+        {
+          "path": "registry/default/ui/code/ledger-schema-validator.ts",
+          "type": "registry:ui",
+          "target": "components/code/ledger-schema-validator.ts"
+        }
+      ]
+    },
+    {
+      "name": "ledger-schema-editor",
+      "type": "registry:ui",
+      "title": "Ledger Schema Editor",
+      "description": "A ledger schema editor: a Monaco CodeEditor with a YAML/JSON toggle, live validation against the hosted canonical schema, and a valid / error status.",
+      "dependencies": ["yaml"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/code-editor.json",
+        "https://ds.formance.com/r/ledger-schema-validator.json",
+        "https://ds.formance.com/r/tabs.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/code/ledger-schema-editor.tsx",
+          "type": "registry:ui",
+          "target": "components/code/ledger-schema-editor.tsx"
+        }
+      ]
+    },
+    {
       "name": "data-table",
       "type": "registry:component",
       "title": "Data Table",

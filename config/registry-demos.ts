@@ -1370,6 +1370,12 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'ledger-schema-editor': {
+    component: lazy(
+      () => import('@/registry/default/demos/ledger-schema-editor-demo')
+    ),
+    sourceFile: 'registry/default/demos/ledger-schema-editor-demo.tsx',
+  },
   'ledger-schema': {
     component: lazy(
       () => import('@/registry/default/demos/ledger-schema-demo')

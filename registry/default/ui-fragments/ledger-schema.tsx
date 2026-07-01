@@ -73,6 +73,16 @@ export type TLedgerSchemaData = {
   queries?: Record<string, TLedgerQuery>;
 };
 
+export type TSchemaTab = 'chart' | 'transactions' | 'queries' | 'yaml' | 'json';
+
+const DEFAULT_TAB_ORDER: TSchemaTab[] = [
+  'chart',
+  'transactions',
+  'queries',
+  'yaml',
+  'json',
+];
+
 type TScriptSlots = {
   renderScriptTags?: (code: string) => ReactNode;
   renderScriptActions?: (code: string) => ReactNode;
@@ -104,8 +114,16 @@ export type TLedgerSchemaProps = {
   query?: string;
   /** Show only this top-level chart subtree. */
   chart?: string;
-  /** Pre-stringified YAML source; when provided, adds a "YAML" tab to the full view. */
+  /** Pre-stringified YAML source; enables the "yaml" tab in the full view. */
   yaml?: string;
+  /**
+   * Tabs to show in the full view, in order. A tab appears only if its data is
+   * present (chart/transactions/queries), `yaml` is provided (yaml), or there is
+   * any content (json). Defaults to all available sections followed by json.
+   */
+  tabs?: TSchemaTab[];
+  /** Initially-selected tab in the full view; falls back to the first shown tab. */
+  defaultTab?: TSchemaTab;
   className?: string;
 } & TChartViewProps &
   TScriptSlots;
@@ -120,6 +138,8 @@ export function LedgerSchema({
   query,
   chart,
   yaml,
+  tabs,
+  defaultTab,
   defaultOpenDepth,
   defaultExpanded,
   defaultShowDetails,
@@ -206,6 +226,8 @@ export function LedgerSchema({
     <FullSchemaView
       data={data}
       yaml={yaml}
+      tabs={tabs}
+      defaultTab={defaultTab}
       chartProps={chartProps}
       className={className}
       slots={slots}
@@ -218,25 +240,31 @@ export function LedgerSchema({
 function FullSchemaView({
   data,
   yaml,
+  tabs,
+  defaultTab,
   chartProps,
   className,
   slots,
 }: {
   data: TLedgerSchemaData;
   yaml?: string;
+  tabs?: TSchemaTab[];
+  defaultTab?: TSchemaTab;
   chartProps: TChartViewProps;
   className?: string;
   slots: TScriptSlots;
 }) {
   const hasContent = !!(data.chart || data.transactions || data.queries);
-  const tabs: string[] = [];
-  if (data.chart) tabs.push('chart');
-  if (data.transactions) tabs.push('transactions');
-  if (data.queries) tabs.push('queries');
-  if (yaml?.trim()) tabs.push('yaml');
-  if (hasContent) tabs.push('json');
+  const available = new Set<TSchemaTab>();
+  if (data.chart) available.add('chart');
+  if (data.transactions) available.add('transactions');
+  if (data.queries) available.add('queries');
+  if (yaml?.trim()) available.add('yaml');
+  if (hasContent) available.add('json');
 
-  if (tabs.length === 0) {
+  const shown = (tabs ?? DEFAULT_TAB_ORDER).filter((t) => available.has(t));
+
+  if (shown.length === 0) {
     return (
       <div
         className={cn(
@@ -250,7 +278,9 @@ function FullSchemaView({
     );
   }
 
-  const isSingleTab = tabs.length === 1;
+  const isSingleTab = shown.length === 1;
+  const initialTab =
+    defaultTab && shown.includes(defaultTab) ? defaultTab : shown[0];
   const counts: Record<string, number | undefined> = {
     transactions: data.transactions
       ? Object.keys(data.transactions).length
@@ -260,10 +290,10 @@ function FullSchemaView({
 
   return (
     <div className={cn(cardClass, className)}>
-      <Tabs defaultValue={tabs[0]} className="gap-0">
+      <Tabs defaultValue={initialTab} className="gap-0">
         <div className="flex items-center border-b bg-muted/40 pr-2">
           <TabsList variant="line" className="-ml-px px-2 pl-0">
-            {tabs.map((t) => (
+            {shown.map((t) => (
               <TabsTrigger
                 key={t}
                 value={t}
@@ -278,12 +308,12 @@ function FullSchemaView({
               </TabsTrigger>
             ))}
           </TabsList>
-          {yaml?.trim() && (
+          {shown.includes('yaml') && yaml?.trim() && (
             <CopyButton text={yaml.trim()} label="Copy" className="ml-auto" />
           )}
         </div>
 
-        {data.chart && (
+        {shown.includes('chart') && data.chart && (
           <TabsContent value="chart" className="p-0">
             <ChartOfAccounts
               data={data.chart}
@@ -292,22 +322,22 @@ function FullSchemaView({
             />
           </TabsContent>
         )}
-        {data.transactions && (
+        {shown.includes('transactions') && data.transactions && (
           <TabsContent value="transactions" className="p-2">
             <TransactionsView transactions={data.transactions} slots={slots} />
           </TabsContent>
         )}
-        {data.queries && (
+        {shown.includes('queries') && data.queries && (
           <TabsContent value="queries" className="p-2">
             <QueriesView queries={data.queries} />
           </TabsContent>
         )}
-        {yaml?.trim() && (
+        {shown.includes('yaml') && yaml?.trim() && (
           <TabsContent value="yaml" className="p-0">
             <CodeSnippet code={yaml.trim()} language="yaml" bordered={false} />
           </TabsContent>
         )}
-        {hasContent && (
+        {shown.includes('json') && hasContent && (
           <TabsContent value="json" className="p-0">
             <CodeSnippet
               code={JSON.stringify(data, null, 2)}
