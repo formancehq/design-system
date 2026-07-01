@@ -66,8 +66,8 @@ It forwards any [Code Editor](/docs/components/code-editor) prop — `isReadonly
 
 Validation runs against the canonical schema hosted here, so every consumer agrees on what's valid. The `type` prop selects which one:
 
-- `base` (default) — the strict contract; rejects unknown top-level keys. Use it to author ledger schemas.
-- `extended` — the base contract plus a top-level `meta` block, for docs / library entries that carry metadata.
+- `base` (default) — the strict contract; rejects unknown top-level keys. Use it to author ledger schemas. ([JSON Schema](https://ds.formance.com/schemas/ledger-schema))
+- `extended` — the base contract plus a top-level `meta` block, for docs / library entries that carry metadata. ([JSON Schema](https://ds.formance.com/schemas/ledger-schema/extended))
 
 ```tsx
 <LedgerSchemaEditor value={value} onChange={setValue} type="extended" />

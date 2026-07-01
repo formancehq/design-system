@@ -111,6 +111,21 @@ export const mdxComponents: MDXComponents = {
   h4: (props) => <MdxHeading level={4} {...props} />,
   h5: (props) => <MdxHeading level={5} {...props} />,
   p: (props) => <TypographyP {...props} />,
+  a: ({ href, className, ...props }: React.ComponentProps<'a'>) => {
+    const isExternal = /^https?:\/\//.test(href ?? '');
+
+    return (
+      <a
+        href={href}
+        className={cn(
+          'font-medium text-primary underline underline-offset-4 hover:no-underline',
+          className
+        )}
+        {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : undefined)}
+        {...props}
+      />
+    );
+  },
   code: ({ children, className, ...props }) => {
     const isBlock = className?.startsWith('language-');
 
