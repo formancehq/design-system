@@ -115,11 +115,11 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/code-editor.tsx',
     source: 'custom',
   },
-  'components/ledger-schema-editor': {
+  'fragments/ledger-schema-editor': {
     registryName: 'ledger-schema-editor',
     description:
       'A ledger schema editor: a Monaco CodeEditor with a YAML/JSON toggle, live validation against the hosted canonical schema, and a valid / error status.',
-    sourceFile: 'registry/default/ui/code/ledger-schema-editor.tsx',
+    sourceFile: 'registry/default/ui-fragments/ledger-schema-editor.tsx',
     source: 'custom',
   },
   'components/chart': {
@@ -493,10 +493,10 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/loader.tsx',
     source: 'custom',
   },
-  'components/mode-toggle': {
+  'fragments/mode-toggle': {
     registryName: 'mode-toggle',
     description: 'A theme toggle button for dark and light mode.',
-    sourceFile: 'registry/default/ui/mode-toggle.tsx',
+    sourceFile: 'registry/default/ui-fragments/mode-toggle.tsx',
     source: 'custom',
   },
   'components/nav-tabs': {
@@ -631,10 +631,10 @@ export const componentMeta: Record<string, TComponentMeta> = {
       },
     ],
   },
-  'components/multi-select': {
+  'fragments/multi-select': {
     registryName: 'multi-select',
     description: 'A multi-select component with badges and search.',
-    sourceFile: 'registry/default/ui/multi-select.tsx',
+    sourceFile: 'registry/default/ui-fragments/multi-select.tsx',
     source: 'custom',
     subComponents: [
       {
@@ -993,10 +993,6 @@ export const docsConfig: TDocsConfig = {
         { title: 'Chart', href: '/docs/components/chart' },
         { title: 'Checkbox', href: '/docs/components/checkbox' },
         { title: 'Code Editor', href: '/docs/components/code-editor' },
-        {
-          title: 'Ledger Schema Editor',
-          href: '/docs/components/ledger-schema-editor',
-        },
         { title: 'Code Snippet', href: '/docs/components/code-snippet' },
         { title: 'Collapsible', href: '/docs/components/collapsible' },
         { title: 'Combobox', href: '/docs/components/combobox' },
@@ -1024,8 +1020,6 @@ export const docsConfig: TDocsConfig = {
         { title: 'Label', href: '/docs/components/label' },
         { title: 'Loader', href: '/docs/components/loader' },
         { title: 'Menubar', href: '/docs/components/menubar' },
-        { title: 'Mode Toggle', href: '/docs/components/mode-toggle' },
-        { title: 'Multi Select', href: '/docs/components/multi-select' },
         { title: 'Nav Tabs', href: '/docs/components/nav-tabs' },
         { title: 'Navigation Menu', href: '/docs/components/navigation-menu' },
         { title: 'Pagination', href: '/docs/components/pagination' },
@@ -1077,10 +1071,16 @@ export const docsConfig: TDocsConfig = {
           title: 'Ledger Schema',
           href: '/docs/fragments/ledger-schema',
         },
+        {
+          title: 'Ledger Schema Editor',
+          href: '/docs/fragments/ledger-schema-editor',
+        },
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
         { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Markdown', href: '/docs/fragments/markdown' },
+        { title: 'Mode Toggle', href: '/docs/fragments/mode-toggle' },
+        { title: 'Multi Select', href: '/docs/fragments/multi-select' },
         { title: 'Page Container', href: '/docs/fragments/page-container' },
         { title: 'Page Header', href: '/docs/fragments/page-header' },
         {

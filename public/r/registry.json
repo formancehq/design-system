@@ -1202,15 +1202,16 @@
     },
     {
       "name": "mode-toggle",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Mode Toggle",
       "description": "A theme toggle button for dark and light mode.",
       "dependencies": ["lucide-react", "next-themes"],
       "registryDependencies": ["https://ds.formance.com/r/button.json"],
       "files": [
         {
-          "path": "registry/default/ui/mode-toggle.tsx",
-          "type": "registry:ui"
+          "path": "registry/default/ui-fragments/mode-toggle.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/mode-toggle.tsx"
         }
       ]
     },
@@ -1276,7 +1277,7 @@
     },
     {
       "name": "multi-select",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Multi Select",
       "description": "A multi-select component with badges and search.",
       "dependencies": ["lucide-react"],
@@ -1288,8 +1289,9 @@
       ],
       "files": [
         {
-          "path": "registry/default/ui/multi-select.tsx",
-          "type": "registry:ui"
+          "path": "registry/default/ui-fragments/multi-select.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/multi-select.tsx"
         }
       ]
     },
@@ -1465,7 +1467,7 @@
     },
     {
       "name": "ledger-schema-editor",
-      "type": "registry:ui",
+      "type": "registry:component",
       "title": "Ledger Schema Editor",
       "description": "A ledger schema editor: a Monaco CodeEditor with a YAML/JSON toggle, live validation against the hosted canonical schema, and a valid / error status.",
       "dependencies": ["yaml"],
@@ -1476,9 +1478,9 @@
       ],
       "files": [
         {
-          "path": "registry/default/ui/code/ledger-schema-editor.tsx",
-          "type": "registry:ui",
-          "target": "components/code/ledger-schema-editor.tsx"
+          "path": "registry/default/ui-fragments/ledger-schema-editor.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/ledger-schema-editor.tsx"
         }
       ]
     },

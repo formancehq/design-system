@@ -8,7 +8,7 @@ import {
   MultiSelectSeparator,
   MultiSelectTrigger,
   MultiSelectValue,
-} from '@/registry/default/ui/multi-select';
+} from '@/registry/default/ui-fragments/multi-select';
 
 export default function MultiSelectGroups() {
   return (
