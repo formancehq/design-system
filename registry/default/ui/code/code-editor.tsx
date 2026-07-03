@@ -49,6 +49,7 @@ type TCodeEditorProps = {
   isReadonly?: boolean;
   canCopy?: boolean;
   onCtrlEnter?: VoidFunction;
+  onDidPaste?: (value: string) => void;
   /** Height adapts to content (up to 1000 px). Ignored when `fill` is true. @default true */
   adaptiveHeight?: boolean;
   /** Fill parent container height. Takes precedence over `adaptiveHeight`/`height`. */
@@ -143,6 +144,7 @@ function CodeEditor({
   isReadonly = false,
   canCopy = true,
   onCtrlEnter,
+  onDidPaste,
   adaptiveHeight: adaptiveHeightProp = true,
   fill = false,
   defaultUnfoldAll = true,
@@ -166,6 +168,7 @@ function CodeEditor({
     null
   );
   const diagnosticsRef = useRef(diagnostics);
+  const onDidPasteRef = useRef(onDidPaste);
 
   const [isClient, setIsClient] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -180,6 +183,10 @@ function CodeEditor({
   useEffect(() => {
     diagnosticsRef.current = diagnostics;
   }, [diagnostics]);
+
+  useEffect(() => {
+    onDidPasteRef.current = onDidPaste;
+  }, [onDidPaste]);
 
   // Client gate
   useEffect(() => {
@@ -298,6 +305,10 @@ function CodeEditor({
         const v = editor.getValue();
         onChange?.(v);
         triggerValidation(v);
+      });
+
+      editor.onDidPaste(() => {
+        onDidPasteRef.current?.(editor.getValue());
       });
 
       if (adaptiveHeight) editor.onDidContentSizeChange(updateHeight);
