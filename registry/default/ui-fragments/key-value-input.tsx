@@ -285,4 +285,32 @@ function KeyValueJsonPreview({ pairs }: { pairs: TKeyValuePair[] }) {
   );
 }
 
-export { KeyValueInput, type TKeyValueInputProps, type TKeyValuePair };
+function recordToPairs(
+  record: Record<string, unknown> | undefined | null
+): TKeyValuePair[] {
+  const entries = Object.entries(record ?? {});
+  if (entries.length === 0) return [{ id: uniqueId(), key: '', value: '' }];
+
+  return entries.map(([key, value]) => ({
+    id: uniqueId(),
+    key,
+    value: String(value ?? ''),
+  }));
+}
+
+function pairsToRecord(pairs: TKeyValuePair[]): Record<string, string> {
+  const obj: Record<string, string> = {};
+  for (const pair of pairs) {
+    if (pair.key) obj[pair.key] = pair.value;
+  }
+
+  return obj;
+}
+
+export {
+  KeyValueInput,
+  pairsToRecord,
+  recordToPairs,
+  type TKeyValueInputProps,
+  type TKeyValuePair,
+};
