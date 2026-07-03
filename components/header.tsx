@@ -11,7 +11,10 @@ import { BadgeEyebrow } from '@/registry/default/ui/badge-eyebrow';
 import { Button } from '@/registry/default/ui/button';
 import { FormanceLogo } from '@/registry/default/ui/formance-logo';
 import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
-import { ModeToggle, type TTheme } from '@/registry/default/ui/mode-toggle';
+import {
+  ModeToggle,
+  type TTheme,
+} from '@/registry/default/ui-fragments/mode-toggle';
 import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import {
   Sheet,

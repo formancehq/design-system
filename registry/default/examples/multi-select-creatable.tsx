@@ -8,7 +8,7 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from '@/registry/default/ui/multi-select';
+} from '@/registry/default/ui-fragments/multi-select';
 
 export default function MultiSelectCreatable() {
   const [values, setValues] = useState<string[]>([]);

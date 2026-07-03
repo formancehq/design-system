@@ -1,7 +1,7 @@
 import { Braces } from 'lucide-react';
 import type { Metadata } from 'next';
 import { compileMDX } from 'next-mdx-remote/rsc';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CompoundComponents } from '@/components/compound-components';
@@ -30,6 +30,19 @@ function findSidebarItem(slug: string) {
     for (const item of section.items) {
       if (item.href === `/docs/${slug}`) {
         return { item, section: section.title };
+      }
+    }
+  }
+
+  return null;
+}
+
+/** First sidebar page under a category prefix, e.g. /docs/components → its Introduction. */
+function firstSidebarItemUnder(prefix: string) {
+  for (const section of docsConfig.sidebarNav) {
+    for (const item of section.items) {
+      if (item.href.startsWith(`${prefix}/`)) {
+        return item.href;
       }
     }
   }
@@ -111,7 +124,11 @@ export default async function DocsPage({
   const slugStr = slug.join('/');
   const found = findSidebarItem(slugStr);
 
-  if (!found) notFound();
+  if (!found) {
+    const categoryTarget = firstSidebarItemUnder(`/docs/${slugStr}`);
+    if (categoryTarget) redirect(categoryTarget);
+    notFound();
+  }
 
   const meta = componentMeta[slugStr];
   const mdxSource = readMdxFile(slugStr);

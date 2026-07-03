@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { LedgerSchemaEditor } from '@/registry/default/ui/code/ledger-schema-editor';
+import { LedgerSchemaEditor } from '@/registry/default/ui-fragments/ledger-schema-editor';
 
 const initialSchema = `chart:
   clients:

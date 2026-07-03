@@ -10,6 +10,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DS_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 DS_UI="$DS_ROOT/registry/default/ui"
+DS_FRAGMENTS="$DS_ROOT/registry/default/ui-fragments"
 DS_CSS="$DS_ROOT/app/globals.css"
 
 # -- Defaults (platform-ui) ------------------------------------------------
@@ -97,6 +98,8 @@ rewrite_imports() {
   sed -i '' "s|from '@/lib/utils'|from '${alias_prefix}/lib/utils'|g" "$file"
   # @/lib/compose-refs → @alias/lib/compose-refs
   sed -i '' "s|from '@/lib/compose-refs'|from '${alias_prefix}/lib/compose-refs'|g" "$file"
+  # @/registry/default/ui-fragments/X → @alias/components/X
+  sed -i '' "s|from '@/registry/default/ui-fragments/|from '${alias_prefix}/components/|g" "$file"
   # @/registry/default/ui/X → @alias/components/X
   sed -i '' "s|from '@/registry/default/ui/|from '${alias_prefix}/components/|g" "$file"
   # @/hooks/X → @alias/hooks/X
@@ -119,6 +122,16 @@ sync_css() {
   fi
 }
 
+# -- Source resolution (ui/ first, then ui-fragments/) ----------------------
+resolve_src() {
+  local name="$1"
+  if [[ -f "$DS_UI/$name" ]]; then
+    echo "$DS_UI/$name"
+  elif [[ -f "$DS_FRAGMENTS/$name" ]]; then
+    echo "$DS_FRAGMENTS/$name"
+  fi
+}
+
 # -- Sync components --------------------------------------------------------
 sync_components() {
   local synced=0
@@ -129,8 +142,7 @@ sync_components() {
   if [[ ${#components[@]} -gt 0 ]]; then
     # Specific components requested
     for comp in "${components[@]}"; do
-      local src="$DS_UI/$comp"
-      if [[ -f "$src" ]]; then
+      if [[ -n "$(resolve_src "$comp")" ]]; then
         files+=("$comp")
       else
         echo "Warning: $comp not found in DS, skipping"
@@ -138,7 +150,7 @@ sync_components() {
     done
   else
     # All components that exist in both source and target
-    for src_file in "$DS_UI"/*.tsx; do
+    for src_file in "$DS_UI"/*.tsx "$DS_FRAGMENTS"/*.tsx; do
       local name
       name="$(basename "$src_file")"
       if [[ -f "$target_dir/$name" ]]; then
@@ -161,7 +173,8 @@ sync_components() {
   echo ""
 
   for name in "${files[@]}"; do
-    local src="$DS_UI/$name"
+    local src
+    src="$(resolve_src "$name")"
     local dst="$target_dir/$name"
 
     if $dry_run; then

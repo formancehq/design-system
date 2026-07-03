@@ -7,7 +7,7 @@ import {
   MultiSelectItem,
   MultiSelectTrigger,
   MultiSelectValue,
-} from '@/registry/default/ui/multi-select';
+} from '@/registry/default/ui-fragments/multi-select';
 
 const SERVICES = [
   { value: 'ledgers', label: 'Ledgers' },
