@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Column,
@@ -628,6 +628,8 @@ type TDataTableProps<TData, TValue> = {
   filtersConfig?: TDataTableToolbarProps<TData>['filtersConfig'];
   toolbarLeft?: React.ReactNode;
   toolbarRight?: React.ReactNode;
+  hideToolbar?: boolean;
+  onTableReady?: (table: TanstackTable<TData>) => void;
 };
 
 function DataTable<TData, TValue>({
@@ -640,6 +642,8 @@ function DataTable<TData, TValue>({
   toolbarRight,
   toolbarLeft,
   emptyState,
+  hideToolbar = false,
+  onTableReady,
 }: TDataTableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     initialState?.columnVisibility ?? {}
@@ -672,15 +676,21 @@ function DataTable<TData, TValue>({
 
   const hasData = data.length > 0;
 
+  useEffect(() => {
+    onTableReady?.(table);
+  }, [onTableReady, table]);
+
   return (
     <div className="space-y-4 w-full">
-      <DataTableToolbar
-        table={table}
-        filtersConfig={filtersConfig}
-        searchConfig={searchConfig}
-        toolbarRight={toolbarRight}
-        toolbarLeft={toolbarLeft}
-      />
+      {!hideToolbar && (
+        <DataTableToolbar
+          table={table}
+          filtersConfig={filtersConfig}
+          searchConfig={searchConfig}
+          toolbarRight={toolbarRight}
+          toolbarLeft={toolbarLeft}
+        />
+      )}
 
       {hasData ? (
         <div className={`rounded-md border border-border ${TypographyMono()}`}>
