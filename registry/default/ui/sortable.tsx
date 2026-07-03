@@ -518,7 +518,7 @@ function SortableItemHandle(props: SortableItemHandleProps) {
   const composedRef = useComposedRefs(
     typeof ref === 'string' ? undefined : ref,
     (node) => {
-      if (!isDisabled) return;
+      if (isDisabled) return;
       itemContext.setActivatorNodeRef(node);
     }
   );

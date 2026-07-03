@@ -292,7 +292,7 @@ function recordToPairs(
   if (entries.length === 0) return [{ id: uniqueId(), key: '', value: '' }];
 
   return entries.map(([key, value]) => ({
-    id: uniqueId(),
+    id: `kv-record-${key}`,
     key,
     value: String(value ?? ''),
   }));
