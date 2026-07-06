@@ -88,4 +88,24 @@ function TabsContent({
   );
 }
 
-export { Tabs, TabsContent, TabsList, tabsListVariants, TabsTrigger };
+function TabsCount({ className, ...props }: React.ComponentProps<'span'>) {
+  return (
+    <span
+      data-slot="tabs-count"
+      className={cn(
+        'rounded-full bg-foreground/10 px-1.5 text-[10px] font-normal tabular-nums',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+export {
+  Tabs,
+  TabsContent,
+  TabsCount,
+  TabsList,
+  tabsListVariants,
+  TabsTrigger,
+};
