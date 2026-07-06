@@ -10,6 +10,9 @@
     "cssVariables": true
   },
   "iconLibrary": "lucide",
+  "registries": {
+    "@radix": "https://ui.shadcn.com/r/styles/radix-nova/{name}.json"
+  },
   "aliases": {
     "components": "@/components",
     "ui": "@/registry/default/ui",

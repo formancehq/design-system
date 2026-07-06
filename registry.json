@@ -803,6 +803,20 @@
       ]
     },
     {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "registryDependencies": ["button"],
+      "files": [
+        {
+          "path": "registry/default/ui/attachment.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "avatar",
       "type": "registry:ui",
       "title": "Avatar",

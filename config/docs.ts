@@ -58,6 +58,53 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/aspect-ratio.tsx',
     source: 'shadcn',
   },
+  'components/attachment': {
+    registryName: 'attachment',
+    description:
+      'Displays a file or image attachment with media, metadata, upload state, and actions.',
+    sourceFile: 'registry/default/ui/attachment.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'Attachment',
+        description:
+          'Root container with size, orientation, and upload-state variants.',
+      },
+      {
+        name: 'AttachmentGroup',
+        description: 'Horizontal scroller for laying out multiple attachments.',
+      },
+      {
+        name: 'AttachmentMedia',
+        description: 'Media slot for an icon or image thumbnail.',
+      },
+      {
+        name: 'AttachmentContent',
+        description: 'Wraps the title and description.',
+      },
+      {
+        name: 'AttachmentTitle',
+        description: 'File name; shimmers while uploading or processing.',
+      },
+      {
+        name: 'AttachmentDescription',
+        description: 'Secondary metadata line (type, size, progress).',
+      },
+      {
+        name: 'AttachmentActions',
+        description: 'Container for action buttons.',
+      },
+      {
+        name: 'AttachmentAction',
+        description: 'A single icon button action (e.g. remove or cancel).',
+      },
+      {
+        name: 'AttachmentTrigger',
+        description:
+          'Full-surface trigger for making the attachment clickable.',
+      },
+    ],
+  },
   'components/avatar': {
     registryName: 'avatar',
     description: 'An image element with a fallback for user profiles.',
@@ -980,6 +1027,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Alert', href: '/docs/components/alert' },
         { title: 'Alert Dialog', href: '/docs/components/alert-dialog' },
         { title: 'Aspect Ratio', href: '/docs/components/aspect-ratio' },
+        { title: 'Attachment', href: '/docs/components/attachment' },
         { title: 'Avatar', href: '/docs/components/avatar' },
         { title: 'Badge', href: '/docs/components/badge' },
         { title: 'Badge Eyebrow', href: '/docs/components/badge-eyebrow' },
