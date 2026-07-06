@@ -79,6 +79,47 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     component: lazy(() => import('@/registry/default/demos/aspect-ratio-demo')),
     sourceFile: 'registry/default/demos/aspect-ratio-demo.tsx',
   },
+  attachment: {
+    component: lazy(() => import('@/registry/default/demos/attachment-demo')),
+    sourceFile: 'registry/default/demos/attachment-demo.tsx',
+    examples: [
+      {
+        title: 'Image',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-image')
+        ),
+        sourceFile: 'registry/default/examples/attachment-image.tsx',
+      },
+      {
+        title: 'States',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-upload-states')
+        ),
+        sourceFile: 'registry/default/examples/attachment-upload-states.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-sizes')
+        ),
+        sourceFile: 'registry/default/examples/attachment-sizes.tsx',
+      },
+      {
+        title: 'Group',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-group')
+        ),
+        sourceFile: 'registry/default/examples/attachment-group.tsx',
+      },
+      {
+        title: 'Trigger',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-trigger')
+        ),
+        sourceFile: 'registry/default/examples/attachment-trigger.tsx',
+      },
+    ],
+  },
   avatar: {
     component: lazy(() => import('@/registry/default/demos/avatar-demo')),
     sourceFile: 'registry/default/demos/avatar-demo.tsx',
