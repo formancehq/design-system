@@ -3,17 +3,10 @@
 import {
   Tabs,
   TabsContent,
+  TabsCount,
   TabsList,
   TabsTrigger,
 } from '@/registry/default/ui/tabs';
-
-function Count({ children }: { children: number }) {
-  return (
-    <span className="rounded-full bg-foreground/10 px-1.5 text-[10px] font-normal tabular-nums">
-      {children}
-    </span>
-  );
-}
 
 export default function TabsLine() {
   return (
@@ -21,11 +14,11 @@ export default function TabsLine() {
       <TabsList variant="line">
         <TabsTrigger value="transactions">
           Transactions
-          <Count>{5}</Count>
+          <TabsCount>{5}</TabsCount>
         </TabsTrigger>
         <TabsTrigger value="queries">
           Queries
-          <Count>{3}</Count>
+          <TabsCount>{3}</TabsCount>
         </TabsTrigger>
         <TabsTrigger value="metadata">Metadata</TabsTrigger>
       </TabsList>
