@@ -65,16 +65,25 @@ export const addCommand = new Command('add')
       insecure: options.insecure,
     });
 
+    const cwd = options.cwd ?? process.cwd();
+
+    // Rewrite globals.css whenever --overwrite is set, regardless of exitCode:
+    // it is template-driven and must not be skipped when a single component in
+    // --all fails to install.
+    if (options.overwrite) {
+      const rewritten = writeGlobalsFromTemplate(cwd, {
+        internal: options.internal,
+      });
+      if (rewritten) console.log(`✔ Rewrote ${rewritten} from template`);
+      else
+        console.warn(
+          '⚠ Could not rewrite globals.css: no components.json with a tailwind.css entry found at the target. Pass --cwd <project-with-components.json>.'
+        );
+    }
+
+    // Fragment import/dependency rewriting operates on freshly installed files,
+    // so only run it when the install actually succeeded.
     if (exitCode === 0) {
-      const cwd = options.cwd ?? process.cwd();
-
-      if (options.overwrite) {
-        const rewritten = writeGlobalsFromTemplate(cwd, {
-          internal: options.internal,
-        });
-        if (rewritten) console.log(`✔ Rewrote ${rewritten} from template`);
-      }
-
       const result = await rewriteFragmentImports(cwd, base, names);
       if (result.replacements > 0) {
         console.log(

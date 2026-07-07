@@ -1,6 +1,6 @@
 {
   "name": "@formance/ds",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "CLI for installing Formance design system components.",
   "type": "module",
   "bin": {
