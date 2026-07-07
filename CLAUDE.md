@@ -84,38 +84,11 @@ When copying components from platform-ui, adapt imports:
 
 ## Syncing Components to Consumer Projects
 
-The DS is the **upstream source of truth**. To push components to consumer projects:
+The DS is the **upstream source of truth**. Consumers pull components **only through the registry** — never by copying files locally. This keeps import rewriting, CSS tokens, and utility classes consistent with what external installs receive.
 
-### Direct sync (no dev server needed)
+> Local file-copy syncing (the former `scripts/sync-to-project.sh`) has been removed on purpose: it copied `.tsx` files without the component's CSS (utilities like `shimmer` / `scroll-fade-x` live in `globals.css`), which silently broke styling. Always go through the registry.
 
-```bash
-# Sync all shared components to platform-ui (default target)
-./scripts/sync-to-project.sh
-
-# Sync specific components only
-./scripts/sync-to-project.sh button.tsx badge.tsx input.tsx
-
-# Preview what would change
-./scripts/sync-to-project.sh --dry-run
-
-# Sync to a different project
-./scripts/sync-to-project.sh --target-dir ../internal-ui/packages/ui/src/components \
-  --target-css ../internal-ui/packages/ui/src/styles/globals.css \
-  --alias "@internal/ui"
-
-# Only sync CSS tokens
-./scripts/sync-to-project.sh --css-only
-```
-
-The script copies files from `registry/default/ui/` and rewrites imports:
-
-- `@/lib/utils` → `@<alias>/lib/utils`
-- `@/lib/compose-refs` → `@<alias>/lib/compose-refs`
-- `@/registry/default/ui/X` → `@<alias>/components/X`
-
-By default it only syncs components that **already exist** in the target (safe override). Pass specific filenames to force-add new ones.
-
-### Via shadcn registry (needs dev server running)
+### Add / update components (needs dev server running)
 
 ```bash
 pnpm dev  # start DS at localhost:3333
@@ -123,6 +96,17 @@ pnpm dev  # start DS at localhost:3333
 ```
 
 This uses `shadcn add --overwrite` against the local registry. Import rewriting is handled by shadcn based on the target's `components.json` aliases.
+
+### Refresh base styles / tokens / utilities (`globals.css`)
+
+CSS utilities and tokens ship via the CLI's `globals.css` template (`cli/src/templates/globals.css`), delivered by `@formance/ds init`. Re-run `init` in the consumer to pull new utilities into its `globals.css`:
+
+```bash
+# from the consumer project (has a components.json)
+npx @formance/ds init --internal --all -y --overwrite
+```
+
+`init` rewrites the destination `globals.css` from the template verbatim (only token values are injected), so any `@utility` / `@keyframes` / `@property` block added to the template lands in the consumer. Component-specific utilities must therefore be added to the template, not only to the docs-site `app/globals.css`.
 
 ## Dev Server
 
@@ -158,6 +142,18 @@ After `shadcn add` writes the file, `init` runs `rewriteGlobalsFromTemplate` (`c
 5. Writes the result back.
 
 `add` is intentionally **not** rewritten — adding components rarely brings new tokens.
+
+> **⚠️ Any CSS a component relies on MUST be shipped, not just added to `app/globals.css`.**
+> `app/globals.css` only styles the docs site. Consumers get their CSS from the CLI template (`cli/src/templates/globals.css`) via `@formance/ds init`. A component whose class (e.g. `shimmer`, `scroll-fade-x`, `scrollbar-none`) lives only in `app/globals.css` will render **unstyled** everywhere else — this is exactly how the Attachment utilities shipped broken to platform-ui.
+>
+> **When you add or change any `@utility` / `@keyframes` / `@property` / `@layer` rule for a component:**
+>
+> 1. Add it to `app/globals.css` (docs site renders correctly).
+> 2. Add the **same block** to `cli/src/templates/globals.css` (consumers get it via `init`).
+> 3. Rebuild the CLI: `cd cli && pnpm build` (copies the template into `dist/templates`).
+> 4. Consumers pull it with `npx @formance/ds init --internal --all -y --overwrite`.
+>
+> Never hand-copy component `.tsx` files into a consumer — always go through the registry + `init`.
 
 ### Keeping the template in sync with platform-ui
 
