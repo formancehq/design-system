@@ -624,6 +624,11 @@ type TDataTableProps<TData, TValue> = {
   emptyState?: React.ReactNode;
   renderExpandedRow?: (row: Row<TData>) => React.ReactNode;
   getRowCanExpand?: (row: Row<TData>) => boolean;
+  // Passthrough to TanStack. Left `undefined` (its defaults) unless a consumer
+  // opts out — e.g. to silence the StrictMode "update on a not-yet-mounted
+  // component" dev warning caused by TanStack's microtask-queued auto-resets.
+  autoResetPageIndex?: boolean;
+  autoResetExpanded?: boolean;
   searchConfig?: TDataTableToolbarProps<TData>['searchConfig'];
   filtersConfig?: TDataTableToolbarProps<TData>['filtersConfig'];
   toolbarLeft?: React.ReactNode;
@@ -642,6 +647,8 @@ function DataTable<TData, TValue>({
   toolbarRight,
   toolbarLeft,
   emptyState,
+  autoResetPageIndex,
+  autoResetExpanded,
   hideToolbar = false,
   onTableReady,
 }: TDataTableProps<TData, TValue>) {
@@ -663,6 +670,8 @@ function DataTable<TData, TValue>({
       columnFilters,
     },
     enableRowSelection: true,
+    autoResetPageIndex,
+    autoResetExpanded,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
