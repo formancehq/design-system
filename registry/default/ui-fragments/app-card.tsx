@@ -34,24 +34,28 @@ export function AppCard({
   ...cardProps
 }: TAppCardProps) {
   const Icon = appIcon;
+  const hasHeader =
+    title || description || appIcon || headerAction || headerContent;
 
   return (
     <Card {...cardProps}>
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          {Icon && (
-            <Button variant={iconVariant} size="icon-md" notClickable>
-              <Icon />
-            </Button>
-          )}
-          <div className="flex items-center gap-3 flex-1">
-            <CardTitle>{title}</CardTitle>
-            {headerContent}
+      {hasHeader && (
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            {Icon && (
+              <Button variant={iconVariant} size="icon-md" notClickable>
+                <Icon />
+              </Button>
+            )}
+            <div className="flex items-center gap-3 flex-1">
+              <CardTitle>{title}</CardTitle>
+              {headerContent}
+            </div>
           </div>
-        </div>
-        <CardDescription>{description}</CardDescription>
-        {headerAction && !isEmpty && <CardAction>{headerAction}</CardAction>}
-      </CardHeader>
+          <CardDescription>{description}</CardDescription>
+          {headerAction && !isEmpty && <CardAction>{headerAction}</CardAction>}
+        </CardHeader>
+      )}
       <CardContent>{children}</CardContent>
       {footer}
     </Card>
