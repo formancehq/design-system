@@ -16,8 +16,8 @@ export const listCommand = new Command('list')
 
     if (options.json) {
       console.log(JSON.stringify(index.items, null, 2));
-      
-return;
+
+      return;
     }
 
     const nameWidth = Math.max(...index.items.map((i) => i.name.length), 4);

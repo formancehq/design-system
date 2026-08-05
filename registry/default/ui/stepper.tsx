@@ -86,13 +86,11 @@ function wrapArray<T>(array: T[], startIndex: number) {
 }
 
 function useLazyRef<T>(fn: () => T) {
-  const ref = React.useRef<T | null>(null);
+  // The lazy state initializer runs `fn` exactly once and gives back a stable
+  // ref object, without mutating a ref during render.
+  const [ref] = React.useState<React.RefObject<T>>(() => ({ current: fn() }));
 
-  if (ref.current === null) {
-    ref.current = fn();
-  }
-
-  return ref as React.RefObject<T>;
+  return ref;
 }
 
 const useIsomorphicLayoutEffect =
