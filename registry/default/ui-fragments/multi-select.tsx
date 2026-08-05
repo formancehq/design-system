@@ -25,6 +25,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useRef,
   useState,
   type ComponentPropsWithoutRef,
@@ -46,6 +47,8 @@ type MultiSelectContextType = {
   inputValue: string;
   setInputValue: (value: string) => void;
   disabled?: boolean;
+  /** Id of the popup the trigger controls, for `aria-controls`. */
+  contentId: string;
 };
 const MultiSelectContext = createContext<MultiSelectContextType | null>(null);
 
@@ -104,6 +107,8 @@ export function MultiSelect({
     toggleValue(last);
   }
 
+  const contentId = useId();
+
   const onItemAdded = useCallback((value: string, label: ReactNode) => {
     setItems((prev) => {
       if (prev.get(value) === label) return prev;
@@ -140,6 +145,7 @@ export function MultiSelect({
     inputValue,
     setInputValue,
     disabled,
+    contentId,
   };
 
   if (mode === 'inline') {
@@ -197,13 +203,14 @@ export function MultiSelectTrigger({
   size = 'md',
   ...props
 }: MultiSelectTriggerProps) {
-  const { mode, open, setOpen, disabled } = useMultiSelectContext();
+  const { mode, open, setOpen, disabled, contentId } = useMultiSelectContext();
 
   if (mode === 'inline') {
     return (
       <div
         role="combobox"
         aria-expanded={open}
+        aria-controls={contentId}
         aria-disabled={disabled}
         onClick={() => !disabled && setOpen(true)}
         className={cn(
@@ -295,7 +302,9 @@ export function MultiSelectValue({
   const { selectedValues, toggleValue, removeLastValue, items, open, mode } =
     useMultiSelectContext();
   const [overflowAmount, setOverflowAmount] = useState(0);
-  const valueRef = useRef<HTMLDivElement>(null);
+  // Held in state rather than a ref so the observers below can live in an effect
+  // that owns — and therefore disconnects — them.
+  const [valueNode, setValueNode] = useState<HTMLDivElement | null>(null);
   const overflowRef = useRef<HTMLDivElement>(null);
 
   const shouldWrap =
@@ -303,9 +312,9 @@ export function MultiSelectValue({
     (overflowBehavior === 'wrap-when-open' && open);
 
   const checkOverflow = useCallback(() => {
-    if (valueRef.current == null) return;
+    if (valueNode == null) return;
 
-    const containerElement = valueRef.current;
+    const containerElement = valueNode;
     const overflowElement = overflowRef.current;
     const items = containerElement.querySelectorAll<HTMLElement>(
       '[data-selected-item]'
@@ -324,30 +333,26 @@ export function MultiSelectValue({
       overflowElement?.style.removeProperty('display');
     }
     setOverflowAmount(amount);
-  }, []);
+  }, [valueNode]);
 
-  const handleResize = useCallback(
-    (node: HTMLDivElement) => {
-      valueRef.current = node;
+  useEffect(() => {
+    if (valueNode == null) return;
 
-      const mutationObserver = new MutationObserver(checkOverflow);
-      const observer = new ResizeObserver(debounce(checkOverflow, 100));
+    const mutationObserver = new MutationObserver(checkOverflow);
+    const resizeObserver = new ResizeObserver(debounce(checkOverflow, 100));
 
-      mutationObserver.observe(node, {
-        childList: true,
-        attributes: true,
-        attributeFilter: ['class', 'style'],
-      });
-      observer.observe(node);
+    mutationObserver.observe(valueNode, {
+      childList: true,
+      attributes: true,
+      attributeFilter: ['class', 'style'],
+    });
+    resizeObserver.observe(valueNode);
 
-      return () => {
-        observer.disconnect();
-        mutationObserver.disconnect();
-        valueRef.current = null;
-      };
-    },
-    [checkOverflow]
-  );
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, [valueNode, checkOverflow]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -374,7 +379,7 @@ export function MultiSelectValue({
   return (
     <div
       {...props}
-      ref={handleResize}
+      ref={setValueNode}
       onKeyDown={handleKeyDown}
       className={cn(
         'flex gap-1.5 overflow-hidden',
@@ -436,6 +441,7 @@ export function MultiSelectContent({
     toggleValue,
     items,
     selectedValues,
+    contentId,
   } = useMultiSelectContext();
   const canSearch = typeof search === 'object' ? true : search;
 
@@ -471,6 +477,7 @@ export function MultiSelectContent({
   if (mode === 'inline') {
     return (
       <div
+        id={contentId}
         className={cn(
           'absolute left-0 top-full z-50 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md transition-all',
           open

@@ -8,6 +8,7 @@
     "build": "pnpm registry:build && next build",
     "start": "next start",
     "lint": "eslint --cache",
+    "react-doctor": "npx --yes react-doctor@latest --yes --scope full --blocking error",
     "lint:fix": "pnpm run lint --fix",
     "format": "prettier \"**/*.{ts,tsx,md,json}\" --check",
     "format:fix": "prettier \"**/*.{ts,tsx,md,json}\" --write",

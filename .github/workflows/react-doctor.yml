@@ -1,0 +1,48 @@
+name: React Doctor
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  statuses: write
+
+concurrency:
+  group: react-doctor-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  react-doctor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # The repository is at zero error-severity diagnostics; `scope: full` +
+      # `blocking: error` keeps it there by failing the job on any error,
+      # anywhere — not only on the lines a pull request touched. Warnings stay
+      # advisory (there is a large pre-existing backlog).
+      - id: scan
+        uses: millionco/react-doctor@v2
+        with:
+          scope: full
+          blocking: error
+
+      # The action only propagates its exit code on `pull_request`; on a push to
+      # `main` it always exits 0. Re-assert the gate from the reported counts so
+      # a direct push (or a merge) can never land errors unnoticed.
+      - name: Fail on error-severity diagnostics
+        env:
+          ERROR_COUNT: ${{ steps.scan.outputs.error-count }}
+        run: |
+          if [ "${ERROR_COUNT:-0}" -gt 0 ]; then
+            echo "::error::React Doctor reported $ERROR_COUNT error-severity diagnostic(s)."
+            exit 1
+          fi
+          echo "React Doctor reported no error-severity diagnostics."
