@@ -301,14 +301,33 @@ export const MONACO_EDITOR_OPTIONS = {
 
 const _global = typeof window !== 'undefined' ? (window as any) : undefined;
 
-export function setupMonacoEnvironment(): void {
-  if (_global && !_global.MonacoEnvironment) {
-    _global.MonacoEnvironment = {
-      getWorkerUrl: () => {
-        const blob = new Blob([''], { type: 'application/javascript' });
+let _workerUrl: string | undefined;
 
-        return URL.createObjectURL(blob);
-      },
-    };
-  }
+function releaseWorkerUrl(): void {
+  if (_workerUrl) URL.revokeObjectURL(_workerUrl);
+  _workerUrl = undefined;
+}
+
+/**
+ * Owns the lifetime of the worker URL: Monaco asks for it once per worker and
+ * the answer is always the same empty script, so the URL is created once and
+ * freed when the page goes away. A fresh Blob URL per call is never freed.
+ */
+function keepWorkerUrl(url: string): string {
+  _workerUrl = url;
+  _global.addEventListener('pagehide', releaseWorkerUrl, { once: true });
+
+  return url;
+}
+
+export function setupMonacoEnvironment(): void {
+  if (!_global || _global.MonacoEnvironment) return;
+
+  _global.MonacoEnvironment = {
+    getWorkerUrl: () =>
+      _workerUrl ??
+      keepWorkerUrl(
+        URL.createObjectURL(new Blob([''], { type: 'application/javascript' }))
+      ),
+  };
 }

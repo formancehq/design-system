@@ -1436,7 +1436,7 @@
       "name": "ledger-schema",
       "type": "registry:component",
       "title": "Ledger Schema",
-      "description": "Interactive viewer for a Formance ledger schema — chart of accounts, transactions (Numscript), and queries — with a tabbed full view and props to show a single section, transaction, or chart subtree.",
+      "description": "Interactive viewer for a Formance ledger schema \u2014 chart of accounts, transactions (Numscript), and queries \u2014 with a tabbed full view and props to show a single section, transaction, or chart subtree.",
       "dependencies": ["lucide-react"],
       "registryDependencies": [
         "https://ds.formance.com/r/code-snippet.json",
@@ -1584,6 +1584,11 @@
           "path": "registry/default/ui/code/code-snippet.tsx",
           "type": "registry:ui",
           "target": "components/code/code-snippet.tsx"
+        },
+        {
+          "path": "registry/default/ui/code/render-hast.tsx",
+          "type": "registry:ui",
+          "target": "components/code/render-hast.tsx"
         }
       ]
     },
@@ -1689,7 +1694,7 @@
       "name": "membership-operations",
       "type": "registry:file",
       "title": "Membership Operations Index",
-      "description": "Build-time extracted OpenAPI operation index for the Formance membership/cloud API (method, path, path params per operationId). No SDK metadata — the membership API has no public TypeScript SDK.",
+      "description": "Build-time extracted OpenAPI operation index for the Formance membership/cloud API (method, path, path params per operationId). No SDK metadata \u2014 the membership API has no public TypeScript SDK.",
       "files": [
         {
           "path": "registry/default/lib/membership-operations.json",

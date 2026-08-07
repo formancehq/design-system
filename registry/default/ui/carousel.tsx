@@ -18,7 +18,6 @@ type TCarouselProps = {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
-  setApi?: (api: CarouselApi) => void;
 };
 
 type TCarouselContextProps = {
@@ -44,7 +43,6 @@ function useCarousel() {
 function Carousel({
   orientation = 'horizontal',
   opts,
-  setApi,
   plugins,
   className,
   children,
@@ -84,10 +82,6 @@ function Carousel({
   );
 
   React.useEffect(() => {
-    if (api && setApi) setApi(api);
-  }, [api, setApi]);
-
-  React.useEffect(() => {
     if (!api) return;
     onSelect(api);
     api.on('reInit', onSelect);
@@ -99,20 +93,32 @@ function Carousel({
     };
   }, [api, onSelect]);
 
+  const context = React.useMemo(
+    () => ({
+      carouselRef,
+      api,
+      opts,
+      orientation:
+        orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+      scrollPrev,
+      scrollNext,
+      canScrollPrev,
+      canScrollNext,
+    }),
+    [
+      carouselRef,
+      api,
+      opts,
+      orientation,
+      scrollPrev,
+      scrollNext,
+      canScrollPrev,
+      canScrollNext,
+    ]
+  );
+
   return (
-    <CarouselContext.Provider
-      value={{
-        carouselRef,
-        api,
-        opts,
-        orientation:
-          orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-      }}
-    >
+    <CarouselContext.Provider value={context}>
       <div
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className)}

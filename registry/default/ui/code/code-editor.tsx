@@ -2,7 +2,13 @@
 
 import { Check, Copy } from 'lucide-react';
 import type React from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from 'react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
@@ -85,12 +91,19 @@ type TMonacoSetupResult = {
 
 let _monacoSetupPromise: Promise<TMonacoSetupResult> | null = null;
 
+// Monaco only runs in the browser, so the editor is gated on hydration.
+const subscribeToNothing = () => () => {};
+const getIsClientSnapshot = () => true;
+const getIsServerSnapshot = () => false;
+
 function ensureMonacoSetup(): Promise<TMonacoSetupResult> {
   if (_monacoSetupPromise) return _monacoSetupPromise;
 
   _monacoSetupPromise = (async () => {
-    const monaco = await import('monaco-editor-core');
-    const { shikiToMonaco } = await import('@shikijs/monaco');
+    const [monaco, { shikiToMonaco }] = await Promise.all([
+      import('monaco-editor-core'),
+      import('@shikijs/monaco'),
+    ]);
 
     setupMonacoEnvironment();
 
@@ -135,6 +148,51 @@ function getHeightStyle(
 // Component
 // ---------------------------------------------------------------------------
 
+type TUseMonacoThemeArgs = {
+  isInitialized: boolean;
+  isDark?: boolean;
+  monacoRef: React.RefObject<any>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  setThemeRef: React.RefObject<((name: string) => void) | null>;
+};
+
+/**
+ * Re-applies the theme when dark/light changes. When `isDark` is provided it
+ * reacts to prop changes; when it is undefined the document class is observed.
+ */
+function useMonacoTheme({
+  isInitialized,
+  isDark,
+  monacoRef,
+  containerRef,
+  setThemeRef,
+}: TUseMonacoThemeArgs) {
+  useEffect(() => {
+    const monaco = monacoRef.current;
+    if (!monaco || !isInitialized || !containerRef.current) return;
+
+    const applyTheme = () => {
+      if (!monaco || !containerRef.current) return;
+      const theme = buildMonacoThemeFromCSSVars(containerRef.current);
+
+      monaco.editor.defineTheme(MONACO_THEME_BASE, theme as any);
+      setThemeRef.current?.(MONACO_THEME_BASE);
+    };
+
+    applyTheme();
+
+    if (isDark === undefined) {
+      const observer = new MutationObserver(applyTheme);
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+
+      return () => observer.disconnect();
+    }
+  }, [isInitialized, isDark, monacoRef, containerRef, setThemeRef]);
+}
+
 function CodeEditor({
   value,
   defaultValue,
@@ -169,8 +227,13 @@ function CodeEditor({
   );
   const diagnosticsRef = useRef(diagnostics);
   const onDidPasteRef = useRef(onDidPaste);
+  const onCtrlEnterRef = useRef(onCtrlEnter);
 
-  const [isClient, setIsClient] = useState(false);
+  const isClient = useSyncExternalStore(
+    subscribeToNothing,
+    getIsClientSnapshot,
+    getIsServerSnapshot
+  );
   const [isInitialized, setIsInitialized] = useState(false);
   const [copied, setCopied] = useState(false);
   const [navigatorEditorRef, setNavigatorEditorRef] =
@@ -188,18 +251,18 @@ function CodeEditor({
     onDidPasteRef.current = onDidPaste;
   }, [onDidPaste]);
 
-  // Client gate
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Ctrl+Enter global event
-  useEffect(() => {
-    if (!onCtrlEnter) return;
-    window.addEventListener(CTRL_ENTER_EVENT, onCtrlEnter);
-
-    return () => window.removeEventListener(CTRL_ENTER_EVENT, onCtrlEnter);
+    onCtrlEnterRef.current = onCtrlEnter;
   }, [onCtrlEnter]);
+
+  // Ctrl+Enter global event. Registered once; the handler reads the latest
+  // callback through a ref so the listener is never swapped out.
+  useEffect(() => {
+    const handleCtrlEnter = () => onCtrlEnterRef.current?.();
+    window.addEventListener(CTRL_ENTER_EVENT, handleCtrlEnter);
+
+    return () => window.removeEventListener(CTRL_ENTER_EVENT, handleCtrlEnter);
+  }, []);
 
   // Adaptive height
   const updateHeight = useCallback(() => {
@@ -253,6 +316,34 @@ function CodeEditor({
   // Editor setup
   // ---------------------------------------------------------------------------
 
+  // The setup effect must run once per language, not per keystroke, so
+  // everything it reads only at creation time goes through this ref. It is
+  // refreshed after every render and declared before the setup effect, so the
+  // setup effect always sees the current render's values.
+  const setupValues = useRef({
+    currentValue,
+    isReadonly,
+    defaultUnfoldAll,
+    onChange,
+    adaptiveHeight,
+    updateHeight,
+    isEmpty,
+    onEditorReady,
+  });
+
+  useEffect(() => {
+    setupValues.current = {
+      currentValue,
+      isReadonly,
+      defaultUnfoldAll,
+      onChange,
+      adaptiveHeight,
+      updateHeight,
+      isEmpty,
+      onEditorReady,
+    };
+  });
+
   useEffect(() => {
     if (!isClient || !containerRef.current) return;
 
@@ -265,15 +356,25 @@ function CodeEditor({
       monacoRef.current = monaco;
       setThemeRef.current = setTheme;
 
+      const {
+        currentValue: initialValue,
+        isReadonly: readOnly,
+        defaultUnfoldAll: unfoldAll,
+        adaptiveHeight: withAdaptiveHeight,
+        updateHeight: applyHeight,
+        isEmpty: startsEmpty,
+        onEditorReady: notifyEditorReady,
+      } = setupValues.current;
+
       // Create the editor with the Shiki-compatible fallback theme.
       // shikiToMonaco intercepts create() and calls its own setTheme()
       // which needs real hex colors in the Shiki color map.
       const editor = monaco.editor.create(containerRef.current, {
         ...MONACO_EDITOR_OPTIONS,
-        value: currentValue,
+        value: initialValue,
         language,
         theme: 'formance-monaco-fallback',
-        readOnly: isReadonly,
+        readOnly,
       });
 
       // Apply the resolved CSS-variables theme for proper brand colors.
@@ -293,7 +394,7 @@ function CodeEditor({
 
       editorRef.current = editor;
 
-      if (!defaultUnfoldAll) {
+      if (!unfoldAll) {
         editor.getAction('editor.foldAll')?.run();
       }
 
@@ -303,7 +404,7 @@ function CodeEditor({
 
       editor.onDidChangeModelContent(() => {
         const v = editor.getValue();
-        onChange?.(v);
+        setupValues.current.onChange?.(v);
         triggerValidation(v);
       });
 
@@ -311,10 +412,12 @@ function CodeEditor({
         onDidPasteRef.current?.(editor.getValue());
       });
 
-      if (adaptiveHeight) editor.onDidContentSizeChange(updateHeight);
-      if (!isEmpty) updateHeight();
+      if (withAdaptiveHeight) {
+        editor.onDidContentSizeChange(() => setupValues.current.updateHeight());
+      }
+      if (!startsEmpty) applyHeight();
 
-      runValidation(currentValue);
+      runValidation(initialValue);
       setIsInitialized(true);
 
       const instance: TMonacoEditorInstance = {
@@ -323,7 +426,7 @@ function CodeEditor({
         focus: () => editor.focus(),
       };
       setNavigatorEditorRef(instance);
-      onEditorReady?.(instance);
+      notifyEditorReady?.(instance);
     })();
 
     return () => {
@@ -342,34 +445,13 @@ function CodeEditor({
     if (editor.getValue() !== currentValue) editor.setValue(currentValue);
   }, [currentValue, isInitialized]);
 
-  // Re-apply theme when dark/light changes.
-  // When `isDark` is provided, react to prop changes.
-  // When `isDark` is undefined, auto-detect via MutationObserver.
-  useEffect(() => {
-    const monaco = monacoRef.current;
-    if (!monaco || !isInitialized || !containerRef.current) return;
-
-    const applyTheme = () => {
-      if (!monaco || !containerRef.current) return;
-      const theme = buildMonacoThemeFromCSSVars(containerRef.current);
-
-      monaco.editor.defineTheme(MONACO_THEME_BASE, theme as any);
-      setThemeRef.current?.(MONACO_THEME_BASE);
-    };
-
-    applyTheme();
-
-    // Only observe DOM for auto-detection when isDark is not explicitly controlled
-    if (isDark === undefined) {
-      const observer = new MutationObserver(applyTheme);
-      observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class'],
-      });
-
-      return () => observer.disconnect();
-    }
-  }, [isInitialized, isDark]);
+  useMonacoTheme({
+    isInitialized,
+    isDark,
+    monacoRef,
+    containerRef,
+    setThemeRef,
+  });
 
   // Sync readonly
   useEffect(() => {
@@ -377,13 +459,69 @@ function CodeEditor({
     editorRef.current.updateOptions({ readOnly: isReadonly });
   }, [isReadonly, isInitialized]);
 
+  if (!isClient) return null;
+
+  return (
+    <CodeEditorSurface
+      htmlProps={htmlProps}
+      className={className}
+      bordered={bordered}
+      fill={fill}
+      isEmpty={isEmpty}
+      height={height}
+      adaptiveHeight={adaptiveHeight}
+      withNavigator={withNavigator}
+      canCopy={canCopy}
+      copied={copied}
+      setCopied={setCopied}
+      currentValue={currentValue}
+      language={language}
+      navigatorEditorRef={navigatorEditorRef}
+      containerRef={containerRef}
+    />
+  );
+}
+
+type TCodeEditorSurfaceProps = {
+  htmlProps: React.HTMLAttributes<HTMLDivElement>;
+  className?: string;
+  bordered?: boolean;
+  fill: boolean;
+  isEmpty: boolean;
+  height: number | string;
+  adaptiveHeight: boolean;
+  withNavigator?: boolean;
+  canCopy?: boolean;
+  copied: boolean;
+  setCopied: (copied: boolean) => void;
+  currentValue: string;
+  language: TCodeEditorProps['language'];
+  navigatorEditorRef: TMonacoEditorInstance | null;
+  containerRef: React.RefObject<HTMLDivElement | null>;
+};
+
+function CodeEditorSurface({
+  htmlProps,
+  className,
+  bordered,
+  fill,
+  isEmpty,
+  height,
+  adaptiveHeight,
+  withNavigator,
+  canCopy,
+  copied,
+  setCopied,
+  currentValue,
+  language,
+  navigatorEditorRef,
+  containerRef,
+}: TCodeEditorSurfaceProps) {
   const handleCopy = async () => {
     await navigator.clipboard.writeText(currentValue.trim());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-  if (!isClient) return null;
 
   return (
     <div

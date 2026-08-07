@@ -57,16 +57,21 @@ function CodeNavigator({
   }, [outline, path]);
 
   // Build breadcrumb levels: one per path segment + one for the next drilldown
-  const levels: { nodes: TNavigationNode[]; selected?: string }[] = [];
+  const levels: { id: string; nodes: TNavigationNode[]; selected?: string }[] =
+    [];
   let currentNodes = outline;
 
-  levels.push({ nodes: currentNodes, selected: validPath[0] });
+  levels.push({ id: 'root', nodes: currentNodes, selected: validPath[0] });
 
   for (let i = 0; i < validPath.length && levels.length < maxDepth; i++) {
     const found = currentNodes.find((n) => n.key === validPath[i]);
     if (!found || found.children.length === 0) break;
     currentNodes = found.children;
-    levels.push({ nodes: currentNodes, selected: validPath[i + 1] });
+    levels.push({
+      id: validPath.slice(0, i + 1).join('/'),
+      nodes: currentNodes,
+      selected: validPath[i + 1],
+    });
   }
 
   const jumpToLine = (line: number) => {
@@ -101,7 +106,7 @@ function CodeNavigator({
       <List className="size-4 shrink-0 text-muted-foreground" />
 
       {levels.map((level, i) => (
-        <Fragment key={i}>
+        <Fragment key={level.id}>
           {i > 0 && <span className="text-muted-foreground text-sm">/</span>}
           <Select
             value={level.selected}
