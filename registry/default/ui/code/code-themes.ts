@@ -17,6 +17,7 @@ export const CODE_LANGUAGES = [
   'javascript',
   'yaml',
   'json',
+  'toml',
   'bash',
   'css',
   'html',
