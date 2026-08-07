@@ -40,7 +40,10 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
 }
 
 function useComposedRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
-  return React.useCallback(composeRefs(...refs), refs);
+  return React.useCallback(
+    (node: T | null) => composeRefs(...refs)(node),
+    refs
+  );
 }
 
 export { composeRefs, useComposedRefs };

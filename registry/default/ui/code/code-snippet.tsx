@@ -11,6 +11,10 @@ import {
   getHighlighter,
   type TCodeLanguage,
 } from '@/registry/default/ui/code/code-themes';
+import {
+  renderHast,
+  type HastNode,
+} from '@/registry/default/ui/code/render-hast';
 
 // ---------------------------------------------------------------------------
 // Variants
@@ -84,7 +88,7 @@ function CodeSnippet({
   isSingleLine,
   className,
 }: TCodeSnippetProps) {
-  const [html, setHtml] = useState<string | null>(null);
+  const [highlighted, setHighlighted] = useState<ReactNode>(null);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -92,7 +96,7 @@ function CodeSnippet({
 
     (async () => {
       if (!code) {
-        setHtml('<pre><code></code></pre>');
+        setHighlighted(null);
 
         return;
       }
@@ -103,7 +107,7 @@ function CodeSnippet({
       const safeLang = highlighter.getLoadedLanguages().includes(language)
         ? language
         : 'plaintext';
-      const result = highlighter.codeToHtml(code, {
+      const result = highlighter.codeToHast(code, {
         lang: safeLang,
         theme: cssVarsTheme.name!,
         transformers: showLineNumbers
@@ -128,7 +132,7 @@ function CodeSnippet({
           : [],
       });
 
-      if (!cancelled) setHtml(result);
+      if (!cancelled) setHighlighted(renderHast(result as HastNode));
     })();
 
     return () => {
@@ -156,11 +160,8 @@ function CodeSnippet({
     showHeader && 'rounded-none'
   );
 
-  const codeArea = html ? (
-    <div
-      className={codeAreaClassName}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+  const codeArea = highlighted ? (
+    <div className={codeAreaClassName}>{highlighted}</div>
   ) : (
     <div className={codeAreaClassName}>
       <pre>

@@ -110,6 +110,44 @@ interface ButtonProps extends React.ComponentProps<'button'> {
   asChild?: boolean;
 }
 
+function getNavigationDirection(
+  steps: Map<string, StepState>,
+  fromValue: string | undefined,
+  toValue: string
+): NavigationDirection {
+  const stepKeys = Array.from(steps.keys());
+
+  return stepKeys.indexOf(toValue) > stepKeys.indexOf(fromValue ?? '')
+    ? 'next'
+    : 'prev';
+}
+
+function getFocusCandidateNodes(
+  items: ItemData[],
+  currentTarget: TriggerElement,
+  focusIntent: 'first' | 'last' | 'prev' | 'next',
+  loop: boolean
+): TriggerElement[] {
+  const candidateNodes = items.map((item) => item.element);
+
+  if (focusIntent === 'last') {
+    candidateNodes.reverse();
+
+    return candidateNodes;
+  }
+
+  if (focusIntent === 'prev' || focusIntent === 'next') {
+    if (focusIntent === 'prev') candidateNodes.reverse();
+    const currentIndex = candidateNodes.indexOf(currentTarget);
+
+    return loop
+      ? wrapArray(candidateNodes, currentIndex + 1)
+      : candidateNodes.slice(currentIndex + 1);
+  }
+
+  return candidateNodes;
+}
+
 function getDataState(
   value: string | undefined,
   itemValue: string,
@@ -819,11 +857,10 @@ function StepperTrigger(props: ButtonProps) {
       if (event.defaultPrevented) return;
 
       if (!isDisabled && !context.nonInteractive) {
-        const currentStepIndex = Array.from(steps.keys()).indexOf(value ?? '');
-        const targetStepIndex = Array.from(steps.keys()).indexOf(itemValue);
-        const direction = targetStepIndex > currentStepIndex ? 'next' : 'prev';
-
-        await store.setStateWithValidation(itemValue, direction);
+        await store.setStateWithValidation(
+          itemValue,
+          getNavigationDirection(steps, value, itemValue)
+        );
       }
     },
     [
@@ -853,11 +890,10 @@ function StepperTrigger(props: ButtonProps) {
         !context.nonInteractive &&
         isKeyboardFocus
       ) {
-        const currentStepIndex = Array.from(steps.keys()).indexOf(value || '');
-        const targetStepIndex = Array.from(steps.keys()).indexOf(itemValue);
-        const direction = targetStepIndex > currentStepIndex ? 'next' : 'prev';
-
-        await store.setStateWithValidation(itemValue, direction);
+        await store.setStateWithValidation(
+          itemValue,
+          getNavigationDirection(steps, value, itemValue)
+        );
       }
 
       isMouseClickRef.current = false;
@@ -917,31 +953,23 @@ function StepperTrigger(props: ButtonProps) {
         event.preventDefault();
 
         const items = focusContext.getItems().filter((item) => !item.disabled);
-        let candidateNodes = items.map((item) => item.element);
-
-        if (focusIntent === 'last') {
-          candidateNodes.reverse();
-        } else if (focusIntent === 'prev' || focusIntent === 'next') {
-          if (focusIntent === 'prev') candidateNodes.reverse();
-          const currentIndex = candidateNodes.indexOf(event.currentTarget);
-          candidateNodes = loop
-            ? wrapArray(candidateNodes, currentIndex + 1)
-            : candidateNodes.slice(currentIndex + 1);
-        }
+        const candidateNodes = getFocusCandidateNodes(
+          items,
+          event.currentTarget,
+          focusIntent,
+          loop
+        );
 
         if (store.hasValidation() && candidateNodes.length > 0) {
           const nextElement = candidateNodes[0];
           const nextItem = items.find((item) => item.element === nextElement);
 
           if (nextItem && nextItem.value !== itemValue) {
-            const currentStepIndex = Array.from(steps.keys()).indexOf(
-              value || ''
-            );
-            const targetStepIndex = Array.from(steps.keys()).indexOf(
+            const direction = getNavigationDirection(
+              steps,
+              value,
               nextItem.value
             );
-            const direction: NavigationDirection =
-              targetStepIndex > currentStepIndex ? 'next' : 'prev';
 
             if (direction === 'next') {
               const isValid = await store.setStateWithValidation(
