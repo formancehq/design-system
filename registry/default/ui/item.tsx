@@ -5,9 +5,14 @@ import * as React from 'react';
 import { Separator } from '@/registry/default/ui/separator';
 import { cn } from '@/lib/utils';
 
-function ItemGroup({ className, ...props }: React.ComponentProps<'ul'>) {
+// Stays a `div` with an explicit `role`: `Item` and `ItemSeparator` render
+// divs, and a `ul` may only contain `li`, so a real `ul` here is invalid HTML
+// and browsers drop the list semantics it was reached for. `Item` is also used
+// standalone (4 call sites), where an `li` would be just as wrong.
+function ItemGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <ul
+    <div
+      role="list"
       data-slot="item-group"
       className={cn('group/item-group flex flex-col', className)}
       {...props}
