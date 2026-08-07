@@ -104,6 +104,32 @@ export default {
       },
 
       {
+        // `CodeEditor` is one Monaco integration, not several components: the
+        // imperative setup, the theme, the value sync and the readonly sync all
+        // read the same editor instance and the same refs. Splitting the JSX
+        // into a presentational half only moved the line count behind fifteen
+        // threaded props, so the split was reverted and the size recorded here.
+        // A real fix extracts the effects into hooks beside the component.
+        files: [
+          'registry/default/ui/code/code-editor.tsx',
+          '**/ui/code/code-editor.tsx',
+        ],
+        rules: ['react-doctor/no-giant-component'],
+      },
+
+      {
+        // The logo is the brand mark, exported from the source of truth in
+        // Figma. Rounding its path coordinates is a change to the artwork, and
+        // the artwork does not get edited to satisfy a linter — the shipped
+        // geometry has to stay byte-identical to what design exports.
+        files: [
+          'registry/default/ui/formance-logo.tsx',
+          '**/ui/formance-logo.tsx',
+        ],
+        rules: ['react-doctor/rendering-svg-precision'],
+      },
+
+      {
         // `recharts` is imported as a namespace for both its types and its
         // values, so it cannot be lazily imported without splitting `chart.tsx`
         // into a type-only surface plus a lazy value surface. Worth doing once

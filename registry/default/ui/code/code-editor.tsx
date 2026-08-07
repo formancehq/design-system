@@ -255,8 +255,6 @@ function CodeEditor({
     onCtrlEnterRef.current = onCtrlEnter;
   }, [onCtrlEnter]);
 
-  // Ctrl+Enter global event. Registered once; the handler reads the latest
-  // callback through a ref so the listener is never swapped out.
   useEffect(() => {
     const handleCtrlEnter = () => onCtrlEnterRef.current?.();
     window.addEventListener(CTRL_ENTER_EVENT, handleCtrlEnter);
@@ -316,10 +314,6 @@ function CodeEditor({
   // Editor setup
   // ---------------------------------------------------------------------------
 
-  // The setup effect must run once per language, not per keystroke, so
-  // everything it reads only at creation time goes through this ref. It is
-  // refreshed after every render and declared before the setup effect, so the
-  // setup effect always sees the current render's values.
   const setupValues = useRef({
     currentValue,
     isReadonly,
@@ -459,69 +453,13 @@ function CodeEditor({
     editorRef.current.updateOptions({ readOnly: isReadonly });
   }, [isReadonly, isInitialized]);
 
-  if (!isClient) return null;
-
-  return (
-    <CodeEditorSurface
-      htmlProps={htmlProps}
-      className={className}
-      bordered={bordered}
-      fill={fill}
-      isEmpty={isEmpty}
-      height={height}
-      adaptiveHeight={adaptiveHeight}
-      withNavigator={withNavigator}
-      canCopy={canCopy}
-      copied={copied}
-      setCopied={setCopied}
-      currentValue={currentValue}
-      language={language}
-      navigatorEditorRef={navigatorEditorRef}
-      containerRef={containerRef}
-    />
-  );
-}
-
-type TCodeEditorSurfaceProps = {
-  htmlProps: React.HTMLAttributes<HTMLDivElement>;
-  className?: string;
-  bordered?: boolean;
-  fill: boolean;
-  isEmpty: boolean;
-  height: number | string;
-  adaptiveHeight: boolean;
-  withNavigator?: boolean;
-  canCopy?: boolean;
-  copied: boolean;
-  setCopied: (copied: boolean) => void;
-  currentValue: string;
-  language: TCodeEditorProps['language'];
-  navigatorEditorRef: TMonacoEditorInstance | null;
-  containerRef: React.RefObject<HTMLDivElement | null>;
-};
-
-function CodeEditorSurface({
-  htmlProps,
-  className,
-  bordered,
-  fill,
-  isEmpty,
-  height,
-  adaptiveHeight,
-  withNavigator,
-  canCopy,
-  copied,
-  setCopied,
-  currentValue,
-  language,
-  navigatorEditorRef,
-  containerRef,
-}: TCodeEditorSurfaceProps) {
   const handleCopy = async () => {
     await navigator.clipboard.writeText(currentValue.trim());
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (!isClient) return null;
 
   return (
     <div

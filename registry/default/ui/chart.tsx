@@ -158,13 +158,8 @@ function ChartTooltipLabel({
   return <div className={cn('font-medium', labelClassName)}>{value}</div>;
 }
 
-function ChartTooltipContent(props: TChartTooltipContentProps) {
-  if (!props.active || !props.payload?.length) return null;
-
-  return <ChartTooltipContentBody {...props} />;
-}
-
-function ChartTooltipContentBody({
+function ChartTooltipContent({
+  active,
   payload,
   className,
   indicator = 'dot',
@@ -180,7 +175,7 @@ function ChartTooltipContentBody({
 }: TChartTooltipContentProps) {
   const { config } = useChart();
 
-  if (!payload?.length) return null;
+  if (!active || !payload?.length) return null;
 
   const tooltipLabel = (
     <ChartTooltipLabel
@@ -212,8 +207,6 @@ function ChartTooltipContentBody({
 
           return (
             <div
-              // `itemKey` resolves the config entry and is shared by every item
-              // whenever `nameKey` is set, so it cannot identify a sibling.
               key={`${item.dataKey ?? item.name ?? index}-${index}`}
               className={cn(
                 '[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5',

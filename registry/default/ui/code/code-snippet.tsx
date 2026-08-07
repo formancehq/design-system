@@ -107,9 +107,6 @@ function CodeSnippet({
       const safeLang = highlighter.getLoadedLanguages().includes(language)
         ? language
         : 'plaintext';
-      // `codeToHast` + `renderHast` keeps the highlighted code as React nodes,
-      // so the snippet has no HTML sink and the code text is escaped by React
-      // whatever `code` contains.
       const result = highlighter.codeToHast(code, {
         lang: safeLang,
         theme: cssVarsTheme.name!,

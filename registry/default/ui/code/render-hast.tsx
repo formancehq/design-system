@@ -87,9 +87,6 @@ function renderHastNode(node: HastNode, key: string): ReactNode {
   }
 
   if (node.type === 'element' && node.tagName) {
-    // A syntax highlighter only ever emits these, and React escaping does not
-    // help inside a `<script>` or a `<style>` — so an unexpected tag keeps its
-    // text and loses the element.
     if (!ALLOWED_TAG_NAMES.has(node.tagName)) {
       return <Fragment key={key}>{children}</Fragment>;
     }
