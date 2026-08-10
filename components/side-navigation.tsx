@@ -1,10 +1,12 @@
 'use client';
 
+import { SearchIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { docsConfig } from '@/config/docs';
-import { CommandPaletteTrigger } from '@/registry/default/ui-fragments/command-palette';
+import { Button } from '@/registry/default/ui/button';
+import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
 import {
   Sidebar,
   SidebarContent,
@@ -53,11 +55,22 @@ export function SideNavigation() {
         <SidebarHeader className="max-md:hidden">
           <SidebarMenu>
             <SidebarMenuItem>
-              <CommandPaletteTrigger
-                onClick={() =>
-                  document.dispatchEvent(new CustomEvent('command-menu:open'))
-                }
-              />
+              <SidebarMenuButton asChild aria-label="Search" tooltip="Search">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() =>
+                    document.dispatchEvent(new CustomEvent('command-menu:open'))
+                  }
+                >
+                  <SearchIcon />
+                  Search
+                  <KbdGroup className="ml-auto">
+                    <Kbd>⌘</Kbd>
+                    <Kbd>K</Kbd>
+                  </KbdGroup>
+                </Button>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>

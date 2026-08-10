@@ -34,45 +34,30 @@ function CommandDialog({
   description = 'Search for a command to run...',
   children,
   className,
-  contentProps,
-  commandProps,
+  showCloseButton = true,
   ...props
 }: React.ComponentProps<typeof Dialog> & {
   title?: string;
   description?: string;
   className?: string;
-  /** Reaches the `DialogContent` — `showCloseButton={false}` when the palette
-   * shows its own `Esc` mark, `onEscapeKeyDown` for a progressive Escape. */
-  contentProps?: React.ComponentProps<typeof DialogContent>;
-  /** Reaches the `Command` — `shouldFilter={false}` for a palette that ranks
-   * its own rows, `loop`, a controlled `value`. */
-  commandProps?: React.ComponentProps<typeof Command>;
+  showCloseButton?: boolean;
 }) {
   return (
     <Dialog {...props}>
       <DialogContent
-        {...contentProps}
-        className={cn(
-          'overflow-hidden p-0',
-          className,
-          contentProps?.className
-        )}
+        className={cn('overflow-hidden p-0', className)}
+        showCloseButton={showCloseButton}
       >
-        {/* Inside the content, not beside it: `Dialog` renders its children in
-            place, so a header out here would leak an always-mounted heading
-            into the page — and Radix names the dialog from the title it finds
-            within the content. */}
+        {/* Radix names the dialog from the title it finds inside the content,
+            and `Dialog` renders its children in place — so the header belongs
+            in here, not beside `DialogContent`. */}
         <DialogHeader className="sr-only">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        {/* The dialog does not restyle the palette. Upstream shadcn grows every
-            row to `py-3` and every icon to `size-5` from out here, so the same
-            list is taller in a dialog than in a popover — and taller than in an
-            app that composes `Dialog` + `Command` itself, which is how the
-            Portal's palette came to disagree with this one. `CommandItem` owns
-            a row's metrics; one recipe, wherever the palette is mounted. */}
-        <Command {...commandProps}>{children}</Command>
+        {/* No row restyling from out here: `CommandItem` owns a row's metrics,
+            so a list keeps the same shape in a dialog and in a popover. */}
+        <Command>{children}</Command>
       </DialogContent>
     </Dialog>
   );

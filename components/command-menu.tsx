@@ -18,18 +18,21 @@ import { useEffect, useState } from 'react';
 
 import { docsConfig } from '@/config/docs';
 import {
-  CommandPaletteEmpty,
-  CommandPaletteHint,
-  CommandPaletteHints,
-  CommandPaletteInput,
-  CommandPaletteRow,
-} from '@/registry/default/ui-fragments/command-palette';
-import {
-  CommandDialog,
+  Command,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
+  CommandItem,
   CommandList,
 } from '@/registry/default/ui/command';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/registry/default/ui/dialog';
+import { Kbd } from '@/registry/default/ui/kbd';
 
 const PAGE_ICONS: Record<string, LucideIcon> = {
   Colors: Palette,
@@ -44,16 +47,21 @@ const SECTION_ICONS: Record<string, LucideIcon> = {
   'Getting Started': FileText,
 };
 
+const HINTS = [
+  { keys: ['↑', '↓'], label: 'to navigate' },
+  { keys: ['↵'], label: 'to select' },
+  { keys: ['esc'], label: 'to close' },
+];
+
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const router = useRouter();
   const { setTheme } = useTheme();
 
-  // Open-only, never a toggle: the hotkey answers from inside the palette's own
-  // input too, so a toggle would close the palette on a `mod+k` typed by
-  // someone reaching for the palette already in front of them. Escape is the
-  // way out.
+  // Open-only, never a toggle: the hotkey answers from inside the input too, so
+  // a toggle would close the menu on a `mod+k` typed by someone reaching for
+  // the menu already in front of them. Escape is the way out.
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.repeat) return;
@@ -96,91 +104,108 @@ export function CommandMenu() {
   }
 
   return (
-    <CommandDialog
+    // Not `CommandDialog`: this menu shows its own `Esc` mark in place of the
+    // corner close button, and Escape clears a query before it closes — which
+    // Radix only lets `DialogContent` decide.
+    <Dialog
       open={open}
       onOpenChange={(nextOpen) => (nextOpen ? setOpen(true) : close())}
-      title="Command Menu"
-      description="Search documentation, components, and switch theme."
-      contentProps={{
-        // The input's own `Esc` mark says how to dismiss, and the corner close
-        // button lands on top of it.
-        showCloseButton: false,
-        // Escape is progressive: it clears a query first and only closes from
-        // an empty one. It has to be handled here — Radix listens for Escape on
-        // `document`, so `stopPropagation` from the input's `onKeyDown` cannot
-        // stop the dialog from closing too.
-        onEscapeKeyDown: (event) => {
+    >
+      <DialogContent
+        className="overflow-hidden p-0"
+        showCloseButton={false}
+        onEscapeKeyDown={(event) => {
           if (query === '') return;
 
           event.preventDefault();
           setQuery('');
-        },
-      }}
-    >
-      <CommandPaletteInput
-        placeholder="Search pages, components, commands…"
-        value={query}
-        onValueChange={setQuery}
-      />
-      <CommandList>
-        {docsConfig.sidebarNav.map((section) => (
-          <CommandGroup key={section.title} heading={section.title}>
-            {section.items.map((item) => {
-              const Icon =
-                PAGE_ICONS[item.title] ??
-                SECTION_ICONS[section.title] ??
-                Package;
+        }}
+      >
+        <DialogHeader className="sr-only">
+          <DialogTitle>Command Menu</DialogTitle>
+          <DialogDescription>
+            Search documentation, components, and switch theme.
+          </DialogDescription>
+        </DialogHeader>
+        <Command>
+          <div className="relative">
+            <CommandInput
+              placeholder="Search pages, components, commands…"
+              value={query}
+              onValueChange={setQuery}
+              className="pr-12"
+            />
+            <Kbd className="absolute top-1/2 right-3 -translate-y-1/2">Esc</Kbd>
+          </div>
+          <CommandList>
+            {docsConfig.sidebarNav.map((section) => (
+              <CommandGroup key={section.title} heading={section.title}>
+                {section.items.map((item) => {
+                  const Icon =
+                    PAGE_ICONS[item.title] ??
+                    SECTION_ICONS[section.title] ??
+                    Package;
 
-              return (
-                <CommandPaletteRow
-                  key={item.href}
-                  // The section joins the value so "atoms input" finds the
-                  // atom rather than only the pages literally named Input.
-                  value={`${item.title} ${section.title}`}
-                  icon={<Icon className="text-muted-foreground" />}
-                  label={item.title}
-                  onSelect={() => run(() => router.push(item.href))}
-                />
-              );
-            })}
-          </CommandGroup>
-        ))}
+                  return (
+                    <CommandItem
+                      key={item.href}
+                      // The section joins the value so "atoms input" finds the
+                      // atom rather than only the pages literally named Input.
+                      value={`${item.title} ${section.title}`}
+                      onSelect={() => run(() => router.push(item.href))}
+                    >
+                      <Icon />
+                      <span>{item.title}</span>
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+            ))}
 
-        <CommandGroup heading="Theme">
-          <CommandPaletteRow
-            value="Light theme"
-            icon={<Sun className="text-muted-foreground" />}
-            label="Light"
-            onSelect={() => run(() => setTheme('light'))}
-          />
-          <CommandPaletteRow
-            value="Dark theme"
-            icon={<Moon className="text-muted-foreground" />}
-            label="Dark"
-            onSelect={() => run(() => setTheme('dark'))}
-          />
-          <CommandPaletteRow
-            value="System theme"
-            icon={<Monitor className="text-muted-foreground" />}
-            label="System"
-            onSelect={() => run(() => setTheme('system'))}
-          />
-        </CommandGroup>
+            <CommandGroup heading="Theme">
+              <CommandItem
+                value="Light theme"
+                onSelect={() => run(() => setTheme('light'))}
+              >
+                <Sun />
+                <span>Light</span>
+              </CommandItem>
+              <CommandItem
+                value="Dark theme"
+                onSelect={() => run(() => setTheme('dark'))}
+              >
+                <Moon />
+                <span>Dark</span>
+              </CommandItem>
+              <CommandItem
+                value="System theme"
+                onSelect={() => run(() => setTheme('system'))}
+              >
+                <Monitor />
+                <span>System</span>
+              </CommandItem>
+            </CommandGroup>
 
-        {/* Inside `CommandEmpty` so cmdk decides when nothing matched; the
-            fragment supplies the wording, which needs the query. */}
-        <CommandEmpty className="py-0">
-          <CommandPaletteEmpty query={query}>
-            Esc to clear the search
-          </CommandPaletteEmpty>
-        </CommandEmpty>
-      </CommandList>
+            <CommandEmpty>
+              <p>No match for “{query}”</p>
+              <p className="mt-1 text-muted-foreground">
+                Esc to clear the search
+              </p>
+            </CommandEmpty>
+          </CommandList>
 
-      <CommandPaletteHints>
-        <CommandPaletteHint keys={['↑', '↓']}>to navigate</CommandPaletteHint>
-        <CommandPaletteHint keys={['↵']}>to select</CommandPaletteHint>
-        <CommandPaletteHint keys={['esc']}>to close</CommandPaletteHint>
-      </CommandPaletteHints>
-    </CommandDialog>
+          <div className="flex items-center gap-4 border-t px-3 py-2 text-xs text-muted-foreground">
+            {HINTS.map((hint) => (
+              <span key={hint.label} className="flex items-center gap-1">
+                {hint.keys.map((key) => (
+                  <Kbd key={key}>{key}</Kbd>
+                ))}
+                {hint.label}
+              </span>
+            ))}
+          </div>
+        </Command>
+      </DialogContent>
+    </Dialog>
   );
 }
