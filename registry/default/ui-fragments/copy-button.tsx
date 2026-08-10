@@ -35,6 +35,8 @@ export function CopyButton({ text, label, className }: TCopyButtonProps) {
 
   return (
     <Button
+      // `Button` sets no default, so inside a form a bare button submits it.
+      type="button"
       variant="outline"
       size={label ? 'sm' : 'icon-sm'}
       // A visible label is already the accessible name — naming the button
