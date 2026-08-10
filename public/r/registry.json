@@ -1360,6 +1360,26 @@
       ]
     },
     {
+      "name": "sidebar-app-switcher",
+      "type": "registry:ui",
+      "title": "Sidebar App Switcher",
+      "description": "One sidebar control for the current app and organization.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/badge.json",
+        "https://ds.formance.com/r/context-icon.json",
+        "https://ds.formance.com/r/dropdown-menu.json",
+        "https://ds.formance.com/r/formance-logo.json",
+        "https://ds.formance.com/r/sidebar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/sidebar-app-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "stepper",
       "type": "registry:ui",
       "title": "Stepper",
