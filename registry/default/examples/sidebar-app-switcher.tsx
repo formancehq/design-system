@@ -101,6 +101,7 @@ export default function SidebarAppSwitcher() {
                   sideOffset={4}
                   className="w-(--radix-dropdown-menu-trigger-width) min-w-56"
                 >
+                  <DropdownMenuLabel>Explore</DropdownMenuLabel>
                   <DropdownMenuGroup>
                     {apps.map((app) => (
                       <DropdownMenuItem
