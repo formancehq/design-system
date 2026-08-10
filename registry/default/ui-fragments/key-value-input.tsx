@@ -31,6 +31,58 @@ function uniqueId() {
   return `kv-${Date.now()}-${++counter}`;
 }
 
+type TKeyValueInputSize = 'sm' | 'md' | 'lg';
+
+// A row only reads as one control if every part of it grows together, so the
+// per-size decisions live here rather than at each call site.
+//
+// The row and the footer are on separate steps on purpose. `rowIcon` sits beside
+// the inputs and must match their height exactly. `footerIcon` sits beside the
+// add button and must match *that* instead, so the two footer controls never
+// disagree. `gutter` reserves the remove-button column (its width plus the row
+// gap) so the footer lines up under the inputs.
+//
+// At `lg` the add button stays on the md step: the button scale jumps to px-8 at
+// lg, which reads as oversized under the fields. `addIcon` is explicit because
+// only the icon-* sizes set an svg size — a text button leaves its icon at
+// Lucide's 24px default.
+const sizeConfig: Record<
+  TKeyValueInputSize,
+  {
+    input: TKeyValueInputSize;
+    button: TKeyValueInputSize;
+    rowIcon: 'icon-sm' | 'icon-md' | 'icon-lg';
+    footerIcon: 'icon-sm' | 'icon-md' | 'icon-lg';
+    addIcon: string;
+    gutter: string;
+  }
+> = {
+  sm: {
+    input: 'sm',
+    button: 'sm',
+    rowIcon: 'icon-sm',
+    footerIcon: 'icon-sm',
+    addIcon: 'size-3.5',
+    gutter: 'pr-9',
+  },
+  md: {
+    input: 'md',
+    button: 'md',
+    rowIcon: 'icon-md',
+    footerIcon: 'icon-md',
+    addIcon: 'size-4',
+    gutter: 'pr-10',
+  },
+  lg: {
+    input: 'lg',
+    button: 'md',
+    rowIcon: 'icon-lg',
+    footerIcon: 'icon-md',
+    addIcon: 'size-4',
+    gutter: 'pr-11',
+  },
+};
+
 type TKeyValueInputProps = {
   value?: TKeyValuePair[];
   onValueChange?: (pairs: TKeyValuePair[]) => void;
@@ -41,6 +93,7 @@ type TKeyValueInputProps = {
   showJson?: boolean;
   sortable?: boolean;
   disabled?: boolean;
+  size?: TKeyValueInputSize;
   className?: string;
 };
 
@@ -54,6 +107,7 @@ function KeyValueInput({
   showJson = false,
   sortable = true,
   disabled = false,
+  size = 'md',
   className,
 }: TKeyValueInputProps) {
   const [internalValue, setInternalValue] = React.useState<TKeyValuePair[]>(
@@ -105,6 +159,7 @@ function KeyValueInput({
       disabled={disabled}
       canRemove={pairs.length > 1}
       sortable={sortable}
+      size={size}
       onUpdate={handleUpdate}
       onRemove={handleRemove}
     />
@@ -136,6 +191,7 @@ function KeyValueInput({
                   disabled
                   canRemove={false}
                   sortable
+                  size={size}
                   onUpdate={() => {}}
                   onRemove={() => {}}
                 />
@@ -149,21 +205,21 @@ function KeyValueInput({
       <div
         className={cn(
           'flex items-center justify-start gap-2',
-          sortable && 'pr-10'
+          sortable && sizeConfig[size].gutter
         )}
       >
         <Button
           type="button"
           variant="outline"
-          size="sm"
+          size={sizeConfig[size].button}
           onClick={handleAdd}
           disabled={disabled}
           className="gap-1.5"
         >
-          <Plus className="size-3.5" />
+          <Plus className={sizeConfig[size].addIcon} />
           {addLabel}
         </Button>
-        {showJson && <KeyValueJsonPreview pairs={pairs} />}
+        {showJson && <KeyValueJsonPreview pairs={pairs} size={size} />}
       </div>
     </div>
   );
@@ -176,6 +232,7 @@ type TKeyValueRowProps = {
   disabled: boolean;
   canRemove: boolean;
   sortable: boolean;
+  size: TKeyValueInputSize;
   onUpdate: (id: string, field: 'key' | 'value', value: string) => void;
   onRemove: (id: string) => void;
 };
@@ -187,6 +244,7 @@ function KeyValueRowContent({
   disabled,
   canRemove,
   sortable,
+  size,
   onUpdate,
   onRemove,
 }: TKeyValueRowProps) {
@@ -197,17 +255,17 @@ function KeyValueRowContent({
           <Button
             type="button"
             variant="outline"
-            size="icon-sm"
+            size={sizeConfig[size].rowIcon}
             className="shrink-0"
             disabled={disabled}
           >
-            <GripVertical className="size-4 text-muted-foreground" />
+            <GripVertical className="text-muted-foreground" />
             <span className="sr-only">Drag to reorder</span>
           </Button>
         </SortableItemHandle>
       )}
       <Input
-        size="sm"
+        size={sizeConfig[size].input}
         placeholder={keyPlaceholder}
         value={pair.key}
         onChange={(e) => onUpdate(pair.id, 'key', e.target.value)}
@@ -215,7 +273,7 @@ function KeyValueRowContent({
         className="flex-1"
       />
       <Input
-        size="sm"
+        size={sizeConfig[size].input}
         placeholder={valuePlaceholder}
         value={pair.value}
         onChange={(e) => onUpdate(pair.id, 'value', e.target.value)}
@@ -225,7 +283,7 @@ function KeyValueRowContent({
       <Button
         type="button"
         variant="outline"
-        size="icon-sm"
+        size={sizeConfig[size].rowIcon}
         onClick={() => onRemove(pair.id)}
         disabled={disabled || !canRemove}
       >
@@ -256,7 +314,13 @@ function KeyValueRow(props: TKeyValueRowProps) {
   );
 }
 
-function KeyValueJsonPreview({ pairs }: { pairs: TKeyValuePair[] }) {
+function KeyValueJsonPreview({
+  pairs,
+  size,
+}: {
+  pairs: TKeyValuePair[];
+  size: TKeyValueInputSize;
+}) {
   const json = React.useMemo(() => {
     const obj: Record<string, string> = {};
     for (const pair of pairs) {
@@ -268,11 +332,11 @@ function KeyValueJsonPreview({ pairs }: { pairs: TKeyValuePair[] }) {
 
   return (
     <Popover>
-      <PopoverTrigger asChild size="sm">
+      <PopoverTrigger asChild>
         <Button
           type="button"
           variant="outline"
-          size="icon-sm"
+          size={sizeConfig[size].footerIcon}
           className="justify-center"
         >
           <Eye />
@@ -312,5 +376,6 @@ export {
   pairsToRecord,
   recordToPairs,
   type TKeyValueInputProps,
+  type TKeyValueInputSize,
   type TKeyValuePair,
 };

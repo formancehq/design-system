@@ -45,8 +45,22 @@ const columns: ColumnDef<TLedger>[] = [
       <span className="font-mono text-sm">{row.original.name}</span>
     ),
   },
-  { accessorKey: 'bucket', header: 'Bucket' },
-  { accessorKey: 'addedAt', header: 'Added At' },
+  {
+    accessorKey: 'bucket',
+    header: 'Bucket',
+    cell: ({ row }) => (
+      <span className="font-mono text-sm">{row.original.bucket}</span>
+    ),
+  },
+  {
+    accessorKey: 'addedAt',
+    header: 'Added At',
+    cell: ({ row }) => (
+      <span className="font-mono whitespace-nowrap select-all">
+        {row.original.addedAt}
+      </span>
+    ),
+  },
   {
     accessorKey: 'status',
     header: 'Status',

@@ -130,7 +130,9 @@ const columns: ColumnDef<TPayment>[] = [
         currency: 'USD',
       }).format(row.getValue<number>('amount'));
 
-      return <div className="text-right font-medium">{formatted}</div>;
+      return (
+        <div className="text-right font-mono font-medium">{formatted}</div>
+      );
     },
   },
   {

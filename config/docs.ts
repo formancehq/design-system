@@ -505,6 +505,11 @@ export const componentMeta: Record<string, TComponentMeta> = {
         description: 'The label (dt) for a key-value pair.',
       },
       {
+        name: 'DescriptionTermDescription',
+        description:
+          'Secondary helper text nested inside a term, for when the label alone is not enough.',
+      },
+      {
         name: 'DescriptionDetails',
         description: 'The value (dd) for a key-value pair.',
       },

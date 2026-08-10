@@ -536,6 +536,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/input-with-button.tsx',
       },
+      {
+        title: 'Mono Font',
+        component: lazy(
+          () => import('@/registry/default/examples/input-font-mono')
+        ),
+        sourceFile: 'registry/default/examples/input-font-mono.tsx',
+      },
     ],
   },
   'input-otp': {
@@ -1557,6 +1564,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     ),
     sourceFile: 'registry/default/demos/key-value-input-demo.tsx',
     examples: [
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/key-value-input-sizes')
+        ),
+        sourceFile: 'registry/default/examples/key-value-input-sizes.tsx',
+      },
       {
         title: 'Disabled',
         component: lazy(
