@@ -86,7 +86,10 @@ function SidebarAppSwitcher({
       size="lg"
       variant="outline"
       className="gap-2.5"
-      disabled={!hasMenu}
+      // A switch in flight closes the menu for the same reason the rows inside
+      // it go disabled: the second choice would race the first, and an app row
+      // is a plain link that no amount of row-level state would hold back.
+      disabled={!hasMenu || isSwitching}
       data-testid="app-switcher-trigger"
     >
       <FormanceIcon size="md" className="shrink-0" />
