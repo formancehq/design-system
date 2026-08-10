@@ -1,6 +1,6 @@
 export const DEFAULT_REGISTRY = 'https://ds.formance.com/r';
 
-export type TRegistryItem = {
+type TRegistryItem = {
   name: string;
   title?: string;
   description?: string;
@@ -35,7 +35,7 @@ export function componentUrl(base: string, name: string): string {
   return `${stripTrailingSlash(base)}/${name}.json`;
 }
 
-export type TRegistryFile = {
+type TRegistryFile = {
   path: string;
   target?: string;
 };
@@ -49,7 +49,7 @@ export type TRegistryItemDetail = {
 
 const itemCache = new Map<string, Promise<TRegistryItemDetail | null>>();
 
-export function fetchRegistryItem(
+function fetchRegistryItem(
   base: string,
   name: string
 ): Promise<TRegistryItemDetail | null> {

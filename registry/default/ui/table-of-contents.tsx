@@ -89,4 +89,4 @@ function TableOfContents({ headings }: { headings: THeading[] }) {
   );
 }
 
-export { TableOfContents, useActiveHeading, type THeading };
+export { TableOfContents };

@@ -45,7 +45,7 @@ function fence(code: string, lang = 'tsx') {
  * Convert MDX into LLM-friendly markdown by inlining registry source files
  * referenced via `<ComponentPreview />` and `<ComponentSource />`.
  */
-export function processMdxForLLM(source: string): string {
+function processMdxForLLM(source: string): string {
   let out = source;
 
   out = out.replace(
