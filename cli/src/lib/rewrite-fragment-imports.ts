@@ -58,7 +58,22 @@ export async function rewriteFragmentImports(
     (x): x is TRegistryItemDetail => x !== null
   );
 
-  const fixes: Array<{ pattern: RegExp; right: string }> = [];
+  const fixes: Array<{ pattern: RegExp; replacement: string }> = [];
+
+  // shadcn maps a source import by replacing the `@/registry/default/ui`
+  // prefix, and does not require a trailing slash — so a sibling directory such
+  // as `@/registry/default/ui-fragments/copy-button` comes out as
+  // `<uiAlias>-fragments/copy-button`, which resolves nowhere and only fails at
+  // build time. Map any such `<uiAlias>-<dir>/` back onto
+  // `<componentsAlias>/ui-<dir>/`.
+  fixes.push({
+    pattern: new RegExp(
+      `(['"\`])${escapeForRegex(uiAlias)}-([A-Za-z0-9_-]+)/`,
+      'g'
+    ),
+    replacement: `$1${componentsAlias}/ui-$2/`,
+  });
+
   for (const item of items) {
     const file = item.files?.[0];
     if (!file?.target) continue;
@@ -67,7 +82,7 @@ export async function rewriteFragmentImports(
     const wrong = `${uiAlias}/${item.name}`;
     fixes.push({
       pattern: new RegExp(`(['"\`])${escapeForRegex(wrong)}(['"\`])`, 'g'),
-      right,
+      replacement: `$1${right}$2`,
     });
   }
 
@@ -90,11 +105,8 @@ export async function rewriteFragmentImports(
     const original = readFileSync(abs, 'utf8');
     let next = original;
     for (const fix of fixes) {
-      next = next.replace(fix.pattern, (_, open: string, close: string) => {
-        replacements++;
-
-        return `${open}${fix.right}${close}`;
-      });
+      replacements += next.match(fix.pattern)?.length ?? 0;
+      next = next.replace(fix.pattern, fix.replacement);
     }
     if (next !== original) {
       writeFileSync(abs, next);
