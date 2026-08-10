@@ -67,13 +67,12 @@ Local clone of the Supabase design system. **Always read files directly from thi
 - **Examples**: `registry/default/examples/` — multiple per component, shown in the Examples section
 - **Config**:
   - `config/docs.ts` — sidebar nav, `componentMeta` (slug → registry name, description, source file)
-  - `config/registry-demos.ts` — `'use client'`, maps component names to `React.lazy()` demos + examples
-  - `config/registry-examples.ts` — server-safe (no `'use client'`), example metadata for RSC file reading
+  - `config/registry-demos.ts` — `'use client'`, maps component names to `React.lazy()` demos, each with an optional `examples` array
 - **Doc pages**: `app/docs/[...slug]/page.tsx` — RSC, reads source files, renders previews + code blocks
 
 ### Server/Client Boundary
 
-`registry-demos.ts` is `'use client'` (lazy imports). Server components cannot read its values at runtime. That's why `registry-examples.ts` exists as a server-safe duplicate of example metadata. When adding examples, update **both** files.
+`registry-demos.ts` is `'use client'` (lazy imports). A demo and its examples are declared in one place: the `examples` array on each demo entry. `buildIndex()` flattens demos and examples into one slug → entry map, so a lookup by example slug returns the same `sourceFile` the RSC page reads. When adding an example, add it to the owning demo's `examples` array — there is no second file to keep in sync.
 
 ## Import Conventions
 

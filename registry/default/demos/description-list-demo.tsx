@@ -2,6 +2,7 @@ import {
   DescriptionDetails,
   DescriptionList,
   DescriptionTerm,
+  DescriptionTermDescription,
 } from '@/registry/default/ui/description-list';
 
 export default function DescriptionListDemo() {
@@ -10,7 +11,12 @@ export default function DescriptionListDemo() {
       <DescriptionList>
         <DescriptionTerm>Ledger</DescriptionTerm>
         <DescriptionDetails>main-ledger</DescriptionDetails>
-        <DescriptionTerm>Status</DescriptionTerm>
+        <DescriptionTerm>
+          Status
+          <DescriptionTermDescription>
+            Current state of the ledger.
+          </DescriptionTermDescription>
+        </DescriptionTerm>
         <DescriptionDetails>Active</DescriptionDetails>
         <DescriptionTerm>Created</DescriptionTerm>
         <DescriptionDetails>March 12, 2026</DescriptionDetails>
