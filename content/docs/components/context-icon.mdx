@@ -1,0 +1,72 @@
+<ComponentPreview name="context-icon" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/context-icon
+```
+
+The SVG art ships with the component, into `public/icons/`.
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="context-icon" />
+
+<Step>
+  Copy `organization.svg` and `stack.svg` into your `public/icons/` directory.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { CONTEXT_TYPES, ContextIcon } from '@/components/ui/context-icon';
+```
+
+```tsx
+<ContextIcon type={CONTEXT_TYPES.ORGANIZATION} size="sm" />
+```
+
+## When to use it
+
+An organization and a stack are named entities, not actions, so they get their
+own mark rather than a line icon — the same tiles the Console and Portal use
+today. Reach for `ContextIcon` wherever one of those entities is listed or
+identified: a switcher row, an entity card, a page header.
+
+Each tile is a full-colour octilinear pattern on its own background, so it is
+served as a file rather than inlined as `currentColor` paths. That also means it
+does not follow the foreground colour, and it never needs to: the tile is the
+entity's identity in both themes.
+
+`xs` (`size-4`) fits a line of text but flattens the pattern into a coloured
+square; prefer `sm` (`size-5`) as the smallest legible step, and the larger
+steps for cards and headers.

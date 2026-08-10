@@ -1167,6 +1167,29 @@
       ]
     },
     {
+      "name": "context-icon",
+      "type": "registry:ui",
+      "title": "Context Icon",
+      "description": "Octilinear tile identifying an organization or a stack. Ships the SVG art alongside the component.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "registry/default/ui/context-icon.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "public/icons/organization.svg",
+          "type": "registry:file",
+          "target": "public/icons/organization.svg"
+        },
+        {
+          "path": "public/icons/stack.svg",
+          "type": "registry:file",
+          "target": "public/icons/stack.svg"
+        }
+      ]
+    },
+    {
       "name": "combobox",
       "type": "registry:ui",
       "title": "Combobox",
@@ -1317,6 +1340,7 @@
       "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
       "registryDependencies": [
         "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/eyebrow.json",
         "https://ds.formance.com/r/input.json",
         "https://ds.formance.com/r/separator.json",
         "https://ds.formance.com/r/sheet.json",

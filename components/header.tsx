@@ -7,14 +7,13 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { SideNavigation } from '@/components/side-navigation';
-import { BadgeEyebrow } from '@/registry/default/ui/badge-eyebrow';
-import { Button } from '@/registry/default/ui/button';
-import { FormanceLogo } from '@/registry/default/ui/formance-logo';
-import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
 import {
   ModeToggle,
   type TTheme,
 } from '@/registry/default/ui-fragments/mode-toggle';
+import { Button } from '@/registry/default/ui/button';
+import { FormanceIcon } from '@/registry/default/ui/formance-logo';
+import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
 import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import {
   Sheet,
@@ -49,11 +48,13 @@ export function Header() {
           >
             <Menu className="h-4 w-4" />
           </Button>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <Link href="/">
-              <FormanceLogo />
+              <FormanceIcon />
             </Link>
-            <BadgeEyebrow variant="cobalt">Design System</BadgeEyebrow>
+            <span className="text-2xl font-medium text-foreground font-heading">
+              Formance Design System
+            </span>
           </div>
         </div>
         <div className="flex items-center gap-2">

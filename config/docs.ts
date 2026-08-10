@@ -194,6 +194,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/command.tsx',
     source: 'shadcn',
   },
+  'components/context-icon': {
+    registryName: 'context-icon',
+    description:
+      'Octilinear tile identifying an organization or a stack. Ships the SVG art alongside the component.',
+    sourceFile: 'registry/default/ui/context-icon.tsx',
+    source: 'custom',
+  },
   'components/context-menu': {
     registryName: 'context-menu',
     description: 'Opens a menu on right-click.',
@@ -730,6 +737,23 @@ export const componentMeta: Record<string, TComponentMeta> = {
     description: 'A collapsible sidebar with mobile support.',
     sourceFile: 'registry/default/ui/sidebar.tsx',
     source: 'shadcn',
+    subComponents: [
+      {
+        name: 'SidebarSectionLabel',
+        description:
+          'Gold eyebrow naming a product area that spans several groups. Sits directly in SidebarContent and hides when the sidebar collapses to icons.',
+      },
+      {
+        name: 'SidebarGroupLabel',
+        description:
+          'Mono uppercase label for a group of items inside a section. Collapses its own height on the icon rail.',
+      },
+      {
+        name: 'SidebarMenuButton',
+        description:
+          'Nav item in sans with an icon, isActive state, and a tooltip used once the rail is collapsed.',
+      },
+    ],
   },
   'components/sortable': {
     registryName: 'sortable',
@@ -1050,6 +1074,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Collapsible', href: '/docs/components/collapsible' },
         { title: 'Combobox', href: '/docs/components/combobox' },
         { title: 'Command', href: '/docs/components/command' },
+        { title: 'Context Icon', href: '/docs/components/context-icon' },
         { title: 'Context Menu', href: '/docs/components/context-menu' },
         {
           title: 'Description List',

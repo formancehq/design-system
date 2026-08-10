@@ -52,15 +52,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from '@/components/ui/sidebar'
+  SidebarSectionLabel,
+} from '@/components/ui/sidebar';
 ```
 
 ```tsx
 <SidebarProvider>
   <Sidebar>
     <SidebarContent>
+      <SidebarSectionLabel>Organization</SidebarSectionLabel>
       <SidebarGroup>
-        <SidebarGroupLabel>Platform</SidebarGroupLabel>
+        <SidebarGroupLabel>Ledger</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -76,3 +78,62 @@ import {
   </Sidebar>
 </SidebarProvider>
 ```
+
+## Label hierarchy
+
+The nav reads top-down in three type recipes, so a scan goes area → group →
+destination without the three levels competing:
+
+1. **`SidebarSectionLabel`** — a product area (an organization, a stack) that
+   spans several groups. A gold `Eyebrow` in mono, `text-sm`. It is a direct
+   child of `SidebarContent`, not of a group, and hides on the icon rail.
+2. **`SidebarGroupLabel`** — a group of items inside a section. Mono uppercase,
+   `text-xs`, muted. Collapses its own height on the icon rail.
+3. **`SidebarMenuButton`** — the destination itself. Sans, `text-sm`, with an
+   icon and a tooltip for the collapsed rail.
+
+Use a section label only when there is more than one section, and a group label
+only when the section has more than one group — a single unlabelled group under
+a section label is the flattest form that still reads.
+
+## Examples
+
+### Sections and groups
+
+<ComponentPreview name="sidebar-sections-and-groups" />
+
+### Sections only
+
+<ComponentPreview name="sidebar-sections-only" />
+
+### Groups only
+
+<ComponentPreview name="sidebar-groups-only" />
+
+### Nested items
+
+<ComponentPreview name="sidebar-nested-items" />
+
+### Badges and actions
+
+<ComponentPreview name="sidebar-menu-actions" />
+
+### App switcher
+
+The header is the one place that answers "where am I": the current app names the
+row, and the menu switches both app and organization. This replaces the row of
+icon-only chevron triggers in the Console and Portal header bars.
+
+<ComponentPreview name="sidebar-app-switcher" />
+
+### Loading
+
+<ComponentPreview name="sidebar-loading" />
+
+### Drill-in pane
+
+<ComponentPreview name="sidebar-drill-in" />
+
+### Icon rail
+
+<ComponentPreview name="sidebar-icon-rail" />
