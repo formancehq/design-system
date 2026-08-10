@@ -1793,6 +1793,26 @@
       ]
     },
     {
+      "name": "command-palette",
+      "type": "registry:component",
+      "title": "Command Palette",
+      "description": "The shared chrome for a command palette: sidebar trigger, input with an Esc mark, rows, empty state, and keyboard hints.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/command.json",
+        "https://ds.formance.com/r/kbd.json",
+        "https://ds.formance.com/r/sidebar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui-fragments/command-palette.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/command-palette.tsx"
+        }
+      ]
+    },
+    {
       "name": "key-value-input",
       "type": "registry:component",
       "title": "Key Value Input",

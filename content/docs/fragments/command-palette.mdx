@@ -1,0 +1,135 @@
+<ComponentPreview name="command-palette" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/command-palette
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the Command and Sidebar components first:</Step>
+
+```bash
+npx shadcn@latest add @formance/command @formance/sidebar
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="command-palette" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  CommandPaletteEmpty,
+  CommandPaletteHint,
+  CommandPaletteHints,
+  CommandPaletteInput,
+  CommandPaletteRow,
+  CommandPaletteTrigger,
+} from '@/components/ui-fragments/command-palette';
+```
+
+The fragment is the palette's chrome, not the palette: an app owns the rows, the
+grouping, and what a row does when it is picked. Everything an operator sees
+around those rows is shared, so search opens and reads the same way in every
+Formance product.
+
+## Anatomy
+
+A palette is the trigger, a `CommandDialog`, and the rows in between:
+
+```tsx
+<SidebarHeader>
+  <SidebarMenu>
+    <SidebarMenuItem>
+      <CommandPaletteTrigger onClick={() => setOpen(true)} />
+    </SidebarMenuItem>
+  </SidebarMenu>
+</SidebarHeader>
+
+<CommandDialog
+  open={open}
+  onOpenChange={(next) => (next ? setOpen(true) : close())}
+  title="Search"
+  description="Search pages, stacks and organizations"
+  contentProps={{ showCloseButton: false }}
+>
+  <CommandPaletteInput
+    placeholder="Search pages, stacks, orgs…"
+    value={query}
+    onValueChange={setQuery}
+  />
+  <CommandList>
+    <CommandGroup heading="Organization">
+      <CommandPaletteRow
+        value="Members"
+        icon={<UsersIcon />}
+        label="Members"
+        crumbs={['Formance']}
+        onSelect={close}
+      />
+    </CommandGroup>
+    <CommandEmpty className="py-0">
+      <CommandPaletteEmpty query={query}>
+        Esc to clear the search
+      </CommandPaletteEmpty>
+    </CommandEmpty>
+  </CommandList>
+  <CommandPaletteHints>
+    <CommandPaletteHint keys={['↑', '↓']}>to navigate</CommandPaletteHint>
+    <CommandPaletteHint keys={['↵']}>to select</CommandPaletteHint>
+  </CommandPaletteHints>
+</CommandDialog>
+```
+
+`CommandPaletteTrigger` goes in a `SidebarMenuItem` — under a `SidebarHeader` in
+the Portal, in a `SidebarGroupContent` in the Console — so the placement stays
+with the app and only the control is shared. It is a `SidebarMenuButton`, so the
+collapsed icon rail tooltips it and the `⌘K` mark hides itself there.
+
+## Behaviour
+
+Three decisions belong to the palette rather than to each app:
+
+1. **The hotkey opens, it does not toggle.** `mod+k` has to answer from inside
+   the palette's own input, so a toggle would close the palette on the reflex of
+   someone reaching for the palette already in front of them.
+2. **Escape is progressive.** Anything typed steps back to the default state;
+   only an empty palette closes. Handle it on `contentProps.onEscapeKeyDown` —
+   Radix listens for Escape on `document`, so `stopPropagation` from the input's
+   `onKeyDown` cannot stop the dialog closing too.
+3. **The empty state echoes the query.** What tells the user why nothing
+   matched is usually a typo they can now see, which is why this is not
+   `CommandEmpty` — that cannot hold the query. Nest it inside one and let cmdk
+   decide _when_ nothing matched.
+
+## Filtering
+
+cmdk filters the rows by default, which is what a fixed list of pages wants. A
+palette that resolves its own rows — a grammar, a ranked search, a server
+response — passes `commandProps={{ shouldFilter: false }}` and keeps cmdk for
+roving focus alone. Two ranking systems over one list is a bug waiting to
+happen.

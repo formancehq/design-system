@@ -1628,6 +1628,12 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'command-palette': {
+    component: lazy(
+      () => import('@/registry/default/demos/command-palette-demo')
+    ),
+    sourceFile: 'registry/default/demos/command-palette-demo.tsx',
+  },
   'key-value-input': {
     component: lazy(
       () => import('@/registry/default/demos/key-value-input-demo')

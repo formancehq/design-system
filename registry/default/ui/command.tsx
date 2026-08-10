@@ -34,20 +34,45 @@ function CommandDialog({
   description = 'Search for a command to run...',
   children,
   className,
+  contentProps,
+  commandProps,
   ...props
 }: React.ComponentProps<typeof Dialog> & {
   title?: string;
   description?: string;
   className?: string;
+  /** Reaches the `DialogContent` — `showCloseButton={false}` when the palette
+   * shows its own `Esc` mark, `onEscapeKeyDown` for a progressive Escape. */
+  contentProps?: React.ComponentProps<typeof DialogContent>;
+  /** Reaches the `Command` — `shouldFilter={false}` for a palette that ranks
+   * its own rows, `loop`, a controlled `value`. */
+  commandProps?: React.ComponentProps<typeof Command>;
 }) {
   return (
     <Dialog {...props}>
-      <DialogHeader className="sr-only">
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
-      </DialogHeader>
-      <DialogContent className={cn('overflow-hidden p-0', className)}>
-        <Command className="[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+      <DialogContent
+        {...contentProps}
+        className={cn(
+          'overflow-hidden p-0',
+          className,
+          contentProps?.className
+        )}
+      >
+        {/* Inside the content, not beside it: `Dialog` renders its children in
+            place, so a header out here would leak an always-mounted heading
+            into the page — and Radix names the dialog from the title it finds
+            within the content. */}
+        <DialogHeader className="sr-only">
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        <Command
+          {...commandProps}
+          className={cn(
+            '[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5',
+            commandProps?.className
+          )}
+        >
           {children}
         </Command>
       </DialogContent>

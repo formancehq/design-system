@@ -785,6 +785,36 @@ export const componentMeta: Record<string, TComponentMeta> = {
       },
     ],
   },
+  'fragments/command-palette': {
+    registryName: 'command-palette',
+    description:
+      'The shared chrome for a command palette: sidebar trigger, input with an Esc mark, rows, empty state, and keyboard hints.',
+    sourceFile: 'registry/default/ui-fragments/command-palette.tsx',
+    source: 'custom',
+    subComponents: [
+      {
+        name: 'CommandPaletteTrigger',
+        description:
+          'The outline search button for a sidebar menu, with the ⌘K shortcut.',
+      },
+      {
+        name: 'CommandPaletteInput',
+        description: 'The filter input, with a trailing Esc mark.',
+      },
+      {
+        name: 'CommandPaletteRow',
+        description: 'A row: leading mark, label, and optional crumb trail.',
+      },
+      {
+        name: 'CommandPaletteEmpty',
+        description: 'The no-match state, which echoes the query back.',
+      },
+      {
+        name: 'CommandPaletteHints',
+        description: 'The footer bar that holds CommandPaletteHint keys.',
+      },
+    ],
+  },
   'fragments/key-value-input': {
     registryName: 'key-value-input',
     description:
@@ -1154,6 +1184,10 @@ export const docsConfig: TDocsConfig = {
           href: '/docs/fragments/ledger-schema-editor',
         },
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
+        {
+          title: 'Command Palette',
+          href: '/docs/fragments/command-palette',
+        },
         { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Markdown', href: '/docs/fragments/markdown' },
