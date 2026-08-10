@@ -1,6 +1,5 @@
 'use client';
 
-import { Check, Copy } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -13,7 +12,7 @@ import {
   type TStackOperation,
   type TStackOperationsIndex,
 } from '@/components/ui-fragments/_api-snippet/generators';
-import { Button } from '@/registry/default/ui/button';
+import { CopyButton } from '@/registry/default/ui-fragments/copy-button';
 import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 import { Endpoint } from '@/registry/default/ui/endpoint';
 import {
@@ -270,25 +269,5 @@ export function ApiSnippet({
         </div>
       )}
     </div>
-  );
-}
-
-function CopyButton({ text, className }: { text: string; className?: string }) {
-  const [copied, setCopied] = useState(false);
-
-  return (
-    <Button
-      variant="outline"
-      size="icon-sm"
-      aria-label="Copy"
-      className={cn('text-muted-foreground', className)}
-      onClick={async () => {
-        await navigator.clipboard.writeText(text.trim());
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1500);
-      }}
-    >
-      {copied ? <Check /> : <Copy />}
-    </Button>
   );
 }
