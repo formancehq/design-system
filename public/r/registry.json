@@ -1170,12 +1170,17 @@
       "name": "context-icon",
       "type": "registry:ui",
       "title": "Context Icon",
-      "description": "Octilinear tile identifying an organization or a stack. Ships the SVG art alongside the component.",
+      "description": "Octilinear tile identifying an organization, a stack, or an app. Ships the SVG art alongside the component.",
       "dependencies": ["class-variance-authority"],
       "files": [
         {
           "path": "registry/default/ui/context-icon.tsx",
           "type": "registry:ui"
+        },
+        {
+          "path": "public/icons/app.svg",
+          "type": "registry:file",
+          "target": "public/icons/app.svg"
         },
         {
           "path": "public/icons/organization.svg",
@@ -1350,6 +1355,26 @@
       "files": [
         {
           "path": "registry/default/ui/sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "sidebar-app-switcher",
+      "type": "registry:ui",
+      "title": "Sidebar App Switcher",
+      "description": "One sidebar control for the current app and organization.",
+      "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/badge.json",
+        "https://ds.formance.com/r/context-icon.json",
+        "https://ds.formance.com/r/dropdown-menu.json",
+        "https://ds.formance.com/r/formance-logo.json",
+        "https://ds.formance.com/r/sidebar.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/sidebar-app-switcher.tsx",
           "type": "registry:ui"
         }
       ]

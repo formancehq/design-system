@@ -57,9 +57,9 @@ import { CONTEXT_TYPES, ContextIcon } from '@/components/ui/context-icon';
 
 ## When to use it
 
-An organization and a stack are named entities, not actions, so they get their
-own mark rather than a line icon — the same tiles the Console and Portal use
-today. Reach for `ContextIcon` wherever one of those entities is listed or
+An organization, a stack, and an app are named entities, not actions, so they get
+their own mark rather than a line icon — the same tiles the Console and Portal
+use today. Reach for `ContextIcon` wherever one of those entities is listed or
 identified: a switcher row, an entity card, a page header.
 
 Each tile is a full-colour octilinear pattern on its own background, so it is
@@ -70,3 +70,10 @@ entity's identity in both themes.
 `xs` (`size-4`) fits a line of text but flattens the pattern into a coloured
 square; prefer `sm` (`size-5`) as the smallest legible step, and the larger
 steps for cards and headers.
+
+`md+` (`size-7`) and `lg+` (`size-10`) are half-steps between the named sizes.
+Reach for them only to match an existing layout — the plain steps are the ramp,
+and a new screen should pick one of those.
+
+`alt` is empty by default, because the tile almost always sits beside the name it
+stands for. Pass an `alt` where the tile is the only thing identifying the row.
