@@ -46,14 +46,12 @@ export function Header() {
           >
             <Menu className="h-4 w-4" />
           </Button>
-          <div className="flex items-center gap-2.5">
-            <Link href="/">
-              <FormanceIcon />
-            </Link>
+          <Link href="/" className="flex items-center gap-2.5">
+            <FormanceIcon />
             <span className="text-2xl font-medium text-foreground font-heading">
               Formance Design System
             </span>
-          </div>
+          </Link>
         </div>
         <div className="flex items-center gap-2">
           {/* Search lives in the sidebar header from `md` up, so the header bar
