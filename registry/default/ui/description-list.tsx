@@ -21,7 +21,22 @@ export function DescriptionTerm({
     <dt
       {...props}
       className={cn(
-        'col-start-1 text-sm border-t border-border pt-4 first:border-none sm:border-t sm:py-2',
+        'col-start-1 text-sm font-medium sm:pr-8 border-t border-border pt-4 first:border-none sm:border-t sm:py-2',
+        className
+      )}
+    />
+  );
+}
+
+export function DescriptionTermDescription({
+  className,
+  ...props
+}: React.ComponentPropsWithoutRef<'p'>) {
+  return (
+    <p
+      {...props}
+      className={cn(
+        'text-muted-foreground text-sm font-normal leading-normal',
         className
       )}
     />
@@ -36,7 +51,7 @@ export function DescriptionDetails({
     <dd
       {...props}
       className={cn(
-        'col-span-2 pb-3 pt-1 font-mono sm:border-t sm:border-border sm:py-4 sm:nth-2:border-none text-sm',
+        'col-span-2 pb-3 pt-1 sm:border-t sm:border-border sm:py-4 sm:nth-2:border-none text-sm',
         className
       )}
     />

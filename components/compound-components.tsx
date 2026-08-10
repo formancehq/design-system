@@ -1,4 +1,3 @@
-import { TypographyMono } from '@/registry/default/ui/typography';
 import type { TSubComponent } from '@/config/docs';
 
 function CompoundComponents({
@@ -17,9 +16,7 @@ function CompoundComponents({
             key={sub.name}
             className="flex flex-col gap-1 rounded-lg border border-border bg-muted/30 px-4 py-3 sm:flex-row sm:items-baseline sm:gap-3"
           >
-            <code
-              className={`shrink-0 text-sm font-semibold text-foreground ${TypographyMono()}`}
-            >
+            <code className="shrink-0 font-mono text-sm font-semibold text-foreground">
               {`<${sub.name} />`}
             </code>
             <span className="text-sm text-muted-foreground">

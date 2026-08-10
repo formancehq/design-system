@@ -20,6 +20,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@/registry/default/ui/command';
+import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
 
 export default function CommandDialogExample() {
   const [open, setOpen] = React.useState(false);
@@ -41,9 +42,10 @@ export default function CommandDialogExample() {
     <>
       <p className="text-muted-foreground text-sm">
         Press{' '}
-        <kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium select-none">
-          <span className="text-xs">⌘</span>K
-        </kbd>
+        <KbdGroup>
+          <Kbd>⌘</Kbd>
+          <Kbd>K</Kbd>
+        </KbdGroup>
       </p>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Search commands..." />

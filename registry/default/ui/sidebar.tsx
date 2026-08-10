@@ -6,6 +6,7 @@ import { Slot as SlotPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { Button } from '@/registry/default/ui/button';
+import { Eyebrow } from '@/registry/default/ui/eyebrow';
 import { Input } from '@/registry/default/ui/input';
 import { Separator } from '@/registry/default/ui/separator';
 import {
@@ -376,12 +377,44 @@ function SidebarContent({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
+// Top of the sidebar label hierarchy: section eyebrow → group label → menu
+// item. A section spans several groups, so it sits directly in
+// `SidebarContent` rather than inside one — `px-4` puts its text on the same
+// vertical line as the menu buttons two levels below it. `-mb-2` cancels
+// `SidebarContent`'s gap so the label sits on its first group instead of
+// floating between two sections.
+function SidebarSectionLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof Eyebrow>) {
+  return (
+    <Eyebrow
+      data-slot="sidebar-section-label"
+      data-sidebar="section-label"
+      variant="gold"
+      size="sm"
+      className={cn(
+        'px-4 pt-2 -mb-2 group-data-[collapsible=icon]:hidden',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
 function SidebarGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="sidebar-group"
       data-sidebar="group"
-      className={cn('relative flex w-full min-w-0 flex-col p-2', className)}
+      className={cn(
+        'relative flex w-full min-w-0 flex-col p-2',
+        // Back-to-back groups are one section, not two: drop the gap and the
+        // second group's top padding so its label reads as the next heading in
+        // the same block rather than as a new region.
+        '[[data-slot=sidebar-group]+&]:-mt-2 [[data-slot=sidebar-group]+&]:pt-0',
+        className
+      )}
       {...props}
     />
   );
@@ -399,7 +432,9 @@ function SidebarGroupLabel({
       data-slot="sidebar-group-label"
       data-sidebar="group-label"
       className={cn(
-        'text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
+        // Mono + uppercase + tracking: a group label is a micro-label over
+        // data, the same recipe as `Eyebrow` and table heads — not prose.
+        'text-sidebar-foreground/70 ring-sidebar-ring flex h-8 shrink-0 items-center rounded-md px-2 font-mono text-xs font-medium tracking-wider uppercase outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0',
         'group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0',
         className
       )}
@@ -591,18 +626,19 @@ function SidebarMenuBadge({
   );
 }
 
+// `width` is a prop rather than a random value: rows still get uneven lengths
+// so a stack reads as text, but the caller owns the number. `Math.random()`
+// here mismatched between the server render and hydration on every SSR-ed
+// sidebar, and `useId` is no better across a lazy boundary.
 function SidebarMenuSkeleton({
   className,
   showIcon = false,
+  width = '75%',
   ...props
 }: React.ComponentProps<'div'> & {
   showIcon?: boolean;
+  width?: string;
 }) {
-  const width = React.useMemo(
-    () => `${Math.floor(Math.random() * 40) + 50}%`,
-    []
-  );
-
   return (
     <div
       data-slot="sidebar-menu-skeleton"
@@ -712,6 +748,7 @@ export {
   SidebarMenuSubItem,
   SidebarProvider,
   SidebarRail,
+  SidebarSectionLabel,
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,

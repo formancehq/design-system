@@ -7,15 +7,12 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { SideNavigation } from '@/components/side-navigation';
-import { BadgeEyebrow } from '@/registry/default/ui/badge-eyebrow';
-import { Button } from '@/registry/default/ui/button';
-import { FormanceLogo } from '@/registry/default/ui/formance-logo';
-import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
 import {
   ModeToggle,
   type TTheme,
 } from '@/registry/default/ui-fragments/mode-toggle';
-import { ScrollArea } from '@/registry/default/ui/scroll-area';
+import { Button } from '@/registry/default/ui/button';
+import { FormanceIcon } from '@/registry/default/ui/formance-logo';
 import {
   Sheet,
   SheetContent,
@@ -49,30 +46,21 @@ export function Header() {
           >
             <Menu className="h-4 w-4" />
           </Button>
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <FormanceLogo />
-            </Link>
-            <BadgeEyebrow variant="cobalt">Design System</BadgeEyebrow>
-          </div>
+          <Link href="/" className="flex items-center gap-2.5">
+            <FormanceIcon />
+            <span className="text-2xl font-medium text-foreground font-heading">
+              Formance Design System
+            </span>
+          </Link>
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={openSearch}
-            className="hidden sm:flex w-56 justify-start items-center gap-2"
-          >
-            <Search className="size-4" />
-            <span>Search</span>
-            <KbdGroup className="ml-auto">
-              <Kbd>⌘</Kbd>
-              <Kbd>K</Kbd>
-            </KbdGroup>
-          </Button>
+          {/* Search lives in the sidebar header from `md` up, so the header bar
+              keeps the icon-only trigger for the narrow widths where the
+              sidebar is behind the menu sheet. */}
           <Button
             variant="ghost"
             size="icon-md"
-            className="sm:hidden"
+            className="md:hidden"
             onClick={openSearch}
             aria-label="Search"
           >
@@ -92,9 +80,9 @@ export function Header() {
               Navigation
             </SheetTitle>
           </SheetHeader>
-          <ScrollArea className="h-[calc(100vh-4rem)]">
+          <div className="h-[calc(100vh-4rem)]">
             <SideNavigation />
-          </ScrollArea>
+          </div>
         </SheetContent>
       </Sheet>
     </header>

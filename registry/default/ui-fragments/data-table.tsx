@@ -81,7 +81,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/registry/default/ui/table';
-import { TypographyMono } from '@/registry/default/ui/typography';
 
 // ---------------------------------------------------------------------------
 // Cell border styles (matches platform-ui column/row separators)
@@ -702,7 +701,7 @@ function DataTable<TData, TValue>({
       )}
 
       {hasData ? (
-        <div className={`rounded-md border border-border ${TypographyMono()}`}>
+        <div className="rounded-md border border-border">
           <Table style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

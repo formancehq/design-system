@@ -182,12 +182,3 @@ export function TypographySmall({
 export const TypographyBracketed = cva([
   "flex gap-1.5 before:content-['['] after:content-[']'] hover:text-foreground",
 ]);
-
-export const TypographyMono = cva(['font-mono'], {
-  variants: {
-    uppercase: {
-      true: 'uppercase',
-    },
-  },
-  defaultVariants: { uppercase: false },
-});

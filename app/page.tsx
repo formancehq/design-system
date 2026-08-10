@@ -9,23 +9,15 @@ import {
 } from 'lucide-react';
 
 import { AppCard } from '@/components/ui-fragments/app-card';
-import { Badge } from '@/registry/default/ui/badge';
-import {
-  TypographyH2,
-  TypographyP,
-  TypographyInlineCode,
-  TypographySmall,
-} from '@/registry/default/ui/typography';
-import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
+import { Button } from '@/registry/default/ui/button';
 import { PageContainer } from '@/components/ui-fragments/page-container';
 import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderMeta,
-  PageHeaderSummary,
-  PageHeaderTitle,
-} from '@/components/ui-fragments/page-header';
-import { REGISTRY_URL } from '@/lib/registry';
+  PageSection,
+  PageSectionContent,
+  PageSectionMeta,
+  PageSectionSummary,
+  PageSectionTitle,
+} from '@/components/ui-fragments/page-section';
 
 const FEATURES = [
   {
@@ -69,65 +61,57 @@ const FEATURES = [
 export default function Home() {
   return (
     <div data-slot="docs-page">
-      <PageHeader size="large" background border>
-        <PageHeaderMeta>
-          <PageHeaderSummary>
-            <PageHeaderTitle>Formance Design System</PageHeaderTitle>
-            <PageHeaderDescription>
-              The open-source component registry for Formance. Install any
-              component into your project with the shadcn CLI.
-            </PageHeaderDescription>
-            <div className="flex gap-3 pt-2">
-              <Badge variant="emerald" size="md">
-                Open Source
-              </Badge>
-              <Badge variant="cobalt" size="md">
-                Tailwind v4
-              </Badge>
-              <Badge variant="lilac" size="md">
-                shadcn Registry
-              </Badge>
-            </div>
-          </PageHeaderSummary>
-        </PageHeaderMeta>
-      </PageHeader>
-
-      <PageContainer size="large" className="py-8">
-        <div className="grid gap-12">
-          <section className="space-y-4">
-            <TypographyH2>Quick Start</TypographyH2>
-            <TypographyP>
-              Add the Formance registry to your project, then install
-              components:
-            </TypographyP>
-            <CodeSnippet
-              code={`npx shadcn add ${REGISTRY_URL}/r/button.json\nnpx shadcn add ${REGISTRY_URL}/r/card.json\nnpx shadcn add ${REGISTRY_URL}/r/input.json`}
-              language="bash"
-              size="sm"
-              bordered
-            />
-          </section>
-
-          <section className="space-y-6">
-            <TypographyH2>Explore</TypographyH2>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {FEATURES.map((feature) => (
-                <Link key={feature.href} href={feature.href}>
-                  <AppCard
-                    className="h-full transition-colors hover:bg-muted/50"
-                    title={feature.title}
-                    description={feature.description}
-                    appIcon={feature.icon}
-                    iconVariant="outline"
-                  />
-                </Link>
-              ))}
-            </div>
-            <TypographySmall className="block text-center text-muted-foreground pt-4">
-              Press <TypographyInlineCode>⌘K</TypographyInlineCode> to search
-            </TypographySmall>
-          </section>
+      <section className="relative isolate overflow-hidden border-b bg-[#01353C] text-emerald-50">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 bg-[length:105%_auto] bg-center bg-no-repeat opacity-60"
+          style={{ backgroundImage: "url('/welcome-pattern.png')" }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 bg-[#01353C]/50"
+        />
+        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 py-28 text-center">
+          <h1 className="font-heading text-4xl font-medium leading-tight text-white sm:text-5xl">
+            Formance Design System
+          </h1>
+          <p className="mt-4 text-base text-emerald-200 sm:text-lg">
+            The open-source component registry for Formance.
+            <br className="hidden sm:inline" /> Install any component into your
+            project with the shadcn CLI.
+          </p>
+          <Button
+            asChild
+            className="mt-8 bg-[#7E6F4A] text-emerald-100 hover:bg-[#6f6240]"
+          >
+            <Link href="/docs/installation">Get started</Link>
+          </Button>
         </div>
+      </section>
+
+      <PageContainer size="large">
+        <PageSection>
+          <PageSectionMeta>
+            <PageSectionSummary>
+              <PageSectionTitle className="text-center text-2xl">
+                Explore
+              </PageSectionTitle>
+            </PageSectionSummary>
+          </PageSectionMeta>
+          <PageSectionContent className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((feature) => (
+              <Link key={feature.href} href={feature.href}>
+                <AppCard
+                  className="h-full transition-colors hover:bg-muted/50"
+                  title={feature.title}
+                  description={feature.description}
+                  appIcon={feature.icon}
+                  iconVariant="outline"
+                />
+              </Link>
+            ))}
+          </PageSectionContent>
+        </PageSection>
       </PageContainer>
     </div>
   );

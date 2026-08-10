@@ -1,11 +1,26 @@
 'use client';
 
+import { SearchIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { docsConfig } from '@/config/docs';
-import { cn } from '@/lib/utils';
-import { Eyebrow } from '@/registry/default/ui/eyebrow';
+import { Button } from '@/registry/default/ui/button';
+import { Kbd, KbdGroup } from '@/registry/default/ui/kbd';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarSectionLabel,
+  SidebarSeparator,
+} from '@/registry/default/ui/sidebar';
 
 function NavigationItem({
   title,
@@ -17,65 +32,87 @@ function NavigationItem({
   label?: string;
 }) {
   const pathname = usePathname();
-  const isActive = pathname === href;
 
   return (
-    <Link
-      href={href}
-      className={cn(
-        'relative flex items-center h-7 text-sm px-4 transition-all',
-        'text-muted-foreground',
-        !isActive && 'hover:bg-accent hover:text-accent-foreground',
-        isActive && 'bg-accent text-foreground'
-      )}
-    >
-      <div
-        className={cn(
-          'absolute left-0 w-0.5 h-full bg-primary transition-opacity',
-          isActive ? 'opacity-100' : 'opacity-0'
-        )}
-      />
-      {title}
-      {label && (
-        <span className="ml-2 rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-mono uppercase text-primary-foreground">
-          {label}
-        </span>
-      )}
-    </Link>
+    <SidebarMenuItem>
+      <SidebarMenuButton asChild isActive={pathname === href}>
+        <Link href={href}>
+          <span>{title}</span>
+        </Link>
+      </SidebarMenuButton>
+      {label && <SidebarMenuBadge>{label}</SidebarMenuBadge>}
+    </SidebarMenuItem>
   );
 }
 
 export function SideNavigation() {
   return (
-    <nav className="min-w-[220px] py-4 px-2">
-      {docsConfig.sidebarNav.map((section, i) => {
-        const items =
-          section.sortOrder === 'alphabetical'
-            ? [...section.items].sort((a, b) =>
-                a.priority && !b.priority
-                  ? -1
-                  : !a.priority && b.priority
-                    ? 1
-                    : a.title.localeCompare(b.title)
-              )
-            : section.items;
+    <SidebarProvider className="min-h-0 h-full">
+      <Sidebar collapsible="none" className="w-full">
+        {/* The mobile sheet in `Header` renders this same nav below `md`, where
+            the header bar already has a search button — so the sidebar's own
+            search shows on the desktop rail only. */}
+        <SidebarHeader className="max-md:hidden">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              {/* No tooltip: this sidebar is `collapsible="none"`, so the
+                  button never shrinks to a rail icon and the label is always
+                  the label. */}
+              <SidebarMenuButton asChild>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                  onClick={() =>
+                    document.dispatchEvent(new CustomEvent('command-menu:open'))
+                  }
+                >
+                  <SearchIcon />
+                  Search
+                  <KbdGroup className="ml-auto">
+                    <Kbd>⌘</Kbd>
+                    <Kbd>K</Kbd>
+                  </KbdGroup>
+                </Button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarHeader>
+        <SidebarContent>
+          {docsConfig.sidebarNav.map((section, i) => {
+            const items =
+              section.sortOrder === 'alphabetical'
+                ? [...section.items].sort((a, b) =>
+                    a.priority && !b.priority
+                      ? -1
+                      : !a.priority && b.priority
+                        ? 1
+                        : a.title.localeCompare(b.title)
+                  )
+                : section.items;
 
-        return (
-          <div key={`${section.title}-${i}`} className="pb-8 space-y-0.5">
-            <Eyebrow variant="gold" size="sm" className="px-4 pb-1">
-              _{section.title}
-            </Eyebrow>
-            {items.map((item) => (
-              <NavigationItem
-                key={item.href}
-                title={item.title}
-                href={item.href}
-                label={item.label}
-              />
-            ))}
-          </div>
-        );
-      })}
-    </nav>
+            return (
+              <div key={`${section.title}-${i}`}>
+                {i > 0 && <SidebarSeparator className="mx-0 mb-2" />}
+                <SidebarSectionLabel>{section.title}</SidebarSectionLabel>
+                <SidebarGroup>
+                  <SidebarGroupContent>
+                    <SidebarMenu>
+                      {items.map((item) => (
+                        <NavigationItem
+                          key={item.href}
+                          title={item.title}
+                          href={item.href}
+                          label={item.label}
+                        />
+                      ))}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              </div>
+            );
+          })}
+        </SidebarContent>
+      </Sidebar>
+    </SidebarProvider>
   );
 }

@@ -414,6 +414,10 @@ export const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'context-icon': {
+    component: lazy(() => import('@/registry/default/demos/context-icon-demo')),
+    sourceFile: 'registry/default/demos/context-icon-demo.tsx',
+  },
   'context-menu': {
     component: lazy(() => import('@/registry/default/demos/context-menu-demo')),
     sourceFile: 'registry/default/demos/context-menu-demo.tsx',
@@ -535,6 +539,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/input-with-button')
         ),
         sourceFile: 'registry/default/examples/input-with-button.tsx',
+      },
+      {
+        title: 'Mono Font',
+        component: lazy(
+          () => import('@/registry/default/examples/input-font-mono')
+        ),
+        sourceFile: 'registry/default/examples/input-font-mono.tsx',
       },
     ],
   },
@@ -1260,6 +1271,72 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   sidebar: {
     component: lazy(() => import('@/registry/default/demos/sidebar-demo')),
     sourceFile: 'registry/default/demos/sidebar-demo.tsx',
+    examples: [
+      {
+        title: 'Sections and groups',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/sidebar-sections-and-groups')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-sections-and-groups.tsx',
+      },
+      {
+        title: 'Sections only',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-sections-only')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-sections-only.tsx',
+      },
+      {
+        title: 'Groups only',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-groups-only')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-groups-only.tsx',
+      },
+      {
+        title: 'Nested items',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-nested-items')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-nested-items.tsx',
+      },
+      {
+        title: 'Badges and actions',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-menu-actions')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-menu-actions.tsx',
+      },
+      {
+        title: 'App switcher',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-app-switcher')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-app-switcher.tsx',
+      },
+      {
+        title: 'Loading',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-loading')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-loading.tsx',
+      },
+      {
+        title: 'Drill-in pane',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-drill-in')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-drill-in.tsx',
+      },
+      {
+        title: 'Icon rail',
+        component: lazy(
+          () => import('@/registry/default/examples/sidebar-icon-rail')
+        ),
+        sourceFile: 'registry/default/examples/sidebar-icon-rail.tsx',
+      },
+    ],
   },
   stepper: {
     component: lazy(() => import('@/registry/default/demos/stepper-demo')),
@@ -1557,6 +1634,13 @@ export const registryDemos: Record<string, TRegistryDemo> = {
     ),
     sourceFile: 'registry/default/demos/key-value-input-demo.tsx',
     examples: [
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/key-value-input-sizes')
+        ),
+        sourceFile: 'registry/default/examples/key-value-input-sizes.tsx',
+      },
       {
         title: 'Disabled',
         component: lazy(
