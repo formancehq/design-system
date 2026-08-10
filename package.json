@@ -14,6 +14,7 @@
     "format:fix": "prettier \"**/*.{ts,tsx,md,json}\" --write",
     "typecheck": "tsc --noEmit",
     "knip": "knip",
+    "check:docs": "tsx scripts/check-docs-integrity.ts",
     "registry:build": "shadcn build",
     "schemas:validate": "node scripts/validate-ledger-schema.mjs",
     "extract:operations": "tsx scripts/extract-stack-operations.ts",

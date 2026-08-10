@@ -130,6 +130,30 @@ Consequences when you work on the registry:
 - CSS-only dependencies (`tailwindcss`, `@tailwindcss/typography`,
   `tw-animate-css`) are in `ignoreDependencies` — knip does not parse
   `app/globals.css`.
+- The `cli` workspace has `ignoreBinaries: ['tsup']`. The CLI is standalone with
+  its own lockfile, so the root QA job never installs `cli/node_modules` and
+  cannot resolve the binary there.
+
+## Docs Integrity: `pnpm check:docs`
+
+```bash
+pnpm check:docs   # runs in CI (QA job)
+```
+
+`scripts/check-docs-integrity.ts` guards two invariants that **`pnpm build`
+cannot catch, because both fail by rendering rather than by throwing**:
+
+1. **Every sidebar entry needs an MDX file.** `generateStaticParams` prerenders
+   each nav href under `/docs/`, and the page calls `notFound()` when
+   `content/docs/<slug>.mdx` is missing. A nav item + `componentMeta` entry
+   wired up without its MDX file **ships a 404 with a green build**.
+2. **Every `<ComponentPreview name>` must resolve** through `findDemo`. A miss
+   renders a "No demo available for ..." placeholder in the page body, so a typo
+   or a renamed demo is otherwise invisible.
+
+So adding a component to the docs takes four edits, not three: `registry.json`,
+`config/registry-demos.ts`, `config/docs.ts` (`componentMeta` + nav), **and**
+`content/docs/<section>/<slug>.mdx`.
 
 ## Dev Server
 
