@@ -26,7 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   qa:
-    name: QA (lint, format, typecheck)
+    name: QA (lint, format, typecheck, knip)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -41,6 +41,7 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run format
       - run: pnpm run typecheck
+      - run: pnpm run knip
 
   build:
     name: Build (registry + next)

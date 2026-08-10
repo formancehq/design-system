@@ -107,6 +107,30 @@ npx @formance/ds init --internal --all -y --overwrite
 
 `init` rewrites the destination `globals.css` from the template verbatim (only token values are injected), so any `@utility` / `@keyframes` / `@property` block added to the template lands in the consumer. Component-specific utilities must therefore be added to the template, not only to the docs-site `app/globals.css`.
 
+## Dead Code: `knip`
+
+```bash
+pnpm knip   # runs in CI (QA job); must stay clean
+```
+
+`knip.ts` reads `registry.json` and marks **every shipped file as an entry point**
+(`path!` — the `!` also makes its exports public API). This is required: consumers
+install those files with `shadcn add`, so their exports have no in-repo caller and
+would otherwise all be reported as unused.
+
+Consequences when you work on the registry:
+
+- A file under `registry/default/` that is **not** listed in `registry.json` is
+  treated as docs-site-internal, so knip reports its unused exports and will
+  report the file itself if nothing imports it. Add it to `registry.json` if it
+  is meant to ship.
+- `registry/default/{demos,examples}/` never ship. They are reachable only
+  through `config/registry-demos.ts`, so knip reports any demo or example that is
+  not wired into a demo entry's `examples` array.
+- CSS-only dependencies (`tailwindcss`, `@tailwindcss/typography`,
+  `tw-animate-css`) are in `ignoreDependencies` — knip does not parse
+  `app/globals.css`.
+
 ## Dev Server
 
 ```
