@@ -66,15 +66,13 @@ function CommandDialog({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <Command
-          {...commandProps}
-          className={cn(
-            '[&_[cmdk-group-heading]]:text-muted-foreground **:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-widest [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5',
-            commandProps?.className
-          )}
-        >
-          {children}
-        </Command>
+        {/* The dialog does not restyle the palette. Upstream shadcn grows every
+            row to `py-3` and every icon to `size-5` from out here, so the same
+            list is taller in a dialog than in a popover — and taller than in an
+            app that composes `Dialog` + `Command` itself, which is how the
+            Portal's palette came to disagree with this one. `CommandItem` owns
+            a row's metrics; one recipe, wherever the palette is mounted. */}
+        <Command {...commandProps}>{children}</Command>
       </DialogContent>
     </Dialog>
   );
