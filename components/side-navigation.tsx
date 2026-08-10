@@ -91,7 +91,7 @@ export function SideNavigation() {
                 : section.items;
 
             return (
-              <div key={`${section.title}-${i}`}>
+              <div key={section.title}>
                 {i > 0 && <SidebarSeparator className="mb-2" />}
                 <SidebarSectionLabel>{section.title}</SidebarSectionLabel>
                 <SidebarGroup>

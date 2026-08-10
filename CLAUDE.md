@@ -114,9 +114,11 @@ pnpm knip   # runs in CI (QA job); must stay clean
 ```
 
 `knip.ts` reads `registry.json` and marks **every shipped file as an entry point**
-(`path!` — the `!` also makes its exports public API). This is required: consumers
-install those files with `shadcn add`, so their exports have no in-repo caller and
-would otherwise all be reported as unused.
+(`path!`). This is required: consumers install those files with `shadcn add`, so
+their exports have no in-repo caller and would otherwise all be reported as
+unused — knip skips unused exports in entry files unless `includeEntryExports` is
+turned on. The `!` suffix is a separate flag: it marks the pattern as a
+_production_ entry, so `knip --production` still sees the shipped files.
 
 Consequences when you work on the registry:
 
@@ -127,9 +129,10 @@ Consequences when you work on the registry:
 - `registry/default/{demos,examples}/` never ship. They are reachable only
   through `config/registry-demos.ts`, so knip reports any demo or example that is
   not wired into a demo entry's `examples` array.
-- CSS-only dependencies (`tailwindcss`, `@tailwindcss/typography`,
-  `tw-animate-css`) are in `ignoreDependencies` — knip does not parse
-  `app/globals.css`.
+- The root `project` pattern includes `.css`, so `app/globals.css` is in the
+  module graph and its CSS-only dependencies (`tailwindcss`,
+  `@tailwindcss/typography`, `tw-animate-css`) resolve on their own. `public/**`
+  is excluded: Next serves it verbatim, so nothing imports it.
 - The `cli` workspace has `ignoreBinaries: ['tsup']`. The CLI is standalone with
   its own lockfile, so the root QA job never installs `cli/node_modules` and
   cannot resolve the binary there.

@@ -44,11 +44,20 @@ let previewCount = 0;
 
 for await (const file of glob('content/**/*.mdx')) {
   const source = await readFile(file, 'utf8');
-  for (const [, name] of source.matchAll(
-    /<ComponentPreview\s+name="([^"]+)"/g
-  )) {
+  // Two steps, not one pattern: `name` is neither always the first prop
+  // (`<ComponentPreview peekCode name="…" />`) nor always double-quoted, and a
+  // check that only matches one shape silently passes every tag it cannot read
+  // — the opposite of what a gate is for. Match the tag, then read the prop.
+  for (const [tag] of source.matchAll(/<ComponentPreview\b[^>]*>/g)) {
     previewCount++;
-    if (name && !findDemo(name)) {
+    const name = tag.match(/\bname=["']([^"']+)["']/)?.[1];
+
+    if (!name) {
+      problems.push(`${file}: ${tag} has no name prop, so it renders nothing`);
+      continue;
+    }
+
+    if (!findDemo(name)) {
       problems.push(
         `${file}: <ComponentPreview name="${name}"> has no demo or example in config/registry-demos.ts`
       );

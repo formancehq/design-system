@@ -11,9 +11,12 @@ const manifest: TRegistryManifest = JSON.parse(
 );
 
 /**
- * Every file shipped through registry.json is a public entry point: consumers
- * install it with `shadcn add`, so its exports have no in-repo caller. The `!`
- * suffix also marks those exports as public API.
+ * Every file shipped through registry.json is an entry point: consumers install
+ * it with `shadcn add`, so its exports have no in-repo caller. Listing it as an
+ * entry is what keeps those exports out of the report — knip skips unused
+ * exports in entry files unless `includeEntryExports` is on. The `!` suffix is
+ * separate: it marks the pattern as a production entry, so `knip --production`
+ * sees the shipped files too.
  */
 const registryEntry: string[] = [];
 for (const item of manifest.items ?? []) {
@@ -32,13 +35,12 @@ const config: KnipConfig = {
         'content/**/*.mdx',
         ...registryEntry,
       ],
-      project: ['**/*.{ts,tsx,mjs,js}'],
-      // Referenced from app/globals.css, which knip does not parse.
-      ignoreDependencies: [
-        'tailwindcss',
-        '@tailwindcss/typography',
-        'tw-animate-css',
-      ],
+      // CSS is in the graph on purpose: `tailwindcss`, `tw-animate-css` and
+      // `@tailwindcss/typography` are pulled in by `app/globals.css` alone, so
+      // leaving stylesheets out reports all three as unused dependencies.
+      // `public/` is served verbatim by Next and is referenced from HTML/CDN
+      // URLs, never imported, so it is not part of the module graph.
+      project: ['**/*.{ts,tsx,mjs,js,css}', '!public/**'],
     },
     cli: {
       project: ['src/**/*.ts'],
