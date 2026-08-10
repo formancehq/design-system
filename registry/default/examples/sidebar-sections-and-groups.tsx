@@ -50,7 +50,7 @@ export default function SidebarSectionsAndGroups() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-          <SidebarSeparator className="mx-0" />
+          <SidebarSeparator />
           <SidebarSectionLabel>Sandbox</SidebarSectionLabel>
           <SidebarGroup>
             <SidebarGroupLabel>Ledger</SidebarGroupLabel>

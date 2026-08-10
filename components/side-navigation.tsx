@@ -92,7 +92,7 @@ export function SideNavigation() {
 
             return (
               <div key={`${section.title}-${i}`}>
-                {i > 0 && <SidebarSeparator className="mx-0 mb-2" />}
+                {i > 0 && <SidebarSeparator className="mb-2" />}
                 <SidebarSectionLabel>{section.title}</SidebarSectionLabel>
                 <SidebarGroup>
                   <SidebarGroupContent>

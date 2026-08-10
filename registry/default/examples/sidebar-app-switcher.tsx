@@ -151,7 +151,7 @@ export default function SidebarAppSwitcher() {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
-        <SidebarSeparator className="mx-0" />
+        <SidebarSeparator />
         <SidebarContent>
           <SidebarSectionLabel>Sandbox</SidebarSectionLabel>
           <SidebarGroup>
