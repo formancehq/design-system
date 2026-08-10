@@ -9,7 +9,6 @@ import { CommandMenu } from '@/components/command-menu';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { SideNavigation } from '@/components/side-navigation';
-import { ScrollArea } from '@/registry/default/ui/scroll-area';
 import { SonnerToaster } from '@/registry/default/ui/sonner';
 
 const figtree = Figtree({
@@ -87,9 +86,7 @@ export default function RootLayout({
             <main>
               <div className="md:grid md:grid-cols-[var(--sidebar-width)_minmax(0,1fr)]">
                 <aside className="fixed top-12 z-30 hidden h-[calc(100vh-3rem)] w-(--sidebar-width) shrink-0 bg-sidebar md:sticky md:block border-r">
-                  <ScrollArea className="h-full">
-                    <SideNavigation />
-                  </ScrollArea>
+                  <SideNavigation />
                 </aside>
                 <div>{children}</div>
               </div>
