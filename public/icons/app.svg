@@ -1,0 +1,31 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="80" height="80" fill="#CDCBFF" style="fill:#CDCBFF;fill:color(display-p3 0.8039 0.7961 1.0000);fill-opacity:1;"/>
+<g clip-path="url(#clip0_2880_738)">
+<mask id="mask0_2880_738" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="5" y="5" width="70" height="70">
+<path d="M75 5H5V75H75V5Z" fill="white" style="fill:white;fill-opacity:1;"/>
+<path d="M32.8033 8.5H35.5376L36.5001 9.4625V12.1969L35.5376 13.1703H32.8033L31.8298 12.1969V9.4625L32.8033 8.5Z" fill="black" style="fill:black;fill-opacity:1;"/>
+<path d="M67.8033 8.5H70.5376L71.5001 9.4625V12.1969L70.5376 13.1703H67.8033L66.8298 12.1969V9.4625L67.8033 8.5Z" fill="black" style="fill:black;fill-opacity:1;"/>
+<path d="M9.4625 31.8297H12.1969L13.1703 32.8031V35.5375L12.1969 36.5H9.4625L8.5 35.5375V32.8031L9.4625 31.8297Z" fill="black" style="fill:black;fill-opacity:1;"/>
+<path d="M44.4625 31.8297H47.1969L48.1703 32.8031V35.5375L47.1969 36.5H44.4625L43.5 35.5375V32.8031L44.4625 31.8297Z" fill="black" style="fill:black;fill-opacity:1;"/>
+<path d="M67.8033 43.5H70.5376L71.5001 44.4625V47.1969L70.5376 48.1703H67.8033L66.8298 47.1969V44.4625L67.8033 43.5Z" fill="black" style="fill:black;fill-opacity:1;"/>
+<path d="M9.4625 66.8297H12.1969L13.1703 67.8031V70.5375L12.1969 71.5H9.4625L8.5 70.5375V67.8031L9.4625 66.8297Z" fill="black" style="fill:black;fill-opacity:1;"/>
+<path d="M44.4625 66.8297H47.1969L48.1703 67.8031V70.5375L47.1969 71.5H44.4625L43.5 70.5375V67.8031L44.4625 66.8297Z" fill="black" style="fill:black;fill-opacity:1;"/>
+</mask>
+<g mask="url(#mask0_2880_738)">
+<path d="M10.8333 34.1667V69.1667" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M10.8333 69.1667H45.8333" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M45.8333 69.1667V34.1667" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M10.8333 34.1667H45.8333" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M45.8333 34.1667L69.1667 10.8333" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M45.8333 69.1667L69.1667 45.8333" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M69.1667 10.8333V45.8333" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M34.1667 10.8333H69.1667" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+<path d="M10.8333 34.1667L34.1667 10.8333" stroke="#01353C" style="stroke:#01353C;stroke:color(display-p3 0.0039 0.2078 0.2353);stroke-opacity:1;"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_2880_738">
+<rect width="60" height="60" fill="white" style="fill:white;fill-opacity:1;" transform="translate(10 10)"/>
+</clipPath>
+</defs>
+</svg>
