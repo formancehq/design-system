@@ -357,7 +357,15 @@ function SidebarSeparator({
     <Separator
       data-slot="sidebar-separator"
       data-sidebar="separator"
-      className={cn('bg-sidebar-border mx-2 w-auto', className)}
+      className={cn(
+        // The width override carries `Separator`'s own `data-[orientation]`
+        // modifier on purpose: a bare `w-auto` is a different tailwind-merge
+        // group, so `w-full` survives the merge and outranks it on specificity
+        // — the rule then keeps its left margin but overflows the right edge by
+        // the same amount.
+        'bg-sidebar-border mx-2 data-[orientation=horizontal]:w-auto',
+        className
+      )}
       {...props}
     />
   );
