@@ -1,10 +1,9 @@
 import { ExternalLinkIcon } from 'lucide-react';
 import Link from 'next/link';
 
+import { type TSource } from '@/config/docs';
 import { cn } from '@/lib/utils';
 import { FormanceIcon } from '@/registry/default/ui/formance-logo';
-
-type TSource = 'shadcn' | 'custom';
 
 function ShadcnIcon({ className }: { className?: string }) {
   return (
@@ -90,4 +89,4 @@ function SourceBanner({ source }: { source: TSource }) {
   );
 }
 
-export { SourceBanner, type TSource };
+export { SourceBanner };

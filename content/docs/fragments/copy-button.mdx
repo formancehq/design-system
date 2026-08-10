@@ -1,0 +1,19 @@
+<ComponentPreview name="copy-button" peekCode />
+
+An outline icon button that writes `text` to the clipboard and confirms with a check for 1.5s before reverting. The text is trimmed on copy, and the click is stopped from propagating so the button is safe inside a clickable row or card header.
+
+Pass `text` alone for an icon-only button. Pass `label` to render a wider button with a caption that swaps to "Copied" while confirming. This is the copy affordance used by `ApiSnippet` and `LedgerSchema`, so copy and play actions read consistently across fragments.
+
+<Section
+  title="With label"
+  description="Pass label to show a caption next to the icon. It swaps to “Copied” during the confirmation window."
+>
+  <ComponentPreview name="copy-button-with-label" />
+</Section>
+
+<Section
+  title="In a header row"
+  description="Pushed to the end of a code block header with ml-auto — the pattern ApiSnippet and LedgerSchema use."
+>
+  <ComponentPreview name="copy-button-in-header" />
+</Section>

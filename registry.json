@@ -1485,7 +1485,7 @@
       "name": "ledger-schema",
       "type": "registry:component",
       "title": "Ledger Schema",
-      "description": "Interactive viewer for a Formance ledger schema \u2014 chart of accounts, transactions (Numscript), and queries \u2014 with a tabbed full view and props to show a single section, transaction, or chart subtree.",
+      "description": "Interactive viewer for a Formance ledger schema — chart of accounts, transactions (Numscript), and queries — with a tabbed full view and props to show a single section, transaction, or chart subtree.",
       "dependencies": ["lucide-react"],
       "registryDependencies": [
         "https://ds.formance.com/r/code-snippet.json",
@@ -1493,7 +1493,8 @@
         "https://ds.formance.com/r/badge.json",
         "https://ds.formance.com/r/button.json",
         "https://ds.formance.com/r/collapsible.json",
-        "https://ds.formance.com/r/tooltip.json"
+        "https://ds.formance.com/r/tooltip.json",
+        "https://ds.formance.com/r/copy-button.json"
       ],
       "files": [
         {
@@ -1743,7 +1744,7 @@
       "name": "membership-operations",
       "type": "registry:file",
       "title": "Membership Operations Index",
-      "description": "Build-time extracted OpenAPI operation index for the Formance membership/cloud API (method, path, path params per operationId). No SDK metadata \u2014 the membership API has no public TypeScript SDK.",
+      "description": "Build-time extracted OpenAPI operation index for the Formance membership/cloud API (method, path, path params per operationId). No SDK metadata — the membership API has no public TypeScript SDK.",
       "files": [
         {
           "path": "registry/default/lib/membership-operations.json",
@@ -1757,12 +1758,12 @@
       "type": "registry:component",
       "title": "API Snippet",
       "description": "Tabbed API call reference (curl, HTTPie, TypeScript SDK, fctl) rendered from an OpenAPI operationId. Defaults to the stack operations index; pass a different `operations` index and select tabs via the `tabs` prop for other APIs (e.g. membership/cloud).",
-      "dependencies": ["lucide-react"],
       "registryDependencies": [
         "https://ds.formance.com/r/endpoint.json",
         "https://ds.formance.com/r/code-snippet.json",
         "https://ds.formance.com/r/tabs.json",
-        "https://ds.formance.com/r/stack-operations.json"
+        "https://ds.formance.com/r/stack-operations.json",
+        "https://ds.formance.com/r/copy-button.json"
       ],
       "files": [
         {
@@ -1796,6 +1797,21 @@
           "path": "registry/default/ui-fragments/markdown.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/markdown.tsx"
+        }
+      ]
+    },
+    {
+      "name": "copy-button",
+      "type": "registry:component",
+      "title": "Copy Button",
+      "description": "Outline icon button that copies text to the clipboard and confirms with a check for 1.5s. Optional label swaps to \"Copied\".",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["https://ds.formance.com/r/button.json"],
+      "files": [
+        {
+          "path": "registry/default/ui-fragments/copy-button.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/copy-button.tsx"
         }
       ]
     },

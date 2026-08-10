@@ -2,7 +2,7 @@
 
 import { lazy, type ComponentType } from 'react';
 
-export type TRegistryExample = {
+type TRegistryExample = {
   title: string;
   component: React.LazyExoticComponent<ComponentType>;
   sourceFile: string;
@@ -44,7 +44,7 @@ export function findDemo(name: string): TDemoEntry | undefined {
   return _index.get(name);
 }
 
-export const registryDemos: Record<string, TRegistryDemo> = {
+const registryDemos: Record<string, TRegistryDemo> = {
   accordion: {
     component: lazy(() => import('@/registry/default/demos/accordion-demo')),
     sourceFile: 'registry/default/demos/accordion-demo.tsx',
@@ -1164,6 +1164,26 @@ export const registryDemos: Record<string, TRegistryDemo> = {
   'mode-toggle': {
     component: lazy(() => import('@/registry/default/demos/mode-toggle-demo')),
     sourceFile: 'registry/default/demos/mode-toggle-demo.tsx',
+  },
+  'copy-button': {
+    component: lazy(() => import('@/registry/default/demos/copy-button-demo')),
+    sourceFile: 'registry/default/demos/copy-button-demo.tsx',
+    examples: [
+      {
+        title: 'With label',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-button-with-label')
+        ),
+        sourceFile: 'registry/default/examples/copy-button-with-label.tsx',
+      },
+      {
+        title: 'In a header row',
+        component: lazy(
+          () => import('@/registry/default/examples/copy-button-in-header')
+        ),
+        sourceFile: 'registry/default/examples/copy-button-in-header.tsx',
+      },
+    ],
   },
   'nav-tabs': {
     component: lazy(() => import('@/registry/default/demos/nav-tabs-demo')),

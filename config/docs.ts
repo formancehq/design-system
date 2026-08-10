@@ -899,6 +899,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
       },
     ],
   },
+  'fragments/copy-button': {
+    registryName: 'copy-button',
+    description:
+      'An outline icon button that copies text to the clipboard and confirms with a check. Used by ApiSnippet and LedgerSchema.',
+    sourceFile: 'registry/default/ui-fragments/copy-button.tsx',
+    source: 'custom',
+  },
   'fragments/copy-page': {
     registryName: 'copy-page',
     description:
@@ -1154,6 +1161,7 @@ export const docsConfig: TDocsConfig = {
           href: '/docs/fragments/ledger-schema-editor',
         },
         { title: 'App Card Empty', href: '/docs/fragments/app-card-empty' },
+        { title: 'Copy Button', href: '/docs/fragments/copy-button' },
         { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
         { title: 'Markdown', href: '/docs/fragments/markdown' },

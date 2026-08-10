@@ -42,7 +42,7 @@ export default function SidebarDrillIn() {
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-          <SidebarSeparator className="mx-0" />
+          <SidebarSeparator />
           <SidebarSectionLabel>Sandbox</SidebarSectionLabel>
           <SidebarGroup>
             <SidebarGroupLabel>Services</SidebarGroupLabel>

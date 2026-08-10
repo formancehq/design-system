@@ -107,6 +107,57 @@ npx @formance/ds init --internal --all -y --overwrite
 
 `init` rewrites the destination `globals.css` from the template verbatim (only token values are injected), so any `@utility` / `@keyframes` / `@property` block added to the template lands in the consumer. Component-specific utilities must therefore be added to the template, not only to the docs-site `app/globals.css`.
 
+## Dead Code: `knip`
+
+```bash
+pnpm knip   # runs in CI (QA job); must stay clean
+```
+
+`knip.ts` reads `registry.json` and marks **every shipped file as an entry point**
+(`path!`). This is required: consumers install those files with `shadcn add`, so
+their exports have no in-repo caller and would otherwise all be reported as
+unused — knip skips unused exports in entry files unless `includeEntryExports` is
+turned on. The `!` suffix is a separate flag: it marks the pattern as a
+_production_ entry, so `knip --production` still sees the shipped files.
+
+Consequences when you work on the registry:
+
+- A file under `registry/default/` that is **not** listed in `registry.json` is
+  treated as docs-site-internal, so knip reports its unused exports and will
+  report the file itself if nothing imports it. Add it to `registry.json` if it
+  is meant to ship.
+- `registry/default/{demos,examples}/` never ship. They are reachable only
+  through `config/registry-demos.ts`, so knip reports any demo or example that is
+  not wired into a demo entry's `examples` array.
+- The root `project` pattern includes `.css`, so `app/globals.css` is in the
+  module graph and its CSS-only dependencies (`tailwindcss`,
+  `@tailwindcss/typography`, `tw-animate-css`) resolve on their own. `public/**`
+  is excluded: Next serves it verbatim, so nothing imports it.
+- The `cli` workspace has `ignoreBinaries: ['tsup']`. The CLI is standalone with
+  its own lockfile, so the root QA job never installs `cli/node_modules` and
+  cannot resolve the binary there.
+
+## Docs Integrity: `pnpm check:docs`
+
+```bash
+pnpm check:docs   # runs in CI (QA job)
+```
+
+`scripts/check-docs-integrity.ts` guards two invariants that **`pnpm build`
+cannot catch, because both fail by rendering rather than by throwing**:
+
+1. **Every sidebar entry needs an MDX file.** `generateStaticParams` prerenders
+   each nav href under `/docs/`, and the page calls `notFound()` when
+   `content/docs/<slug>.mdx` is missing. A nav item + `componentMeta` entry
+   wired up without its MDX file **ships a 404 with a green build**.
+2. **Every `<ComponentPreview name>` must resolve** through `findDemo`. A miss
+   renders a "No demo available for ..." placeholder in the page body, so a typo
+   or a renamed demo is otherwise invisible.
+
+So adding a component to the docs takes four edits, not three: `registry.json`,
+`config/registry-demos.ts`, `config/docs.ts` (`componentMeta` + nav), **and**
+`content/docs/<section>/<slug>.mdx`.
+
 ## Dev Server
 
 ```

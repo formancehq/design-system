@@ -65,7 +65,7 @@ export default function SidebarAppSwitcherExample() {
             manageOrganizationsHref="#"
           />
         </SidebarHeader>
-        <SidebarSeparator className="mx-0" />
+        <SidebarSeparator />
         <SidebarContent>
           <SidebarSectionLabel>Sandbox</SidebarSectionLabel>
           <SidebarGroup>

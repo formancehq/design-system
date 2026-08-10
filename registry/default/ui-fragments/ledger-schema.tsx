@@ -21,8 +21,8 @@
  * `renderScript*` slots.
  */
 
-import { Check, ChevronRight, Copy } from 'lucide-react';
-import { useState, type ReactNode } from 'react';
+import { ChevronRight } from 'lucide-react';
+import { type ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
 import {
@@ -37,8 +37,8 @@ import {
   normalizeFlags,
   type TInterpreter,
 } from '@/components/ui-fragments/_ledger-schema/numscript';
+import { CopyButton } from '@/registry/default/ui-fragments/copy-button';
 import { Badge } from '@/registry/default/ui/badge';
-import { Button } from '@/registry/default/ui/button';
 import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 import {
   Collapsible,
@@ -577,43 +577,5 @@ function QueryCard({
       foldable={foldable}
       className={className}
     />
-  );
-}
-
-// ── Copy button ─────────────────────────────────────────────
-// Matches the design-system outline icon button used by ApiSnippet, so the
-// copy / play actions read consistently across both fragments.
-
-function CopyButton({
-  text,
-  label,
-  className,
-}: {
-  text: string;
-  label?: string;
-  className?: string;
-}) {
-  const [copied, setCopied] = useState(false);
-
-  return (
-    <Button
-      variant="outline"
-      size={label ? 'sm' : 'icon-sm'}
-      aria-label="Copy"
-      className={cn(
-        'text-muted-foreground',
-        label && 'gap-1.5 [&>svg]:size-3.5',
-        className
-      )}
-      onClick={async (e) => {
-        e.stopPropagation();
-        await navigator.clipboard.writeText(text.trim());
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1500);
-      }}
-    >
-      {copied ? <Check /> : <Copy />}
-      {label && <span>{copied ? 'Copied' : label}</span>}
-    </Button>
   );
 }
