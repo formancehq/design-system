@@ -35,7 +35,7 @@ function NavigationItem({
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton asChild isActive={pathname === href} tooltip={title}>
+      <SidebarMenuButton asChild isActive={pathname === href}>
         <Link href={href}>
           <span>{title}</span>
         </Link>
@@ -55,7 +55,10 @@ export function SideNavigation() {
         <SidebarHeader className="max-md:hidden">
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild aria-label="Search" tooltip="Search">
+              {/* No tooltip: this sidebar is `collapsible="none"`, so the
+                  button never shrinks to a rail icon and the label is always
+                  the label. */}
+              <SidebarMenuButton asChild>
                 <Button
                   variant="outline"
                   className="w-full justify-start"
