@@ -116,33 +116,92 @@ export function FormanceLogo({ className }: FormanceLogoProps) {
   );
 }
 
-const formanceIconVariant = cva(
-  'box-content text-foreground select-none rounded-sm',
-  {
-    variants: {
-      size: {
-        xs: 'w-4',
-        sm: 'w-6',
-        md: 'w-8',
-        lg: 'w-12',
-        xl: 'w-16',
-        '2xl': 'w-20',
-        '3xl': 'w-24',
-      },
+// The brand ships the icon two ways. `plain` is the pattern on its own, taking
+// the text colour, which is what a header or a line of text wants. The rest are
+// tiles: the pattern centred in a full circle of one brand colour. A tile is a
+// colour pair rather than a shape of its own — only the circle and the pattern
+// change between them, so `slate` and `lilac` carry a dark pattern where the
+// darker circles carry a white one.
+// A tile's pattern colour is marked important, which `plain`'s is not. The tile
+// is brand art: it has to hold its pair wherever it is dropped, and the menu and
+// button rows it lands in repaint every descendant on hover — shadcn's
+// `focus:**:text-accent-foreground` is a descendant selector, so it outranks a
+// plain utility here. `plain` stays overridable on purpose: it takes the text
+// colour, which is the whole point of it.
+const formanceIconVariant = cva('box-content select-none', {
+  variants: {
+    variant: {
+      plain: 'rounded-sm text-foreground',
+      emerald: 'rounded-full bg-emerald-700 text-white!',
+      slate: 'rounded-full bg-emerald-200 text-emerald-700!',
+      lilac: 'rounded-full bg-lilac-500 text-emerald-700!',
+      gold: 'rounded-full bg-gold-500 text-white!',
+      cobalt: 'rounded-full bg-cobalt-600 text-white!',
     },
-    defaultVariants: {
-      size: 'md',
+    // Two ramps, because the mark has two jobs. The plain steps are a display
+    // scale, for the splash and error screens where the mark stands alone and no
+    // control is near it. The `icon-*` steps are each identical to the
+    // `buttonVariants` size of the same name, so a mark beside a button lines up
+    // by construction rather than by someone matching numbers — the same reason
+    // `ContextIcon`'s ramp carries them. `md` and `icon-md` are both 32px on
+    // purpose: one names a step of the scale, the other names the control it
+    // matches, and a caller should say which it meant.
+    size: {
+      xs: 'size-4',
+      'icon-xs': 'size-5',
+      sm: 'size-6',
+      'icon-sm': 'size-7',
+      md: 'size-8',
+      'icon-md': 'size-8',
+      'icon-lg': 'size-9',
+      lg: 'size-12',
+      xl: 'size-16',
+      '2xl': 'size-20',
+      '3xl': 'size-24',
     },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'plain',
+    size: 'md',
+  },
+});
+
+// Every variant draws the pattern in the same box: 77% of the width, centred,
+// the proportion the brand art gives it inside a circle. `plain` keeps that
+// margin and simply has nothing behind it, so a variant can be swapped in or out
+// without the pattern changing size or moving — the tile appears around it rather
+// than under a shrunken mark.
+//
+// The margin is bought inside the SVG, by growing the box around the unchanged
+// 40-unit pattern: percentage padding on the wrapper would resolve against its
+// parent's width rather than the icon's own.
+const VIEW_BOX = '-6 -6 52 52';
+
+/**
+ * The tile colours, so a caller can hold one as data — the colour that stands
+ * for a thing — and render it at whatever size each surface needs.
+ */
+export type TFormanceIconVariant = NonNullable<
+  VariantProps<typeof formanceIconVariant>['variant']
+>;
 
 type FormanceIconProps = React.HTMLAttributes<SVGElement> &
   VariantProps<typeof formanceIconVariant>;
 
-export function FormanceIcon({ size, className, ...props }: FormanceIconProps) {
+export function FormanceIcon({
+  variant,
+  size,
+  className,
+  ...props
+}: FormanceIconProps) {
   return (
-    <div className={cn(formanceIconVariant({ size }), className)}>
-      <svg viewBox="0 0 40 40" {...props}>
+    <div className={cn(formanceIconVariant({ variant, size }), className)}>
+      {/* `block` keeps the box square: an inline SVG sits on a baseline, and the
+          few pixels of descender space under it would draw the circle as an
+          ellipse. `size-full` rather than `w-full` because shadcn's rows size
+          their glyphs with `[&_svg:not([class*='size-'])]:size-4` — carrying a
+          `size-` class is how an element opts out of being clamped to 16px. */}
+      <svg viewBox={VIEW_BOX} className="block size-full" {...props}>
         {FormanceIconPaths}
       </svg>
     </div>

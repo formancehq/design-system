@@ -1066,6 +1066,15 @@ const registryDemos: Record<string, TRegistryDemo> = {
       () => import('@/registry/default/demos/formance-logo-demo')
     ),
     sourceFile: 'registry/default/demos/formance-logo-demo.tsx',
+    examples: [
+      {
+        title: 'Colors',
+        component: lazy(
+          () => import('@/registry/default/examples/formance-icon-colors')
+        ),
+        sourceFile: 'registry/default/examples/formance-icon-colors.tsx',
+      },
+    ],
   },
   empty: {
     component: lazy(() => import('@/registry/default/demos/empty-demo')),
