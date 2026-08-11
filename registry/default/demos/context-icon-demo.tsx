@@ -2,7 +2,7 @@
 
 import { CONTEXT_TYPES, ContextIcon } from '@/registry/default/ui/context-icon';
 
-const sizes = ['xs', 'sm', 'md', 'md+', 'lg', 'lg+', 'xl'] as const;
+const sizes = ['xs', 'icon-xs', 'icon-sm', 'icon-md', 'icon-lg', 'xl'] as const;
 
 export default function ContextIconDemo() {
   return (
