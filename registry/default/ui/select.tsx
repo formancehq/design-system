@@ -46,10 +46,11 @@ type SelectTriggerProps = React.ComponentProps<typeof SelectPrimitive.Trigger> &
     /**
      * The indicator glyph. Defaults to a single chevron — pass one when the
      * trigger has to match a sibling control, e.g. a `ChevronsUpDown` beside a
-     * menu that already uses it. Rendered through `asChild`, so it must be a
-     * single element that forwards props.
+     * menu that already uses it. Rendered through `asChild`, which clones its
+     * child, so the type is a single element rather than a `ReactNode`: a string
+     * or a fragment typechecks but breaks at runtime.
      */
-    icon?: React.ReactNode;
+    icon?: React.ReactElement;
   };
 
 function SelectTrigger({
