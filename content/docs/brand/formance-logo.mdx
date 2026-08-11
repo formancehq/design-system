@@ -71,5 +71,32 @@ import { FormanceLogo, FormanceIcon } from '@/components/ui/formance-logo'
 
 <Section
   title="Icon Sizes"
-  description="The size prop controls the icon width: xs (16px), sm (24px), md (32px), lg (48px), xl (64px), 2xl (80px), 3xl (96px)."
+  description="The size prop takes a display step — xs (16px), sm (24px), md (32px), lg (48px), xl (64px), 2xl (80px), 3xl (96px) — or a control step: icon-xs (20px), icon-sm (28px), icon-md (32px), icon-lg (36px). A control step is exactly the Button size of the same name, so a mark beside a button of that size lines up without anyone matching numbers. Reach for a display step where the mark stands alone, and a control step where it sits next to one."
 />
+
+<Section
+  title="Colors"
+  level={3}
+  description="A variant draws the pattern in a full circle of one brand colour, the way the brand art ships it. Use a tile where the icon stands for Formance itself — an avatar, an app tile, a list row — and the default plain icon where it sits in a line of text or a header and should follow the text colour."
+>
+
+```tsx
+<FormanceIcon variant="cobalt" size="xl" />
+```
+
+<ComponentPreview name="formance-icon-colors" />
+
+`emerald`, `gold` and `cobalt` are dark circles carrying a white pattern; `slate`
+and `lilac` are light circles carrying an `emerald-700` one. The circle is one
+step of the palette in each case — `emerald-700`, `emerald-200`, `lilac-500`,
+`gold-500`, `cobalt-600` — and `slate` names the light emerald pairing, matching
+`BadgeEyebrow`'s variant of the same name.
+
+The size prop means the same thing for a tile as for the plain icon: it sets the
+outer width, so `size="xl"` is a 64px circle. Inside it the pattern takes 77% of
+the width, the proportion the brand art draws — and the plain icon keeps that same
+margin with nothing behind it. So a variant can be added or dropped without the
+pattern changing size or moving: the circle appears around the mark rather than
+under a smaller one, and a row of mixed plain and tiled marks reads as one set.
+
+</Section>
