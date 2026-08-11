@@ -42,12 +42,21 @@ const selectTriggerVariants = cva(
 );
 
 type SelectTriggerProps = React.ComponentProps<typeof SelectPrimitive.Trigger> &
-  VariantProps<typeof selectTriggerVariants>;
+  VariantProps<typeof selectTriggerVariants> & {
+    /**
+     * The indicator glyph. Defaults to a single chevron — pass one when the
+     * trigger has to match a sibling control, e.g. a `ChevronsUpDown` beside a
+     * menu that already uses it. Rendered through `asChild`, so it must be a
+     * single element that forwards props.
+     */
+    icon?: React.ReactNode;
+  };
 
 function SelectTrigger({
   className,
   size = 'md',
   children,
+  icon,
   ...props
 }: SelectTriggerProps) {
   return (
@@ -59,7 +68,7 @@ function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon className="size-4 opacity-50" />
+        {icon ?? <ChevronDownIcon className="size-4 opacity-50" />}
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );

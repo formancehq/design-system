@@ -52,7 +52,7 @@ import { CONTEXT_TYPES, ContextIcon } from '@/components/ui/context-icon';
 ```
 
 ```tsx
-<ContextIcon type={CONTEXT_TYPES.ORGANIZATION} size="sm" />
+<ContextIcon type={CONTEXT_TYPES.ORGANIZATION} size="icon-sm" />
 ```
 
 ## When to use it
@@ -67,13 +67,23 @@ served as a file rather than inlined as `currentColor` paths. That also means it
 does not follow the foreground colour, and it never needs to: the tile is the
 entity's identity in both themes.
 
-`xs` (`size-4`) fits a line of text but flattens the pattern into a coloured
-square; prefer `sm` (`size-5`) as the smallest legible step, and the larger
-steps for cards and headers.
+Most tiles sit beside a control — a picker's chevron, a card's action — so the
+ramp is named after `buttonVariants`' icon sizes. Each `icon-*` step is identical
+to the button of the same name, so `size="icon-sm"` beside `size="icon-sm"` lines
+up by construction rather than by someone matching numbers.
 
-`md+` (`size-7`) and `lg+` (`size-10`) are half-steps between the named sizes.
-Reach for them only to match an existing layout — the plain steps are the ramp,
-and a new screen should pick one of those.
+`xs` (`size-4`) and `xl` (`size-12`) are the two steps no button has. Use `xs`
+where the tile shares a left edge with the 16px lucide glyphs of a menu row or a
+table cell; it flattens the pattern into a coloured square, so prefer `icon-xs`
+(`size-5`) where a legible tile fits. Use `xl` for page-header art, which answers
+to a heading rather than to a control.
+
+This ramp replaces the earlier `sm`/`md`/`md+`/`lg`/`lg+` names, and it is a
+breaking change. The default is now `icon-md` (`size-8`), not `md` (`size-6`), so
+a `ContextIcon` with no `size` grows. Map the old names to the new ones as
+`sm` → `icon-xs`, `md+` → `icon-sm`, `lg` → `icon-md`, and `lg+` → `icon-lg`
+(36px, one step down from the old 40px). `md` (`size-6`) has no replacement —
+pick `icon-xs` or `icon-sm`.
 
 `alt` is empty by default, because the tile almost always sits beside the name it
 stands for. Pass an `alt` where the tile is the only thing identifying the row.

@@ -1329,13 +1329,6 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/sidebar-menu-actions.tsx',
       },
       {
-        title: 'App switcher',
-        component: lazy(
-          () => import('@/registry/default/examples/sidebar-app-switcher')
-        ),
-        sourceFile: 'registry/default/examples/sidebar-app-switcher.tsx',
-      },
-      {
         title: 'Loading',
         component: lazy(
           () => import('@/registry/default/examples/sidebar-loading')
