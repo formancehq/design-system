@@ -96,6 +96,22 @@ pnpm dev  # start DS at localhost:3333
 
 This uses `shadcn add --overwrite` against the local registry. Import rewriting is handled by shadcn based on the target's `components.json` aliases.
 
+**Two things shadcn gets wrong about fragments, repaired by `cli/src/lib/rewrite-fragment-imports.ts`:**
+
+- It replaces the `@/registry/<style>/ui` prefix without requiring a path
+  separator, so `@/registry/default/ui-fragments/copy-button` comes out as
+  `<uiAlias>-fragments/copy-button` — a path that resolves nowhere. Any fragment
+  importing a sibling fragment is affected; today that is `api-snippet` and
+  `ledger-schema`, both importing `copy-button`.
+- A registry `target` is alias-relative, so the file lands under the project's
+  source root (`packages/ui/src/components/…` in both platform-ui and
+  internal-ui). The repair pass therefore looks for `<cwd>/<target>` **and**
+  `<cwd>/src/<target>`.
+
+Verify a change here by running the built CLI against a real consumer and
+grepping for `components-fragments`; a green `--all --overwrite` run must leave
+the consumer typechecking.
+
 ### Refresh base styles / tokens / utilities (`globals.css`)
 
 CSS utilities and tokens ship via the CLI's `globals.css` template (`cli/src/templates/globals.css`), delivered by `@formance/ds init`. Re-run `init` in the consumer to pull new utilities into its `globals.css`:

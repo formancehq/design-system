@@ -22,6 +22,21 @@ const readComponentsJson = (cwd: string): TComponentsJson | null => {
   return JSON.parse(readFileSync(candidate, 'utf8')) as TComponentsJson;
 };
 
+/**
+ * Where a registry `target` actually landed on disk.
+ *
+ * A target is alias-relative (`components/ui-fragments/api-snippet.tsx`), and
+ * shadcn resolves it through `components.json` and the project's tsconfig
+ * paths. Joining it straight onto `cwd` misses every `src`-rooted project —
+ * which is all of ours — so the file is silently never scanned. Rather than
+ * reimplement tsconfig path resolution, try the two layouts shadcn supports and
+ * take the one that exists.
+ */
+const resolveTargetPath = (cwd: string, target: string): string | null =>
+  [join(cwd, target), join(cwd, 'src', target)].find((candidate) =>
+    existsSync(candidate)
+  ) ?? null;
+
 const resolveTargetImport = (
   target: string,
   componentsAlias: string
@@ -30,6 +45,34 @@ const resolveTargetImport = (
   if (!noExt.startsWith('components/')) return null;
 
   return `${componentsAlias}${noExt.slice('components'.length)}`;
+};
+
+/**
+ * Repairs shadcn's rewrite of a `ui-fragments` path.
+ *
+ * shadcn swaps the `@/registry/<style>/ui` prefix for the `ui` alias without
+ * requiring a path separator after it, so a fragment importing a sibling
+ * fragment comes out spliced: `@/registry/default/ui-fragments/copy-button`
+ * becomes `<uiAlias>-fragments/copy-button`, which resolves nowhere. The
+ * fragments land under `components/ui-fragments/`, so that is what the
+ * specifier has to say.
+ */
+const repairFragmentPrefix = (
+  source: string,
+  uiAlias: string,
+  componentsAlias: string
+): { source: string; replacements: number } => {
+  let replacements = 0;
+  const next = source.replace(
+    new RegExp(`(['"\`])${escapeForRegex(uiAlias)}-fragments/`, 'g'),
+    (_, quote: string) => {
+      replacements++;
+
+      return `${quote}${componentsAlias}/ui-fragments/`;
+    }
+  );
+
+  return { source: next, replacements };
 };
 
 export type TRewriteResult = {
@@ -71,12 +114,11 @@ export async function rewriteFragmentImports(
     });
   }
 
-  if (fixes.length === 0) return empty;
-
   const filesToScan = new Set<string>();
   for (const item of items) {
     for (const file of item.files ?? []) {
-      if (file.target) filesToScan.add(join(cwd, file.target));
+      const abs = file.target && resolveTargetPath(cwd, file.target);
+      if (abs) filesToScan.add(abs);
     }
   }
 
@@ -85,7 +127,6 @@ export async function rewriteFragmentImports(
   let replacements = 0;
 
   for (const abs of filesToScan) {
-    if (!existsSync(abs)) continue;
     filesScanned++;
     const original = readFileSync(abs, 'utf8');
     let next = original;
@@ -96,6 +137,11 @@ export async function rewriteFragmentImports(
         return `${open}${fix.right}${close}`;
       });
     }
+
+    const repaired = repairFragmentPrefix(next, uiAlias, componentsAlias);
+    replacements += repaired.replacements;
+    next = repaired.source;
+
     if (next !== original) {
       writeFileSync(abs, next);
       filesChanged++;
