@@ -58,12 +58,24 @@ export const addCommand = new Command('add')
     }
 
     const urls = names.map((name) => componentUrl(base, name));
-    const exitCode = await runShadcnAdd(urls, {
+    const { exitCode, failed } = await runShadcnAdd(urls, {
       cwd: options.cwd,
       overwrite: options.overwrite,
       yes: options.yes,
       insecure: options.insecure,
     });
+
+    // A failed URL maps back to its component by basename: `componentUrl` is the
+    // only thing that built it.
+    const failedNames = new Set(
+      failed.map((url) =>
+        url
+          .split('/')
+          .pop()!
+          .replace(/\.json$/, '')
+      )
+    );
+    const installed = names.filter((name) => !failedNames.has(name));
 
     const cwd = options.cwd ?? process.cwd();
 
@@ -82,22 +94,38 @@ export const addCommand = new Command('add')
     }
 
     // Fragment import/dependency rewriting operates on freshly installed files,
-    // so only run it when the install actually succeeded.
-    if (exitCode === 0) {
-      const result = await rewriteFragmentImports(cwd, base, names);
+    // so it runs over the components that landed rather than over everything
+    // asked for — a partial install still needs its imports rewritten, or the
+    // files that did land are left importing paths that don't resolve.
+    if (installed.length > 0) {
+      const result = await rewriteFragmentImports(cwd, base, installed);
       if (result.replacements > 0) {
         console.log(
           `✔ Rewrote ${result.replacements} fragment import${result.replacements === 1 ? '' : 's'} across ${result.filesChanged} file${result.filesChanged === 1 ? '' : 's'}`
         );
       }
 
-      const depsResult = await ensureFragmentDependencies(cwd, base, names);
+      const depsResult = await ensureFragmentDependencies(cwd, base, installed);
       if (depsResult.added.length > 0) {
         console.log(
           `✔ Added ${depsResult.added.length} fragment dependenc${depsResult.added.length === 1 ? 'y' : 'ies'} to package.json: ${depsResult.added.join(', ')}`
         );
         console.log('  Run your package manager install to fetch them.');
       }
+    }
+
+    // The last thing printed, by name. `--all` scrolls ~94 components past the
+    // terminal, so a component that didn't land has to say so at the end or it
+    // reads as a success and the project keeps the version it already had.
+    if (failedNames.size > 0) {
+      console.error(
+        `\n✖ ${failedNames.size} of ${names.length} component${names.length === 1 ? '' : 's'} did not install: ${[...failedNames].join(', ')}`
+      );
+      console.error(
+        '  Everything else installed. Re-run with just those names to see the error on its own.'
+      );
+    } else {
+      console.log(`\n✔ Installed ${installed.length} components`);
     }
 
     process.exitCode = exitCode;

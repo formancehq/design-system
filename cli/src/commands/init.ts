@@ -60,7 +60,7 @@ export const initCommand = new Command('init')
     }
 
     const urls = names.map((name) => componentUrl(base, name));
-    const exitCode = await runShadcnAdd(urls, {
+    const { exitCode, failed } = await runShadcnAdd(urls, {
       cwd: options.cwd,
       overwrite: options.overwrite,
       yes: options.yes,
@@ -84,6 +84,19 @@ export const initCommand = new Command('init')
           `✔ Rewrote ${fragmentResult.replacements} fragment import${fragmentResult.replacements === 1 ? '' : 's'} across ${fragmentResult.filesChanged} file${fragmentResult.filesChanged === 1 ? '' : 's'}`
         );
       }
+    }
+
+    if (failed.length > 0) {
+      console.error(
+        `\n✖ ${failed.length} component${failed.length === 1 ? '' : 's'} did not install: ${failed
+          .map((url) =>
+            url
+              .split('/')
+              .pop()!
+              .replace(/\.json$/, '')
+          )
+          .join(', ')}`
+      );
     }
 
     process.exitCode = exitCode;

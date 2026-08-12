@@ -36,10 +36,37 @@ const runOnce = async (
   return result.exitCode ?? 1;
 };
 
+export type TShadcnAddResult = {
+  exitCode: number;
+  /** URLs shadcn could not install, after isolating each one. */
+  failed: string[];
+};
+
+// shadcn resolves every URL it is handed before it writes any of them, so one
+// unresolvable component fails the whole invocation and none of the batch lands.
+// A chunk that fails is therefore retried an item at a time: the bad component
+// is isolated and named, and its 19 neighbours still install. The run continues
+// through the remaining chunks either way — aborting here is what let a failure
+// early in `--all` silently leave every later component at its installed
+// version, with no signal beyond a nonzero exit code buried under 94 components
+// of output.
+const runIsolated = async (
+  urls: string[],
+  opts: TShadcnAddOptions,
+  env: NodeJS.ProcessEnv
+): Promise<string[]> => {
+  const failed: string[] = [];
+  for (const url of urls) {
+    if ((await runOnce([url], opts, env)) !== 0) failed.push(url);
+  }
+
+  return failed;
+};
+
 export async function runShadcnAdd(
   urls: string[],
   opts: TShadcnAddOptions = {}
-): Promise<number> {
+): Promise<TShadcnAddResult> {
   if (urls.length === 0) {
     throw new Error('No component URLs provided to shadcn add.');
   }
@@ -48,20 +75,30 @@ export async function runShadcnAdd(
     ? { ...process.env, NODE_TLS_REJECT_UNAUTHORIZED: '0' }
     : process.env;
 
-  if (urls.length <= CHUNK_SIZE) return runOnce(urls, opts, env);
-
   const chunks: string[][] = [];
   for (let i = 0; i < urls.length; i += CHUNK_SIZE) {
     chunks.push(urls.slice(i, i + CHUNK_SIZE));
   }
 
+  const failed: string[] = [];
   for (let i = 0; i < chunks.length; i++) {
+    const chunk = chunks[i]!;
+    if (chunks.length > 1) {
+      console.log(
+        `\n[chunk ${i + 1}/${chunks.length}] installing ${chunk.length} components`
+      );
+    }
+    if ((await runOnce(chunk, opts, env)) === 0) continue;
+
+    if (chunk.length === 1) {
+      failed.push(chunk[0]!);
+      continue;
+    }
     console.log(
-      `\n[chunk ${i + 1}/${chunks.length}] installing ${chunks[i]!.length} components`
+      `[chunk ${i + 1}/${chunks.length}] failed as a batch — retrying its ${chunk.length} components one at a time`
     );
-    const code = await runOnce(chunks[i]!, opts, env);
-    if (code !== 0) return code;
+    failed.push(...(await runIsolated(chunk, opts, env)));
   }
 
-  return 0;
+  return { exitCode: failed.length > 0 ? 1 : 0, failed };
 }

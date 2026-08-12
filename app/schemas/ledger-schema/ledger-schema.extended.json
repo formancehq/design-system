@@ -80,7 +80,17 @@
         },
         "docsUrl": {
           "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "description": "Absolute URL to the template's documentation page. Also the marker the docs sync gates on: a template without one is not copied into the docs schemas-library."
+        },
+        "demoUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Absolute URL to an interactive demo of this template on the Formance demo portal. Surfaced as a 'Visualize this' link in the studio gallery when present."
+        },
+        "hiddenInStudio": {
+          "type": "boolean",
+          "description": "When true, the studio gallery omits this template entirely — platform-ui's codegen filters it out of the generated TEMPLATES registry. The docs site still consumes it, so this is how a recipe is documented without appearing on the gallery. Defaults to false."
         }
       },
       "additionalProperties": true
