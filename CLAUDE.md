@@ -96,6 +96,22 @@ pnpm dev  # start DS at localhost:3333
 
 This uses `shadcn add --overwrite` against the local registry. Import rewriting is handled by shadcn based on the target's `components.json` aliases.
 
+**Two things shadcn gets wrong about fragments, repaired by `cli/src/lib/rewrite-fragment-imports.ts`:**
+
+- It replaces the `@/registry/<style>/ui` prefix without requiring a path
+  separator, so `@/registry/default/ui-fragments/copy-button` comes out as
+  `<uiAlias>-fragments/copy-button` — a path that resolves nowhere. Any fragment
+  importing a sibling fragment is affected; today that is `api-snippet` and
+  `ledger-schema`, both importing `copy-button`.
+- A registry `target` is alias-relative, so the file lands under the project's
+  source root (`packages/ui/src/components/…` in both platform-ui and
+  internal-ui). The repair pass therefore looks for `<cwd>/<target>` **and**
+  `<cwd>/src/<target>`.
+
+Verify a change here by running the built CLI against a real consumer and
+grepping for `components-fragments`; a green `--all --overwrite` run must leave
+the consumer typechecking.
+
 ### Refresh base styles / tokens / utilities (`globals.css`)
 
 CSS utilities and tokens ship via the CLI's `globals.css` template (`cli/src/templates/globals.css`), delivered by `@formance/ds init`. Re-run `init` in the consumer to pull new utilities into its `globals.css`:
@@ -188,10 +204,11 @@ After `shadcn add` writes the file, `init` runs `rewriteGlobalsFromTemplate` (`c
 1. Parses the freshly installed `globals.css` with postcss; extracts `:root`, `.dark`, and `@theme inline` variable values.
 2. Loads the canonical template from `cli/src/templates/globals.css` (a copy of `platform-ui/packages/ui/src/styles/globals.css`).
 3. Injects the extracted values into the template, keeping the template's order, spacing, and comments. `--font-sans` and `--font-mono` always come from the template (listed in `TEMPLATE_OWNED_KEYS`), never from the installed file.
-4. When `--internal` is **not** set, strips Formance-CDN `@font-face` blocks and removes `'Polymath'` / `'Berkeley Mono'` from `--font-sans` / `--font-mono` (Google Fonts Figtree import and remaining fallbacks are preserved).
-5. Writes the result back.
+4. Carries over every root-level `@source` the installed file has and the template lacks, with the comment directly above it. Those lines are the consumer's: only it knows which trees Tailwind cannot reach on its own, and a package resolved through `node_modules` is never scanned — so a rewrite that dropped them would silently stop generating classes used only there. A glob the template _used_ to ship is indistinguishable from a consumer-authored one, so deleting one from the template only reaches consumers that have not installed yet; existing ones need a one-off edit to their own file. When the destination cannot be parsed, `add --overwrite` warns and overwrites it anyway — restoring a mangled stylesheet is what that flag is for.
+5. When `--internal` is **not** set, strips Formance-CDN `@font-face` blocks and removes `'Polymath'` / `'Berkeley Mono'` from `--font-sans` / `--font-mono` (Google Fonts Figtree import and remaining fallbacks are preserved).
+6. Writes the result back.
 
-`add` is intentionally **not** rewritten — adding components rarely brings new tokens.
+`add` writes the same template — `writeGlobalsFromTemplate`, which skips the token injection but keeps the `@source` and font handling — and only when `--overwrite` is set.
 
 > **⚠️ Any CSS a component relies on MUST be shipped, not just added to `app/globals.css`.**
 > `app/globals.css` only styles the docs site. Consumers get their CSS from the CLI template (`cli/src/templates/globals.css`) via `@formance/ds init`. A component whose class (e.g. `shimmer`, `scroll-fade-x`, `scrollbar-none`) lives only in `app/globals.css` will render **unstyled** everywhere else — this is exactly how the Attachment utilities shipped broken to platform-ui.
@@ -215,3 +232,5 @@ Only re-sync the template when **layout** changes (section order, comments, `@fo
 cp ../platform-ui/packages/ui/src/styles/globals.css cli/src/templates/globals.css
 cd cli && pnpm build
 ```
+
+After the copy, delete the `@source` lines that describe platform-ui's own tree (`../../../kit/src/**` and anything like it). They belong to that consumer, the rewrite preserves them there anyway, and in the template they would be a path no other project has.

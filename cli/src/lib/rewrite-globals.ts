@@ -107,6 +107,76 @@ const stripFormanceFonts = (root: Root) => {
   });
 };
 
+const SOURCE_AT_RULE = 'source';
+
+// `@source '../x'` and `@source "../x"` name the same tree, so comparing the
+// params verbatim would preserve a line the template already carries.
+const globOf = (atRule: AtRule) =>
+  atRule.params.trim().replace(/^["']|["']$/g, '');
+
+const collectSourceGlobs = (root: Root): Set<string> => {
+  const globs = new Set<string>();
+  root.walkAtRules(SOURCE_AT_RULE, (atRule) => {
+    if (atRule.parent?.type !== 'root') return;
+    globs.add(globOf(atRule));
+  });
+
+  return globs;
+};
+
+const lastRootSource = (root: Root): AtRule | null => {
+  let last: AtRule | null = null;
+  root.walkAtRules(SOURCE_AT_RULE, (atRule) => {
+    if (atRule.parent?.type === 'root') last = atRule;
+  });
+
+  return last;
+};
+
+const BLANK_LINE_RE = /\n\s*\n/;
+
+/**
+ * `@source` lines belong to the consumer, not to the template: only the
+ * consumer knows which trees Tailwind cannot reach on its own — a workspace
+ * package resolved through `node_modules` is never scanned, so a class used
+ * only there is never generated. Every root-level `@source` the installed file
+ * carries and the template does not is therefore kept, together with the
+ * comment directly above it, which is where the reason for it lives.
+ *
+ * A line the template *used* to ship reads as consumer-authored here and is
+ * kept too. Dropping a glob from the template therefore only reaches new
+ * consumers; an installed file has to be edited once by hand.
+ */
+const preserveExtraSources = (templateRoot: Root, installedCss: string) => {
+  const globs = collectSourceGlobs(templateRoot);
+  // With no `@source` in the template there is nothing to insert after, and
+  // dropping the consumer's lines is the one outcome this function exists to
+  // prevent — so they go to the end of the file, where Tailwind reads them just
+  // the same.
+  let anchor = lastRootSource(templateRoot);
+
+  postcss.parse(installedCss).walkAtRules(SOURCE_AT_RULE, (atRule) => {
+    if (atRule.parent?.type !== 'root') return;
+    const glob = globOf(atRule);
+    if (globs.has(glob)) return;
+    globs.add(glob);
+
+    const preserved = atRule.clone();
+    const above = atRule.prev();
+    // Only a comment on the lines immediately above belongs to this `@source`;
+    // one separated by a blank line is the previous block's.
+    const carriesReason =
+      above?.type === 'comment' &&
+      !BLANK_LINE_RE.test(atRule.raws.before ?? '');
+    const nodes = carriesReason ? [above.clone(), preserved] : [preserved];
+    nodes[0]!.raws.before = '\n';
+
+    if (anchor) anchor.after(nodes);
+    else for (const node of nodes) templateRoot.append(node);
+    anchor = preserved;
+  });
+};
+
 export type TRewriteOptions = {
   internal?: boolean;
 };
@@ -134,6 +204,21 @@ export function writeGlobalsFromTemplate(
   const templatePath = findTemplate();
   const templateRoot = postcss.parse(readFileSync(templatePath, 'utf8'));
 
+  // Restoring a mangled stylesheet from the template is what `--overwrite` is
+  // for, so a destination postcss cannot parse must not abort the write: it
+  // loses its `@source` lines, and is told so, rather than the whole install
+  // failing on a file it was about to replace anyway.
+  if (existsSync(cssAbs)) {
+    const installedCss = readFileSync(cssAbs, 'utf8');
+    try {
+      preserveExtraSources(templateRoot, installedCss);
+    } catch (error) {
+      console.warn(
+        `⚠ Could not read the @source lines in ${cssAbs} (${error instanceof Error ? error.message : String(error)}). Overwriting it from the template; re-add any @source your project needs.`
+      );
+    }
+  }
+
   if (!options.internal) stripFormanceFonts(templateRoot);
 
   writeFileSync(cssAbs, templateRoot.toString());
@@ -154,6 +239,8 @@ export function rewriteGlobalsFromTemplate(
   const templatePath = findTemplate();
   const templateCss = readFileSync(templatePath, 'utf8');
   const templateRoot = postcss.parse(templateCss);
+
+  preserveExtraSources(templateRoot, installedCss);
 
   templateRoot.walkRules((rule) => {
     if (rule.parent?.type !== 'root') return;
