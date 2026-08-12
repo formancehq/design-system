@@ -1,5 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { isAbsolute, join, resolve, sep } from 'node:path';
 
 import { fetchRegistryItems, type TRegistryItemDetail } from './registry.js';
 
@@ -31,11 +31,23 @@ const readComponentsJson = (cwd: string): TComponentsJson | null => {
  * which is all of ours — so the file is silently never scanned. Rather than
  * reimplement tsconfig path resolution, try the two layouts shadcn supports and
  * take the one that exists.
+ *
+ * The target arrives over the network, and this pass reads and rewrites whatever
+ * it names, so a target that climbs out of the project (`../../../.zshrc`) or
+ * names an absolute path must not resolve at all: it stays inside the root it
+ * was resolved against or it is nothing.
  */
+const containedPath = (root: string, target: string): string | null => {
+  if (isAbsolute(target)) return null;
+
+  const candidate = resolve(root, target);
+  if (!candidate.startsWith(resolve(root) + sep)) return null;
+
+  return existsSync(candidate) ? candidate : null;
+};
+
 const resolveTargetPath = (cwd: string, target: string): string | null =>
-  [join(cwd, target), join(cwd, 'src', target)].find((candidate) =>
-    existsSync(candidate)
-  ) ?? null;
+  containedPath(cwd, target) ?? containedPath(join(cwd, 'src'), target);
 
 const resolveTargetImport = (
   target: string,
@@ -56,6 +68,11 @@ const resolveTargetImport = (
  * becomes `<uiAlias>-fragments/copy-button`, which resolves nowhere. The
  * fragments land under `components/ui-fragments/`, so that is what the
  * specifier has to say.
+ *
+ * Under shadcn's default aliases the `ui` one is the `components` one plus
+ * `/ui`, which makes the spliced form and the repaired form the same string. The
+ * match is then left alone and not counted — the reported total is work done, so
+ * a no-op must not inflate it.
  */
 const repairFragmentPrefix = (
   source: string,
@@ -65,10 +82,12 @@ const repairFragmentPrefix = (
   let replacements = 0;
   const next = source.replace(
     new RegExp(`(['"\`])${escapeForRegex(uiAlias)}-fragments/`, 'g'),
-    (_, quote: string) => {
+    (match: string, quote: string) => {
+      const repaired = `${quote}${componentsAlias}/ui-fragments/`;
+      if (repaired === match) return match;
       replacements++;
 
-      return `${quote}${componentsAlias}/ui-fragments/`;
+      return repaired;
     }
   );
 
@@ -108,6 +127,10 @@ export async function rewriteFragmentImports(
     const right = resolveTargetImport(file.target, componentsAlias);
     if (!right) continue;
     const wrong = `${uiAlias}/${item.name}`;
+    // Whether the specifier shadcn writes needs changing depends on the
+    // project's aliases: where the two agree there is nothing to repair, and a
+    // fix that rewrites a string to itself would be counted as one.
+    if (wrong === right) continue;
     fixes.push({
       pattern: new RegExp(`(['"\`])${escapeForRegex(wrong)}(['"\`])`, 'g'),
       right,
