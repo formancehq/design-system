@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
 import { isAbsolute, join, resolve, sep } from 'node:path';
 
 import { fetchRegistryItems, type TRegistryItemDetail } from './registry.js';
@@ -42,8 +42,14 @@ const containedPath = (root: string, target: string): string | null => {
 
   const candidate = resolve(root, target);
   if (!candidate.startsWith(resolve(root) + sep)) return null;
+  if (!existsSync(candidate)) return null;
 
-  return existsSync(candidate) ? candidate : null;
+  // A path can spell out as contained and still leave the project: a symlink
+  // inside it may point anywhere, and the write below follows the link. So the
+  // real path has to clear the same boundary as the written one.
+  return realpathSync(candidate).startsWith(realpathSync(root) + sep)
+    ? candidate
+    : null;
 };
 
 const resolveTargetPath = (cwd: string, target: string): string | null =>
