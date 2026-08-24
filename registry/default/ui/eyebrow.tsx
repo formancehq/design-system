@@ -9,7 +9,7 @@ const eyebrowVariants = cva(
     variants: {
       variant: {
         primary: 'text-foreground',
-        secondary: 'text-primary/80 dark:text-primary-foreground/80',
+        secondary: 'text-primary/80',
         gold: 'dark:text-gold-300 text-gold-500',
       },
       size: {
