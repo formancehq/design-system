@@ -64,7 +64,7 @@ const DARK_VARIABLES = `.dark {
   --background: var(--emerald-900);
   --foreground: var(--white);
 
-  --primary: var(--emerald-500);
+  --primary: var(--emerald-400);
   --primary-foreground: var(--emerald-900);
 
   --secondary: var(--emerald-300);

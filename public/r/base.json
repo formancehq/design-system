@@ -285,7 +285,7 @@
       "card-foreground": "var(--foreground)",
       "border": "var(--emerald-700)",
       "input": "var(--emerald-700)",
-      "primary": "var(--emerald-500)",
+      "primary": "var(--emerald-400)",
       "primary-foreground": "var(--emerald-900)",
       "secondary": "var(--emerald-300)",
       "secondary-foreground": "var(--emerald-900)",
