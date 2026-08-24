@@ -118,7 +118,7 @@ export const mdxComponents: MDXComponents = {
       <a
         href={href}
         className={cn(
-          'font-medium text-primary underline underline-offset-4 hover:no-underline',
+          'font-medium text-foreground underline underline-offset-4 hover:no-underline',
           className
         )}
         {...(isExternal ? { target: '_blank', rel: 'noreferrer' } : undefined)}

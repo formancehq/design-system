@@ -24,13 +24,16 @@ const findBlock = (selector) => {
     else if (css[i] === '}') depth--;
     i++;
   }
-  
-return css.slice(start, i - 1);
+
+  return css.slice(start, i - 1);
 };
 
 const parseDecls = (block) => {
   const out = {};
-  for (const raw of block.split(';')) {
+  // Strip comments before splitting on `;`: one inside a comment would
+  // otherwise swallow the declaration that follows.
+  const stripped = block.replace(/\/\*[\s\S]*?\*\//g, '');
+  for (const raw of stripped.split(';')) {
     const line = raw.trim();
     if (!line || line.startsWith('/*')) continue;
     const idx = line.indexOf(':');
@@ -39,8 +42,8 @@ const parseDecls = (block) => {
     const v = line.slice(idx + 1).trim();
     if (k.startsWith('--')) out[k.slice(2)] = v;
   }
-  
-return out;
+
+  return out;
 };
 
 const light = parseDecls(findBlock(':root'));
@@ -60,7 +63,6 @@ const baseItem = {
     "@import 'tw-animate-css'": {},
     "@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap')":
       {},
-    "@import url('https://ds.formance.com/fonts.css')": {},
     '@layer base': {
       '*': {
         'border-color': 'var(--border)',

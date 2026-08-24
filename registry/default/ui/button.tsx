@@ -35,7 +35,7 @@ const buttonVariants = cva(
           'hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground',
         bracketed:
           'bg-transparent text-muted-foreground hover:text-foreground before:content-["["] after:content-["]"] before:mr-1 after:ml-1 rounded-none px-0',
-        link: 'text-primary underline-offset-4 hover:underline',
+        link: 'text-foreground underline-offset-4 hover:underline',
         valid: 'bg-valid text-valid-foreground hover:bg-valid/90',
         destructive:
           'bg-destructive text-destructive-foreground hover:bg-destructive/90',

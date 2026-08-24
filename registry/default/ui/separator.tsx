@@ -28,7 +28,7 @@ function Separator({
 const SeparatorVertical = ({ className }: { className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className={cn('text-primary h-6 w-4', className)}
+    className={cn('text-foreground h-6 w-4', className)}
     viewBox="0 0 18 24"
     fill="none"
   >
