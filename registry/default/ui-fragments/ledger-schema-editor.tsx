@@ -25,9 +25,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
 type TFormat = 'yaml' | 'json';
 
 export type TLedgerSchemaStatus =
-  | { kind: 'empty' }
-  | { kind: 'valid' }
-  | { kind: 'errors'; count: number };
+  { kind: 'empty' } | { kind: 'valid' } | { kind: 'errors'; count: number };
 
 /** Structural equality via canonical JSON — good enough to tell whether a JSON
  *  edit changed the data vs. the YAML we left. */

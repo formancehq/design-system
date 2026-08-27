@@ -154,12 +154,7 @@ export type TConfirmAlertProps = {
   action: {
     toast?: string;
     variant?:
-      | 'link'
-      | 'default'
-      | 'destructive'
-      | 'outline'
-      | 'secondary'
-      | 'ghost';
+      'link' | 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost';
     label: string;
     onClick?: () => void;
   };

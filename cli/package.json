@@ -11,7 +11,7 @@
     "README.md"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "build": "tsup",
@@ -20,12 +20,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "commander": "^12.1.0",
-    "execa": "^9.5.2",
-    "postcss": "^8.4.49"
+    "commander": "^15.0.0",
+    "execa": "^10.0.1",
+    "postcss": "^8.5.26"
   },
   "devDependencies": {
-    "@types/node": "^22.19.17",
+    "@types/node": "^26.3.0",
     "tsup": "^8.4.0",
     "typescript": "^5.9.3"
   },

@@ -181,11 +181,9 @@ function ChartNode({
   const isVariable = name.startsWith('$');
   const isSelf = meta.some(([k]) => k === '.self');
   const pattern = meta.find(([k]) => k === '.pattern')?.[1] as
-    | string
-    | undefined;
+    string | undefined;
   const metadata = meta.find(([k]) => k === '.metadata')?.[1] as
-    | Record<string, { default?: string } | undefined>
-    | undefined;
+    Record<string, { default?: string } | undefined> | undefined;
 
   const hasChildren = children.length > 0;
   const isPostable = isSelf || !hasChildren;
