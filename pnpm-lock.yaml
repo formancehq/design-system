@@ -156,8 +156,8 @@ importers:
         specifier: ^17.3.0
         version: 17.3.0
       portless:
-        specifier: ^0.15.6
-        version: 0.15.6
+        specifier: 0.13.0
+        version: 0.13.0
       prettier:
         specifier: ^3.9.6
         version: 3.9.6
@@ -7337,12 +7337,12 @@ packages:
         integrity: sha512-25ClnWWuw7JbWZcgqY/gJ4FQWadKxGWk+3kR/7kD0tCaDtPPMj7oHu2ToLaVhfpnHrZzYby2w6tUA0eOIuUg8g==,
       }
 
-  portless@0.15.6:
+  portless@0.13.0:
     resolution:
       {
-        integrity: sha512-uOAwWLF32rmyEGFASzSO0VOaqb/AQxFCCzyZbPGd82UNNOfIEvc09zy92nroNibE5HNfzV4oVB0ObKbPXgkM9A==,
+        integrity: sha512-PxMZ5BHH+ZZi9rTq4T8m003aZxh56qI0aBdNsxLn7jrTtvNJYBWYD3lc5PuQrom/aVh6z8iLb+tKUI6b7QNYQw==,
       }
-    engines: { node: '>=24' }
+    engines: { node: '>=20' }
     os: [darwin, linux, win32]
     hasBin: true
 
@@ -13708,7 +13708,7 @@ snapshots:
       path-data-parser: 0.1.0
       points-on-curve: 0.2.0
 
-  portless@0.15.6: {}
+  portless@0.13.0: {}
 
   possible-typed-array-names@1.1.0: {}
 
