@@ -14,13 +14,7 @@ const OUT_FILE = resolve(
 );
 
 type THttpMethod =
-  | 'GET'
-  | 'POST'
-  | 'PUT'
-  | 'PATCH'
-  | 'DELETE'
-  | 'HEAD'
-  | 'OPTIONS';
+  'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
 
 // No `sdk` field: the membership/cloud API has no public TypeScript SDK, so the
 // generated snippets only cover curl / HTTPie / fctl.
