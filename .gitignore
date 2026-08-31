@@ -29,3 +29,17 @@ next-env.d.ts
 # eslint
 .eslintcache
 .gstack/
+
+# design-sync
+# `.ds-sync/` is the sync tool's own checkout, `ds-bundle/` its per-run output and
+# `/dist/` the tsc-emitted type tree the converter reads: all three are recreated by
+# the steps in .design-sync/NOTES.md, never committed. `.design-sync/` itself IS
+# committed (config, fork, previews, notes) except for these per-run artifacts.
+.ds-sync/
+ds-bundle/
+/dist/
+.design-sync/.cache/
+.design-sync/learnings/
+.design-sync/node_modules
+.design-sync/chunk-*.json
+.design-sync/upload-list.txt

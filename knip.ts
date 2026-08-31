@@ -40,7 +40,10 @@ const config: KnipConfig = {
       // leaving stylesheets out reports all three as unused dependencies.
       // `public/` is served verbatim by Next and is referenced from HTML/CDN
       // URLs, never imported, so it is not part of the module graph.
-      project: ['**/*.{ts,tsx,mjs,js,css}', '!public/**'],
+      // `.design-sync/` is input for the external design-sync tool, not for this
+      // app: its previews, lib fork and stylesheet entry are read by that tool
+      // from outside the repo, so nothing here can ever import them.
+      project: ['**/*.{ts,tsx,mjs,js,css}', '!public/**', '!.design-sync/**'],
     },
     cli: {
       project: ['src/**/*.ts'],

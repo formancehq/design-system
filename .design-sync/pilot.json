@@ -1,0 +1,16 @@
+{
+  "$comment": "Pilot scope: the single source of truth for which registry/default/ui modules the sync turns into cards. `overrides/source-kit.mjs` filters the synth entry with it and `scripts/prepare-types.mjs` generates the .d.ts barrel from it, so widening the sync is one edit here — never two.",
+  "modules": [
+    "button",
+    "badge",
+    "input",
+    "label",
+    "card",
+    "select",
+    "dialog",
+    "tabs",
+    "alert",
+    "typography",
+    "formance-logo"
+  ]
+}

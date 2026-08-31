@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": false,
+    "incremental": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "outDir": "../dist/types",
+    "rootDir": "..",
+    "skipLibCheck": true
+  },
+  "include": [
+    "../registry/default/ui/**/*.tsx",
+    "../lib/**/*.ts",
+    "../hooks/**/*.ts"
+  ],
+  "exclude": ["../node_modules", "../cli"]
+}
