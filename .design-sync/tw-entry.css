@@ -1,0 +1,10 @@
+@import '../app/globals.css';
+
+/* design-sync only: Tailwind emits just the classes the repo happens to use, so
+   the brand ramps would reach a consumer with no CSS behind them. Safelist the
+   full ramps for the uploaded bundle. Not part of the docs site's stylesheet. */
+@source inline("{bg,text,border,ring,fill,stroke}-emerald-{50,100,200,300,400,500,600,700,800,900}");
+@source inline("{bg,text,border,ring,fill,stroke}-lilac-{100,200,300,400,500,600,700,800,900}");
+@source inline("{bg,text,border,ring,fill,stroke}-gold-{100,200,300,400,500,600,700,800,900}");
+@source inline("{bg,text,border,ring,fill,stroke}-cobalt-{100,200,300,400,500,600,700,800,900}");
+@source inline("{bg,text,border,ring,fill,stroke}-mint-{100,200,300,400,500,600,700,800,900}");

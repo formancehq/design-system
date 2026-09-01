@@ -1,0 +1,76 @@
+{
+  "pkg": "@formance/design-system",
+  "globalName": "FormanceDS",
+  "shape": "package",
+  "srcDir": "registry/default/ui",
+  "tsconfig": "tsconfig.json",
+  "cssEntry": ".design-sync/.cache/ds-compiled.css",
+  "docsDir": "content/docs/components",
+  "libOverrides": {
+    "source-kit.mjs": "pilot scope: restrict synth-entry cards to the modules in pilot.json; exclude monaco/shiki/recharts sources (monaco ships a .ttf esbuild cannot load)"
+  },
+  "overrides": {
+    "Select": {
+      "cardMode": "single",
+      "primaryStory": "Open",
+      "viewport": "420x360"
+    },
+    "Button": {
+      "cardMode": "column"
+    },
+    "Badge": {
+      "cardMode": "column"
+    },
+    "Alert": {
+      "cardMode": "column"
+    },
+    "Tabs": {
+      "cardMode": "column"
+    },
+    "Input": {
+      "cardMode": "column"
+    },
+    "TypographyP": {
+      "cardMode": "column"
+    },
+    "TypographyInlineCode": {
+      "cardMode": "column"
+    },
+    "Card": {
+      "cardMode": "column"
+    },
+    "Dialog": {
+      "cardMode": "column"
+    },
+    "Label": {
+      "cardMode": "column"
+    },
+    "FormanceLogo": {
+      "cardMode": "column"
+    },
+    "FormanceIcon": {
+      "cardMode": "column"
+    }
+  },
+  "componentSrcMap": {
+    "TypographyBracketed": null
+  },
+  "readmeHeader": ".design-sync/conventions.md",
+  "projectId": "420583fb-cb36-4270-8a4b-4856e71a7239",
+  "docsMap": {
+    "FormanceLogo": "content/docs/brand/formance-logo.mdx",
+    "FormanceIcon": "content/docs/brand/formance-logo.mdx"
+  },
+  "dtsPropsFor": {
+    "Button": "variant?: \"primary\" | \"secondary\" | \"emerald\" | \"emeraldDark\" | \"slate\" | \"gold\" | \"lilac\" | \"cobalt\" | \"cobaltDark\" | \"mint\" | \"mintDark\" | \"outline\" | \"outlineDashed\" | \"outlineDestructive\" | \"ghost\" | \"bracketed\" | \"link\" | \"valid\" | \"destructive\" | \"info\" | \"warning\"; size?: \"sm\" | \"md\" | \"lg\" | \"icon-xs\" | \"icon-sm\" | \"icon-md\" | \"icon-lg\" | \"icon-xl\"; loading?: boolean; notClickable?: boolean; caseSensitive?: boolean; asChild?: boolean; disabled?: boolean; type?: \"button\" | \"submit\" | \"reset\"; onClick?: React.MouseEventHandler<HTMLButtonElement>; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "Badge": "variant?: \"primary\" | \"secondary\" | \"emerald\" | \"slate\" | \"gold\" | \"lilac\" | \"cobalt\" | \"cobaltDark\" | \"mint\" | \"outline\" | \"valid\" | \"destructive\" | \"info\" | \"warning\" | \"red\" | \"orange\" | \"amber\" | \"yellow\" | \"lime\" | \"green\" | \"teal\" | \"cyan\" | \"sky\" | \"blue\" | \"indigo\" | \"violet\" | \"purple\" | \"fuchsia\" | \"pink\" | \"rose\" | \"zinc\"; size?: \"sm\" | \"md\" | \"lg\"; isDisabled?: boolean; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "Alert": "variant?: \"default\" | \"info\" | \"warning\" | \"success\" | \"destructive\"; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "Card": "variant?: \"muted\"; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "CardFooter": "variant?: \"isInformative\" | \"isDestructive\"; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "Input": "size?: \"sm\" | \"md\" | \"lg\"; type?: string; placeholder?: string; value?: string | number; defaultValue?: string | number; disabled?: boolean; readOnly?: boolean; required?: boolean; onChange?: React.ChangeEventHandler<HTMLInputElement>; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "SelectTrigger": "size?: \"sm\" | \"md\" | \"lg\"; disabled?: boolean; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "TabsList": "variant?: \"default\" | \"line\"; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "FormanceIcon": "variant?: \"plain\" | \"emerald\" | \"slate\" | \"lilac\" | \"gold\" | \"cobalt\"; size?: \"xs\" | \"icon-xs\" | \"sm\" | \"icon-sm\" | \"md\" | \"icon-md\" | \"icon-lg\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\"; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;",
+    "FormanceLogo": "isIconOnly?: boolean; isIconOnlyOnMobile?: boolean; className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode;"
+  }
+}
