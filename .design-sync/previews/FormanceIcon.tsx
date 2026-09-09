@@ -15,8 +15,8 @@ export function Sizes() {
 
 export function TileColors() {
   const variants = ['emerald', 'slate', 'lilac', 'gold', 'cobalt'] as const;
-  
-return (
+
+  return (
     <div className="flex flex-wrap items-end gap-5">
       {variants.map((variant) => (
         <div key={variant} className="flex flex-col items-center gap-2">
