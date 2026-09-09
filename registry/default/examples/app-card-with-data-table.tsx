@@ -1,12 +1,14 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
 import { Eye, Server } from 'lucide-react';
 
 import { AppCard } from '@/components/ui-fragments/app-card';
 import { Badge } from '@/registry/default/ui/badge';
 import { Button } from '@/registry/default/ui/button';
-import { DataTable } from '@/components/ui-fragments/data-table';
+import {
+  DataTable,
+  type ColumnDef,
+} from '@/components/ui-fragments/data-table';
 
 type TLedger = {
   name: string;
