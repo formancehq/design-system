@@ -4,22 +4,30 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 import {
-  Column,
-  ColumnDef,
+  columnFacetingFeature,
+  columnFilteringFeature,
+  columnOrderingFeature,
+  columnVisibilityFeature,
   ColumnFiltersState,
-  flexRender,
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  InitialTableState,
-  Row,
+  ColumnVisibilityState,
+  Column as TanStackColumn,
+  ColumnDef as TanStackColumnDef,
+  createFacetedRowModel,
+  createFacetedUniqueValues,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  PaginationState,
+  ReactTable,
+  RowData,
+  Row as TanStackRow,
+  rowExpandingFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
   SortingState,
-  Table as TanstackTable,
-  useReactTable,
-  VisibilityState,
+  tableFeatures,
+  useTable,
 } from '@tanstack/react-table';
 import {
   ArrowDown,
@@ -82,12 +90,61 @@ import {
   TableRow,
 } from '@/registry/default/ui/table';
 
+// v9 registers features per table instead of bundling every one of them. This
+// fragment filters, sorts, paginates, selects rows, toggles column visibility
+// and reads facets — nothing else, so nothing else is registered, and the rest
+// of TanStack Table tree-shakes away.
+const dataTableFeatures = tableFeatures({
+  columnFacetingFeature,
+  columnFilteringFeature,
+  // Registered for `getIsFirstColumn`, which the cell-border helper calls — v9
+  // moved it onto the ordering feature. Nothing here reorders columns.
+  columnOrderingFeature,
+  columnVisibilityFeature,
+  rowExpandingFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+  facetedRowModel: createFacetedRowModel(),
+  facetedUniqueValues: createFacetedUniqueValues(),
+  filteredRowModel: createFilteredRowModel(),
+  paginatedRowModel: createPaginatedRowModel(),
+  sortedRowModel: createSortedRowModel(),
+});
+
+// v9 threads the registered feature set through every table type. Binding it
+// once here keeps the declarations below reading as they did on v8.
+type Column<TData extends RowData, TValue = unknown> = TanStackColumn<
+  typeof dataTableFeatures,
+  TData,
+  TValue
+>;
+type ColumnDef<TData extends RowData, TValue = unknown> = TanStackColumnDef<
+  typeof dataTableFeatures,
+  TData,
+  TValue
+>;
+type Row<TData extends RowData> = TanStackRow<typeof dataTableFeatures, TData>;
+type TanstackTable<TData extends RowData> = ReactTable<
+  typeof dataTableFeatures,
+  TData
+>;
+
+// v9 dropped `InitialTableState` and made each state slice fully required, so
+// these are the slices a caller may seed, with the fields it actually sets.
+type InitialTableState = {
+  columnFilters?: ColumnFiltersState;
+  columnVisibility?: ColumnVisibilityState;
+  pagination?: Omit<PaginationState, 'pageIndex'> & { pageIndex?: number };
+  sorting?: SortingState;
+};
+
 // ---------------------------------------------------------------------------
 // Cell border styles (matches platform-ui column/row separators)
 // ---------------------------------------------------------------------------
 
-function getCellBorderStyles(
-  column: Column<any, any>,
+function getCellBorderStyles<TData extends RowData>(
+  column: Column<TData>,
   isLastRow: boolean
 ): CSSProperties {
   const isFirstColumn = column.getIsFirstColumn();
@@ -102,13 +159,15 @@ function getCellBorderStyles(
 // DataTableColumnHeader
 // ---------------------------------------------------------------------------
 
-type TDataTableColumnHeaderProps<TData, TValue> =
-  React.HTMLAttributes<HTMLDivElement> & {
-    column: Column<TData, TValue>;
-    title: string;
-  };
+type TDataTableColumnHeaderProps<
+  TData extends RowData,
+  TValue,
+> = React.HTMLAttributes<HTMLDivElement> & {
+  column: Column<TData, TValue>;
+  title: string;
+};
 
-function DataTableColumnHeader<TData, TValue>({
+function DataTableColumnHeader<TData extends RowData, TValue>({
   column,
   title,
   className,
@@ -167,13 +226,13 @@ type TFacetedFilterOption = {
   variant?: TBadgeProps['variant'];
 };
 
-type TDataTableFacetedFilterProps<TData, TValue> = {
+type TDataTableFacetedFilterProps<TData extends RowData, TValue> = {
   column?: Column<TData, TValue>;
   title?: string;
   options: TFacetedFilterOption[];
 };
 
-function DataTableFacetedFilter<TData, TValue>({
+function DataTableFacetedFilter<TData extends RowData, TValue>({
   column,
   title,
   options,
@@ -286,11 +345,11 @@ function DataTableFacetedFilter<TData, TValue>({
 // DataTableViewOptions
 // ---------------------------------------------------------------------------
 
-type TDataTableViewOptionsProps<TData> = {
+type TDataTableViewOptionsProps<TData extends RowData> = {
   table: TanstackTable<TData>;
 };
 
-function DataTableViewOptions<TData>({
+function DataTableViewOptions<TData extends RowData>({
   table,
 }: TDataTableViewOptionsProps<TData>) {
   return (
@@ -329,7 +388,7 @@ function DataTableViewOptions<TData>({
 // DataTableToolbar
 // ---------------------------------------------------------------------------
 
-type TDataTableToolbarProps<TData> = {
+type TDataTableToolbarProps<TData extends RowData> = {
   table: TanstackTable<TData>;
   searchConfig?: {
     placeholder: string;
@@ -345,14 +404,14 @@ type TDataTableToolbarProps<TData> = {
   toolbarRight?: React.ReactNode;
 };
 
-function DataTableToolbar<TData>({
+function DataTableToolbar<TData extends RowData>({
   table,
   searchConfig,
   filtersConfig,
   toolbarLeft,
   toolbarRight,
 }: TDataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0;
+  const isFiltered = table.state.columnFilters.length > 0;
 
   return (
     <div className="flex items-center gap-2 justify-between">
@@ -414,11 +473,11 @@ function DataTableToolbar<TData>({
 // DataTablePagination
 // ---------------------------------------------------------------------------
 
-type TDataTablePaginationProps<TData> = {
+type TDataTablePaginationProps<TData extends RowData> = {
   table: TanstackTable<TData>;
 };
 
-function DataTablePagination<TData>({
+function DataTablePagination<TData extends RowData>({
   table,
 }: TDataTablePaginationProps<TData>) {
   return (
@@ -427,11 +486,11 @@ function DataTablePagination<TData>({
         <div className="flex items-center space-x-2 mr-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
+            value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => table.setPageSize(Number(value))}
           >
             <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue placeholder={table.state.pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
               {[5, 10, 15, 20, 30, 50].map((pageSize) => (
@@ -444,8 +503,7 @@ function DataTablePagination<TData>({
         </div>
 
         <div className="flex items-center justify-center text-sm font-medium mr-2">
-          Page {table.getState().pagination.pageIndex + 1} of{' '}
-          {table.getPageCount()}
+          Page {table.state.pagination.pageIndex + 1} of {table.getPageCount()}
         </div>
 
         <div className="flex items-center space-x-2">
@@ -615,8 +673,8 @@ function DataTableSkeleton({
 // DataTable
 // ---------------------------------------------------------------------------
 
-type TDataTableProps<TData, TValue> = {
-  columns: ColumnDef<TData, TValue>[];
+type TDataTableProps<TData extends RowData> = {
+  columns: ColumnDef<TData>[];
   data: TData[];
   initialState?: InitialTableState;
   displayPagination?: boolean;
@@ -636,7 +694,7 @@ type TDataTableProps<TData, TValue> = {
   onTableReady?: (table: TanstackTable<TData>) => void;
 };
 
-function DataTable<TData, TValue>({
+function DataTable<TData extends RowData>({
   columns,
   data,
   searchConfig,
@@ -650,19 +708,27 @@ function DataTable<TData, TValue>({
   autoResetExpanded,
   hideToolbar = false,
   onTableReady,
-}: TDataTableProps<TData, TValue>) {
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    initialState?.columnVisibility ?? {}
-  );
+}: TDataTableProps<TData>) {
+  const [columnVisibility, setColumnVisibility] =
+    useState<ColumnVisibilityState>(initialState?.columnVisibility ?? {});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     initialState?.columnFilters ?? []
   );
   const [sorting, setSorting] = useState<SortingState>([]);
 
-  const table = useReactTable({
+  const table = useTable({
+    features: dataTableFeatures,
     data,
     columns,
-    initialState,
+    // v9 wants a whole slice wherever a slice appears, while a caller seeds
+    // only the field it cares about — most often `pagination.pageSize`.
+    initialState: initialState && {
+      ...initialState,
+      pagination: initialState.pagination && {
+        pageIndex: 0,
+        ...initialState.pagination,
+      },
+    },
     state: {
       sorting,
       columnVisibility,
@@ -674,12 +740,6 @@ function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   const hasData = data.length > 0;
@@ -713,12 +773,9 @@ function DataTable<TData, TValue>({
                       className="whitespace-nowrap"
                       style={getCellBorderStyles(header.column, false)}
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                      {header.isPlaceholder ? null : (
+                        <table.FlexRender header={header} />
+                      )}
                     </TableHead>
                   ))}
                 </TableRow>
@@ -740,10 +797,7 @@ function DataTable<TData, TValue>({
                           key={cell.id}
                           style={getCellBorderStyles(cell.column, isLastRow)}
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
+                          <table.FlexRender cell={cell} />
                         </TableCell>
                       ))}
                     </TableRow>
@@ -777,12 +831,9 @@ function DataTable<TData, TValue>({
                       className="whitespace-nowrap"
                       style={getCellBorderStyles(header.column, false)}
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                      {header.isPlaceholder ? null : (
+                        <table.FlexRender header={header} />
+                      )}
                     </TableHead>
                   ))}
                 </TableRow>
@@ -819,6 +870,7 @@ export {
 };
 
 export type {
+  ColumnDef,
   TDataTableColumnHeaderProps,
   TDataTablePaginationProps,
   TDataTableProps,
