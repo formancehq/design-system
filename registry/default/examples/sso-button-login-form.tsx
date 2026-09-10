@@ -34,7 +34,11 @@ export default function SsoButtonLoginForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-6">
+          {/* A real <form>: the provider buttons must not submit it. */}
+          <form
+            className="grid gap-6"
+            onSubmit={(event) => event.preventDefault()}
+          >
             <SsoButtonGroup
               loadingProvider={pending}
               onProviderSelect={setPending}
@@ -56,11 +60,11 @@ export default function SsoButtonLoginForm() {
                 type="email"
                 placeholder="m@example.com"
               />
-              <Button type="button" className="w-full">
+              <Button type="submit" className="w-full">
                 Login
               </Button>
             </div>
-          </div>
+          </form>
         </CardContent>
       </Card>
       <p className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">

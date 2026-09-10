@@ -85,17 +85,25 @@ export type TSsoButtonProps = {
   label?: string;
 } & Omit<TButtonProps, 'children'>;
 
+/*
+ * `type` defaults to 'button', not the native 'submit': a sign-in card wraps
+ * its email field in a <form>, and a submitting provider button would run the
+ * email path on the way to the redirect. A caller can still pass 'submit'.
+ */
+
 export function SsoButton({
   provider,
   label,
   className,
   variant = 'outline',
+  type = 'button',
   ...buttonProps
 }: TSsoButtonProps) {
   const Mark = PROVIDER_MARKS[provider];
 
   return (
     <Button
+      type={type}
       variant={variant}
       className={cn('w-full gap-2', className)}
       {...buttonProps}
