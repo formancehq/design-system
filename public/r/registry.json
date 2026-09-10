@@ -1833,6 +1833,20 @@
           "target": "components/ui-fragments/key-value-input.tsx"
         }
       ]
+    },
+    {
+      "name": "sso-button",
+      "type": "registry:component",
+      "title": "SSO Button",
+      "description": "An outline button carrying an identity provider's brand mark, plus a group that renders one per provider.",
+      "registryDependencies": ["https://ds.formance.com/r/button.json"],
+      "files": [
+        {
+          "path": "registry/default/ui-fragments/sso-button.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/sso-button.tsx"
+        }
+      ]
     }
   ]
 }

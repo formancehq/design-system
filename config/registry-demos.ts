@@ -1650,6 +1650,40 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'sso-button': {
+    component: lazy(() => import('@/registry/default/demos/sso-button-demo')),
+    sourceFile: 'registry/default/demos/sso-button-demo.tsx',
+    examples: [
+      {
+        title: 'Providers',
+        component: lazy(
+          () => import('@/registry/default/examples/sso-button-single')
+        ),
+        sourceFile: 'registry/default/examples/sso-button-single.tsx',
+      },
+      {
+        title: 'Custom labels',
+        component: lazy(
+          () => import('@/registry/default/examples/sso-button-labels')
+        ),
+        sourceFile: 'registry/default/examples/sso-button-labels.tsx',
+      },
+      {
+        title: 'Loading and disabled',
+        component: lazy(
+          () => import('@/registry/default/examples/sso-button-states')
+        ),
+        sourceFile: 'registry/default/examples/sso-button-states.tsx',
+      },
+      {
+        title: 'Login form',
+        component: lazy(
+          () => import('@/registry/default/examples/sso-button-login-form')
+        ),
+        sourceFile: 'registry/default/examples/sso-button-login-form.tsx',
+      },
+    ],
+  },
   'key-value-input': {
     component: lazy(
       () => import('@/registry/default/demos/key-value-input-demo')

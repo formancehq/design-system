@@ -1,0 +1,90 @@
+<ComponentPreview name="sso-button" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/sso-button
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="sso-button" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  SsoButton,
+  SsoButtonGroup,
+  type TSsoProvider,
+} from '@/components/ui-fragments/sso-button';
+```
+
+```tsx
+<SsoButtonGroup onProviderSelect={(provider) => signIn(provider)} />
+```
+
+The brand marks are inline SVG, so the component installs with no icon
+dependency of its own. GitHub draws in `currentColor` and follows the theme;
+Google and Microsoft keep their brand colours, which stay legible on both the
+light and the dark surface.
+
+`SsoButton` forwards every `Button` prop, so `variant`, `size`, `loading` and
+`disabled` behave as they do anywhere else.
+
+## Examples
+
+<Section
+  title="Providers"
+  level={3}
+  description="Three providers ship with the component: Google, GitHub and Microsoft. Each label defaults to `Continue with <provider>`."
+>
+  <ComponentPreview name="sso-button-single" />
+</Section>
+
+<Section
+  title="Custom labels"
+  level={3}
+  description="Pass `providers` to pick a subset and keep their order, and `labels` to replace the default wording of one provider."
+>
+  <ComponentPreview name="sso-button-labels" />
+</Section>
+
+<Section
+  title="Loading and disabled"
+  level={3}
+  description="`loadingProvider` marks the one button whose redirect is in flight; `disabled` covers the whole group while a different sign-in path runs."
+>
+  <ComponentPreview name="sso-button-states" />
+</Section>
+
+<Section
+  title="Login form"
+  level={3}
+  description="The full sign-in card: logo, the provider group, an SSO separator, and an email field. This is the layout the Formance apps render at /sign-in."
+>
+  <ComponentPreview name="sso-button-login-form" />
+</Section>
