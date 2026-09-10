@@ -17,6 +17,12 @@ import {
   createFilteredRowModel,
   createPaginatedRowModel,
   createSortedRowModel,
+  filterFn_arrIncludes,
+  filterFn_equals,
+  filterFn_inDateRange,
+  filterFn_includesString,
+  filterFn_inNumberRange,
+  filterFn_weakEquals,
   PaginationState,
   ReactTable,
   RowData,
@@ -25,6 +31,9 @@ import {
   rowPaginationFeature,
   rowSelectionFeature,
   rowSortingFeature,
+  sortFn_alphanumeric,
+  sortFn_datetime,
+  sortFn_text,
   SortingState,
   tableFeatures,
   useTable,
@@ -110,6 +119,28 @@ const dataTableFeatures = tableFeatures({
   filteredRowModel: createFilteredRowModel(),
   paginatedRowModel: createPaginatedRowModel(),
   sortedRowModel: createSortedRowModel(),
+  // A column that names no `filterFn` keeps v9's default of `'auto'`, and
+  // `'auto'` is resolved by NAME against this slot: with the slot absent,
+  // `getFilterFn()` answers `undefined` and the filtered row model returns its
+  // input untouched — the search box below types and narrows nothing. Only the
+  // names `column_getAutoFilterFn` can choose are registered, so the rest of
+  // the registry still tree-shakes away.
+  filterFns: {
+    arrIncludes: filterFn_arrIncludes,
+    equals: filterFn_equals,
+    inDateRange: filterFn_inDateRange,
+    includesString: filterFn_includesString,
+    inNumberRange: filterFn_inNumberRange,
+    weakEquals: filterFn_weakEquals,
+  },
+  // `'auto'` sorting degrades more quietly: an unregistered name falls back to
+  // `sortFn_basic`, which compares strings with raw `<` and so orders 'B'
+  // before 'a'. These three restore the order the table had on v8.
+  sortFns: {
+    alphanumeric: sortFn_alphanumeric,
+    datetime: sortFn_datetime,
+    text: sortFn_text,
+  },
 });
 
 // v9 threads the registered feature set through every table type. Binding it
