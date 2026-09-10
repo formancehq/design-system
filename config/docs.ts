@@ -785,6 +785,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
       },
     ],
   },
+  'fragments/sso-button': {
+    registryName: 'sso-button',
+    description:
+      "An outline button carrying an identity provider's brand mark, plus a group that renders one per provider.",
+    sourceFile: 'registry/default/ui-fragments/sso-button.tsx',
+    source: 'custom',
+  },
   'fragments/key-value-input': {
     registryName: 'key-value-input',
     description:
@@ -1174,6 +1181,7 @@ export const docsConfig: TDocsConfig = {
           href: '/docs/fragments/key-value-input',
         },
         { title: 'Page Section', href: '/docs/fragments/page-section' },
+        { title: 'SSO Button', href: '/docs/fragments/sso-button' },
       ],
     },
     {
