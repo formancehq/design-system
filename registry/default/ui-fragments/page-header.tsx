@@ -246,7 +246,7 @@ function PageHeaderAside({ className, ...props }: TPageHeaderAsideProps) {
   return (
     <div
       data-slot="page-header-actions"
-      className={cn('flex items-center gap-2 shrink-0', className)}
+      className={cn('flex flex-wrap items-center gap-2 min-w-0', className)}
       {...props}
     />
   );
