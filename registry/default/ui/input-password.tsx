@@ -45,8 +45,10 @@ function InputPassword({ className, maxWidth, ...props }: InputPasswordProps) {
       <Button
         type="button"
         variant={showPassword ? 'ghost' : 'outline'}
-        size="icon-xs"
-        className="absolute right-1 top-1/2 -translate-y-1/2"
+        // The size of `CopyButton`, so a toggle and a copy read alike, and as
+        // far from the right edge as from the top and bottom (2px).
+        size="icon-sm"
+        className="absolute right-0.5 top-1/2 -translate-y-1/2"
         onClick={() => setShowPassword((prev) => !prev)}
         disabled={disabled}
       >

@@ -1,15 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  CalendarIcon,
-  Check,
-  Copy,
-  ExternalLink,
-  Plus,
-  Trash2,
-} from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { CalendarIcon, ExternalLink, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -40,6 +33,7 @@ import {
   MultiSelectTrigger,
   MultiSelectValue,
 } from '@/registry/default/ui-fragments/multi-select';
+import { CopyButton } from '@/registry/default/ui-fragments/copy-button';
 import {
   Popover,
   PopoverContent,
@@ -94,18 +88,11 @@ const formSchema = z.object({
 type TFormValues = z.infer<typeof formSchema>;
 
 const fakeApiKey = 'sk_live_51H3x4mpl3_4nd_53cur3_k3y_1234567890';
+const fakeProjectId = 'nmwlogxtciqneytirjlf';
 
 export default function FormPatternsDemo() {
   const [date, setDate] = useState<Date>();
   const [schemas, setSchemas] = useState<string[]>(['public']);
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(fakeApiKey);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  }, []);
-
   const form = useForm<TFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -202,14 +189,27 @@ export default function FormPatternsDemo() {
               <InputGroup>
                 <InputGroupInput readOnly value={fakeApiKey} />
                 <InputGroupAddon align="inline-end">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon-xs"
-                    onClick={handleCopy}
-                  >
-                    {copied ? <Check /> : <Copy />}
-                  </Button>
+                  <CopyButton text={fakeApiKey} />
+                </InputGroupAddon>
+              </InputGroup>
+            </FieldContent>
+          </Field>
+        </CardContent>
+
+        {/* Copyable Input with label */}
+        <CardContent>
+          <Field orientation="horizontal">
+            <FieldLabel>
+              Copyable Input with label
+              <FieldDescription>
+                The same, with a Copy caption that swaps to Copied.
+              </FieldDescription>
+            </FieldLabel>
+            <FieldContent>
+              <InputGroup>
+                <InputGroupInput readOnly value={fakeProjectId} />
+                <InputGroupAddon align="inline-end">
+                  <CopyButton text={fakeProjectId} label="Copy" />
                 </InputGroupAddon>
               </InputGroup>
             </FieldContent>

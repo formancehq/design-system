@@ -35,6 +35,11 @@ function InputGroup({
         'h-8 min-w-0 has-[>textarea]:h-auto',
         'has-[>[data-align=inline-start]]:[&>input]:pl-2',
         'has-[>[data-align=inline-end]]:[&>input]:pr-2',
+        // A group with a button beside its input is a size container, so the
+        // addon can read the group's height (`cqh`) and keep the button as far
+        // from the side edge as from the top and bottom, at any group height.
+        // Such a group always has a fixed height, which size containment needs.
+        'has-[>[data-align^=inline]>button]:[container-type:size]',
         'has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-start]]:[&>input]:pb-3',
         'has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3',
         'has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot=input-group-control]:focus-visible]:ring-[3px]',
@@ -53,9 +58,10 @@ const inputGroupAddonVariants = cva(
     variants: {
       align: {
         'inline-start':
-          'order-first pl-3 has-[>button]:ml-[-0.45rem] has-[>kbd]:ml-[-0.35rem]',
+          'order-first pl-3 has-[>button]:pl-[calc((100cqh-1.75rem)/2)] has-[>kbd]:ml-[-0.35rem]',
         'inline-end':
-          'order-last pr-3 has-[>button]:mr-[-0.45rem] has-[>kbd]:mr-[-0.35rem]',
+          // `1.75rem`: the 28px buttons an addon holds (`icon-sm`, `sm`, `CopyButton`).
+          'order-last pr-3 has-[>button]:pr-[calc((100cqh-1.75rem)/2)] has-[>kbd]:mr-[-0.35rem]',
         'block-start':
           'order-first w-full justify-start px-3 pt-3 [.border-b]:pb-3 group-has-[>input]/input-group:pt-2.5',
         'block-end':
