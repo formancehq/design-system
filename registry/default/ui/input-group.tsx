@@ -53,15 +53,17 @@ function InputGroup({
 }
 
 const inputGroupAddonVariants = cva(
-  "text-muted-foreground flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium select-none [&>svg:not([class*='size-'])]:size-4 [&>kbd]:rounded-[calc(var(--radius)-5px)] group-data-[disabled=true]/input-group:opacity-50",
+  // `--addon-button-height`: the height of the button an inline addon holds, so
+  // the side gap matches the top and bottom gap. 28px by default (`icon-sm`,
+  // `sm`, `CopyButton`); 20px for the `xs` / `icon-xs` `InputGroupButton`.
+  "has-[>[data-size=xs]]:[--addon-button-height:1.25rem] has-[>[data-size=icon-xs]]:[--addon-button-height:1.25rem] text-muted-foreground flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium select-none [&>svg:not([class*='size-'])]:size-4 [&>kbd]:rounded-[calc(var(--radius)-5px)] group-data-[disabled=true]/input-group:opacity-50",
   {
     variants: {
       align: {
         'inline-start':
-          'order-first pl-3 has-[>button]:pl-[calc((100cqh-1.75rem)/2)] has-[>kbd]:ml-[-0.35rem]',
+          'order-first pl-3 has-[>button]:pl-[calc((100cqh-var(--addon-button-height,1.75rem))/2)] has-[>kbd]:ml-[-0.35rem]',
         'inline-end':
-          // `1.75rem`: the 28px buttons an addon holds (`icon-sm`, `sm`, `CopyButton`).
-          'order-last pr-3 has-[>button]:pr-[calc((100cqh-1.75rem)/2)] has-[>kbd]:mr-[-0.35rem]',
+          'order-last pr-3 has-[>button]:pr-[calc((100cqh-var(--addon-button-height,1.75rem))/2)] has-[>kbd]:mr-[-0.35rem]',
         'block-start':
           'order-first w-full justify-start px-3 pt-3 [.border-b]:pb-3 group-has-[>input]/input-group:pt-2.5',
         'block-end':
