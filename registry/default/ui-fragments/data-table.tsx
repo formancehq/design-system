@@ -638,7 +638,7 @@ function DataTableSkeleton({
           <Skeleton className="ml-auto hidden h-7 w-[4.5rem] lg:flex" />
         ) : null}
       </div>
-      <div className="rounded-md border border-border">
+      <div>
         <Table>
           {withHeader && (
             <TableHeader>
@@ -792,7 +792,7 @@ function DataTable<TData extends RowData>({
       )}
 
       {hasData ? (
-        <div className="rounded-md border border-border">
+        <div>
           <Table style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -850,7 +850,7 @@ function DataTable<TData extends RowData>({
       ) : emptyState ? (
         emptyState
       ) : (
-        <div className="rounded-md border border-border">
+        <div>
           <Table style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
