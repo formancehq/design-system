@@ -5,10 +5,8 @@ import { Eye, Server } from 'lucide-react';
 import { AppCard } from '@/components/ui-fragments/app-card';
 import { Badge } from '@/registry/default/ui/badge';
 import { Button } from '@/registry/default/ui/button';
-import {
-  DataTable,
-  type ColumnDef,
-} from '@/components/ui-fragments/data-table';
+import { DataTable } from '@/components/ui-fragments/data-table/data-table';
+import type { ColumnDef } from '@/components/ui-fragments/data-table/data-table-features';
 
 type TLedger = {
   name: string;
@@ -75,7 +73,7 @@ const columns: ColumnDef<TLedger>[] = [
   {
     id: 'actions',
     cell: () => (
-      <div className="text-right">
+      <div className="text-end">
         <Button variant="secondary" size="icon-md">
           <Eye />
         </Button>

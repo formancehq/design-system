@@ -1,5 +1,7 @@
 <ComponentPreview name="data-table" peekCode />
 
+A client-side table on TanStack Table v9: sort, search, faceted filters, column visibility, pinning, resizing, expandable rows and pagination. Each part lives in its own file under `components/ui-fragments/data-table/`, so a custom table can reuse the toolbar and the content with its own `useTable`.
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -24,12 +26,13 @@ npx shadcn@latest add @formance/data-table
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @tanstack/react-table
+npm install @tanstack/react-table lucide-react
 ```
 
-<Step>Copy and paste the following code into your project.</Step>
-
-<ComponentSource name="data-table" />
+<Step>
+  Copy the files of `registry/default/ui-fragments/data-table/` into
+  `components/ui-fragments/data-table/`.
+</Step>
 
 <Step>Update the import paths to match your project setup.</Step>
 
@@ -41,20 +44,97 @@ npm install @tanstack/react-table
 
 ## Usage
 
+Import each part from its own file:
+
 ```tsx
-import {
-  DataTable,
-  DataTableColumnHeader,
-  DataTableRowActions,
-  DataTableSkeleton,
-} from '@/components/ui/data-table'
+import { DataTable } from '@/components/ui-fragments/data-table/data-table';
+import { DataTableColumnHeader } from '@/components/ui-fragments/data-table/data-table-column-header';
+import type { ColumnDef } from '@/components/ui-fragments/data-table/data-table-features';
+import { DataTableRowActions } from '@/components/ui-fragments/data-table/data-table-row-actions';
+import { DataTableSkeleton } from '@/components/ui-fragments/data-table/data-table-skeleton';
 ```
 
 ```tsx
 <DataTable
   columns={columns}
   data={data}
+  initialState={{ sorting: [{ id: 'amount', desc: true }] }}
   searchConfig={[{ placeholder: 'Filter emails...', columnKey: 'email' }]}
 />
 ```
 
+<Section
+  title="Pinned and expanded"
+  description="Seed initialState.columnPinning to keep columns in place while the rest scrolls. Add createExpandColumn() and renderExpandedRow to show details under a row."
+>
+  <ComponentPreview name="data-table-pinned-expanded" />
+</Section>
+
+## Table options
+
+`tableOptions` passes any other TanStack option to `useTable`. Row selection is on and cell selection is off by default; turn either one around, control a state slice, or listen to a change:
+
+```tsx
+<DataTable
+  columns={columns}
+  data={data}
+  tableOptions={{
+    enableRowSelection: (row) => row.original.status !== 'locked',
+    onRowSelectionChange: setRowSelection,
+    state: { rowSelection },
+  }}
+/>
+```
+
+The table keeps `features`, `data` and `columns`, and takes `initialState`, `getRowId`, `getRowCanExpand`, `autoResetPageIndex` and `autoResetExpanded` from their own props.
+
+<Section
+  title="Row selection"
+  description="Control the rowSelection slice through tableOptions to read or clear the selection from the page. A function in enableRowSelection decides which rows a person can select; the select column reads it with row.getCanSelect()."
+>
+  <ComponentPreview name="data-table-row-selection" />
+</Section>
+
+<Section
+  title="External controls"
+  description="onTableReady hands the table over once, on mount. Its methods read the live state, so controls outside the table can search, sort or reset it. hideToolbar removes the built-in toolbar."
+>
+  <ComponentPreview name="data-table-external-controls" />
+</Section>
+
+<Section
+  title="Cell selection"
+  description="Set enableCellSelection in tableOptions. Drag to select a range, hold Shift to extend it, hold Ctrl or Cmd to add or remove a range. Read the result with table.getSelectedCellCount() or table.getSelectedCellRangesData()."
+>
+  <ComponentPreview name="data-table-cell-selection" />
+</Section>
+
+<Section
+  title="Skeleton"
+  description="DataTableSkeleton holds the place of the table while the data loads."
+>
+  <ComponentPreview name="data-table-skeleton" />
+</Section>
+
+## Build your own table
+
+`DataTable` is `useTable` with `dataTableFeatures`, then `DataTableToolbar`, `DataTableContent` and `DataTablePagination`. To change one part (a server-side pager, say), build the table yourself with the same feature set, so your `ColumnDef` types stay the same:
+
+```tsx
+const table = useTable({ features: dataTableFeatures, data, columns });
+
+return (
+  <div className="space-y-4">
+    <DataTableToolbar table={table} searchConfig={searchConfig} />
+    <DataTableContent table={table} />
+    <MyPager table={table} />
+  </div>
+);
+```
+
+<Section
+  title="Cursor pager"
+  description="A table for an API that answers one page at a time: useTable with dataTableFeatures and the manual flags, DataTableToolbar and DataTableContent, then a pager built on DataTablePageSizeSelect that walks the cursors."
+>
+  <ComponentPreview name="data-table-cursor-pager" />
+</Section>

@@ -1532,23 +1532,75 @@
       "name": "data-table",
       "type": "registry:component",
       "title": "Data Table",
-      "description": "A data table built on TanStack Table with sorting, filtering, pagination, and skeleton loading.",
+      "description": "A client-side data table built on TanStack Table with sorting, filtering, faceted filters, column visibility, pinning, resizing, expandable rows, pagination and skeleton loading.",
       "dependencies": ["@tanstack/react-table", "lucide-react"],
       "registryDependencies": [
         "https://ds.formance.com/r/badge.json",
         "https://ds.formance.com/r/button.json",
         "https://ds.formance.com/r/command.json",
         "https://ds.formance.com/r/dropdown-menu.json",
+        "https://ds.formance.com/r/input.json",
         "https://ds.formance.com/r/popover.json",
         "https://ds.formance.com/r/select.json",
+        "https://ds.formance.com/r/separator.json",
         "https://ds.formance.com/r/skeleton.json",
         "https://ds.formance.com/r/table.json"
       ],
       "files": [
         {
-          "path": "registry/default/ui-fragments/data-table.tsx",
+          "path": "registry/default/ui-fragments/data-table/data-table.tsx",
           "type": "registry:component",
-          "target": "components/ui-fragments/data-table.tsx"
+          "target": "components/ui-fragments/data-table/data-table.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-features.ts",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-features.ts"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-pinning.ts",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-pinning.ts"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-content.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-content.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-toolbar.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-toolbar.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-faceted-filter.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-faceted-filter.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-view-options.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-view-options.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-column-header.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-column-header.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-pagination.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-pagination.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-skeleton.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-skeleton.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/data-table/data-table-row-actions.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/data-table/data-table-row-actions.tsx"
         }
       ]
     },
