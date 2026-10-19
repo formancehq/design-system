@@ -72,9 +72,13 @@ const columns: ColumnDef<TLedger>[] = [
   },
   {
     id: 'actions',
-    cell: () => (
+    cell: ({ row }) => (
       <div className="text-end">
-        <Button variant="secondary" size="icon-md">
+        <Button
+          variant="secondary"
+          size="icon-md"
+          aria-label={`View ${row.original.name}`}
+        >
           <Eye />
         </Button>
       </div>

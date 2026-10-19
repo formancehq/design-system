@@ -140,8 +140,11 @@ const columns: ColumnDef<TTransaction>[] = [
 function PostingsList({ postings }: { postings: TPosting[] }) {
   return (
     <ul className="space-y-1 bg-muted-lighter px-4 py-3 font-mono text-sm">
-      {postings.map((posting, index) => (
-        <li key={index} className="flex flex-wrap gap-x-2">
+      {postings.map((posting) => (
+        <li
+          key={`${posting.source}-${posting.destination}-${posting.amount}-${posting.asset}`}
+          className="flex flex-wrap gap-x-2"
+        >
           <span>{posting.source}</span>
           <span className="text-muted-foreground">→</span>
           <span>{posting.destination}</span>
