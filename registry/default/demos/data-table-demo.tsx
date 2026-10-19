@@ -1,14 +1,16 @@
 'use client';
 
-import { ArrowUpDown, Eye } from 'lucide-react';
-
+import { DataTable } from '@/components/ui-fragments/data-table/data-table';
+import { DataTableColumnHeader } from '@/components/ui-fragments/data-table/data-table-column-header';
+import type { ColumnDef } from '@/components/ui-fragments/data-table/data-table-features';
+import { DataTableRowActions } from '@/components/ui-fragments/data-table/data-table-row-actions';
 import { Badge } from '@/registry/default/ui/badge';
-import { Button } from '@/registry/default/ui/button';
 import { Checkbox } from '@/registry/default/ui/checkbox';
 import {
-  DataTable,
-  type ColumnDef,
-} from '@/components/ui-fragments/data-table';
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from '@/registry/default/ui/dropdown-menu';
 
 type TPayment = {
   id: string;
@@ -95,12 +97,16 @@ const columns: ColumnDef<TPayment>[] = [
         aria-label="Select row"
       />
     ),
+    size: 47,
     enableSorting: false,
     enableHiding: false,
+    enableResizing: false,
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
     cell: ({ row }) => (
       <Badge
         variant={statusVariant[row.getValue<TPayment['status']>('status')]}
@@ -113,39 +119,41 @@ const columns: ColumnDef<TPayment>[] = [
   {
     accessorKey: 'email',
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        Email
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
+      <DataTableColumnHeader column={column} title="Email" />
     ),
     cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>,
   },
   {
     accessorKey: 'amount',
-    header: () => <div className="text-right">Amount</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Amount" />
+    ),
     cell: ({ row }) => {
       const formatted = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
       }).format(row.getValue<number>('amount'));
 
-      return (
-        <div className="text-right font-mono font-medium">{formatted}</div>
-      );
+      return <div className="text-end font-mono font-medium">{formatted}</div>;
     },
   },
   {
     id: 'actions',
+    size: 56,
     enableHiding: false,
-    cell: () => (
-      <div className="text-right">
-        <Button variant="secondary" size="icon-md">
-          <Eye />
-        </Button>
-      </div>
+    enableResizing: false,
+    cell: ({ row }) => (
+      <DataTableRowActions>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() => navigator.clipboard.writeText(row.original.id)}
+          >
+            Copy payment ID
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>View payment</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DataTableRowActions>
     ),
   },
 ];
@@ -155,6 +163,10 @@ export default function DataTableDemo() {
     <DataTable
       columns={columns}
       data={data}
+      initialState={{
+        sorting: [{ id: 'amount', desc: true }],
+        pagination: { pageSize: 5 },
+      }}
       searchConfig={[{ placeholder: 'Filter emails...', columnKey: 'email' }]}
       filtersConfig={[
         {

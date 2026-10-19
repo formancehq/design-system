@@ -1020,6 +1020,43 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/data-table-skeleton.tsx',
       },
+      {
+        title: 'Pinned and expanded',
+        component: lazy(
+          () => import('@/registry/default/examples/data-table-pinned-expanded')
+        ),
+        sourceFile: 'registry/default/examples/data-table-pinned-expanded.tsx',
+      },
+      {
+        title: 'Cell selection',
+        component: lazy(
+          () => import('@/registry/default/examples/data-table-cell-selection')
+        ),
+        sourceFile: 'registry/default/examples/data-table-cell-selection.tsx',
+      },
+      {
+        title: 'Row selection',
+        component: lazy(
+          () => import('@/registry/default/examples/data-table-row-selection')
+        ),
+        sourceFile: 'registry/default/examples/data-table-row-selection.tsx',
+      },
+      {
+        title: 'External controls',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/data-table-external-controls')
+        ),
+        sourceFile:
+          'registry/default/examples/data-table-external-controls.tsx',
+      },
+      {
+        title: 'Cursor pager',
+        component: lazy(
+          () => import('@/registry/default/examples/data-table-cursor-pager')
+        ),
+        sourceFile: 'registry/default/examples/data-table-cursor-pager.tsx',
+      },
     ],
   },
   'page-container': {

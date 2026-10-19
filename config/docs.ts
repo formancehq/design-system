@@ -923,13 +923,19 @@ export const componentMeta: Record<string, TComponentMeta> = {
   'fragments/data-table': {
     registryName: 'data-table',
     description:
-      'A data table built on TanStack Table with sorting, filtering, pagination, and column visibility.',
-    sourceFile: 'registry/default/ui-fragments/data-table.tsx',
+      'A client-side data table built on TanStack Table with sorting, filtering, pagination, column visibility, pinning, resizing and expandable rows.',
+    sourceFile: 'registry/default/ui-fragments/data-table/data-table.tsx',
     source: 'custom',
     subComponents: [
       {
         name: 'DataTable',
-        description: 'Main table component with toolbar and pagination.',
+        description:
+          'Client-side table: toolbar, content and pagination over one useTable.',
+      },
+      {
+        name: 'DataTableContent',
+        description:
+          'The table itself: header, rows, resize handles, pinned columns, expanded rows and the empty placeholder. Render it with your own useTable to build a custom table.',
       },
       {
         name: 'DataTableColumnHeader',
