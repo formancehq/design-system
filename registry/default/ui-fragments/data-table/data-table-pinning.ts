@@ -16,6 +16,9 @@ export const getCommonPinningStyles = <TData extends RowData>(
     isPinned === 'start' && column.getIsLastColumn('start');
   const isFirstCenterColumnAfterStartPins =
     hasStartPinnedColumns && !isPinned && column.getIsFirstColumn('center');
+  const setsAnotherPinInset =
+    (isPinned === 'start' && !isLastStartPinnedColumn) ||
+    (isPinned === 'end' && !column.getIsFirstColumn('end'));
 
   return {
     borderInlineEnd:
@@ -34,7 +37,7 @@ export const getCommonPinningStyles = <TData extends RowData>(
       isPinned === 'end' ? `${column.getAfter('end')}px` : undefined,
     position: isPinned ? 'sticky' : 'relative',
     width: column.getSize(),
-    ...(isPinned && {
+    ...(setsAnotherPinInset && {
       boxSizing: 'border-box',
       minWidth: column.getSize(),
       maxWidth: column.getSize(),
