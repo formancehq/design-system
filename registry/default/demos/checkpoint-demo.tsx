@@ -11,7 +11,7 @@ import { Button } from '@/registry/default/ui/button';
 import { Marker, MarkerContent } from '@/registry/default/ui/marker';
 import { Message, MessageContent } from '@/registry/default/ui/message';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   {
     checkpoint: {
@@ -20,12 +20,12 @@ type ChatMessage = UIMessage<
   }
 >;
 
-type CheckpointPart = Extract<
-  ChatMessage['parts'][number],
+type TCheckpointPart = Extract<
+  TChatMessage['parts'][number],
   { type: 'data-checkpoint' }
 >;
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Rename the fees account to platform fees.')
   .assistant(({ writer }) => {
     writer.text('Renamed fees:collected to fees:platform in the schema.');
@@ -65,7 +65,7 @@ export default function CheckpointDemo() {
     <div className="flex min-h-72 w-full max-w-sm flex-col gap-4 py-6 text-sm">
       {messages.map((message) => {
         const checkpoint = message.parts.find(
-          (part): part is CheckpointPart => part.type === 'data-checkpoint'
+          (part): part is TCheckpointPart => part.type === 'data-checkpoint'
         );
         const index = messages.findIndex((item) => item.id === message.id);
         const canRestore = index < messages.length - 1;

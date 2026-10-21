@@ -32,7 +32,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -43,7 +43,7 @@ type ChatMessage = UIMessage<
   }
 >;
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Revert the duplicate deposit, transaction 42.')
   .sleep(600)
   .assistant(({ writer }) => {

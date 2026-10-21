@@ -10,7 +10,6 @@ import {
   QuestionnaireChoices,
   QuestionnaireDescription,
   QuestionnaireError,
-  QuestionnaireInput,
   QuestionnaireItem,
   QuestionnaireNext,
   QuestionnairePrevious,
@@ -76,7 +75,7 @@ export default function QuestionnaireDemo() {
         <QuestionnaireTitle>How does yours differ?</QuestionnaireTitle>
         <QuestionnaireDescription>
           The omnibus template holds client funds in one bank account. Choose
-          what is different for you, or write it in your own words.
+          what is different for you.
         </QuestionnaireDescription>
         <QuestionnaireChoices>
           <QuestionnaireChoice value="two-banks">
@@ -97,10 +96,6 @@ export default function QuestionnaireDemo() {
               Client balances earn interest every day.
             </span>
           </QuestionnaireChoice>
-          <QuestionnaireInput
-            aria-label="Another difference"
-            placeholder="Or write it in your own words"
-          />
         </QuestionnaireChoices>
         <QuestionnaireError />
       </QuestionnaireItem>

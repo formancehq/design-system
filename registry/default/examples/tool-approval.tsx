@@ -32,7 +32,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -43,16 +43,19 @@ type ChatMessage = UIMessage<
   }
 >;
 
-const chat = createChat<ChatMessage>()
-  .user('Delete the sandbox ledger.')
+const chat = createChat<TChatMessage>()
+  .user('Revert transaction 4021 on the sandbox ledger.')
   .sleep(600)
   .assistant(({ writer }) => {
     writer.reasoning(
-      'The sandbox ledger holds the test transactions. Deleting it cannot be undone, so I should ask before I run the command.'
+      'A revert writes a new transaction that moves the funds back. It cannot be undone, so I should ask before I run the command.'
     );
     writer.sleep(400);
     writer.tool('runCommand', {
-      input: { command: 'fctl ledger delete sandbox' },
+      input: {
+        command:
+          'fctl ledger transactions revert 4021 --ledger sandbox --confirm',
+      },
       needsApproval: true,
       output: { stdout: '' },
     });
@@ -61,8 +64,8 @@ const chat = createChat<ChatMessage>()
     writer.sleep(600);
     writer.text(
       toolCall?.approved
-        ? 'Deleted the sandbox ledger.'
-        : 'Okay, I kept the sandbox ledger.'
+        ? 'Reverted transaction 4021.'
+        : 'Okay, I did not revert transaction 4021.'
     );
   });
 

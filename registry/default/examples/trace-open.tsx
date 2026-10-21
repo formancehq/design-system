@@ -31,7 +31,9 @@ export default function TraceOpen() {
         <TraceCollapsibleContent>
           <CodeBlock size="sm">
             <CodeBlockContent wrap className="max-h-64">
-              {'$ fctl version\nfctl 3.4.0'}
+              {
+                '$ fctl version\nVersion | v3.8.0\nDate    | 2026-08-05T08:39:35Z\nCommit  | e1080a5'
+              }
             </CodeBlockContent>
           </CodeBlock>
         </TraceCollapsibleContent>

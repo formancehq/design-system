@@ -1,5 +1,6 @@
 import {
   createHighlighterCore,
+  getTokenStyleObject,
   type GrammarState,
   type HighlighterCore,
   type LanguageRegistration,
@@ -13,20 +14,20 @@ import numscriptGrammar from '@/registry/default/ui/code/numscript.tmLanguage.js
 // token color is a `--shiki-token-*` variable from code-themes.css, so light
 // and dark mode come from the stylesheet, as in CodeSnippet.
 
+const numscript: LanguageRegistration = { ...numscriptGrammar, repository: {} };
+
 // Add the languages you need. Each one loads the first time it is used.
 const languages = {
   bash: () => import('shiki/langs/shellscript.mjs'),
   css: () => import('shiki/langs/css.mjs'),
-  diff: () => import('shiki/langs/diff.mjs'),
   go: () => import('shiki/langs/go.mjs'),
   html: () => import('shiki/langs/html.mjs'),
   javascript: () => import('shiki/langs/javascript.mjs'),
   json: () => import('shiki/langs/json.mjs'),
-  jsx: () => import('shiki/langs/jsx.mjs'),
   markdown: () => import('shiki/langs/markdown.mjs'),
   numscript: () =>
     Promise.resolve({
-      default: [numscriptGrammar as unknown as LanguageRegistration],
+      default: [numscript],
     }),
   python: () => import('shiki/langs/python.mjs'),
   sql: () => import('shiki/langs/sql.mjs'),
@@ -38,6 +39,7 @@ const languages = {
 
 const aliases: Record<string, keyof typeof languages> = {
   js: 'javascript',
+  jsx: 'tsx',
   md: 'markdown',
   py: 'python',
   sh: 'bash',
@@ -47,8 +49,6 @@ const aliases: Record<string, keyof typeof languages> = {
   yml: 'yaml',
   zsh: 'bash',
 };
-
-const ITALIC = 1;
 
 let highlighter: Promise<HighlighterCore> | undefined;
 
@@ -111,18 +111,23 @@ export async function loadHighlighter(language: string) {
 
       return {
         lines: tokens.map((line) =>
-          line.map((token, index) => (
-            <span
-              key={index}
-              style={{
-                color: token.color,
-                fontStyle:
-                  (token.fontStyle ?? 0) & ITALIC ? 'italic' : undefined,
-              }}
-            >
-              {token.content}
-            </span>
-          ))
+          line.map((token, index) => {
+            const style = getTokenStyleObject(token);
+
+            return (
+              <span
+                key={index}
+                style={{
+                  color: style.color,
+                  fontStyle: style['font-style'],
+                  fontWeight: style['font-weight'],
+                  textDecoration: style['text-decoration'],
+                }}
+              >
+                {token.content}
+              </span>
+            );
+          })
         ),
         state: shiki.getLastGrammarState(tokens),
       };

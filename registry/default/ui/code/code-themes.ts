@@ -51,6 +51,13 @@ const baseTheme = createCssVariablesTheme({
 
 export const cssVarsTheme: ThemeRegistration = {
   ...baseTheme,
+  // Shiki copies a theme shallowly, then swaps the `var()` values in `colors`
+  // for placeholder hex colors in place. A second highlighter built from the
+  // same theme then reads the placeholders, and ANSI output renders as
+  // `#000000xx`. A getter gives each highlighter its own `colors` object.
+  get colors() {
+    return { ...baseTheme.colors };
+  },
   tokenColors: [
     ...(baseTheme.tokenColors ?? []),
     {

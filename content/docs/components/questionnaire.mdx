@@ -193,6 +193,10 @@ Use `multiple` for an item that accepts more than one fixed answer.
 Add a `QuestionnaireInput` to the fixed choices when the user can give a
 different answer.
 
+This is the only example on this page that puts a choice and an input in the
+same item. In `next dev`, it shows a fallback message instead of the form. See
+[Known issue](#known-issue).
+
 <ComponentPreview name="questionnaire-freeform" />
 
 ### Explicit skip
@@ -297,10 +301,29 @@ Submit is `primary`.
 
 In `@shadcn/react` 0.3.1, an item that has a `QuestionnaireChoice` and a
 `QuestionnaireInput` causes an infinite render loop ("Maximum update depth
-exceeded") under React Strict Mode. Strict Mode is on in `next dev`, so the
-issue occurs only in development. Production builds are not affected. The
-Freeform answer and Explicit skip examples, and the demo at the top of this
-page, use this combination.
+exceeded"). The raw primitive does this without the Formance wrapper. The loop
+occurs in `next dev` (Strict Mode is on by default). It did not occur in a
+plain Vite app with Strict Mode on. Production builds are not verified.
+
+Two defects in the primitive cause the loop:
+
+1. `mergeProps` (`use-render/index.ts`) wraps each `ref` in a new callback on
+   each render, also when there is only one ref. React detaches and attaches
+   each ref on each commit. The primitive keeps its elements in state through
+   these refs, so each commit sets state two times.
+2. `useQuestionnaireItem` sorts the answer controls into a new array on each
+   render (`use-questionnaire-item.ts`). When React applies the queued
+   registration updates again, the array has a new identity, so the item
+   registers itself with the root again. The root changes state, the item
+   renders again, and the loop does not stop.
+
+Both fixes are necessary: with only one of them, the loop continues. The bug is
+reported upstream in
+[shadcn-ui/ui#12299](https://github.com/shadcn-ui/ui/pull/12299), which links
+it to React 19.3 (Next.js 16.3 bundles a React 19.3 canary). Until a fixed
+version ships, keep the input in its own item. Only the
+[Freeform answer](#freeform-answer) example uses this combination. In
+`next dev`, it shows a fallback message instead of the form.
 
 ## Unstyled
 

@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
 
 const codeBlockVariants = cva(
-  'group/code-block relative flex w-full min-w-0 flex-col overflow-hidden rounded-lg text-sm has-[>[data-slot=code-block-content]:focus-visible]:ring-3 has-[>[data-slot=code-block-content]:focus-visible]:ring-ring/50 data-[size=sm]:text-xs',
+  'group/code-block relative flex w-full min-w-0 flex-col overflow-hidden text-sm has-[>[data-slot=code-block-content]:focus-visible]:ring-3 has-[>[data-slot=code-block-content]:focus-visible]:ring-ring/50 data-[size=sm]:text-xs',
   {
     variants: {
       variant: {
@@ -47,7 +47,7 @@ function CodeBlockHeader({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="code-block-header"
       className={cn(
-        'flex min-w-0 shrink-0 items-center gap-2 px-3 pt-3 text-muted-foreground group-data-[size=sm]/code-block:px-2.5 group-data-[size=sm]/code-block:pt-2.5 group-data-[variant=destructive]/code-block:text-destructive-foreground *:has-[>[data-slot=code-block-title]]:min-w-0',
+        'flex min-w-0 shrink-0 items-center gap-2 border-b bg-muted/40 p-1.5 ps-3 text-muted-foreground group-data-[size=sm]/code-block:ps-2.5 group-data-[variant=destructive]/code-block:border-destructive-foreground/30 group-data-[variant=destructive]/code-block:text-destructive-foreground dark:group-data-[variant=destructive]/code-block:border-destructive-foreground/40 *:has-[>[data-slot=code-block-title]]:min-w-0',
         className
       )}
       {...props}
@@ -60,7 +60,7 @@ function CodeBlockTitle({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="code-block-title"
       className={cn(
-        "min-w-0 truncate font-sans text-sm font-medium text-foreground group-data-[size=sm]/code-block:text-xs group-data-[variant=destructive]/code-block:text-destructive-foreground [&_svg]:pointer-events-none [&_svg]:inline-block [&_svg]:align-middle [&_svg:not([class*='size-'])]:size-3.5 *:[svg]:me-1.5",
+        "min-w-0 truncate font-mono text-xs text-muted-foreground group-data-[variant=destructive]/code-block:text-destructive-foreground [&_svg]:pointer-events-none [&_svg]:inline-block [&_svg]:align-middle [&_svg:not([class*='size-'])]:size-3.5 *:[svg]:me-1.5",
         className
       )}
       {...props}
@@ -76,7 +76,7 @@ function CodeBlockActions({
     <div
       data-slot="code-block-actions"
       className={cn(
-        '-my-1 ms-auto -me-1.5 flex shrink-0 items-center gap-1 [[data-slot=code-block]>&]:absolute [[data-slot=code-block]>&]:end-2 [[data-slot=code-block]>&]:top-2 [[data-slot=code-block]>&]:z-10 [[data-slot=code-block]>&]:m-0 [[data-slot=code-block]>&]:opacity-0 [[data-slot=code-block]>&]:transition-opacity [[data-slot=code-block]>&]:group-focus-within/code-block:opacity-100 [[data-slot=code-block]>&]:group-hover/code-block:opacity-100 group-data-[size=sm]/code-block:[[data-slot=code-block]>&]:end-1.5 group-data-[size=sm]/code-block:[[data-slot=code-block]>&]:top-1.5 [[data-slot=code-block]>&]:pointer-coarse:opacity-100 [[data-slot=code-block]>&]:*:[button]:bg-background [[data-slot=code-block]>&]:*:[button]:ring-1 [[data-slot=code-block]>&]:*:[button]:ring-foreground/10',
+        'ms-auto flex shrink-0 items-center gap-1 [[data-slot=code-block]>&]:absolute [[data-slot=code-block]>&]:end-2 [[data-slot=code-block]>&]:top-2 [[data-slot=code-block]>&]:z-10 [[data-slot=code-block]>&]:m-0 [[data-slot=code-block]>&]:opacity-0 [[data-slot=code-block]>&]:transition-opacity [[data-slot=code-block]>&]:group-focus-within/code-block:opacity-100 [[data-slot=code-block]>&]:group-hover/code-block:opacity-100 group-data-[size=sm]/code-block:[[data-slot=code-block]>&]:end-1.5 group-data-[size=sm]/code-block:[[data-slot=code-block]>&]:top-1.5 [[data-slot=code-block]>&]:pointer-coarse:opacity-100 [[data-slot=code-block]>&]:*:[button]:bg-background/80 [[data-slot=code-block]>&]:*:[button]:backdrop-blur-sm',
         className
       )}
       {...props}
@@ -86,8 +86,8 @@ function CodeBlockActions({
 
 function CodeBlockCopyButton({
   value,
-  variant = 'ghost',
-  size = 'icon-xs',
+  variant = 'outline',
+  size = 'icon-sm',
   className,
   onClick,
   ...props
@@ -112,7 +112,7 @@ function CodeBlockCopyButton({
         variant={variant}
         size={size}
         aria-label={copied ? 'Copied' : 'Copy'}
-        className={cn(className)}
+        className={cn('text-muted-foreground', className)}
         onClick={(event) => {
           onClick?.(event);
           navigator.clipboard
@@ -153,7 +153,7 @@ function CodeBlockContent({
       tabIndex={0}
       style={{ counterReset: `line ${startLine - 1}`, ...style }}
       className={cn(
-        'min-h-0 min-w-0 scroll-fade-x scrollbar-thin overflow-auto px-3 py-3 text-start font-mono leading-relaxed outline-none group-has-data-[slot=code-block-footer]/code-block:pb-2 group-has-data-[slot=code-block-header]/code-block:pt-2 group-data-[size=sm]/code-block:px-2.5 group-data-[size=sm]/code-block:py-2.5 group-data-[size=sm]/code-block:group-has-data-[slot=code-block-header]/code-block:pt-1.5 data-wrap:scroll-fade-y data-wrap:wrap-break-word data-wrap:whitespace-pre-wrap',
+        'min-h-0 min-w-0 scroll-fade-x scrollbar-thin overflow-auto px-3 py-3 text-start font-mono leading-relaxed outline-none group-has-data-[slot=code-block-footer]/code-block:pb-2 group-data-[size=sm]/code-block:px-2.5 group-data-[size=sm]/code-block:py-2.5 data-wrap:scroll-fade-y data-wrap:wrap-break-word data-wrap:whitespace-pre-wrap',
         className
       )}
       {...props}

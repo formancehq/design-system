@@ -1,6 +1,6 @@
 <ComponentPreview name="code-block" peekCode />
 
-`CodeBlock` shows code, terminal output, logs, and diffs. It has a header with a title and actions, line numbers, line wrap, diff and highlighted lines, and a small size for tool output in a [Trace](/docs/ai-elements/trace).
+`CodeBlock` shows code, terminal output, logs, and diffs. It has a header with a title and actions, line numbers, line wrap, diff and highlighted lines, and a small size for tool output in a [Trace](/docs/components/trace).
 
 Syntax highlighting is optional. It is in a separate hook, so a block that shows only plain output stays small. The hook uses the Formance code theme, the same as [Code Snippet](/docs/components/code-snippet).
 
@@ -115,6 +115,8 @@ Give a string to `CodeBlockContent`. It renders as one text node, so it stays fa
 
 `CodeBlockHeader` holds a `CodeBlockTitle` and `CodeBlockActions`. `CodeBlockCopyButton` copies its `value`.
 
+The header is the same band as the [Code Snippet](/docs/components/code-snippet) header: a muted fill with a bottom border, the title in small muted mono text, and square outline icon buttons. The title is usually a file name, so it keeps its case. When the title is a language name, add `className="uppercase"`, as Code Snippet does.
+
 <ComponentPreview name="code-block-header" />
 
 A long title truncates. To link the title to a file, put `CodeBlockTitle` in an anchor.
@@ -138,8 +140,8 @@ const [wrap, setWrap] = React.useState(false);
 
 <CodeBlockActions>
   <Button
-    variant="ghost"
-    size="icon-xs"
+    variant="outline"
+    size="icon-sm"
     aria-label="Wrap lines"
     aria-pressed={wrap}
     onClick={() => setWrap(!wrap)}
@@ -153,7 +155,7 @@ const [wrap, setWrap] = React.useState(false);
 
 ### Floating actions
 
-When there is no header, put `CodeBlockActions` directly in `CodeBlock`. The actions float at the top end. They stay hidden until the block has hover or focus. On touch screens, they always show.
+When there is no header, put `CodeBlockActions` directly in `CodeBlock`. The actions float at the top end. They stay hidden until the block has hover or focus. On touch screens, they always show. The buttons get a translucent background, so the code below stays readable.
 
 <ComponentPreview name="code-block-floating-actions" />
 
@@ -256,7 +258,7 @@ To show more than one file, use [Tabs](/docs/components/tabs) with one `CodeBloc
 
 ### Message
 
-Put a `CodeBlock` between paragraphs in a [Message](/docs/ai-elements/message).
+Put a `CodeBlock` between paragraphs in a [Message](/docs/components/message).
 
 <ComponentPreview name="code-block-chat" />
 
@@ -292,7 +294,7 @@ Each language loads the first time it is used. To change the list, edit `lib/hig
 
 <ComponentPreview name="code-block-languages" />
 
-The list has `bash`, `css`, `diff`, `go`, `html`, `javascript`, `json`, `jsx`, `markdown`, `numscript`, `python`, `sql`, `toml`, `tsx`, `typescript`, and `yaml`. It also has aliases, for example `ts`, `js`, `sh`, and `yml`.
+The list has `bash`, `css`, `go`, `html`, `javascript`, `json`, `markdown`, `numscript`, `python`, `sql`, `toml`, `tsx`, `typescript`, and `yaml`: the languages Formance products highlight. It also has aliases, for example `ts`, `js`, `jsx`, `sh`, and `yml`. Any other language shows as plain text.
 
 ### Terminal output
 
@@ -385,7 +387,7 @@ One line of code.
 
 ### CodeBlockCopyButton
 
-A ghost icon button that copies `value` to the clipboard. It accepts the props of [Button](/docs/components/button).
+An outline icon button that copies `value` to the clipboard. It accepts the props of [Button](/docs/components/button).
 
 | Prop        | Type     | Default | Description                  |
 | ----------- | -------- | ------- | ---------------------------- |

@@ -11,7 +11,6 @@ import {
   QuestionnaireChoices,
   QuestionnaireDescription,
   QuestionnaireError,
-  QuestionnaireInput,
   QuestionnaireItem,
   QuestionnaireNext,
   QuestionnairePrevious,
@@ -93,10 +92,6 @@ export default function QuestionnaireSkipExample() {
           <QuestionnaireChoice value="preserve-api">
             Preserve the public API
           </QuestionnaireChoice>
-          <QuestionnaireInput
-            aria-label="Another implementation constraint"
-            placeholder="Describe another constraint…"
-          />
         </QuestionnaireChoices>
       </QuestionnaireItem>
 

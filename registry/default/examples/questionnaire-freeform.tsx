@@ -28,7 +28,42 @@ const items = [
   },
 ] as const;
 
+type TKnownIssueBoundaryState = { failed: boolean };
+
+// In `next dev`, @shadcn/react 0.3.1 loops when one item has a choice and an
+// input (see "Known issue" on the docs page). This boundary keeps the loop
+// from taking down the whole page.
+class KnownIssueBoundary extends React.Component<
+  React.PropsWithChildren,
+  TKnownIssueBoundaryState
+> {
+  state: TKnownIssueBoundaryState = { failed: false };
+
+  static getDerivedStateFromError(): TKnownIssueBoundaryState {
+    return { failed: true };
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children;
+
+    return (
+      <p className="mx-auto max-w-md text-sm text-muted-foreground">
+        This example does not render in <code>next dev</code> with{' '}
+        <code>@shadcn/react</code> 0.3.1. See Known issue below.
+      </p>
+    );
+  }
+}
+
 export default function QuestionnaireFreeform() {
+  return (
+    <KnownIssueBoundary>
+      <QuestionnaireFreeformForm />
+    </KnownIssueBoundary>
+  );
+}
+
+function QuestionnaireFreeformForm() {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 

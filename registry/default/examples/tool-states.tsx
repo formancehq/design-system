@@ -53,7 +53,7 @@ production`}
         <TraceIcon>
           <TerminalIcon />
         </TraceIcon>
-        <TraceTitle>Denied fctl ledger delete sandbox</TraceTitle>
+        <TraceTitle>Denied fctl ledger transactions revert 4021</TraceTitle>
       </TraceLine>
       <TraceLine status="running">
         <TraceIcon>

@@ -13,12 +13,11 @@ import {
   CodeBlockTitle,
 } from '@/registry/default/ui/code-block';
 
-const output = `$ fctl ledger schema validate schema.yaml
-schema.yaml
-  accounts.fees           error    Account has no outgoing transaction. Add a transaction that moves money out of fees
-  transactions.accrue     warning  Posts from world without a cap. Add an overdraft limit or a source account
-
-✖ 2 problems (1 error, 1 warning)`;
+const output = `$ fctl ledger transactions list --ledger omnibus
+ID | Reference | Date                 | Metadata
+3  | pay-0003  | 2026-10-21T09:20:41Z | client="042" type="payout" connector="stripe" payout_id="po_1Q8vXk2eZvKYlo2C"
+2  | int-0002  | 2026-10-21T09:18:05Z | client="042" type="interest" period="2026-10"
+1  | dep-0001  | 2026-10-21T09:14:02Z | client="042" type="deposit"`;
 
 function download(value: string, filename: string) {
   const url = URL.createObjectURL(new Blob([value], { type: 'text/plain' }));
@@ -42,20 +41,21 @@ export default function CodeBlockActionsExample() {
           </CodeBlockTitle>
           <CodeBlockActions>
             <Button
-              variant="ghost"
-              size="icon-xs"
+              variant="outline"
+              size="icon-sm"
               aria-label="Wrap lines"
               aria-pressed={wrap}
-              className="aria-pressed:text-foreground"
+              className="text-muted-foreground aria-pressed:text-foreground"
               onClick={() => setWrap(!wrap)}
             >
               <WrapTextIcon />
             </Button>
             <Button
-              variant="ghost"
-              size="icon-xs"
+              variant="outline"
+              size="icon-sm"
               aria-label="Download"
-              onClick={() => download(output, 'validate.log')}
+              className="text-muted-foreground"
+              onClick={() => download(output, 'transactions.log')}
             >
               <DownloadIcon />
             </Button>

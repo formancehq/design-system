@@ -132,6 +132,55 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/bubble-variants.tsx',
       },
       {
+        title: 'Alignment',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-alignment')
+        ),
+        sourceFile: 'registry/default/examples/bubble-alignment.tsx',
+      },
+      {
+        title: 'Bubble group',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-group')
+        ),
+        sourceFile: 'registry/default/examples/bubble-group.tsx',
+      },
+      {
+        title: 'Links and buttons',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-link-button')
+        ),
+        sourceFile: 'registry/default/examples/bubble-link-button.tsx',
+      },
+      {
+        title: 'Reactions',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-reactions')
+        ),
+        sourceFile: 'registry/default/examples/bubble-reactions.tsx',
+      },
+      {
+        title: 'Show more',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-collapsible')
+        ),
+        sourceFile: 'registry/default/examples/bubble-collapsible.tsx',
+      },
+      {
+        title: 'Tooltip',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-tooltip')
+        ),
+        sourceFile: 'registry/default/examples/bubble-tooltip.tsx',
+      },
+      {
+        title: 'Popover',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-popover')
+        ),
+        sourceFile: 'registry/default/examples/bubble-popover.tsx',
+      },
+      {
         title: 'Suggestions',
         component: lazy(
           () => import('@/registry/default/examples/bubble-suggestions')
@@ -152,6 +201,27 @@ const registryDemos: Record<string, TRegistryDemo> = {
     sourceFile: 'registry/default/demos/marker-demo.tsx',
     examples: [
       {
+        title: 'Variants',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-variants')
+        ),
+        sourceFile: 'registry/default/examples/marker-variants.tsx',
+      },
+      {
+        title: 'Status',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-status')
+        ),
+        sourceFile: 'registry/default/examples/marker-status.tsx',
+      },
+      {
+        title: 'Shimmer',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-shimmer')
+        ),
+        sourceFile: 'registry/default/examples/marker-shimmer.tsx',
+      },
+      {
         title: 'Separator',
         component: lazy(
           () => import('@/registry/default/examples/marker-separator')
@@ -164,6 +234,20 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/marker-border')
         ),
         sourceFile: 'registry/default/examples/marker-border.tsx',
+      },
+      {
+        title: 'With icon',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-icon')
+        ),
+        sourceFile: 'registry/default/examples/marker-icon.tsx',
+      },
+      {
+        title: 'Links and buttons',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-link-button')
+        ),
+        sourceFile: 'registry/default/examples/marker-link-button.tsx',
       },
     ],
   },
@@ -234,6 +318,78 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/message-scroller-jump')
         ),
         sourceFile: 'registry/default/examples/message-scroller-jump.tsx',
+      },
+      {
+        title: 'Anchoring turns',
+        component: lazy(
+          () => import('@/registry/default/examples/message-scroller-anchoring')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-anchoring.tsx',
+      },
+      {
+        title: 'Group chat',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-group-chat')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-group-chat.tsx',
+      },
+      {
+        title: 'Keeping context visible',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-previous-context')
+        ),
+        sourceFile:
+          'registry/default/examples/message-scroller-previous-context.tsx',
+      },
+      {
+        title: 'Following the live edge',
+        component: lazy(
+          () => import('@/registry/default/examples/message-scroller-streaming')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-streaming.tsx',
+      },
+      {
+        title: 'Opening position',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-opening-position')
+        ),
+        sourceFile:
+          'registry/default/examples/message-scroller-opening-position.tsx',
+      },
+      {
+        title: 'Loading earlier messages',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-load-history')
+        ),
+        sourceFile:
+          'registry/default/examples/message-scroller-load-history.tsx',
+      },
+      {
+        title: 'Animating new messages',
+        component: lazy(
+          () => import('@/registry/default/examples/message-scroller-animation')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-animation.tsx',
+      },
+      {
+        title: 'Tracking the position',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-visibility')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-visibility.tsx',
+      },
+      {
+        title: 'Reading scroll state',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-scrollable')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-scrollable.tsx',
       },
     ],
   },

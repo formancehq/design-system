@@ -27,7 +27,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -38,19 +38,22 @@ type ChatMessage = UIMessage<
   }
 >;
 
-type Part = ChatMessage['parts'][number];
+type TPart = TChatMessage['parts'][number];
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Why does the deposit fail on the sandbox ledger?')
   .assistant(({ writer }) => {
     writer.reasoning(
-      'The ledger rejects a transaction when a source account cannot cover the amount. I should check the balance of the source account, then run the Numscript in dry-run mode.',
+      'The ledger rejects a transaction when a source account cannot cover the amount. I should check the balance of the source account, then run the Numscript.',
       { delayMs: 40 }
     );
     writer
       .tool('runCommand', { input: { command: 'fctl version' } })
       .sleep(700)
-      .output({ stdout: 'fctl 3.4.0' });
+      .output({
+        stdout:
+          'Version | v3.8.0\nDate    | 2026-08-05T08:39:35Z\nCommit  | e1080a5',
+      });
     writer
       .tool('runCommand', {
         input: {
@@ -59,18 +62,18 @@ const chat = createChat<ChatMessage>()
       })
       .sleep(900)
       .output({
-        stdout: 'Address  bank:omnibus\nEUR/2    0',
+        stdout: '# Information\nNo balances.\n\n# Metadata\nNo metadata.',
       });
     writer
       .tool('runCommand', {
         input: {
           command:
-            'fctl ledger transactions num deposit.num --ledger sandbox --dry-run',
+            'fctl ledger transactions num deposit.num --ledger sandbox --confirm',
         },
       })
       .sleep(1200)
       .error(
-        'INSUFFICIENT_FUND  account @bank:omnibus has insufficient funds for EUR/2 10000'
+        'Got error with code INSUFFICIENT_FUND: running numscript: script execution failed: account(s) @bank:omnibus had/have insufficient funds'
       );
     writer.sourceUrl({
       url: 'https://docs.formance.com/modules/numscript/introduction',
@@ -82,7 +85,7 @@ const chat = createChat<ChatMessage>()
     });
     writer.sleep(1000);
     writer.text(
-      'The deposit sends from @bank:omnibus, which is empty on a new ledger. Money enters the ledger from @world, so change the source to @world and deploy the schema again.'
+      'The deposit sends from @bank:omnibus, which is empty on a new ledger. Money enters the ledger from @world, so change the source to @world and run the Numscript again.'
     );
   });
 
@@ -125,7 +128,7 @@ function ToolRow({
   streaming,
   defaultOpen,
 }: {
-  part: Extract<Part, { type: 'tool-runCommand' }>;
+  part: Extract<TPart, { type: 'tool-runCommand' }>;
   streaming: boolean;
   defaultOpen?: boolean;
 }) {
@@ -185,7 +188,7 @@ function SourcesRow({
   sources,
   running,
 }: {
-  sources: Extract<Part, { type: 'source-url' }>[];
+  sources: Extract<TPart, { type: 'source-url' }>[];
   running: boolean;
 }) {
   return (

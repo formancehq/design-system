@@ -8,9 +8,9 @@ export default function ApiSnippetTabs() {
        * curl are shown, with fctl first and selected by default.
        */}
       <ApiSnippet
-        operation="v2GetLedger"
+        operation="v2ReadStats"
         params={{ ledger: 'testing' }}
-        fctl="fctl ledger show testing"
+        fctl="fctl ledger stats --ledger testing"
         tabs={['fctl', 'curl']}
         defaultTab="fctl"
       />

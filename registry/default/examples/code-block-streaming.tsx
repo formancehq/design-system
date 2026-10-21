@@ -37,7 +37,7 @@ const blocks: {
   },
   {
     language: 'bash',
-    code: 'fctl ledger schema validate ledger/schema.yaml',
+    code: 'fctl ledger schemas insert v4 ledger/schema.yaml --ledger omnibus',
   },
   {
     title: 'transactions/payout.num',

@@ -66,10 +66,10 @@ function FileTreeNode({
               variant="ghost"
               size="sm"
               caseSensitive
-              className="w-full justify-start font-normal aria-expanded:bg-transparent aria-expanded:hover:bg-muted dark:aria-expanded:hover:bg-muted/50"
+              className="w-full justify-start gap-1.5 font-normal aria-expanded:bg-transparent aria-expanded:hover:bg-muted dark:aria-expanded:hover:bg-muted/50"
             >
-              <ChevronRightIcon className="transition-transform group-data-[state=open]/folder:rotate-90" />
-              <FolderIcon />
+              <ChevronRightIcon className="size-4 shrink-0 transition-transform group-data-[state=open]/folder:rotate-90" />
+              <FolderIcon className="size-4 shrink-0" />
               {node.name}
             </Button>
           </CollapsibleTrigger>
@@ -93,13 +93,13 @@ function FileTreeNode({
           variant="ghost"
           size="sm"
           caseSensitive
-          className={`w-full justify-start font-normal ${
+          className={`w-full justify-start gap-1.5 font-normal ${
             selected === node.path ? 'bg-accent text-accent-foreground' : ''
           }`}
           aria-current={selected === node.path ? 'true' : undefined}
           onClick={() => onSelect(node.path)}
         >
-          <FileIcon />
+          <FileIcon className="size-4 shrink-0" />
           {node.name}
         </Button>
       );

@@ -34,7 +34,7 @@ import {
   InputGroupTextarea,
 } from '@/registry/default/ui/input-group';
 
-type AttachmentFile = {
+type TAttachmentFile = {
   id: string;
   name: string;
 };
@@ -66,7 +66,7 @@ const efforts = [
 
 export default function PromptInputDemo() {
   const [text, setText] = React.useState('');
-  const [files, setFiles] = React.useState<AttachmentFile[]>([]);
+  const [files, setFiles] = React.useState<TAttachmentFile[]>([]);
   const [model, setModel] = React.useState('gpt-5');
   const [effort, setEffort] = React.useState('medium');
   const formRef = React.useRef<HTMLFormElement>(null);

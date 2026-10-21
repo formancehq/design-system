@@ -20,7 +20,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -31,12 +31,12 @@ type ChatMessage = UIMessage<
   }
 >;
 
-type ToolPart = Extract<
-  ChatMessage['parts'][number],
+type TToolPart = Extract<
+  TChatMessage['parts'][number],
   { type: 'tool-runCommand' }
 >;
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Which Formance modules are enabled on the sandbox stack?')
   .assistant(({ writer }) => {
     writer
@@ -65,7 +65,7 @@ function ToolRow({
   streaming,
   defaultOpen,
 }: {
-  part: ToolPart;
+  part: TToolPart;
   streaming: boolean;
   defaultOpen?: boolean;
 }) {

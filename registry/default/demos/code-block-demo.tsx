@@ -51,19 +51,20 @@ export default function CodeBlockDemo() {
           </CodeBlockTitle>
           <CodeBlockActions>
             <Button
-              variant="ghost"
-              size="icon-xs"
+              variant="outline"
+              size="icon-sm"
               aria-label="Wrap lines"
               aria-pressed={wrap}
-              className="aria-pressed:text-foreground"
+              className="text-muted-foreground aria-pressed:text-foreground"
               onClick={() => setWrap(!wrap)}
             >
               <WrapTextIcon />
             </Button>
             <Button
-              variant="ghost"
-              size="icon-xs"
+              variant="outline"
+              size="icon-sm"
               aria-label="Download"
+              className="text-muted-foreground"
               onClick={() => download(code, 'payout.ts')}
             >
               <DownloadIcon />

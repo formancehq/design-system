@@ -11,17 +11,10 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-const VALIDATE_OUTPUT = `Validating schema.yaml
+const PAYOUT_OUTPUT = `> fctl ledger transactions num payout.num \\
+    --ledger omnibus --confirm
 
-accounts.fees
-  error  Account has no outgoing transaction
-
-transactions.accrue_interest
-  error  Posts from @world without a cap
-
-✖ 2 problems (2 errors, 0 warnings)
-
-Error: schema validation failed with exit code 1.`;
+ ERROR  Got error with code INSUFFICIENT_FUND: running numscript: script execution failed: account(s) @users:042 had/have insufficient funds`;
 
 export default function TerminalError() {
   return (
@@ -39,14 +32,14 @@ export default function TerminalError() {
               <TerminalIcon />
             </TraceIcon>
             <TraceTitle>
-              fctl ledger schema validate exited with code 1
+              fctl ledger transactions num payout.num exited with code 2
             </TraceTitle>
           </TraceLine>
         </TraceCollapsibleTrigger>
         <TraceCollapsibleContent>
           <CodeBlock size="sm">
             <CodeBlockContent wrap className="max-h-64">
-              {VALIDATE_OUTPUT}
+              {PAYOUT_OUTPUT}
             </CodeBlockContent>
           </CodeBlock>
         </TraceCollapsibleContent>

@@ -28,7 +28,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -47,12 +47,12 @@ type ChatMessage = UIMessage<
   }
 >;
 
-type StepPart = Extract<
-  ChatMessage['parts'][number],
+type TStepPart = Extract<
+  TChatMessage['parts'][number],
   { type: 'tool-searchWeb' | 'tool-readBuildLog' | 'tool-searchCode' }
 >;
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Why does the deposit fail on the sandbox ledger?')
   .assistant(({ writer }) => {
     writer
@@ -131,7 +131,7 @@ function Step({
   );
 }
 
-function StepRow({ part, streaming }: { part: StepPart; streaming: boolean }) {
+function StepRow({ part, streaming }: { part: TStepPart; streaming: boolean }) {
   const status =
     part.state === 'output-available'
       ? undefined
@@ -227,7 +227,7 @@ function ChainOfThought({
   streaming,
   answering,
 }: {
-  steps: StepPart[];
+  steps: TStepPart[];
   streaming: boolean;
   answering: boolean;
 }) {

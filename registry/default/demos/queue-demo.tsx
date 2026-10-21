@@ -25,7 +25,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -41,8 +41,8 @@ type ChatMessage = UIMessage<
   }
 >;
 
-type Todo = Extract<
-  ChatMessage['parts'][number],
+type TTodo = Extract<
+  TChatMessage['parts'][number],
   { type: 'tool-writeTodos'; state: 'input-available' }
 >['input']['todos'][number];
 
@@ -64,11 +64,11 @@ function todosAt(current: number) {
             : index === current
               ? 'in_progress'
               : 'pending',
-      }) satisfies Todo
+      }) satisfies TTodo
   );
 }
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Add daily interest accrual on client balances.')
   .assistant(({ writer }) => {
     TODOS.forEach((_, index) => {
@@ -87,7 +87,7 @@ const transcript = chat.get();
 const [question] = chat.get(1);
 const transport = chat.transport({ delayMs: 20 });
 
-function TodoLine({ todo, streaming }: { todo: Todo; streaming: boolean }) {
+function TodoLine({ todo, streaming }: { todo: TTodo; streaming: boolean }) {
   return (
     <TraceLine
       status={
@@ -112,7 +112,7 @@ function TodoQueue({
   todos,
   streaming,
 }: {
-  todos: Todo[];
+  todos: TTodo[];
   streaming: boolean;
 }) {
   const pending = todos.filter((todo) => todo.status !== 'completed');

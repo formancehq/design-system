@@ -41,40 +41,47 @@ type TToolPart = Extract<
 
 const COMMANDS = [
   {
-    id: 'validate',
-    command: 'fctl ledger schema validate schema.yaml',
-    output: ['Validating schema.yaml', '✓ 14 checks passed'],
-  },
-  {
-    id: 'simulate',
-    command: 'fctl ledger schema simulate schema.yaml',
+    id: 'create',
+    command: 'fctl ledger create omnibus --confirm',
     output: [
-      'Simulating 3 transactions on a scratch ledger',
+      '> fctl ledger create omnibus --confirm',
       '',
-      ' ✓ deposit           2 postings   12ms',
-      ' ✓ payout            2 postings   9ms',
-      ' ✓ accrue_interest   2 postings   11ms',
-      '',
-      ' Transactions  3 passed (3)',
-      '     Balances  all accounts balance to 0',
+      ' SUCCESS  Ledger created!',
     ],
   },
   {
-    id: 'deploy',
-    command: 'fctl ledger schema deploy schema.yaml --ledger omnibus',
+    id: 'schema',
+    command:
+      'fctl ledger schemas insert v4 schema.yaml --ledger omnibus --confirm',
     output: [
-      'Deploying to stack sandbox-k3x9',
+      '> fctl ledger schemas insert v4 schema.yaml \\',
+      '    --ledger omnibus --confirm',
       '',
-      '   Ledger      omnibus',
-      '   Accounts    6 patterns',
-      '   Transactions 3 templates',
-      ' ✓ Schema v4 is live in 2.1s',
+      ' SUCCESS  Schema inserted!',
+    ],
+  },
+  {
+    id: 'deposit',
+    command:
+      'fctl ledger transactions num deposit.num --ledger omnibus --confirm',
+    output: [
+      '> fctl ledger transactions num deposit.num \\',
+      '    --ledger omnibus --confirm',
+      '',
+      '# Information',
+      'ID        | 1',
+      'Reference | dep-0001',
+      'Date      | 2026-10-21T09:14:02Z',
+      '',
+      '# Postings',
+      'Source | Destination | Asset | Amount',
+      'world  | users:042   | USD/2 | 10000',
     ],
   },
 ];
 
 const chat = createChat<TChatMessage>()
-  .user('Validate the schema, then deploy it to the sandbox.')
+  .user('Create the omnibus ledger with schema v4, then post a test deposit.')
   .assistant(({ writer }) => {
     for (const { id, command, output } of COMMANDS) {
       const tool = writer.tool('runCommand', {
@@ -97,7 +104,7 @@ const chat = createChat<TChatMessage>()
     }
 
     writer.text(
-      'The schema is valid, the simulation balances, and v4 is live on the omnibus ledger.'
+      'The omnibus ledger runs schema v4, and transaction 1 moved USD 100.00 to users:042.'
     );
   });
 

@@ -16,7 +16,7 @@ export default function ApiSnippetNoFctl() {
             plain: 'send [USD/2 100] (source = @world allocating to @alice)',
           },
         }}
-        fctl="fctl ledger transactions num testing"
+        fctl="fctl ledger transactions num script.num --ledger testing"
         tabs={['curl', 'httpie', 'sdk']}
       />
     </div>

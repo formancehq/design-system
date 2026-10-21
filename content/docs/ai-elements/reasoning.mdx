@@ -11,7 +11,7 @@ Reasoning is a `Trace` with a `TraceCollapsible` for the thinking.
 
 ## Installation
 
-Reasoning is built with the [Trace](/docs/ai-elements/trace) component.
+Reasoning is built with the [Trace](/docs/components/trace) component.
 
 ```bash
 npx shadcn@latest add @formance/trace
@@ -74,7 +74,7 @@ Show each `reasoning` part as a line. The line starts as a plain `TraceLine`. It
 becomes a `TraceCollapsible` when text arrives. Thus there is nothing to open
 before the model writes. The line opens while the model thinks, and closes when
 the model stops. If the user opens or closes the line, the choice of the user
-wins. Refer to [Open State](/docs/ai-elements/trace#open-state).
+wins. Refer to [Open State](/docs/components/trace#open-state).
 
 ```tsx
 function ReasoningLine({ text, running }: { text: string; running: boolean }) {

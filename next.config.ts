@@ -1,15 +1,6 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  async redirects() {
-    return [
-      {
-        source: '/docs/components/attachment',
-        destination: '/docs/ai-elements/attachment',
-        permanent: true,
-      },
-    ];
-  },
   async rewrites() {
     return [
       {

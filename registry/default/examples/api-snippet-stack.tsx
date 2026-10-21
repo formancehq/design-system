@@ -17,7 +17,7 @@ export default function ApiSnippetStack() {
           },
         }}
         headers={{ Authorization: 'Bearer $AUTH_TOKEN' }}
-        fctl="fctl ledger transactions num testing"
+        fctl="fctl ledger transactions num script.num --ledger testing"
       />
     </div>
   );

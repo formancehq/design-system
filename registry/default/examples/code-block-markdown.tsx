@@ -60,7 +60,9 @@ function MarkdownCodeBlock({
   return (
     <CodeBlock className="not-typeset">
       <CodeBlockHeader>
-        <CodeBlockTitle>{language || 'text'}</CodeBlockTitle>
+        <CodeBlockTitle className="uppercase">
+          {language || 'text'}
+        </CodeBlockTitle>
         <CodeBlockActions>
           <CodeBlockCopyButton value={code} disabled={incomplete} />
         </CodeBlockActions>

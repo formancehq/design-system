@@ -24,7 +24,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   {
     task: {
@@ -34,9 +34,9 @@ type ChatMessage = UIMessage<
   }
 >;
 
-type TaskPart = Extract<ChatMessage['parts'][number], { type: 'data-task' }>;
+type TTaskPart = Extract<TChatMessage['parts'][number], { type: 'data-task' }>;
 
-type Status = 'running' | 'error' | undefined;
+type TStatus = 'running' | 'error' | undefined;
 
 type TTaskScript = {
   id: string;
@@ -77,10 +77,10 @@ function taskAt(task: TTaskScript, done: number) {
       title: index < done ? finished : running,
       status: index < done ? 'done' : 'running',
     })),
-  } satisfies TaskPart['data'];
+  } satisfies TTaskPart['data'];
 }
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Add daily interest accrual on client balances.')
   .assistant(({ writer }) => {
     TASKS.forEach((task) => {
@@ -100,9 +100,9 @@ const [question] = chat.get(1);
 const transport = chat.transport({ delayMs: 20 });
 
 function getStepStatus(
-  status: TaskPart['data']['steps'][number]['status'],
+  status: TTaskPart['data']['steps'][number]['status'],
   streaming: boolean
-): Status {
+): TStatus {
   if (status === 'done') {
     return undefined;
   }
@@ -110,7 +110,7 @@ function getStepStatus(
   return status === 'running' && streaming ? 'running' : 'error';
 }
 
-function StatusIcon({ status }: { status: Status }) {
+function StatusIcon({ status }: { status: TStatus }) {
   if (status === 'running') {
     return <LoaderCircleIcon className="animate-spin" />;
   }
@@ -122,7 +122,7 @@ function TaskRow({
   task,
   streaming,
 }: {
-  task: TaskPart['data'];
+  task: TTaskPart['data'];
   streaming: boolean;
 }) {
   const [open, setOpen] = React.useState<boolean>();

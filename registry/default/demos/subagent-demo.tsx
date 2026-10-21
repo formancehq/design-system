@@ -24,7 +24,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type SubagentMessage = UIMessage<
+type TSubagentMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -35,20 +35,20 @@ type SubagentMessage = UIMessage<
   }
 >;
 
-type SubagentPart = SubagentMessage['parts'][number];
+type TSubagentPart = TSubagentMessage['parts'][number];
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
     researchAgent: {
       input: { task: string };
-      output: SubagentMessage;
+      output: TSubagentMessage;
     };
   }
 >;
 
-type Part = ChatMessage['parts'][number];
+type TPart = TChatMessage['parts'][number];
 
 const steps = [
   {
@@ -65,8 +65,8 @@ const steps = [
   },
 ];
 
-function getSubagentMessage(done: number, report?: string): SubagentMessage {
-  const parts = steps.slice(0, done).map((step, index): SubagentPart => ({
+function getSubagentMessage(done: number, report?: string): TSubagentMessage {
+  const parts = steps.slice(0, done).map((step, index): TSubagentPart => ({
     type: 'tool-runCommand',
     toolCallId: `step-${index}`,
     state: 'output-available',
@@ -92,7 +92,7 @@ function getSubagentMessage(done: number, report?: string): SubagentMessage {
   return { id: 'research-agent', role: 'assistant', parts };
 }
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Why does the deposit fail on the sandbox ledger?')
   .assistant(({ writer }) => {
     const subagent = writer
@@ -128,7 +128,7 @@ function StepRow({
   part,
   running,
 }: {
-  part: Extract<SubagentPart, { type: 'tool-runCommand' }>;
+  part: Extract<TSubagentPart, { type: 'tool-runCommand' }>;
   running: boolean;
 }) {
   const command = part.input?.command;
@@ -175,7 +175,7 @@ function SubagentRow({
   part,
   streaming,
 }: {
-  part: Extract<Part, { type: 'tool-researchAgent' }>;
+  part: Extract<TPart, { type: 'tool-researchAgent' }>;
   streaming: boolean;
 }) {
   const done = part.state === 'output-available' && !part.preliminary;

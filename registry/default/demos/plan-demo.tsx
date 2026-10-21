@@ -25,7 +25,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   {
     plan: {
@@ -35,7 +35,7 @@ type ChatMessage = UIMessage<
   }
 >;
 
-type PlanPart = Extract<ChatMessage['parts'][number], { type: 'data-plan' }>;
+type TPlanPart = Extract<TChatMessage['parts'][number], { type: 'data-plan' }>;
 
 const STEPS = [
   'Add the clients:$id:interest account',
@@ -52,10 +52,10 @@ function planAt(current: number) {
       status:
         index < current ? 'done' : index === current ? 'running' : 'pending',
     })),
-  } satisfies PlanPart['data'];
+  } satisfies TPlanPart['data'];
 }
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Add daily interest accrual on client balances.')
   .assistant(({ writer }) => {
     STEPS.forEach((_, index) => {
@@ -75,7 +75,7 @@ function PlanRow({
   plan,
   streaming,
 }: {
-  plan: PlanPart['data'];
+  plan: TPlanPart['data'];
   streaming: boolean;
 }) {
   const done = plan.steps.filter((step) => step.status === 'done').length;

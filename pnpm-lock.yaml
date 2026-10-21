@@ -8,7 +8,7 @@ importers:
   .:
     dependencies:
       '@ai-sdk/react':
-        specifier: ^4.0.148
+        specifier: 4.0.148
         version: 4.0.148(react@19.2.8)(zod@4.4.3)
       '@dnd-kit/core':
         specifier: ^6.3.1
@@ -29,7 +29,7 @@ importers:
         specifier: ^16.3.3
         version: 16.3.3(next@16.3.3(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@26.3.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       '@shadcn/helpers':
-        specifier: ^0.3.0
+        specifier: 0.3.0
         version: 0.3.0(ai@7.0.144(zod@4.4.3))
       '@shadcn/react':
         specifier: ^0.3.1
@@ -44,7 +44,7 @@ importers:
         specifier: ^2.0.14
         version: 2.0.14
       ai:
-        specifier: ^7.0.144
+        specifier: 7.0.144
         version: 7.0.144(zod@4.4.3)
       ajv:
         specifier: ^8.20.0

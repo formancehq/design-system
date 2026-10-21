@@ -8,8 +8,8 @@ All lines have the same shape. Thus reasoning, tool calls, sources, and plans
 that you build from `Trace` look and behave the same.
 
 Use `Trace` for the steps that an agent takes, for example a tool call, a
-subagent run, or a schema edit. Use [Message](/docs/ai-elements/message) for
-the reply of the agent. Use [Marker](/docs/ai-elements/marker) for notes and
+subagent run, or a schema edit. Use [Message](/docs/components/message) for
+the reply of the agent. Use [Marker](/docs/components/marker) for notes and
 separators between turns.
 
 ## Built with Trace
@@ -113,7 +113,7 @@ import {
         <TraceTitle>Ran fctl version</TraceTitle>
       </TraceLine>
     </TraceCollapsibleTrigger>
-    <TraceCollapsibleContent>fctl 3.4.0</TraceCollapsibleContent>
+    <TraceCollapsibleContent>Version | v3.8.0</TraceCollapsibleContent>
   </TraceCollapsible>
 </Trace>
 ```
@@ -331,5 +331,89 @@ Refer to [Tool](/docs/ai-elements/tool) for more examples.
 - When a link opens a new tab, add "(opens in a new tab)" to the title with `sr-only`.
 - Color and motion show the status. Thus, also put the status in the title: "Deploying the schema" while it runs, and "Failed to deploy the schema" when it fails.
 - The shimmer on a running title stops when the reader prefers reduced motion. The title continues to say what occurs.
-- In a [Message Scroller](/docs/ai-elements/message-scroller), screen readers announce each line one time, when it is added.
+- In a [Message Scroller](/docs/components/message-scroller), screen readers announce each line one time, when it is added.
 - `TraceCollapsibleContent` mutes its text. If you put a block with a muted background in it, give the block `text-foreground` to keep its contrast. `CodeBlock` sets its own text color.
+
+## API Reference
+
+### Trace
+
+A list of rows. It also styles each trigger or link that holds a `TraceLine`.
+
+| Prop        | Type                          | Default | Description                 |
+| ----------- | ----------------------------- | ------- | --------------------------- |
+| `className` | `string`                      | -       | Classes to add to the list. |
+| `...props`  | `React.ComponentProps<"div">` | -       | Props given to the `div`.   |
+
+### TraceLine
+
+One line: an icon and a title. It is a `span`, so it is not a button or a tab
+stop. Put it in a trigger or a link to make it interactive.
+
+| Prop        | Type                                | Default | Description                                                                                                                    |
+| ----------- | ----------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `status`    | `"running" \| "error" \| "pending"` | -       | The state of the work on the line. `running` shimmers the title, `error` uses the destructive color, `pending` fades the line. |
+| `className` | `string`                            | -       | Classes to add to the line.                                                                                                    |
+| `...props`  | `React.ComponentProps<"span">`      | -       | Props given to the `span`.                                                                                                     |
+
+### TraceIcon
+
+A decorative icon slot, hidden from assistive technology. Before the title, it
+shows the action. After the title, it is the indicator.
+
+| Prop        | Type                           | Default | Description                      |
+| ----------- | ------------------------------ | ------- | -------------------------------- |
+| `className` | `string`                       | -       | Classes to add to the icon slot. |
+| `...props`  | `React.ComponentProps<"span">` | -       | Props given to the `span`.       |
+
+### TraceTitle
+
+One sentence on one line. It truncates, and it shimmers while the line is
+running.
+
+| Prop        | Type                           | Default | Description                  |
+| ----------- | ------------------------------ | ------- | ---------------------------- |
+| `className` | `string`                       | -       | Classes to add to the title. |
+| `...props`  | `React.ComponentProps<"span">` | -       | Props given to the `span`.   |
+
+### TraceDescription
+
+Secondary text after the title, such as a count or a duration. It does not
+truncate.
+
+| Prop        | Type                           | Default | Description                        |
+| ----------- | ------------------------------ | ------- | ---------------------------------- |
+| `className` | `string`                       | -       | Classes to add to the description. |
+| `...props`  | `React.ComponentProps<"span">` | -       | Props given to the `span`.         |
+
+### TraceCollapsible
+
+A row that expands. It accepts the props of
+[Collapsible](/docs/components/collapsible), except `asChild`.
+
+| Prop           | Type                      | Default | Description                                                                         |
+| -------------- | ------------------------- | ------- | ----------------------------------------------------------------------------------- |
+| `open`         | `boolean`                 | -       | The controlled open state. When you give `open`, you must also give `onOpenChange`. |
+| `onOpenChange` | `(open: boolean) => void` | -       | Called when the open state changes.                                                 |
+| `defaultOpen`  | `boolean`                 | `false` | Whether the row is open at the start.                                               |
+| `disabled`     | `boolean`                 | `false` | Prevents the row from opening and closing.                                          |
+| `className`    | `string`                  | -       | Classes to add to the row.                                                          |
+
+### TraceCollapsibleTrigger
+
+The button that opens and closes the row. Put a `TraceLine` in it. It adds a
+chevron after the line, which turns when the row is open.
+
+| Prop        | Type                                              | Default | Description                                   |
+| ----------- | ------------------------------------------------- | ------- | --------------------------------------------- |
+| `className` | `string`                                          | -       | Classes to add to the trigger.                |
+| `...props`  | `React.ComponentProps<typeof CollapsibleTrigger>` | -       | Props given to the trigger, except `asChild`. |
+
+### TraceCollapsibleContent
+
+The detail of a row that expands. It animates open and closed.
+
+| Prop         | Type      | Default | Description                                                                          |
+| ------------ | --------- | ------- | ------------------------------------------------------------------------------------ |
+| `className`  | `string`  | -       | Classes to add to the inner detail block (the indented column with the left border). |
+| `forceMount` | `boolean` | -       | Keeps the detail in the DOM when the row is closed, for example to animate it.       |

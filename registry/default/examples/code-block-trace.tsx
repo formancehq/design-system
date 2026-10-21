@@ -12,11 +12,12 @@ import {
 } from '@/registry/default/ui/trace';
 
 const output = `$ fctl version
-fctl v3.4.1 (stack v2.3.0)`;
+Version | v3.8.0
+Date    | 2026-08-05T08:39:35Z
+Commit  | e1080a5`;
 
 const error = `$ fctl ledger send world clients:8812:available 100 USD/2 --ledger omnibus
-Error: ledger "omnibus" not found on stack sandbox-k3x9
-    run "fctl ledger create omnibus" first`;
+ ERROR  Got error with code LEDGER_NOT_FOUND: ledger omnibus not found`;
 
 export default function CodeBlockTrace() {
   return (

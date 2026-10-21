@@ -15,9 +15,9 @@ export function useHighlightedCode(value: string, language: string) {
     let cancelled = false;
 
     loadHighlighter(language)
-      .then((next) => {
+      .then((loadedHighlighter) => {
         if (!cancelled) {
-          setLoaded({ language, highlighter: next });
+          setLoaded({ language, highlighter: loadedHighlighter });
         }
       })
       .catch(() => {});
@@ -29,37 +29,40 @@ export function useHighlightedCode(value: string, language: string) {
 
   // The complete lines, highlighted. While the code streams, only the new
   // lines are tokenized, starting from the grammar state of the last one.
-  const [done, setDone] = React.useState<{
+  const [completeLines, setCompleteLines] = React.useState<{
     highlighter: typeof highlighter;
     text: string;
     lines: React.ReactNode[];
     state?: Parameters<NonNullable<typeof highlighter>['highlight']>[1];
   }>({ highlighter: null, text: '', lines: [] });
 
-  let next = done;
+  let nextCompleteLines = completeLines;
 
-  if (next.highlighter !== highlighter || !code.startsWith(next.text)) {
-    next = { highlighter, text: '', lines: [] };
+  if (
+    nextCompleteLines.highlighter !== highlighter ||
+    !code.startsWith(nextCompleteLines.text)
+  ) {
+    nextCompleteLines = { highlighter, text: '', lines: [] };
   }
 
   const end = code.lastIndexOf('\n') + 1;
 
-  if (highlighter && end > next.text.length) {
+  if (highlighter && end > nextCompleteLines.text.length) {
     const result = highlighter.highlight(
-      code.slice(next.text.length, end - 1),
-      next.state
+      code.slice(nextCompleteLines.text.length, end - 1),
+      nextCompleteLines.state
     );
 
-    next = {
+    nextCompleteLines = {
       highlighter,
       text: code.slice(0, end),
-      lines: [...next.lines, ...result.lines],
+      lines: [...nextCompleteLines.lines, ...result.lines],
       state: result.state,
     };
   }
 
-  if (next !== done) {
-    setDone(next);
+  if (nextCompleteLines !== completeLines) {
+    setCompleteLines(nextCompleteLines);
   }
 
   // The last line is still being written, so it is tokenized on every render.
@@ -70,6 +73,9 @@ export function useHighlightedCode(value: string, language: string) {
       return code.split('\n');
     }
 
-    return [...next.lines, highlighter.highlight(tail, next.state).lines[0]];
-  }, [code, highlighter, next, tail]);
+    return [
+      ...nextCompleteLines.lines,
+      highlighter.highlight(tail, nextCompleteLines.state).lines[0],
+    ];
+  }, [code, highlighter, nextCompleteLines, tail]);
 }

@@ -25,7 +25,7 @@ import {
   TraceTitle,
 } from '@/registry/default/ui/trace';
 
-type ChatMessage = UIMessage<
+type TChatMessage = UIMessage<
   unknown,
   UIDataTypes,
   {
@@ -42,7 +42,7 @@ schema:
   path: ./schema
   version: 3`;
 
-const chat = createChat<ChatMessage>()
+const chat = createChat<TChatMessage>()
   .user('Which ledger does the schema deploy to?')
   .assistant(({ writer }) => {
     writer
