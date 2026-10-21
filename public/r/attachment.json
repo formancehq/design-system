@@ -8,7 +8,7 @@
     "radix-ui"
   ],
   "registryDependencies": [
-    "button"
+    "https://ds.formance.com/r/button.json"
   ],
   "files": [
     {

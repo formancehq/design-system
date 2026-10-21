@@ -1,0 +1,93 @@
+Subagent shows a subagent run, with its tool calls and its result.
+
+<ComponentPreview name="subagent" peekCode />
+
+Subagent is a line for work that the agent gives to a subagent. The title is
+the run, for example "Ran the research agent". Open the line to see the tool
+calls of the subagent and its result.
+
+Subagent is a `Trace` with a `TraceCollapsible` for the run, and a nested
+`Trace` for its tool calls.
+
+## Installation
+
+Subagent is built with the [Trace](/docs/ai-elements/trace), [Code Block](/docs/ai-elements/code-block), and [Badge](/docs/components/badge) components.
+
+```bash
+npx shadcn@latest add @formance/trace @formance/code-block @formance/badge
+```
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <CircleCheckIcon />
+        </TraceIcon>
+        <TraceTitle>Ran the research agent</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent className="flex flex-col gap-3">
+      <Trace>
+        <TraceLine>
+          <TraceIcon>
+            <CircleCheckIcon />
+          </TraceIcon>
+          <TraceTitle>
+            Ran grep -n source schema/transactions/deposit.num
+          </TraceTitle>
+        </TraceLine>
+      </Trace>
+      <p>The deposit sends from @bank:omnibus, which is empty.</p>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### Running
+
+While the subagent runs, the line has `status="running"`. Its content shows the
+tool calls until now. Add the result when the subagent stops.
+
+<ComponentPreview name="subagent-running" />
+
+### Details
+
+Put the task of the subagent at the top of the content. Show its model and its
+tools as [Badge](/docs/components/badge) items. Show the run duration in a
+`TraceDescription` after the title.
+
+<ComponentPreview name="subagent-details" />
+
+## AI SDK
+
+In the AI SDK, a subagent is a tool. Its `execute` function yields the
+`UIMessage` of the subagent while it streams. Show the tool part as the line,
+and `part.output.parts` as the nested `Trace`. Map each nested tool part as in
+[Tool](/docs/ai-elements/tool#states).
+
+Each yield is a preliminary output: the part is `output-available` with
+`preliminary: true`. The final output replaces it. Thus, examine `preliminary`
+before you show "Ran".
+
+- `input-streaming` or `input-available`: status `"running"` while the chat streams, title "Running …".
+- `output-available` with `preliminary: true`: status `"running"` while the chat streams, title "Running …".
+- `output-available`: no status, title "Ran …".
+- `output-error`, or a running state after the chat stops: status `"error"`, title "Failed to run …".

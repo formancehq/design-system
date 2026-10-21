@@ -1,0 +1,204 @@
+Tool shows a tool call of the agent, from input to output.
+
+<ComponentPreview name="tool" peekCode />
+
+A tool call is an action of the agent, for example a command or a file read.
+The line follows the call from input to output. It also shows errors, and
+calls that wait for an approval.
+
+Tool is a `Trace` with one `TraceCollapsible` for each call that has output.
+
+## Installation
+
+Tool is built with the [Trace](/docs/ai-elements/trace) and [Code Block](/docs/ai-elements/code-block) components.
+
+```bash
+npx shadcn@latest add @formance/trace @formance/code-block
+```
+
+## Usage
+
+```tsx
+import { CodeBlock, CodeBlockContent } from '@/components/ui/code-block';
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <TerminalIcon />
+        </TraceIcon>
+        <TraceTitle>Ran fctl ledger list</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <CodeBlock size="sm">
+        <CodeBlockContent wrap className="max-h-64">
+          {output}
+        </CodeBlockContent>
+      </CodeBlock>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### States
+
+Trace does not read tool parts. Map the `state` of each part to a `status` and a
+title.
+
+<ComponentPreview name="tool-states" />
+
+- `input-streaming` or `input-available`, while the chat streams: status `"running"`, title "Running …".
+- `input-streaming` or `input-available`, after the chat stops: status `"error"`, title "Failed to run …".
+- `approval-requested`: not a line. Show an `Item` outside `Trace`, with Approve and Deny buttons.
+- `approval-responded`: status `"running"` if approved, with the title "Running …". No status if denied, with the title "Denied …".
+- `output-available`: no status, title "Ran …".
+- `output-error`: status `"error"`, title "Failed to run …".
+- `output-denied`: no status, title "Denied …".
+
+A tool is a plain `TraceLine` while it runs. It becomes a `TraceCollapsible`
+when its output arrives.
+
+```tsx
+function ToolLine({
+  part,
+  streaming,
+}: {
+  part: TToolPart;
+  streaming: boolean;
+}) {
+  const command = part.input?.command;
+
+  if (
+    part.state === 'output-denied' ||
+    (part.state === 'approval-responded' && !part.approval.approved)
+  ) {
+    return (
+      <TraceLine>
+        <TraceIcon>
+          <TerminalIcon />
+        </TraceIcon>
+        <TraceTitle>Denied {command}</TraceTitle>
+      </TraceLine>
+    );
+  }
+
+  if (part.state === 'output-available' || part.state === 'output-error') {
+    const failed = part.state === 'output-error';
+
+    return (
+      <TraceCollapsible>
+        <TraceCollapsibleTrigger>
+          <TraceLine status={failed ? 'error' : undefined}>
+            <TraceIcon>
+              <TerminalIcon />
+            </TraceIcon>
+            <TraceTitle>
+              {failed ? 'Failed to run' : 'Ran'} {command}
+            </TraceTitle>
+          </TraceLine>
+        </TraceCollapsibleTrigger>
+        <TraceCollapsibleContent>
+          <CodeBlock size="sm">
+            <CodeBlockContent wrap className="max-h-64">
+              {failed ? part.errorText : part.output.stdout}
+            </CodeBlockContent>
+          </CodeBlock>
+        </TraceCollapsibleContent>
+      </TraceCollapsible>
+    );
+  }
+
+  return (
+    <TraceLine status={streaming ? 'running' : 'error'}>
+      <TraceIcon>
+        <TerminalIcon />
+      </TraceIcon>
+      <TraceTitle>
+        {streaming ? 'Running' : 'Failed to run'} {command}
+      </TraceTitle>
+    </TraceLine>
+  );
+}
+```
+
+```tsx
+<Trace>
+  {message.parts
+    .filter((part) => part.type === 'tool-runCommand')
+    .map((part) => (
+      <ToolLine key={part.toolCallId} part={part} streaming={streaming} />
+    ))}
+</Trace>
+```
+
+A tool that runs on the client stays `input-available` after the chat stops,
+until you call `addToolOutput`. Show it as a waiting tool, not as a failed tool.
+
+### Output in a Sheet
+
+For long output, put the `TraceLine` in a `SheetTrigger`, and show the output
+in the sheet.
+
+<ComponentPreview name="tool-sheet" />
+
+Refer to [Trace](/docs/ai-elements/trace#dialog).
+
+### Approval
+
+A pending approval is a question for the user. It is not a step of the agent,
+so it goes outside `Trace`, as an `Item`. When the user answers, the tool
+becomes a line again. Refer to [Confirmation](/docs/ai-elements/confirmation).
+
+<ComponentPreview name="tool-approval" />
+
+```tsx
+if (part.state === 'approval-requested') {
+  return (
+    <Item variant="outline" size="sm">
+      <ItemMedia variant="icon">
+        <TerminalIcon />
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>Run {part.input.command}?</ItemTitle>
+      </ItemContent>
+      <ItemActions>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() =>
+            addToolApprovalResponse({ id: part.approval.id, approved: false })
+          }
+        >
+          Deny
+        </Button>
+        <Button
+          size="sm"
+          onClick={() =>
+            addToolApprovalResponse({ id: part.approval.id, approved: true })
+          }
+        >
+          Approve
+        </Button>
+      </ItemActions>
+    </Item>
+  );
+}
+```
+
+Pass `sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses`
+to `useChat`. Then the chat continues when each approval has an answer.

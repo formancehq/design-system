@@ -1,0 +1,185 @@
+<ComponentPreview name="message" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/message
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="message" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+  MessageHeader,
+} from '@/components/ui/message';
+```
+
+```tsx
+<Message>
+  <MessageAvatar>
+    <FormanceIcon variant="emerald" size="md" />
+  </MessageAvatar>
+  <MessageContent>
+    <MessageHeader>Schema assistant</MessageHeader>
+    <Bubble>
+      <BubbleContent>Deposits land in bank:omnibus.</BubbleContent>
+    </Bubble>
+    <MessageFooter>Answered from the current schema</MessageFooter>
+  </MessageContent>
+</Message>
+```
+
+Set `align="end"` on the messages of the current user.
+
+## Examples
+
+### Group
+
+Wrap consecutive messages in `MessageGroup`, and consecutive bubbles of one
+sender in `BubbleGroup`.
+
+<ComponentPreview name="message-group" />
+
+### Avatar
+
+Put an `Avatar` in `MessageAvatar`. The avatar aligns to the last line of the message.
+
+<ComponentPreview name="message-avatar" />
+
+### Header and footer
+
+Use `MessageHeader` for the name of the sender, and `MessageFooter` for a status such as the read time.
+
+<ComponentPreview name="message-header-footer" />
+
+### Actions
+
+Put icon buttons in `MessageFooter`. Show an error and a retry button when a message does not send.
+
+<ComponentPreview name="message-actions" />
+
+### Attachment
+
+Put an [Attachment](/docs/ai-elements/attachment) in `MessageContent`, next to the bubble.
+
+<ComponentPreview name="message-attachment" />
+
+### Markdown
+
+Render the text of the agent with the [Markdown](/docs/fragments/markdown) fragment, in a `ghost` bubble. Keep the messages of the person as plain text.
+
+<ComponentPreview name="message-markdown" />
+
+## Pattern
+
+Use Message for one turn in a thread. The text of the person is a [Bubble](/docs/ai-elements/bubble) on a Message with `align="end"`. The reply of the agent is markdown on a Message, with actions under it. A thread of these turns is a [Chat](/docs/ai-elements/chat).
+
+<ComponentPreview name="message-pattern" />
+
+The pattern is built with the Message, Bubble, and [Tooltip](/docs/components/tooltip) components:
+
+```bash
+npx shadcn@latest add @formance/message @formance/bubble @formance/tooltip
+```
+
+```tsx
+<Message align="end">
+  <MessageContent>
+    <Bubble align="end" variant="muted">
+      <BubbleContent>How do I accrue daily interest?</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+<Message>
+  <MessageContent className="gap-2">
+    <p>Add a clients:$id:interest account.</p>
+    <MessageFooter>
+      <Button variant="ghost" size="icon-sm" aria-label="Copy">
+        <CopyIcon />
+      </Button>
+    </MessageFooter>
+  </MessageContent>
+</Message>
+```
+
+### Reply actions
+
+Put the actions in `MessageFooter`. The footer follows the alignment of the message, so on the turn of the person the actions are on the right. Use a ghost icon button with a tooltip for each action.
+
+- **Copy** writes the reply to the clipboard. Its icon changes to a check for two seconds.
+- **Good response** and **Bad response** are toggles. Set `aria-pressed` so that screen readers announce the state.
+- **Retry** runs the turn again.
+- **Edit** on the turn of the person puts the text back in the field.
+
+### Markdown in a reply
+
+The reply streams as markdown. Render it with the [Markdown](/docs/fragments/markdown) fragment. Fenced code then shows with the Formance code theme.
+
+### AI SDK
+
+Branch on the role of the message. The turn of the person is the bubble. The turn of the agent is the reply. `regenerate` with the message id runs the turn again.
+
+```tsx
+const { messages, regenerate } = useChat();
+
+if (message.role === 'user') {
+  return (
+    <Message align="end">
+      <MessageContent>
+        <Bubble align="end" variant="muted">
+          <BubbleContent>{text}</BubbleContent>
+        </Bubble>
+      </MessageContent>
+    </Message>
+  );
+}
+
+return (
+  <Message>
+    <MessageContent className="gap-2">
+      <Markdown>{text}</Markdown>
+      <MessageFooter>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label="Retry"
+          onClick={() => regenerate({ messageId: message.id })}
+        >
+          <RefreshCcwIcon />
+        </Button>
+      </MessageFooter>
+    </MessageContent>
+  </Message>
+);
+```

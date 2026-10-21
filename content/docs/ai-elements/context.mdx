@@ -1,0 +1,61 @@
+Context shows how much of the context window of the model the conversation uses.
+
+<ComponentPreview name="context" peekCode />
+
+Context is a [Hover Card](/docs/components/hover-card) with a
+[Progress](/docs/components/progress) bar.
+
+## Installation
+
+Context is built with the [Hover Card](/docs/components/hover-card) and
+[Progress](/docs/components/progress) components.
+
+```bash
+npx shadcn@latest add @formance/hover-card @formance/progress
+```
+
+## Usage
+
+```tsx
+<HoverCard openDelay={10} closeDelay={100}>
+  <HoverCardTrigger asChild>
+    <Button variant="outline" size="sm">
+      {percent}% context
+    </Button>
+  </HoverCardTrigger>
+  <HoverCardContent className="flex w-64 flex-col gap-3">
+    <div className="flex items-center justify-between gap-3 text-sm">
+      <span className="font-medium">Context</span>
+      <span className="text-muted-foreground">
+        {used} / {limit}
+      </span>
+    </div>
+    <Progress value={percent} aria-label="Context used" />
+  </HoverCardContent>
+</HoverCard>
+```
+
+## AI SDK
+
+Read the usage from the metadata of the message of the agent.
+`messageMetadata` runs when the stream is complete.
+
+```ts
+// app/api/chat/route.ts
+return result.toUIMessageStreamResponse({
+  messageMetadata: ({ part }) => {
+    if (part.type === 'finish') {
+      return { usage: part.totalUsage };
+    }
+  },
+});
+```
+
+```tsx
+const usage = message.metadata?.usage;
+const used = (usage?.inputTokens ?? 0) + (usage?.outputTokens ?? 0);
+const percent = Math.round((used / limit) * 100);
+```
+
+`limit` is the context window of the model. The AI SDK does not send it, so
+set it from the model that you use.

@@ -1,0 +1,126 @@
+Reasoning shows the thinking of the agent while it streams.
+
+<ComponentPreview name="reasoning" peekCode />
+
+Reasoning is a line for the thinking of the agent. While the model thinks, the
+line says "Thinking" and it is open. When the model stops, the line says
+"Thought" and it closes. The thinking is in the line. The line can also show
+the duration.
+
+Reasoning is a `Trace` with a `TraceCollapsible` for the thinking.
+
+## Installation
+
+Reasoning is built with the [Trace](/docs/ai-elements/trace) component.
+
+```bash
+npx shadcn@latest add @formance/trace
+```
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <CircleCheckIcon />
+        </TraceIcon>
+        <TraceTitle>Thought</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent className="whitespace-pre-wrap">
+      {text}
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### Duration
+
+The AI SDK does not measure the reasoning time. Measure it on the server, send
+it as message metadata, and show it in a `TraceDescription` after the title.
+
+<ComponentPreview name="reasoning-duration" />
+
+```tsx
+<TraceLine>
+  <TraceIcon>
+    <CircleCheckIcon />
+  </TraceIcon>
+  <TraceTitle>Thought</TraceTitle>
+  <TraceDescription>{seconds}s</TraceDescription>
+</TraceLine>
+```
+
+## AI SDK
+
+Show each `reasoning` part as a line. The line starts as a plain `TraceLine`. It
+becomes a `TraceCollapsible` when text arrives. Thus there is nothing to open
+before the model writes. The line opens while the model thinks, and closes when
+the model stops. If the user opens or closes the line, the choice of the user
+wins. Refer to [Open State](/docs/ai-elements/trace#open-state).
+
+```tsx
+function ReasoningLine({ text, running }: { text: string; running: boolean }) {
+  const [open, setOpen] = React.useState<boolean>();
+
+  const line = (
+    <TraceLine status={running ? 'running' : undefined}>
+      <TraceIcon>
+        {running ? (
+          <LoaderCircleIcon className="animate-spin" />
+        ) : (
+          <CircleCheckIcon />
+        )}
+      </TraceIcon>
+      <TraceTitle>{running ? 'Thinking' : 'Thought'}</TraceTitle>
+    </TraceLine>
+  );
+
+  if (text.length === 0) {
+    return line;
+  }
+
+  return (
+    <TraceCollapsible open={open ?? running} onOpenChange={setOpen}>
+      <TraceCollapsibleTrigger>{line}</TraceCollapsibleTrigger>
+      <TraceCollapsibleContent className="whitespace-pre-wrap">
+        {text}
+      </TraceCollapsibleContent>
+    </TraceCollapsible>
+  );
+}
+```
+
+```tsx
+<Trace>
+  {message.parts
+    .filter((part) => part.type === 'reasoning')
+    .map((part, index) => (
+      <ReasoningLine
+        key={index}
+        text={part.text}
+        running={streaming && part.state === 'streaming'}
+      />
+    ))}
+</Trace>
+```
+
+Some models send more than one reasoning part in a message. Show each part as a
+line in the same `Trace`.

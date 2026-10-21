@@ -1,0 +1,120 @@
+Model Selector is two menus. One menu selects the model that the agent runs. The other menu selects how much effort the model gives to its reasoning.
+
+<ComponentPreview name="model-selector" peekCode />
+
+## Installation
+
+Model Selector is built with the [Dropdown Menu](/docs/components/dropdown-menu) and [Input Group](/docs/components/input-group) components.
+
+```bash
+npx shadcn@latest add @formance/dropdown-menu @formance/input-group
+```
+
+## Usage
+
+```tsx
+import { ArrowUpIcon, ChevronDownIcon } from 'lucide-react';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from '@/components/ui/input-group';
+```
+
+```tsx
+<InputGroup>
+  <InputGroupTextarea placeholder="Ask the agent to change your schema…" />
+  <InputGroupAddon align="block-end">
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <InputGroupButton size="sm">
+          GPT-5
+          <ChevronDownIcon />
+        </InputGroupButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuRadioGroup value={model} onValueChange={setModel}>
+          <DropdownMenuGroup>
+            <DropdownMenuLabel>OpenAI</DropdownMenuLabel>
+            <DropdownMenuRadioItem value="gpt-5">GPT-5</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="gpt-5-mini">
+              GPT-5 mini
+            </DropdownMenuRadioItem>
+          </DropdownMenuGroup>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <InputGroupButton size="sm">
+          Medium
+          <ChevronDownIcon />
+        </InputGroupButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuRadioGroup value={effort} onValueChange={setEffort}>
+          <DropdownMenuRadioItem value="low">Low</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="medium">Medium</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="high">High</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    <InputGroupButton type="submit" variant="primary" className="ml-auto">
+      <ArrowUpIcon />
+    </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+## AI SDK
+
+Send the model and the effort with the message. In the route, map them to a model and to the provider options.
+
+```tsx
+sendMessage({ text }, { body: { model, effort } });
+```
+
+```ts title="app/api/chat/route.ts"
+import { anthropic } from '@ai-sdk/anthropic';
+import { openai } from '@ai-sdk/openai';
+import { convertToModelMessages, streamText, type UIMessage } from 'ai';
+
+const models = {
+  'gpt-5': openai('gpt-5'),
+  'gpt-5-mini': openai('gpt-5-mini'),
+  'claude-sonnet-4-5': anthropic('claude-sonnet-4-5'),
+  'claude-haiku-4-5': anthropic('claude-haiku-4-5'),
+};
+
+export async function POST(req: Request) {
+  const { messages, model, effort } = (await req.json()) as {
+    messages: UIMessage[];
+    model: keyof typeof models;
+    effort: 'low' | 'medium' | 'high';
+  };
+
+  const result = streamText({
+    model: models[model] ?? models['gpt-5'],
+    messages: await convertToModelMessages(messages),
+    providerOptions: {
+      openai: { reasoningEffort: effort },
+      anthropic: { effort },
+    },
+  });
+
+  return result.toUIMessageStreamResponse();
+}
+```
+
+Each provider reads its own key in `providerOptions` and ignores the other keys.

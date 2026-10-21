@@ -1,0 +1,88 @@
+<ComponentPreview name="message-scroller" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/message-scroller
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @shadcn/react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="message-scroller" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from '@/components/ui/message-scroller';
+```
+
+```tsx
+<MessageScrollerProvider autoScroll>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        {messages.map((message) => (
+          <MessageScrollerItem
+            key={message.id}
+            messageId={message.id}
+            scrollAnchor={message.role === 'user'}
+          >
+            {/* Message */}
+          </MessageScrollerItem>
+        ))}
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+`autoScroll` follows a streamed reply only while the reader is at the end. When
+the reader scrolls up, the position stays, and `MessageScrollerButton` shows a
+jump back to the latest message. Set `scrollAnchor` on user turns: a new
+question then settles near the top, with the reply below it.
+
+## Examples
+
+### Jump to message
+
+Give each item a `messageId`, then call `scrollToMessage` from
+`useMessageScroller`. The hook must be inside `MessageScrollerProvider`.
+
+<ComponentPreview name="message-scroller-jump" />

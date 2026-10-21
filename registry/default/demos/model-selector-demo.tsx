@@ -1,0 +1,172 @@
+'use client';
+
+import * as React from 'react';
+import { ArrowUpIcon, ChevronDownIcon, PlusIcon } from 'lucide-react';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/registry/default/ui/dropdown-menu';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from '@/registry/default/ui/input-group';
+
+const providers = [
+  {
+    name: 'OpenAI',
+    models: [
+      { id: 'gpt-5', name: 'GPT-5' },
+      { id: 'gpt-5-mini', name: 'GPT-5 mini' },
+    ],
+  },
+  {
+    name: 'Anthropic',
+    models: [
+      { id: 'claude-sonnet-4-5', name: 'Claude Sonnet 4.5' },
+      { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5' },
+    ],
+  },
+];
+
+const models = providers.flatMap((provider) => provider.models);
+
+const efforts = [
+  { id: 'low', name: 'Low' },
+  { id: 'medium', name: 'Medium' },
+  { id: 'high', name: 'High' },
+];
+
+export default function ModelSelectorDemo() {
+  const [text, setText] = React.useState('');
+  const [model, setModel] = React.useState('gpt-5');
+  const [effort, setEffort] = React.useState('medium');
+  const formRef = React.useRef<HTMLFormElement>(null);
+  const currentModel = models.find((item) => item.id === model) ?? {
+    id: model,
+    name: model,
+  };
+  const currentEffort = efforts.find((item) => item.id === effort) ?? {
+    id: effort,
+    name: effort,
+  };
+  const canSend = text.trim().length > 0;
+
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!canSend) {
+      return;
+    }
+
+    setText('');
+  }
+
+  return (
+    <div className="mx-auto w-full max-w-lg py-6">
+      <form ref={formRef} onSubmit={onSubmit}>
+        <InputGroup>
+          <InputGroupTextarea
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            placeholder="Ask the agent to change your schema…"
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                formRef.current?.requestSubmit();
+              }
+            }}
+            className="p-3"
+          />
+          <InputGroupAddon align="block-end">
+            <InputGroupButton
+              type="submit"
+              size="icon-sm"
+              variant="outline"
+              className="rounded-full"
+              disabled={canSend}
+              aria-label="Attach"
+            >
+              <PlusIcon />
+            </InputGroupButton>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <InputGroupButton
+                  size="sm"
+                  variant="outline"
+                  aria-label={`Model: ${currentModel.name}`}
+                  className="ml-auto"
+                >
+                  {currentModel.name}
+                  <ChevronDownIcon />
+                </InputGroupButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-48">
+                <DropdownMenuRadioGroup value={model} onValueChange={setModel}>
+                  {providers.map((provider, index) => (
+                    <React.Fragment key={provider.name}>
+                      {index > 0 && <DropdownMenuSeparator />}
+                      <DropdownMenuGroup>
+                        <DropdownMenuLabel>{provider.name}</DropdownMenuLabel>
+                        {provider.models.map((item) => (
+                          <DropdownMenuRadioItem key={item.id} value={item.id}>
+                            {item.name}
+                          </DropdownMenuRadioItem>
+                        ))}
+                      </DropdownMenuGroup>
+                    </React.Fragment>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <InputGroupButton
+                  size="sm"
+                  variant="outline"
+                  aria-label={`Effort: ${currentEffort.name}`}
+                >
+                  <span className="text-muted-foreground">Effort</span>
+                  {currentEffort.name}
+                  <ChevronDownIcon />
+                </InputGroupButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-36">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Effort</DropdownMenuLabel>
+                  <DropdownMenuRadioGroup
+                    value={effort}
+                    onValueChange={setEffort}
+                  >
+                    {efforts.map((item) => (
+                      <DropdownMenuRadioItem key={item.id} value={item.id}>
+                        {item.name}
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <InputGroupButton
+              type="submit"
+              size="icon-sm"
+              variant="primary"
+              className="rounded-full"
+              disabled={!canSend}
+              aria-label="Send"
+            >
+              <ArrowUpIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </form>
+    </div>
+  );
+}

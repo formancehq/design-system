@@ -58,7 +58,7 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/aspect-ratio.tsx',
     source: 'shadcn',
   },
-  'components/attachment': {
+  'ai-elements/attachment': {
     registryName: 'attachment',
     description:
       'Displays a file or image attachment with media, metadata, upload state, and actions.',
@@ -102,6 +102,290 @@ export const componentMeta: Record<string, TComponentMeta> = {
         name: 'AttachmentTrigger',
         description:
           'Full-surface trigger for making the attachment clickable.',
+      },
+    ],
+  },
+  'ai-elements/bubble': {
+    registryName: 'bubble',
+    description:
+      'The surface of a chat message, with variants, alignment, and reactions.',
+    sourceFile: 'registry/default/ui/bubble.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'Bubble',
+        description: 'Root with the variant and alignment of the surface.',
+      },
+      {
+        name: 'BubbleContent',
+        description:
+          'The visible surface. Use asChild to render it as a button or a link.',
+      },
+      {
+        name: 'BubbleGroup',
+        description: 'Stacks consecutive bubbles from the same sender.',
+      },
+      {
+        name: 'BubbleReactions',
+        description: 'Pill of reactions pinned to an edge of the bubble.',
+      },
+    ],
+  },
+  'ai-elements/marker': {
+    registryName: 'marker',
+    description:
+      'An inline status row for a conversation: system notes, tool activity, and labeled separators.',
+    sourceFile: 'registry/default/ui/marker.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'Marker',
+        description: 'Root row with the default, separator, or border variant.',
+      },
+      {
+        name: 'MarkerIcon',
+        description: 'Decorative icon slot at the start of the row.',
+      },
+      {
+        name: 'MarkerContent',
+        description: 'The text of the row. Add shimmer for a pending state.',
+      },
+    ],
+  },
+  'ai-elements/message': {
+    registryName: 'message',
+    description:
+      'A conversation row with avatar, alignment, header, content, and footer.',
+    sourceFile: 'registry/default/ui/message.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'Message',
+        description: 'Root row. Set align="end" for the current user.',
+      },
+      {
+        name: 'MessageAvatar',
+        description: 'Avatar slot, aligned to the last line of the message.',
+      },
+      {
+        name: 'MessageContent',
+        description: 'Column that holds the header, bubbles, and footer.',
+      },
+      {
+        name: 'MessageHeader',
+        description: 'Sender name or metadata above the content.',
+      },
+      {
+        name: 'MessageFooter',
+        description: 'Status or metadata below the content.',
+      },
+      {
+        name: 'MessageGroup',
+        description: 'Stacks consecutive messages.',
+      },
+    ],
+  },
+  'ai-elements/message-scroller': {
+    registryName: 'message-scroller',
+    description:
+      'A scroll container for a conversation, with anchored turns, streamed replies, and a jump-to-latest button.',
+    sourceFile: 'registry/default/ui/message-scroller.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'MessageScrollerProvider',
+        description:
+          'Holds the scroll state. Set autoScroll to follow streamed replies.',
+      },
+      {
+        name: 'MessageScroller',
+        description: 'Root that positions the viewport and the scroll button.',
+      },
+      {
+        name: 'MessageScrollerViewport',
+        description: 'The scrolling element, with a bottom edge fade.',
+      },
+      {
+        name: 'MessageScrollerContent',
+        description: 'The log of items. Has role="log" by default.',
+      },
+      {
+        name: 'MessageScrollerItem',
+        description:
+          'One turn. Set scrollAnchor to settle a new turn near the top.',
+      },
+      {
+        name: 'MessageScrollerButton',
+        description: 'Jumps to the start or end when content is out of view.',
+      },
+    ],
+  },
+  'ai-elements/trace': {
+    registryName: 'trace',
+    description:
+      'The building block for agent steps: reasoning, tool calls, sources, and more.',
+    sourceFile: 'registry/default/ui/trace.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'Trace',
+        description:
+          'A list of rows. It also styles each trigger or link that holds a TraceLine.',
+      },
+      {
+        name: 'TraceLine',
+        description:
+          'One line: an icon and a title, with an optional status (running, error, pending).',
+      },
+      {
+        name: 'TraceIcon',
+        description:
+          'Decorative icon slot. Before the title it names the action, after the title it is the indicator.',
+      },
+      {
+        name: 'TraceTitle',
+        description:
+          'One sentence on one line. It truncates, and it shimmers while the line runs.',
+      },
+      {
+        name: 'TraceDescription',
+        description:
+          'Secondary text after the title, for example a count or a duration.',
+      },
+      {
+        name: 'TraceCollapsible',
+        description:
+          'A row that expands. Takes the Collapsible props, except asChild.',
+      },
+      {
+        name: 'TraceCollapsibleTrigger',
+        description:
+          'The button that opens and closes the row. Adds a chevron after the line.',
+      },
+      {
+        name: 'TraceCollapsibleContent',
+        description: 'The detail of a row that expands.',
+      },
+    ],
+  },
+  'ai-elements/code-block': {
+    registryName: 'code-block',
+    description:
+      'Displays code, terminal output, and diffs with an optional header, line numbers, and a copy button.',
+    sourceFile: 'registry/default/ui/code-block.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'CodeBlock',
+        description:
+          'The surface, with the default or destructive variant and the default or sm size.',
+      },
+      {
+        name: 'CodeBlockHeader',
+        description: 'A row above the content for a title and actions.',
+      },
+      {
+        name: 'CodeBlockTitle',
+        description:
+          'A file name or a label, with an optional icon. It truncates.',
+      },
+      {
+        name: 'CodeBlockActions',
+        description:
+          'Buttons at the end of the header. As a direct child of CodeBlock, it floats.',
+      },
+      {
+        name: 'CodeBlockCopyButton',
+        description: 'A ghost icon button that copies its value.',
+      },
+      {
+        name: 'CodeBlockContent',
+        description:
+          'The pre that scrolls or wraps, with optional line numbers.',
+      },
+      {
+        name: 'CodeBlockLine',
+        description:
+          'One line, with the default, added, removed, or highlighted variant.',
+      },
+      {
+        name: 'CodeBlockFooter',
+        description:
+          'A row below the content, for example for a Show More button.',
+      },
+    ],
+  },
+  'ai-elements/questionnaire': {
+    registryName: 'questionnaire',
+    description:
+      'A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.',
+    sourceFile: 'registry/default/ui/questionnaire.tsx',
+    source: 'shadcn',
+    subComponents: [
+      {
+        name: 'Questionnaire',
+        description:
+          'Root form. Holds the ordered items, the active item, the answers, the validation, and the navigation.',
+      },
+      {
+        name: 'QuestionnaireItem',
+        description:
+          'One question, rendered as a fieldset. Set multiple, required, or disabled.',
+      },
+      {
+        name: 'QuestionnaireTitle',
+        description: 'The question, rendered as the legend of the item.',
+      },
+      {
+        name: 'QuestionnaireDescription',
+        description: 'Help text linked to the item.',
+      },
+      {
+        name: 'QuestionnaireChoices',
+        description: 'Container for the answers of the item.',
+      },
+      {
+        name: 'QuestionnaireChoice',
+        description: 'One fixed answer, with a native radio or checkbox.',
+      },
+      {
+        name: 'QuestionnaireChoiceDescription',
+        description: 'Secondary text inside a choice.',
+      },
+      {
+        name: 'QuestionnaireInput',
+        description:
+          'Freeform answer next to the fixed choices. Needs an accessible name.',
+      },
+      {
+        name: 'QuestionnaireError',
+        description: 'The validation error of the active item.',
+      },
+      {
+        name: 'QuestionnaireProgress',
+        description:
+          'Progress bar. Accepts a render prop for a custom indicator.',
+      },
+      {
+        name: 'QuestionnaireActions',
+        description: 'Layout for the navigation buttons.',
+      },
+      {
+        name: 'QuestionnairePrevious',
+        description:
+          'Goes to the previous item. Accepts Button size and variant.',
+      },
+      {
+        name: 'QuestionnaireSkip',
+        description: 'Leaves an optional item without an answer.',
+      },
+      {
+        name: 'QuestionnaireNext',
+        description: 'Validates the item and goes to the next one.',
+      },
+      {
+        name: 'QuestionnaireSubmit',
+        description: 'Submits the form on the last item.',
       },
     ],
   },
@@ -1076,7 +1360,6 @@ export const docsConfig: TDocsConfig = {
         { title: 'Alert', href: '/docs/components/alert' },
         { title: 'Alert Dialog', href: '/docs/components/alert-dialog' },
         { title: 'Aspect Ratio', href: '/docs/components/aspect-ratio' },
-        { title: 'Attachment', href: '/docs/components/attachment' },
         { title: 'Avatar', href: '/docs/components/avatar' },
         { title: 'Badge', href: '/docs/components/badge' },
         { title: 'Badge Eyebrow', href: '/docs/components/badge-eyebrow' },
@@ -1188,6 +1471,51 @@ export const docsConfig: TDocsConfig = {
         },
         { title: 'Page Section', href: '/docs/fragments/page-section' },
         { title: 'SSO Button', href: '/docs/fragments/sso-button' },
+      ],
+    },
+    {
+      title: 'AI Elements',
+      sortOrder: 'alphabetical',
+      items: [
+        {
+          title: 'Introduction',
+          href: '/docs/ai-elements/introduction',
+          priority: true,
+        },
+        { title: 'Attachment', href: '/docs/ai-elements/attachment' },
+        { title: 'Bubble', href: '/docs/ai-elements/bubble' },
+        { title: 'Marker', href: '/docs/ai-elements/marker' },
+        {
+          title: 'Chain of Thought',
+          href: '/docs/ai-elements/chain-of-thought',
+        },
+        { title: 'Chat', href: '/docs/ai-elements/chat' },
+        { title: 'Checkpoint', href: '/docs/ai-elements/checkpoint' },
+        { title: 'Code Block', href: '/docs/ai-elements/code-block' },
+        { title: 'Confirmation', href: '/docs/ai-elements/confirmation' },
+        { title: 'Context', href: '/docs/ai-elements/context' },
+        { title: 'File Tree', href: '/docs/ai-elements/file-tree' },
+        { title: 'Inline Citation', href: '/docs/ai-elements/inline-citation' },
+        { title: 'Model Selector', href: '/docs/ai-elements/model-selector' },
+        { title: 'Plan', href: '/docs/ai-elements/plan' },
+        { title: 'Prompt Input', href: '/docs/ai-elements/prompt-input' },
+        { title: 'Queue', href: '/docs/ai-elements/queue' },
+        { title: 'Questionnaire', href: '/docs/ai-elements/questionnaire' },
+        { title: 'Reasoning', href: '/docs/ai-elements/reasoning' },
+        { title: 'Sources', href: '/docs/ai-elements/sources' },
+        { title: 'Stack Trace', href: '/docs/ai-elements/stack-trace' },
+        { title: 'Subagent', href: '/docs/ai-elements/subagent' },
+        { title: 'Suggestion', href: '/docs/ai-elements/suggestion' },
+        { title: 'Task', href: '/docs/ai-elements/task' },
+        { title: 'Terminal', href: '/docs/ai-elements/terminal' },
+        { title: 'Test Results', href: '/docs/ai-elements/test-results' },
+        { title: 'Tool', href: '/docs/ai-elements/tool' },
+        { title: 'Trace', href: '/docs/ai-elements/trace' },
+        { title: 'Message', href: '/docs/ai-elements/message' },
+        {
+          title: 'Message Scroller',
+          href: '/docs/ai-elements/message-scroller',
+        },
       ],
     },
     {

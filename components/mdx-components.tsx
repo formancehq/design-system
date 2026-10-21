@@ -20,6 +20,14 @@ import {
   TypographyInlineCode,
 } from '@/registry/default/ui/typography';
 import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/registry/default/ui/table';
 import { Tabs as TabsPrimitive } from 'radix-ui';
 import { cn } from '@/lib/utils';
 import { Eyebrow } from '@/registry/default/ui/eyebrow';
@@ -164,6 +172,12 @@ export const mdxComponents: MDXComponents = {
 
     return <pre>{children}</pre>;
   },
+  table: (props) => <Table {...props} />,
+  thead: (props) => <TableHeader {...props} />,
+  tbody: (props) => <TableBody {...props} />,
+  tr: (props) => <TableRow {...props} />,
+  th: (props) => <TableHead {...props} />,
+  td: (props) => <TableCell {...props} />,
   ComponentPreview,
   ComponentSource,
   CollapsibleCode,

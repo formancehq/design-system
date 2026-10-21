@@ -1,0 +1,69 @@
+<ComponentPreview name="marker" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/marker
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="marker" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Marker, MarkerContent, MarkerIcon } from '@/components/ui/marker';
+```
+
+```tsx
+<Marker role="status">
+  <MarkerContent className="shimmer">Thinking…</MarkerContent>
+</Marker>
+```
+
+Add the `shimmer` utility to `MarkerContent` while a step is pending, and set
+`role="status"` so that screen readers announce it.
+
+## Examples
+
+### Separator
+
+Use `variant="separator"` for date breaks and mode changes.
+
+<ComponentPreview name="marker-separator" />
+
+### Border
+
+Use `variant="border"` for a list of rows, for example validation warnings.
+
+<ComponentPreview name="marker-border" />

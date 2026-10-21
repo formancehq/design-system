@@ -1,0 +1,309 @@
+<ComponentPreview name="questionnaire" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/questionnaire
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @shadcn/react lucide-react
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="questionnaire" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import {
+  Questionnaire,
+  QuestionnaireActions,
+  QuestionnaireChoice,
+  QuestionnaireChoices,
+  QuestionnaireDescription,
+  QuestionnaireError,
+  QuestionnaireInput,
+  QuestionnaireItem,
+  QuestionnaireNext,
+  QuestionnairePrevious,
+  QuestionnaireProgress,
+  QuestionnaireSkip,
+  QuestionnaireSubmit,
+  QuestionnaireTitle,
+} from '@/components/ui/questionnaire';
+```
+
+```tsx
+const items = [
+  {
+    name: 'difference',
+    required: true,
+    prompt: 'How does yours differ?',
+    description: 'Choose a difference or write your own.',
+    choices: [
+      {
+        value: 'two-banks',
+        label: 'Two banks, not one',
+        description: 'Client funds are split across two omnibus accounts.',
+      },
+      {
+        value: 'multi-currency',
+        label: 'EUR and USD balances',
+        description: 'Each client holds a balance in both currencies.',
+      },
+      { value: 'interest', label: 'Daily interest accrual' },
+    ],
+    input: { label: 'Another difference', placeholder: 'Type another answer…' },
+  },
+  {
+    name: 'flows',
+    required: false,
+    prompt: 'Which flows should the schema cover?',
+    description: 'Skip this if you are not sure yet.',
+    choices: [
+      { value: 'deposits', label: 'Deposits' },
+      { value: 'withdrawals', label: 'Withdrawals' },
+    ],
+  },
+] as const;
+```
+
+Define the items one time. Give them to `Questionnaire` for server-rendered
+progress, actions, and shortcuts. Then map them into the parts.
+
+```tsx
+<Questionnaire items={items} onSubmit={handleSubmit}>
+  <QuestionnaireProgress />
+  {items.map((question) => (
+    <QuestionnaireItem
+      key={question.name}
+      name={question.name}
+      required={question.required}
+    >
+      <QuestionnaireTitle>{question.prompt}</QuestionnaireTitle>
+      <QuestionnaireDescription>
+        {question.description}
+      </QuestionnaireDescription>
+      <QuestionnaireChoices>
+        {question.choices.map((choice) => (
+          <QuestionnaireChoice key={choice.value} value={choice.value}>
+            <span className="font-medium">{choice.label}</span>
+            {'description' in choice ? (
+              <span className="text-muted-foreground">
+                {choice.description}
+              </span>
+            ) : null}
+          </QuestionnaireChoice>
+        ))}
+        {'input' in question ? (
+          <QuestionnaireInput
+            aria-label={question.input.label}
+            placeholder={question.input.placeholder}
+          />
+        ) : null}
+      </QuestionnaireChoices>
+      <QuestionnaireError />
+    </QuestionnaireItem>
+  ))}
+  <QuestionnaireActions>
+    <QuestionnairePrevious />
+    <QuestionnaireSkip />
+    <QuestionnaireNext />
+    <QuestionnaireSubmit />
+  </QuestionnaireActions>
+</Questionnaire>
+```
+
+```tsx
+function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  const answers = new FormData(event.currentTarget);
+  // answers.get('difference'), or answers.getAll('flows') for a multiple item.
+}
+```
+
+## Composition
+
+```text
+Questionnaire
+├── QuestionnaireProgress
+├── QuestionnaireItem
+│   ├── QuestionnaireTitle
+│   ├── QuestionnaireDescription
+│   ├── QuestionnaireChoices
+│   │   ├── QuestionnaireChoice
+│   │   └── QuestionnaireInput
+│   └── QuestionnaireError
+└── QuestionnaireActions
+    ├── QuestionnairePrevious
+    ├── QuestionnaireSkip
+    ├── QuestionnaireNext
+    └── QuestionnaireSubmit
+```
+
+`Questionnaire` controls the order of the items, the active item, the answers,
+the validation, the progress, and the navigation. The page, card, dialog, or
+drawer around it controls the close and cancel behavior, the storage of the
+answers, the transport, and the branches.
+
+## Server rendering
+
+Give `items` to `Questionnaire` to server-render the active item, the
+progress, the actions, and the answer shortcuts. The
+[headless Questionnaire](https://ui.shadcn.com/docs/react/questionnaire) page
+gives the full behavior.
+
+## Examples
+
+### Multiple selection
+
+Use `multiple` for an item that accepts more than one fixed answer.
+
+<ComponentPreview name="questionnaire-multiple" />
+
+### Freeform answer
+
+Add a `QuestionnaireInput` to the fixed choices when the user can give a
+different answer.
+
+<ComponentPreview name="questionnaire-freeform" />
+
+### Explicit skip
+
+Add `QuestionnaireSkip` when the user can leave an optional item without an
+answer.
+
+<ComponentPreview name="questionnaire-skip" />
+
+### Shortcuts
+
+Use `shortcuts` to give each answer a letter key or a number key.
+
+<ComponentPreview name="questionnaire-shortcuts" />
+
+### Custom validation
+
+Use controlled navigation with a schema library such as Zod. When an answer is
+not valid, go back to its item and show the error.
+
+<ComponentPreview name="questionnaire-validation" />
+
+### Controlled
+
+Control the active item from the state of the host, for example to go back to
+a step that is not valid.
+
+<ComponentPreview name="questionnaire-controlled" />
+
+### Resume
+
+Restore a saved active item and saved default answers. A reset then goes back
+to that saved state.
+
+<ComponentPreview name="questionnaire-resume" />
+
+### Conditional items
+
+Disable the items that do not apply after the earlier answers of the user.
+
+<ComponentPreview name="questionnaire-conditional" />
+
+### Navigation state
+
+Read the status of the item to disable the navigation and to change the style
+of the actions.
+
+<ComponentPreview name="questionnaire-navigation-state" />
+
+### Custom progress
+
+Use the render state of `QuestionnaireProgress` to make a custom progress
+indicator.
+
+<ComponentPreview name="questionnaire-progress" />
+
+### Animated items
+
+Animate the active item. The progress and the navigation do not move.
+
+<ComponentPreview name="questionnaire-animated" />
+
+### Card
+
+Put the questionnaire in the slots of a Card. The title and the description of
+the question keep their semantic elements.
+
+<ComponentPreview name="questionnaire-card" />
+
+### Dialog
+
+Put the questionnaire in a Dialog. The host controls the cancel and close
+behavior.
+
+<ComponentPreview name="questionnaire-dialog" />
+
+## Accessibility
+
+`QuestionnaireItem` renders a `fieldset`, and `QuestionnaireTitle` renders its
+`legend`. The descriptions and the active errors are linked to the current
+item. Items and answer controls that are not valid have `aria-invalid`.
+
+Fixed choices keep the native radio and checkbox behavior. The progress is a
+named progressbar, and the navigation uses real buttons. Items and actions that
+are not active are hidden and inert. After a successful navigation, the focus
+goes to the new active item. After a failed validation, the focus goes to an
+answer control.
+
+Always give `QuestionnaireInput` an accessible name: a visible label,
+`aria-label`, or `aria-labelledby`. A placeholder is not a label.
+
+## Formance differences
+
+The props and the parts are the same as in shadcn/ui. The navigation parts
+(`QuestionnairePrevious`, `QuestionnaireSkip`, `QuestionnaireNext`, and
+`QuestionnaireSubmit`) accept the `size` and `variant` props of the
+[Button](/docs/components/button). The Formance Button has no `default` size
+or variant, so the default size is `md`, and the default variant of Next and
+Submit is `primary`.
+
+## Known issue
+
+In `@shadcn/react` 0.3.1, an item that has a `QuestionnaireChoice` and a
+`QuestionnaireInput` causes an infinite render loop ("Maximum update depth
+exceeded") under React Strict Mode. Strict Mode is on in `next dev`, so the
+issue occurs only in development. Production builds are not affected. The
+Freeform answer and Explicit skip examples, and the demo at the top of this
+page, use this combination.
+
+## Unstyled
+
+The behavior of `Questionnaire` comes from the `@shadcn/react` package. To use
+it with your own markup and styles, see
+[Questionnaire in @shadcn/react](https://ui.shadcn.com/docs/react/questionnaire).

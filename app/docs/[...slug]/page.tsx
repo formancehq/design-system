@@ -2,6 +2,7 @@ import { Braces } from 'lucide-react';
 import type { Metadata } from 'next';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import { notFound, redirect } from 'next/navigation';
+import remarkGfm from 'remark-gfm';
 
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { CompoundComponents } from '@/components/compound-components';
@@ -147,7 +148,10 @@ export default async function DocsPage({
   const { content: mdxContent } = await compileMDX({
     source: mdxSource,
     components: mdxComponents,
-    options: { parseFrontmatter: false },
+    options: {
+      parseFrontmatter: false,
+      mdxOptions: { remarkPlugins: [remarkGfm] },
+    },
   });
 
   return (

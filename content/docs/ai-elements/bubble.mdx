@@ -1,0 +1,74 @@
+<ComponentPreview name="bubble" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/bubble
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="bubble" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Bubble, BubbleContent } from '@/components/ui/bubble';
+```
+
+```tsx
+<Bubble variant="muted">
+  <BubbleContent>How do withdrawals move money?</BubbleContent>
+</Bubble>
+```
+
+Use `muted` for the messages of the user, and `ghost` for long assistant
+replies rendered with the [Markdown](/docs/fragments/markdown) fragment.
+
+## Examples
+
+### Variants
+
+<ComponentPreview name="bubble-variants" />
+
+### Suggestions
+
+Set `asChild` on `BubbleContent` to render a bubble as a button, for example
+to show replies the user can pick.
+
+<ComponentPreview name="bubble-suggestions" />
+
+### Error
+
+Use `destructive` when the assistant cannot complete a request.
+
+<ComponentPreview name="bubble-error" />

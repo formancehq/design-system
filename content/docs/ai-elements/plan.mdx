@@ -1,0 +1,98 @@
+Plan shows the steps that the agent plans to take, and its progress.
+
+<ComponentPreview name="plan" peekCode />
+
+Plan is the list of steps that the agent decides before it starts, for example
+the steps of a schema change. Each step is done, running, or pending. The title
+counts the steps that are done.
+
+Plan is a `Trace` with a `TraceCollapsible` for the plan.
+
+If the steps are not known at the start, use
+[Task](/docs/ai-elements/task#task-or-plan).
+
+## Installation
+
+Plan is built with the [Trace](/docs/ai-elements/trace) component.
+
+```bash
+npx shadcn@latest add @formance/trace
+```
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceDescription,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine status="running">
+        <TraceIcon>
+          <RouteIcon />
+        </TraceIcon>
+        <TraceTitle>Plan: add interest accrual</TraceTitle>
+        <TraceDescription>1 of 3 done</TraceDescription>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon>
+            <CircleCheckIcon />
+          </TraceIcon>
+          <TraceTitle>Add the clients:$id:interest account</TraceTitle>
+        </TraceLine>
+        <TraceLine status="running">
+          <TraceIcon>
+            <CircleDotIcon />
+          </TraceIcon>
+          <TraceTitle>Write the accrue-interest transaction</TraceTitle>
+        </TraceLine>
+        <TraceLine status="pending">
+          <TraceIcon>
+            <CircleIcon />
+          </TraceIcon>
+          <TraceTitle>Run the validation checks</TraceTitle>
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### Details
+
+Put a description above the steps, in `TraceCollapsibleContent`.
+
+<ComponentPreview name="plan-description" />
+
+## AI SDK
+
+Stream the plan as a data part with a fixed `id`. The AI SDK replaces a data
+part that has the same `id`, so the plan changes in place.
+
+```ts
+const stream = createUIMessageStream({
+  execute: async ({ writer }) => {
+    writer.write({ type: 'data-plan', id: 'plan', data: { title, steps } });
+  },
+});
+```
+
+```tsx
+const plan = message.parts.find((part) => part.type === 'data-plan');
+```

@@ -1,0 +1,98 @@
+Stack Trace shows a failed tool call and its stack frames. The line shows the error. Open it to see the frames.
+
+<ComponentPreview name="stack-trace" peekCode />
+
+Stack Trace is a `Trace` with a `TraceCollapsible` for the error.
+
+## Installation
+
+Stack Trace is built from the [Trace](/docs/ai-elements/trace) and [Code Block](/docs/ai-elements/code-block) components. Install them:
+
+```bash
+npx shadcn@latest add @formance/trace @formance/code-block
+```
+
+There is nothing else to install. Copy the code of the demo into your project and change it as you need.
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+const [error, ...frames] = stack.split('\n').map((line) => line.trim());
+
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine status="error">
+        <TraceIcon>
+          <CircleXIcon />
+        </TraceIcon>
+        <TraceTitle>Failed: {error}</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <div className="flex flex-col gap-2 rounded-md bg-muted p-3 font-mono text-xs">
+        <p className="text-destructive-foreground">{error}</p>
+        <ol>
+          {frames.map((frame, index) => (
+            <li
+              key={index}
+              className={
+                frame.includes('node_modules') ? undefined : 'text-foreground'
+              }
+            >
+              {frame}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>;
+```
+
+The title truncates, so show the full error again at the top of the content. Frames from `node_modules` stay muted, so that your own frames are easy to see.
+
+## Examples
+
+### Frame links
+
+Make your own frames into links that open the file at the line. Put the framework frames in a separate collapsible line, so that the frames you can fix come first.
+
+<ComponentPreview name="stack-trace-frames" />
+
+## AI SDK
+
+When a tool throws an error, its part is `output-error`. By default, `errorText` is only the error message, without frames. To send the frames, return `error.stack` from `onError` in `toUIMessageStreamResponse`.
+
+```ts
+return result.toUIMessageStreamResponse({
+  onError: (error) =>
+    error instanceof Error ? (error.stack ?? error.message) : String(error),
+});
+```
+
+A stack shows file paths from your server. Send it only in development.
+
+```tsx
+if (part.state === 'output-error') {
+  const [error, ...frames] = part.errorText
+    .split('\n')
+    .map((line) => line.trim());
+
+  return <TraceCollapsible>…</TraceCollapsible>;
+}
+```
+
+Map the other tool states as in [Tool](/docs/ai-elements/tool).

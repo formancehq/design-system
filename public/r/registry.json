@@ -808,10 +808,125 @@
       "title": "Attachment",
       "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
       "dependencies": ["class-variance-authority", "radix-ui"],
-      "registryDependencies": ["button"],
+      "registryDependencies": ["https://ds.formance.com/r/button.json"],
       "files": [
         {
           "path": "registry/default/ui/attachment.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "A scroll container for a conversation, with anchored turns, streamed replies, and a jump-to-latest button.",
+      "dependencies": ["@shadcn/react"],
+      "registryDependencies": ["https://ds.formance.com/r/button.json"],
+      "files": [
+        {
+          "path": "registry/default/ui/message-scroller.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "A conversation row with avatar, alignment, header, content, and footer.",
+      "files": [
+        {
+          "path": "registry/default/ui/message.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "The surface of a chat message, with variants, alignment, and reactions.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        {
+          "path": "registry/default/ui/bubble.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "An inline status row for a conversation: system notes, tool activity, and labeled separators.",
+      "dependencies": ["class-variance-authority", "radix-ui"],
+      "files": [
+        {
+          "path": "registry/default/ui/marker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "trace",
+      "type": "registry:ui",
+      "title": "Trace",
+      "description": "The building block for agent steps: reasoning, tool calls, sources, and more.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["https://ds.formance.com/r/collapsible.json"],
+      "files": [
+        {
+          "path": "registry/default/ui/trace.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Displays code, terminal output, and diffs with an optional header, line numbers, and a copy button.",
+      "dependencies": ["class-variance-authority", "lucide-react"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/use-highlighted-code.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui/code-block.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "use-highlighted-code",
+      "type": "registry:hook",
+      "title": "Use Highlighted Code",
+      "description": "Highlights code for CodeBlock with the Formance code theme, line by line, while it streams.",
+      "dependencies": ["shiki"],
+      "registryDependencies": ["https://ds.formance.com/r/code-themes.json"],
+      "files": [
+        {
+          "path": "registry/default/hooks/use-highlighted-code.ts",
+          "type": "registry:hook"
+        },
+        {
+          "path": "registry/default/lib/highlighter.tsx",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "title": "Questionnaire",
+      "description": "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
+      "dependencies": ["@shadcn/react", "lucide-react"],
+      "registryDependencies": ["https://ds.formance.com/r/button.json"],
+      "files": [
+        {
+          "path": "registry/default/ui/questionnaire.tsx",
           "type": "registry:ui"
         }
       ]

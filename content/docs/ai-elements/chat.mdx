@@ -1,0 +1,65 @@
+Chat is the thread of a conversation with the agent. Message Scroller keeps your place while the reply streams.
+
+<ComponentPreview name="chat" peekCode />
+
+Each turn is a [Message](/docs/ai-elements/message) inside a [Message Scroller](/docs/ai-elements/message-scroller). The message of the person is the scroll anchor. A new question thus settles near the top, and the reply streams in under it. The field is a [Prompt Input](/docs/ai-elements/prompt-input). The steps of the agent are [Trace](/docs/ai-elements/trace) lines.
+
+## Installation
+
+Chat is built with the [Message Scroller](/docs/ai-elements/message-scroller), [Message](/docs/ai-elements/message), [Bubble](/docs/ai-elements/bubble), [Trace](/docs/ai-elements/trace), and [Input Group](/docs/components/input-group) components.
+
+```bash
+npx shadcn@latest add @formance/message-scroller @formance/message @formance/bubble @formance/trace @formance/input-group
+```
+
+## Usage
+
+```tsx
+<MessageScrollerProvider autoScroll>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        <MessageScrollerItem messageId={id} scrollAnchor>
+          <Message align="end">
+            <MessageContent>
+              <Bubble align="end" variant="muted">
+                <BubbleContent>{text}</BubbleContent>
+              </Bubble>
+            </MessageContent>
+          </Message>
+        </MessageScrollerItem>
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+Set `scrollAnchor` on the turn of the person. `autoScroll` follows the reply while the person stays at the live edge.
+
+Refer to [Message Scroller](/docs/ai-elements/message-scroller).
+
+## AI SDK helper
+
+To build without a model, write the conversation as a script with `createChat` from `@shadcn/helpers/ai-sdk`. Each agent turn streams reasoning, a tool call, and a reply. `chat.next()` fills the field with the next message of the script. When the script has no more turns, the string `fallback` is the reply.
+
+```ts
+import { createChat } from '@shadcn/helpers/ai-sdk';
+
+const chat = createChat()
+  .user('Add daily interest accrual on client balances.')
+  .assistant(({ writer }) => {
+    writer.reasoning('I need to know which accounts hold client balances.');
+    writer
+      .tool('runCommand', { input: { command: 'fctl ledger accounts list' } })
+      .output({ stdout: 'clients:001:available' });
+    writer.text('I added a clients:$id:interest account.');
+  });
+
+const transport = chat.transport({
+  fallback:
+    'This demo only knows the scripted turns. Press reset to start over.',
+});
+
+const nextMessage = chat.next(messages);
+```
