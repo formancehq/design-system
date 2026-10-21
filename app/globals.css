@@ -710,12 +710,78 @@
 }
 
 /* typeset preset for docs-like markdown (the Markdown fragment). Typeset
-   defaults live in typeset.css; only the DS fonts and rhythm are set here. */
+   defaults live in typeset.css and stay verbatim; the DS type scale, weights
+   and colors are set here. The overrides sit in the same layer, after the
+   import, with typeset's own selector so `not-typeset` / `[data-slot]` still
+   opt out. */
 .typeset-docs {
   --typeset-font-body: var(--font-sans);
   --typeset-font-heading: var(--font-heading);
   --typeset-font-mono: var(--font-mono);
-  --typeset-size: 15px;
+  --typeset-size: var(--text-base);
   --typeset-leading: 1.75;
   --typeset-flow: 1.25em;
+}
+
+@layer components {
+  .typeset-docs {
+    font-size: var(--typeset-size);
+    color: var(--color-muted-foreground);
+  }
+
+  .typeset-docs
+    *:not(
+      :where(
+        .not-typeset,
+        [data-not-typeset],
+        .not-typeset *,
+        [data-not-typeset] *,
+        .typeset [data-slot],
+        .typeset [data-slot] *
+      )
+    ) {
+    &:where(h1, h2, h3, h4, h5, h6) {
+      color: var(--color-foreground);
+      font-weight: 500;
+      letter-spacing: normal;
+      text-transform: none;
+    }
+    &:where(h1) {
+      font-size: var(--text-3xl);
+      line-height: var(--text-3xl--line-height);
+    }
+    &:where(h2) {
+      font-size: var(--text-2xl);
+      line-height: var(--text-2xl--line-height);
+    }
+    &:where(h3) {
+      font-size: var(--text-xl);
+      line-height: var(--text-xl--line-height);
+    }
+    &:where(h4) {
+      font-size: var(--text-lg);
+      line-height: var(--text-lg--line-height);
+    }
+    &:where(h5) {
+      font-size: var(--text-base);
+      line-height: var(--text-base--line-height);
+    }
+    &:where(h6) {
+      color: var(--color-muted-foreground);
+      font-size: var(--text-sm);
+      line-height: var(--text-sm--line-height);
+    }
+    &:where(strong, b, a, th) {
+      color: var(--color-foreground);
+      font-weight: 500;
+    }
+    &:where(:not(pre) > code) {
+      color: var(--color-foreground);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+    &:where(blockquote) {
+      font-style: italic;
+    }
+  }
 }

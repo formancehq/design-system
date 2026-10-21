@@ -176,7 +176,7 @@ So adding a component to the docs takes four edits, not three: `registry.json`,
 
 ## Typography: typeset
 
-Rendered markdown is styled by [shadcn/typeset](https://ui.shadcn.com/docs/typeset): `cli/src/templates/typeset.css`, kept verbatim from `https://ui.shadcn.com/typeset.css` (re-download to update, never edit). The docs site imports that same file from `app/globals.css`. DS fonts are applied through tokens, not by editing the file: `--font-heading` in `:root` and the `.typeset-docs` preset in both globals files. The Markdown fragment wraps its output in `typeset typeset-docs`; embedded components opt out with `not-typeset`.
+Rendered markdown is styled by [shadcn/typeset](https://ui.shadcn.com/docs/typeset): `cli/src/templates/typeset.css`, kept verbatim from `https://ui.shadcn.com/typeset.css` (re-download to update, never edit). The docs site imports that same file from `app/globals.css`. DS styling is applied without editing the file: `--font-heading` in `:root`, and the `.typeset-docs` preset in both globals files (fonts, plus the DS type scale, weights and colors, in `@layer components` with typeset's own selector so `not-typeset` still opts out). The Markdown fragment wraps its output in `typeset typeset-docs`; embedded components opt out with `not-typeset`.
 
 ## Dev Server
 
