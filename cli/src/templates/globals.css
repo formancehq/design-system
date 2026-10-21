@@ -2,6 +2,7 @@
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import './typeset.css';
 @plugin '@tailwindcss/typography';
 
 @font-face {
@@ -28,6 +29,8 @@
 :root {
   --font-sans: 'Polymath', 'Figtree', sans-serif;
   --font-mono: 'Berkeley Mono', ui-monospace, monospace;
+  /* Read by typeset.css for headings inside a `.typeset` container. */
+  --font-heading: var(--font-sans);
 
   --white: var(--emerald-50);
   --black: var(--emerald-800);
@@ -887,4 +890,15 @@
   h6 {
     @apply font-heading;
   }
+}
+
+/* typeset preset for docs-like markdown (the Markdown fragment). Typeset
+   defaults live in typeset.css; only the DS fonts and rhythm are set here. */
+.typeset-docs {
+  --typeset-font-body: var(--font-sans);
+  --typeset-font-heading: var(--font-heading);
+  --typeset-font-mono: var(--font-mono);
+  --typeset-size: 15px;
+  --typeset-leading: 1.75;
+  --typeset-flow: 1.25em;
 }

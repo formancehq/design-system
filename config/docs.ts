@@ -902,7 +902,7 @@ export const componentMeta: Record<string, TComponentMeta> = {
       {
         name: 'markdownComponents',
         description:
-          'The reusable element→component map. Spread it into react-markdown or streamdown to reuse the styling elsewhere.',
+          'The reusable element→component map (links, task-list inputs, code blocks). Spread it into react-markdown or streamdown and wrap the output in `typeset typeset-docs` for the same typography.',
       },
     ],
   },

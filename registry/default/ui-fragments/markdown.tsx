@@ -167,171 +167,25 @@ function MermaidDiagram({ chart }: { chart: string }) {
 }
 
 // ---------------------------------------------------------------------------
-// Styled element map (the reusable core — override any key via the
-// `components` prop on <Markdown>)
+// Element map — typography comes from the `typeset` wrapper; these entries
+// only add behavior (override any key via the `components` prop on <Markdown>)
 // ---------------------------------------------------------------------------
 
 const markdownComponents: Partial<Components> = {
-  h1: ({ node, className, ...props }) => (
-    <h1
-      className={cn(
-        'mt-8 mb-4 scroll-m-20 font-heading text-3xl font-medium first:mt-0',
-        className
-      )}
-      {...props}
-    />
-  ),
-  h2: ({ node, className, ...props }) => (
-    <h2
-      className={cn(
-        'mt-8 mb-3 scroll-m-20 font-heading text-2xl font-medium first:mt-0',
-        className
-      )}
-      {...props}
-    />
-  ),
-  h3: ({ node, className, ...props }) => (
-    <h3
-      className={cn(
-        'mt-6 mb-3 scroll-m-20 font-heading text-xl font-medium',
-        className
-      )}
-      {...props}
-    />
-  ),
-  h4: ({ node, className, ...props }) => (
-    <h4
-      className={cn(
-        'mt-6 mb-2 scroll-m-20 font-heading text-lg font-medium',
-        className
-      )}
-      {...props}
-    />
-  ),
-  h5: ({ node, className, ...props }) => (
-    <h5
-      className={cn(
-        'mt-6 mb-2 scroll-m-20 font-heading text-base font-medium',
-        className
-      )}
-      {...props}
-    />
-  ),
-  h6: ({ node, className, ...props }) => (
-    <h6
-      className={cn(
-        'mt-6 mb-2 scroll-m-20 font-heading text-sm font-medium text-muted-foreground',
-        className
-      )}
-      {...props}
-    />
-  ),
-  p: ({ node, className, ...props }) => (
-    <p
-      className={cn(
-        'leading-7 text-muted-foreground [&:not(:first-child)]:mt-4',
-        className
-      )}
-      {...props}
-    />
-  ),
-  a: ({ node, className, href, ...props }) => {
+  a: ({ node, href, ...props }) => {
     const isExternal = /^https?:\/\//.test(href ?? '');
 
     return (
       <a
         href={href}
-        className={cn(
-          'font-medium text-foreground underline underline-offset-4 hover:no-underline',
-          className
-        )}
         {...(isExternal && { target: '_blank', rel: 'noreferrer' })}
         {...props}
       />
     );
   },
-  strong: ({ node, className, ...props }) => (
-    <strong
-      className={cn('font-medium text-foreground', className)}
-      {...props}
-    />
-  ),
-  ul: ({ node, className, ...props }) => (
-    <ul
-      className={cn(
-        'my-4 ml-6 list-disc [&>li]:mt-2',
-        className?.includes('contains-task-list') && 'ml-0 list-none',
-        className
-      )}
-      {...props}
-    />
-  ),
-  ol: ({ node, className, ...props }) => (
-    <ol
-      className={cn('my-4 ml-6 list-decimal [&>li]:mt-2', className)}
-      {...props}
-    />
-  ),
-  li: ({ node, className, ...props }) => (
-    <li
-      className={cn('leading-7 text-muted-foreground', className)}
-      {...props}
-    />
-  ),
   input: ({ node, className, ...props }) => (
     <input
       className={cn('mr-2 align-middle accent-primary', className)}
-      {...props}
-    />
-  ),
-  blockquote: ({ node, className, ...props }) => (
-    <blockquote
-      className={cn(
-        'mt-4 border-l-2 border-border pl-6 italic text-muted-foreground',
-        className
-      )}
-      {...props}
-    />
-  ),
-  hr: ({ node, className, ...props }) => (
-    <hr className={cn('my-8 border-border', className)} {...props} />
-  ),
-  img: ({ node, className, alt, ...props }) => (
-    <img
-      alt={alt ?? ''}
-      className={cn('my-4 rounded-lg border border-border', className)}
-      {...props}
-    />
-  ),
-  table: ({ node, className, ...props }) => (
-    <div className="my-4 overflow-x-auto rounded-lg border border-border">
-      <table
-        className={cn('w-full border-collapse text-sm', className)}
-        {...props}
-      />
-    </div>
-  ),
-  thead: ({ node, className, ...props }) => (
-    <thead className={cn('bg-muted/50', className)} {...props} />
-  ),
-  tr: ({ node, className, ...props }) => (
-    <tr
-      className={cn('border-b border-border last:border-0', className)}
-      {...props}
-    />
-  ),
-  th: ({ node, className, ...props }) => (
-    <th
-      className={cn(
-        'px-4 py-2 text-left font-medium text-foreground',
-        className
-      )}
-      {...props}
-    />
-  ),
-  td: ({ node, className, ...props }) => (
-    <td
-      className={cn('px-4 py-2 align-top text-muted-foreground', className)}
       {...props}
     />
   ),
@@ -343,13 +197,7 @@ const markdownComponents: Partial<Components> = {
 
     if (!isBlock) {
       return (
-        <code
-          className={cn(
-            'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium text-foreground',
-            className
-          )}
-          {...props}
-        >
+        <code className={className} {...props}>
           {children}
         </code>
       );
@@ -358,11 +206,15 @@ const markdownComponents: Partial<Components> = {
     const code = raw.replace(/\n$/, '');
 
     if (lang === 'mermaid') {
-      return <MermaidDiagram chart={code} />;
+      return (
+        <div className="not-typeset">
+          <MermaidDiagram chart={code} />
+        </div>
+      );
     }
 
     return (
-      <div className="my-4">
+      <div className="not-typeset my-4">
         <CodeSnippet code={code} language={resolveLanguage(lang)} />
       </div>
     );
@@ -387,7 +239,7 @@ export type TMarkdownProps = {
 
 function Markdown({ children, className, components }: TMarkdownProps) {
   return (
-    <div className={cn('text-foreground', className)}>
+    <div className={cn('typeset typeset-docs max-w-[37em]', className)}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
