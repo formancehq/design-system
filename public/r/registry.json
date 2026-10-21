@@ -1773,19 +1773,18 @@
       "name": "code-snippet",
       "type": "registry:ui",
       "title": "Code Snippet",
-      "description": "A read-only syntax-highlighted code viewer powered by Shiki with CSS variable theming.",
-      "dependencies": ["shiki", "class-variance-authority", "lucide-react"],
-      "registryDependencies": ["https://ds.formance.com/r/code-themes.json"],
+      "description": "A read-only, syntax-highlighted code viewer in one line of JSX, built on Code Block.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/code-block.json",
+        "https://ds.formance.com/r/use-highlighted-code.json",
+        "https://ds.formance.com/r/code-themes.json"
+      ],
       "files": [
         {
           "path": "registry/default/ui/code/code-snippet.tsx",
           "type": "registry:ui",
           "target": "components/code/code-snippet.tsx"
-        },
-        {
-          "path": "registry/default/ui/code/render-hast.tsx",
-          "type": "registry:ui",
-          "target": "components/code/render-hast.tsx"
         }
       ]
     },

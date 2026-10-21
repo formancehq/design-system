@@ -17,7 +17,6 @@ const response = await client.ledger.v2.listLedgers();`}
         code="fctl stack list --organization <organization-id>"
         language="bash"
         showHeader
-        isSingleLine
       />
     </div>
   );

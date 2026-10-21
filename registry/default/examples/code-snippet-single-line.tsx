@@ -7,7 +7,6 @@ export default function CodeSnippetSingleLine() {
     <CodeSnippet
       code="curl -X POST https://sandbox.formance.cloud/api/ledger/v2/default/transactions"
       language="bash"
-      isSingleLine
     />
   );
 }
