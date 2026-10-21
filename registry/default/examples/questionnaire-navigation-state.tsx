@@ -24,19 +24,19 @@ const items = [
   { name: 'verification', required: true },
 ] as const;
 
-type ItemName = 'permission' | 'verification';
+type TItemName = 'permission' | 'verification';
 
 export default function QuestionnaireNavigationState() {
-  const [item, setItem] = React.useState<ItemName>('permission');
+  const [item, setItem] = React.useState<TItemName>('permission');
   const [statuses, setStatuses] = React.useState<
-    Record<ItemName, QuestionnaireItemStatus>
+    Record<TItemName, QuestionnaireItemStatus>
   >({
     permission: 'unanswered',
     verification: 'unanswered',
   });
   const unanswered = statuses[item] === 'unanswered';
 
-  function setStatus(name: ItemName, status: QuestionnaireItemStatus) {
+  function setStatus(name: TItemName, status: QuestionnaireItemStatus) {
     setStatuses((current) => ({ ...current, [name]: status }));
   }
 
@@ -55,7 +55,7 @@ export default function QuestionnaireNavigationState() {
       className="mx-auto max-w-md"
       item={item}
       items={items}
-      onItemChange={(nextItem) => setItem(nextItem as ItemName)}
+      onItemChange={(nextItem) => setItem(nextItem as TItemName)}
       onSubmit={handleSubmit}
     >
       <QuestionnaireProgress />

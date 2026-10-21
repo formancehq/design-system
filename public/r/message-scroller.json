@@ -4,7 +4,8 @@
   "title": "Message Scroller",
   "description": "A scroll container for a conversation, with anchored turns, streamed replies, and a jump-to-latest button.",
   "dependencies": [
-    "@shadcn/react"
+    "@shadcn/react",
+    "lucide-react"
   ],
   "registryDependencies": [
     "https://ds.formance.com/r/button.json"

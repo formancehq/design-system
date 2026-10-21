@@ -30,10 +30,10 @@ const items = [
   },
 ] as const;
 
-type ShortcutMode = React.ComponentProps<typeof Questionnaire>['shortcuts'];
+type TShortcutMode = React.ComponentProps<typeof Questionnaire>['shortcuts'];
 
 export default function QuestionnaireShortcuts() {
-  const [shortcuts, setShortcuts] = React.useState<ShortcutMode>('letters');
+  const [shortcuts, setShortcuts] = React.useState<TShortcutMode>('letters');
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

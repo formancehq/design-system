@@ -47,8 +47,8 @@ const questionnaireSchema = z
     }
   });
 
-type QuestionnaireItemName = keyof z.infer<typeof questionnaireSchema>;
-type QuestionnaireErrors = Partial<Record<QuestionnaireItemName, string>>;
+type TQuestionnaireItemName = keyof z.infer<typeof questionnaireSchema>;
+type TQuestionnaireErrors = Partial<Record<TQuestionnaireItemName, string>>;
 
 function ValidationProgress() {
   return (
@@ -65,9 +65,9 @@ function ValidationProgress() {
 
 export default function QuestionnaireValidation() {
   const [item, setItem] = React.useState('detail');
-  const [errors, setErrors] = React.useState<QuestionnaireErrors>({});
+  const [errors, setErrors] = React.useState<TQuestionnaireErrors>({});
 
-  function clearError(name: QuestionnaireItemName) {
+  function clearError(name: TQuestionnaireItemName) {
     setErrors((currentErrors) => {
       if (!currentErrors[name]) {
         return currentErrors;
@@ -96,7 +96,7 @@ export default function QuestionnaireValidation() {
       return;
     }
 
-    const nextErrors: QuestionnaireErrors = {};
+    const nextErrors: TQuestionnaireErrors = {};
 
     for (const issue of result.error.issues) {
       const name = issue.path[0];

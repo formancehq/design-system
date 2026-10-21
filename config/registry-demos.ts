@@ -922,6 +922,15 @@ const registryDemos: Record<string, TRegistryDemo> = {
   chat: {
     component: lazy(() => import('@/registry/default/demos/chat-demo')),
     sourceFile: 'registry/default/demos/chat-demo.tsx',
+    examples: [
+      {
+        title: 'Edit mode',
+        component: lazy(
+          () => import('@/registry/default/examples/chat-edit-mode')
+        ),
+        sourceFile: 'registry/default/examples/chat-edit-mode.tsx',
+      },
+    ],
   },
   'prompt-input': {
     component: lazy(() => import('@/registry/default/demos/prompt-input-demo')),

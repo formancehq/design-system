@@ -39,6 +39,12 @@ Set `scrollAnchor` on the turn of the person. `autoScroll` follows the reply whi
 
 Refer to [Message Scroller](/docs/components/message-scroller).
 
+## Edit mode
+
+In Edit mode, the agent proposes a change to the schema as a diff. The person applies or discards it, and a short status replaces the buttons.
+
+<ComponentPreview name="chat-edit-mode" />
+
 ## AI SDK helper
 
 To build without a model, write the conversation as a script with `createChat` from `@shadcn/helpers/ai-sdk`. Each agent turn streams reasoning, a tool call, and a reply. `chat.next()` fills the field with the next message of the script. When the script has no more turns, the string `fallback` is the reply.

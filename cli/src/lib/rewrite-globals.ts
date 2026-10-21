@@ -208,19 +208,6 @@ const resolveCssPath = (cwd: string): string | null => {
 // alias-relative, so a `src`-rooted project gets it under `src/`.
 const CODE_THEMES_TARGET = join('components', 'code', 'code-themes.css');
 
-const findCodeThemes = (cwd: string): string | null =>
-  [join(cwd, CODE_THEMES_TARGET), join(cwd, 'src', CODE_THEMES_TARGET)].find(
-    (candidate) => existsSync(candidate)
-  ) ?? null;
-
-const importsCodeThemes = (root: Root) =>
-  root.nodes.some(
-    (node) =>
-      node.type === 'atrule' &&
-      node.name === 'import' &&
-      node.params.includes('code-themes.css')
-  );
-
 /**
  * CodeSnippet, CodeEditor and CodeBlock read their token and ANSI colors from
  * `code-themes.css`, which ships as a separate file of the `code-themes` item.
@@ -233,8 +220,17 @@ const addCodeThemesImport = (
   cwd: string,
   cssAbs: string
 ): boolean => {
-  const codeThemes = findCodeThemes(cwd);
-  if (!codeThemes || importsCodeThemes(root)) return false;
+  const codeThemes = [
+    join(cwd, CODE_THEMES_TARGET),
+    join(cwd, 'src', CODE_THEMES_TARGET),
+  ].find((candidate) => existsSync(candidate));
+  const hasCodeThemesImport = root.nodes.some(
+    (node) =>
+      node.type === 'atrule' &&
+      node.name === 'import' &&
+      node.params.includes('code-themes.css')
+  );
+  if (!codeThemes || hasCodeThemesImport) return false;
 
   const rel = relative(dirname(cssAbs), codeThemes).split(sep).join('/');
   const importRule = postcss.atRule({
