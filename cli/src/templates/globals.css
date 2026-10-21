@@ -1104,8 +1104,38 @@
       font-size: var(--text-sm);
       font-weight: 500;
     }
+    &:where(a) {
+      color: var(--color-foreground);
+      text-decoration-color: currentColor;
+      text-underline-offset: 4px;
+    }
+    &:where(a:hover) {
+      text-decoration-line: none;
+    }
     &:where(blockquote) {
       font-style: italic;
+      padding-inline-start: 1.5rem;
+    }
+    &:where(hr) {
+      margin-block-start: 2rem;
+    }
+    &:where(img) {
+      border: 1px solid var(--color-border);
+    }
+    &:where(table) {
+      font-size: var(--text-sm);
+      width: 100%;
+      border: 1px solid var(--color-border);
+    }
+    &:where(thead) {
+      background-color: color-mix(
+        in oklab,
+        var(--color-muted) 50%,
+        transparent
+      );
+    }
+    &:where(th, td, th:first-child, td:first-child) {
+      padding: 0.5rem 1rem;
     }
   }
 }
