@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -15,24 +15,34 @@ type TComponentsJson = {
 
 type TVarMap = Map<string, string>;
 
-const TEMPLATE_RELATIVE = 'templates/globals.css';
-
 const here = dirname(fileURLToPath(import.meta.url));
 
-const candidateTemplatePaths = [
-  join(here, TEMPLATE_RELATIVE),
-  join(here, '..', TEMPLATE_RELATIVE),
-  join(here, '..', '..', 'src', TEMPLATE_RELATIVE),
-];
-
-const findTemplate = (): string => {
-  for (const candidate of candidateTemplatePaths) {
+const findTemplate = (fileName: string): string => {
+  const relative = join('templates', fileName);
+  const candidates = [
+    join(here, relative),
+    join(here, '..', relative),
+    join(here, '..', '..', 'src', relative),
+  ];
+  for (const candidate of candidates) {
     if (existsSync(candidate)) return candidate;
   }
   throw new Error(
-    `Could not locate globals.css template. Looked in:\n${candidateTemplatePaths.join('\n')}`
+    `Could not locate ${fileName} template. Looked in:\n${candidates.join('\n')}`
   );
 };
+
+/**
+ * The globals.css template imports `./typeset.css`, so the file must sit next
+ * to every stylesheet written from it. It is DS-owned and copied verbatim on
+ * each run — consumers tune typeset with a `.typeset-*` preset in their own
+ * globals.css, never by editing this file.
+ */
+const writeTypeset = (cssAbs: string) =>
+  copyFileSync(
+    findTemplate('typeset.css'),
+    join(dirname(cssAbs), 'typeset.css')
+  );
 
 const collectVars = (container: Rule | AtRule): TVarMap => {
   const map: TVarMap = new Map();
@@ -201,8 +211,9 @@ export function writeGlobalsFromTemplate(
   const cssAbs = resolveCssPath(cwd);
   if (!cssAbs) return null;
 
-  const templatePath = findTemplate();
-  const templateRoot = postcss.parse(readFileSync(templatePath, 'utf8'));
+  const templateRoot = postcss.parse(
+    readFileSync(findTemplate('globals.css'), 'utf8')
+  );
 
   // Restoring a mangled stylesheet from the template is what `--overwrite` is
   // for, so a destination postcss cannot parse must not abort the write: it
@@ -222,6 +233,7 @@ export function writeGlobalsFromTemplate(
   if (!options.internal) stripFormanceFonts(templateRoot);
 
   writeFileSync(cssAbs, templateRoot.toString());
+  writeTypeset(cssAbs);
 
   return cssAbs;
 }
@@ -236,9 +248,9 @@ export function rewriteGlobalsFromTemplate(
   const installedCss = readFileSync(cssAbs, 'utf8');
   const { rootVars, darkVars, themeVars } = extractValues(installedCss);
 
-  const templatePath = findTemplate();
-  const templateCss = readFileSync(templatePath, 'utf8');
-  const templateRoot = postcss.parse(templateCss);
+  const templateRoot = postcss.parse(
+    readFileSync(findTemplate('globals.css'), 'utf8')
+  );
 
   preserveExtraSources(templateRoot, installedCss);
 
@@ -255,6 +267,10 @@ export function rewriteGlobalsFromTemplate(
   });
 
   if (!options.internal) stripFormanceFonts(templateRoot);
+
+  // Before the early return: a typeset update must land even when the
+  // consumer's globals.css is already up to date.
+  writeTypeset(cssAbs);
 
   const output = templateRoot.toString();
   if (output === installedCss) return null;
