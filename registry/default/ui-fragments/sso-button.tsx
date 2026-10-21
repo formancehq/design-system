@@ -1,3 +1,6 @@
+import { cn } from '@/lib/utils';
+import { Button, TButtonProps } from '@/registry/default/ui/button';
+
 /**
  * SsoButton — an outline Button carrying an identity provider's brand mark.
  *
@@ -9,9 +12,6 @@
  * the theme; Google and Microsoft keep their brand colours, which are legible
  * on both the light and the dark surface.
  */
-
-import { cn } from '@/lib/utils';
-import { Button, TButtonProps } from '@/registry/default/ui/button';
 
 export const SSO_PROVIDERS = ['google', 'github', 'microsoft'] as const;
 
