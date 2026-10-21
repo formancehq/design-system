@@ -134,6 +134,31 @@ export const mdxComponents: MDXComponents = {
       />
     );
   },
+  strong: ({ className, ...props }) => (
+    <strong
+      className={cn('font-medium text-foreground', className)}
+      {...props}
+    />
+  ),
+  ul: ({ className, ...props }) => (
+    <ul
+      className={cn(
+        'ml-6 list-disc [&>li]:mt-2',
+        className?.includes('contains-task-list') && 'ml-0 list-none',
+        className
+      )}
+      {...props}
+    />
+  ),
+  ol: ({ className, ...props }) => (
+    <ol className={cn('ml-6 list-decimal [&>li]:mt-2', className)} {...props} />
+  ),
+  li: ({ className, ...props }) => (
+    <li
+      className={cn('leading-7 text-muted-foreground', className)}
+      {...props}
+    />
+  ),
   code: ({ children, className, ...props }) => {
     const isBlock = className?.startsWith('language-');
 
