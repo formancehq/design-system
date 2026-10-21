@@ -81,6 +81,8 @@ When copying components from platform-ui, adapt imports:
 - `@platform/ui/lib/utils` → `@/lib/utils`
 - `@platform/ui/components/X` → `@/registry/default/ui/X`
 
+Put a file's header comment **below its imports**, never above the first statement: `shadcn add` drops the comment above a file's first statement, so the installed copy no longer matches the registry and platform-ui's `ds:drift` check fails.
+
 ## Syncing Components to Consumer Projects
 
 The DS is the **upstream source of truth**. Consumers pull components **only through the registry** — never by copying files locally. This keeps import rewriting, CSS tokens, and utility classes consistent with what external installs receive.
