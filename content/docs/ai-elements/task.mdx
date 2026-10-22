@@ -1,0 +1,105 @@
+Task shows the steps of the agent, when it takes them.
+
+<ComponentPreview name="task" peekCode />
+
+A task is a piece of work of the agent, for example to find the schema files or
+to add a transaction. Each step, for example a search, a read, or an edit, shows
+under the task when the agent takes it.
+
+Task is a `Trace` with one `TraceCollapsible` for each task.
+
+## Task or Plan
+
+Both show a list of steps under a collapsible line. The difference is when the
+steps are known.
+
+Use [Plan](/docs/ai-elements/plan) when the agent decides the steps before it
+starts. Use Task when the steps come from the work. Then the agent knows the
+next step only after it takes the last step.
+
+- Steps: a plan shows all steps from the start. A task shows each step when the agent takes it.
+- Pending steps: a plan has pending steps that wait for their turn. A task has no pending steps.
+- Title: a plan shows the goal and the progress, for example "2 of 4 done". A task shows what the agent does, then what it did.
+- Per reply: a reply has one plan. A reply has one or more tasks, and each task closes when it is done.
+
+## Installation
+
+Task is built with the [Trace](/docs/components/trace) component.
+
+```bash
+npx shadcn@latest add @formance/trace
+```
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceTitle>Found the schema files</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon>
+            <SearchIcon />
+          </TraceIcon>
+          <TraceTitle>Searched for clients:$id</TraceTitle>
+        </TraceLine>
+        <a href="/schema/accounts.yaml">
+          <TraceLine>
+            <TraceIcon>
+              <FileTextIcon />
+            </TraceIcon>
+            <TraceTitle>Read schema/accounts.yaml</TraceTitle>
+          </TraceLine>
+        </a>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Status
+
+Set the status of the task from its steps. Write the title in the present tense
+while the task runs. Write it in the past tense when the task is done.
+
+- A step runs: status `"running"`, title "Adding the interest accrual".
+- A step failed: status `"error"`, title "Failed to add the interest accrual".
+- All steps are done: no status, title "Added the interest accrual".
+
+Put more than one task in one `Trace`. Keep the running task open. Close each
+task when it is done.
+
+## AI SDK
+
+Stream each task as a data part with its own `id`. The AI SDK replaces a data
+part that has the same `id`. Thus, when you write a task again with a new step,
+the task changes in place.
+
+```ts
+const stream = createUIMessageStream({
+  execute: async ({ writer }) => {
+    writer.write({ type: 'data-task', id: 'update', data: { title, steps } });
+  },
+});
+```
+
+```tsx
+const tasks = message.parts.filter((part) => part.type === 'data-task');
+```

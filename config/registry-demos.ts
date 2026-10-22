@@ -120,6 +120,851 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  bubble: {
+    component: lazy(() => import('@/registry/default/demos/bubble-demo')),
+    sourceFile: 'registry/default/demos/bubble-demo.tsx',
+    examples: [
+      {
+        title: 'Variants',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-variants')
+        ),
+        sourceFile: 'registry/default/examples/bubble-variants.tsx',
+      },
+      {
+        title: 'Alignment',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-alignment')
+        ),
+        sourceFile: 'registry/default/examples/bubble-alignment.tsx',
+      },
+      {
+        title: 'Bubble group',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-group')
+        ),
+        sourceFile: 'registry/default/examples/bubble-group.tsx',
+      },
+      {
+        title: 'Links and buttons',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-link-button')
+        ),
+        sourceFile: 'registry/default/examples/bubble-link-button.tsx',
+      },
+      {
+        title: 'Reactions',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-reactions')
+        ),
+        sourceFile: 'registry/default/examples/bubble-reactions.tsx',
+      },
+      {
+        title: 'Show more',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-collapsible')
+        ),
+        sourceFile: 'registry/default/examples/bubble-collapsible.tsx',
+      },
+      {
+        title: 'Tooltip',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-tooltip')
+        ),
+        sourceFile: 'registry/default/examples/bubble-tooltip.tsx',
+      },
+      {
+        title: 'Popover',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-popover')
+        ),
+        sourceFile: 'registry/default/examples/bubble-popover.tsx',
+      },
+      {
+        title: 'Suggestions',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-suggestions')
+        ),
+        sourceFile: 'registry/default/examples/bubble-suggestions.tsx',
+      },
+      {
+        title: 'Error',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-error')
+        ),
+        sourceFile: 'registry/default/examples/bubble-error.tsx',
+      },
+    ],
+  },
+  marker: {
+    component: lazy(() => import('@/registry/default/demos/marker-demo')),
+    sourceFile: 'registry/default/demos/marker-demo.tsx',
+    examples: [
+      {
+        title: 'Variants',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-variants')
+        ),
+        sourceFile: 'registry/default/examples/marker-variants.tsx',
+      },
+      {
+        title: 'Status',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-status')
+        ),
+        sourceFile: 'registry/default/examples/marker-status.tsx',
+      },
+      {
+        title: 'Shimmer',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-shimmer')
+        ),
+        sourceFile: 'registry/default/examples/marker-shimmer.tsx',
+      },
+      {
+        title: 'Separator',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-separator')
+        ),
+        sourceFile: 'registry/default/examples/marker-separator.tsx',
+      },
+      {
+        title: 'Border',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-border')
+        ),
+        sourceFile: 'registry/default/examples/marker-border.tsx',
+      },
+      {
+        title: 'With icon',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-icon')
+        ),
+        sourceFile: 'registry/default/examples/marker-icon.tsx',
+      },
+      {
+        title: 'Links and buttons',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-link-button')
+        ),
+        sourceFile: 'registry/default/examples/marker-link-button.tsx',
+      },
+    ],
+  },
+  message: {
+    component: lazy(() => import('@/registry/default/demos/message-demo')),
+    sourceFile: 'registry/default/demos/message-demo.tsx',
+    examples: [
+      {
+        title: 'Group',
+        component: lazy(
+          () => import('@/registry/default/examples/message-group')
+        ),
+        sourceFile: 'registry/default/examples/message-group.tsx',
+      },
+      {
+        title: 'Avatar',
+        component: lazy(
+          () => import('@/registry/default/examples/message-avatar')
+        ),
+        sourceFile: 'registry/default/examples/message-avatar.tsx',
+      },
+      {
+        title: 'Header and footer',
+        component: lazy(
+          () => import('@/registry/default/examples/message-header-footer')
+        ),
+        sourceFile: 'registry/default/examples/message-header-footer.tsx',
+      },
+      {
+        title: 'Actions',
+        component: lazy(
+          () => import('@/registry/default/examples/message-actions')
+        ),
+        sourceFile: 'registry/default/examples/message-actions.tsx',
+      },
+      {
+        title: 'Attachment',
+        component: lazy(
+          () => import('@/registry/default/examples/message-attachment')
+        ),
+        sourceFile: 'registry/default/examples/message-attachment.tsx',
+      },
+      {
+        title: 'Markdown',
+        component: lazy(
+          () => import('@/registry/default/examples/message-markdown')
+        ),
+        sourceFile: 'registry/default/examples/message-markdown.tsx',
+      },
+      {
+        title: 'Pattern',
+        component: lazy(
+          () => import('@/registry/default/examples/message-pattern')
+        ),
+        sourceFile: 'registry/default/examples/message-pattern.tsx',
+      },
+    ],
+  },
+  'message-scroller': {
+    component: lazy(
+      () => import('@/registry/default/demos/message-scroller-demo')
+    ),
+    sourceFile: 'registry/default/demos/message-scroller-demo.tsx',
+    examples: [
+      {
+        title: 'Jump to message',
+        component: lazy(
+          () => import('@/registry/default/examples/message-scroller-jump')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-jump.tsx',
+      },
+      {
+        title: 'Anchoring turns',
+        component: lazy(
+          () => import('@/registry/default/examples/message-scroller-anchoring')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-anchoring.tsx',
+      },
+      {
+        title: 'Group chat',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-group-chat')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-group-chat.tsx',
+      },
+      {
+        title: 'Keeping context visible',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-previous-context')
+        ),
+        sourceFile:
+          'registry/default/examples/message-scroller-previous-context.tsx',
+      },
+      {
+        title: 'Following the live edge',
+        component: lazy(
+          () => import('@/registry/default/examples/message-scroller-streaming')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-streaming.tsx',
+      },
+      {
+        title: 'Opening position',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-opening-position')
+        ),
+        sourceFile:
+          'registry/default/examples/message-scroller-opening-position.tsx',
+      },
+      {
+        title: 'Loading earlier messages',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-load-history')
+        ),
+        sourceFile:
+          'registry/default/examples/message-scroller-load-history.tsx',
+      },
+      {
+        title: 'Animating new messages',
+        component: lazy(
+          () => import('@/registry/default/examples/message-scroller-animation')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-animation.tsx',
+      },
+      {
+        title: 'Tracking the position',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-visibility')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-visibility.tsx',
+      },
+      {
+        title: 'Reading scroll state',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/message-scroller-scrollable')
+        ),
+        sourceFile: 'registry/default/examples/message-scroller-scrollable.tsx',
+      },
+    ],
+  },
+  trace: {
+    component: lazy(() => import('@/registry/default/demos/trace-demo')),
+    sourceFile: 'registry/default/demos/trace-demo.tsx',
+    examples: [
+      {
+        title: 'Trace Line',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-static')
+        ),
+        sourceFile: 'registry/default/examples/trace-static.tsx',
+      },
+      {
+        title: 'Status',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-status')
+        ),
+        sourceFile: 'registry/default/examples/trace-status.tsx',
+      },
+      {
+        title: 'Description',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-description')
+        ),
+        sourceFile: 'registry/default/examples/trace-description.tsx',
+      },
+      {
+        title: 'Collapsible',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-collapsible')
+        ),
+        sourceFile: 'registry/default/examples/trace-collapsible.tsx',
+      },
+      {
+        title: 'Open State',
+        component: lazy(() => import('@/registry/default/examples/trace-open')),
+        sourceFile: 'registry/default/examples/trace-open.tsx',
+      },
+      {
+        title: 'Link',
+        component: lazy(() => import('@/registry/default/examples/trace-link')),
+        sourceFile: 'registry/default/examples/trace-link.tsx',
+      },
+      {
+        title: 'Dialog',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-dialog')
+        ),
+        sourceFile: 'registry/default/examples/trace-dialog.tsx',
+      },
+      {
+        title: 'Sheet',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-sheet')
+        ),
+        sourceFile: 'registry/default/examples/trace-sheet.tsx',
+      },
+      {
+        title: 'Group',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-group')
+        ),
+        sourceFile: 'registry/default/examples/trace-group.tsx',
+      },
+      {
+        title: 'Sources',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-sources')
+        ),
+        sourceFile: 'registry/default/examples/trace-sources.tsx',
+      },
+      {
+        title: 'Chain of Thought',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-steps')
+        ),
+        sourceFile: 'registry/default/examples/trace-steps.tsx',
+      },
+      {
+        title: 'Commit',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-commit')
+        ),
+        sourceFile: 'registry/default/examples/trace-commit.tsx',
+      },
+      {
+        title: 'Whole Turn',
+        component: lazy(() => import('@/registry/default/examples/trace-turn')),
+        sourceFile: 'registry/default/examples/trace-turn.tsx',
+      },
+      {
+        title: 'Reasoning',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-thinking')
+        ),
+        sourceFile: 'registry/default/examples/trace-thinking.tsx',
+      },
+      {
+        title: 'Tool',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-tool-calls')
+        ),
+        sourceFile: 'registry/default/examples/trace-tool-calls.tsx',
+      },
+    ],
+  },
+  tool: {
+    component: lazy(() => import('@/registry/default/demos/tool-demo')),
+    sourceFile: 'registry/default/demos/tool-demo.tsx',
+    examples: [
+      {
+        title: 'States',
+        component: lazy(
+          () => import('@/registry/default/examples/tool-states')
+        ),
+        sourceFile: 'registry/default/examples/tool-states.tsx',
+      },
+      {
+        title: 'Output in a Sheet',
+        component: lazy(() => import('@/registry/default/examples/tool-sheet')),
+        sourceFile: 'registry/default/examples/tool-sheet.tsx',
+      },
+      {
+        title: 'Approval',
+        component: lazy(
+          () => import('@/registry/default/examples/tool-approval')
+        ),
+        sourceFile: 'registry/default/examples/tool-approval.tsx',
+      },
+    ],
+  },
+  reasoning: {
+    component: lazy(() => import('@/registry/default/demos/reasoning-demo')),
+    sourceFile: 'registry/default/demos/reasoning-demo.tsx',
+    examples: [
+      {
+        title: 'Duration',
+        component: lazy(
+          () => import('@/registry/default/examples/reasoning-duration')
+        ),
+        sourceFile: 'registry/default/examples/reasoning-duration.tsx',
+      },
+    ],
+  },
+  'chain-of-thought': {
+    component: lazy(
+      () => import('@/registry/default/demos/chain-of-thought-demo')
+    ),
+    sourceFile: 'registry/default/demos/chain-of-thought-demo.tsx',
+  },
+  task: {
+    component: lazy(() => import('@/registry/default/demos/task-demo')),
+    sourceFile: 'registry/default/demos/task-demo.tsx',
+  },
+  subagent: {
+    component: lazy(() => import('@/registry/default/demos/subagent-demo')),
+    sourceFile: 'registry/default/demos/subagent-demo.tsx',
+    examples: [
+      {
+        title: 'Running',
+        component: lazy(
+          () => import('@/registry/default/examples/subagent-running')
+        ),
+        sourceFile: 'registry/default/examples/subagent-running.tsx',
+      },
+      {
+        title: 'Details',
+        component: lazy(
+          () => import('@/registry/default/examples/subagent-details')
+        ),
+        sourceFile: 'registry/default/examples/subagent-details.tsx',
+      },
+    ],
+  },
+  plan: {
+    component: lazy(() => import('@/registry/default/demos/plan-demo')),
+    sourceFile: 'registry/default/demos/plan-demo.tsx',
+    examples: [
+      {
+        title: 'Details',
+        component: lazy(
+          () => import('@/registry/default/examples/plan-description')
+        ),
+        sourceFile: 'registry/default/examples/plan-description.tsx',
+      },
+    ],
+  },
+  'code-block': {
+    component: lazy(() => import('@/registry/default/demos/code-block-demo')),
+    sourceFile: 'registry/default/demos/code-block-demo.tsx',
+    examples: [
+      {
+        title: 'Basic',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-basic')
+        ),
+        sourceFile: 'registry/default/examples/code-block-basic.tsx',
+      },
+      {
+        title: 'Header',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-header')
+        ),
+        sourceFile: 'registry/default/examples/code-block-header.tsx',
+      },
+      {
+        title: 'Actions',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-actions')
+        ),
+        sourceFile: 'registry/default/examples/code-block-actions.tsx',
+      },
+      {
+        title: 'Floating actions',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/code-block-floating-actions')
+        ),
+        sourceFile: 'registry/default/examples/code-block-floating-actions.tsx',
+      },
+      {
+        title: 'Line numbers',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-line-numbers')
+        ),
+        sourceFile: 'registry/default/examples/code-block-line-numbers.tsx',
+      },
+      {
+        title: 'Start line',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-start-line')
+        ),
+        sourceFile: 'registry/default/examples/code-block-start-line.tsx',
+      },
+      {
+        title: 'Wrap',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-wrap')
+        ),
+        sourceFile: 'registry/default/examples/code-block-wrap.tsx',
+      },
+      {
+        title: 'Highlighted lines',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/code-block-highlighted-lines')
+        ),
+        sourceFile:
+          'registry/default/examples/code-block-highlighted-lines.tsx',
+      },
+      {
+        title: 'Diff',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-diff')
+        ),
+        sourceFile: 'registry/default/examples/code-block-diff.tsx',
+      },
+      {
+        title: 'Height',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-height')
+        ),
+        sourceFile: 'registry/default/examples/code-block-height.tsx',
+      },
+      {
+        title: 'Show more',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-show-more')
+        ),
+        sourceFile: 'registry/default/examples/code-block-show-more.tsx',
+      },
+      {
+        title: 'Show more with a maximum height',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/code-block-show-more-scroll')
+        ),
+        sourceFile: 'registry/default/examples/code-block-show-more-scroll.tsx',
+      },
+      {
+        title: 'Size',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-size')
+        ),
+        sourceFile: 'registry/default/examples/code-block-size.tsx',
+      },
+      {
+        title: 'Destructive',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-destructive')
+        ),
+        sourceFile: 'registry/default/examples/code-block-destructive.tsx',
+      },
+      {
+        title: 'Trace',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-trace')
+        ),
+        sourceFile: 'registry/default/examples/code-block-trace.tsx',
+      },
+      {
+        title: 'Tabs',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-tabs')
+        ),
+        sourceFile: 'registry/default/examples/code-block-tabs.tsx',
+      },
+      {
+        title: 'Message',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-chat')
+        ),
+        sourceFile: 'registry/default/examples/code-block-chat.tsx',
+      },
+      {
+        title: 'Typeset',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-typeset')
+        ),
+        sourceFile: 'registry/default/examples/code-block-typeset.tsx',
+      },
+      {
+        title: 'Syntax highlighting',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-highlighting')
+        ),
+        sourceFile: 'registry/default/examples/code-block-highlighting.tsx',
+      },
+      {
+        title: 'Languages',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-languages')
+        ),
+        sourceFile: 'registry/default/examples/code-block-languages.tsx',
+      },
+      {
+        title: 'Terminal output',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-ansi')
+        ),
+        sourceFile: 'registry/default/examples/code-block-ansi.tsx',
+      },
+      {
+        title: 'Streaming',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-streaming')
+        ),
+        sourceFile: 'registry/default/examples/code-block-streaming.tsx',
+      },
+      {
+        title: 'Markdown',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-markdown')
+        ),
+        sourceFile: 'registry/default/examples/code-block-markdown.tsx',
+      },
+    ],
+  },
+  terminal: {
+    component: lazy(() => import('@/registry/default/demos/terminal-demo')),
+    sourceFile: 'registry/default/demos/terminal-demo.tsx',
+    examples: [
+      {
+        title: 'Exit code',
+        component: lazy(
+          () => import('@/registry/default/examples/terminal-error')
+        ),
+        sourceFile: 'registry/default/examples/terminal-error.tsx',
+      },
+    ],
+  },
+  'stack-trace': {
+    component: lazy(() => import('@/registry/default/demos/stack-trace-demo')),
+    sourceFile: 'registry/default/demos/stack-trace-demo.tsx',
+    examples: [
+      {
+        title: 'Frame links',
+        component: lazy(
+          () => import('@/registry/default/examples/stack-trace-frames')
+        ),
+        sourceFile: 'registry/default/examples/stack-trace-frames.tsx',
+      },
+    ],
+  },
+  'test-results': {
+    component: lazy(() => import('@/registry/default/demos/test-results-demo')),
+    sourceFile: 'registry/default/demos/test-results-demo.tsx',
+    examples: [
+      {
+        title: 'Suites',
+        component: lazy(
+          () => import('@/registry/default/examples/test-results-suites')
+        ),
+        sourceFile: 'registry/default/examples/test-results-suites.tsx',
+      },
+    ],
+  },
+  questionnaire: {
+    component: lazy(
+      () => import('@/registry/default/demos/questionnaire-demo')
+    ),
+    sourceFile: 'registry/default/demos/questionnaire-demo.tsx',
+    examples: [
+      {
+        title: 'Multiple selection',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-multiple')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-multiple.tsx',
+      },
+      {
+        title: 'Freeform answer',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-freeform')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-freeform.tsx',
+      },
+      {
+        title: 'Explicit skip',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-skip')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-skip.tsx',
+      },
+      {
+        title: 'Shortcuts',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-shortcuts')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-shortcuts.tsx',
+      },
+      {
+        title: 'Custom validation',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-validation')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-validation.tsx',
+      },
+      {
+        title: 'Controlled',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-controlled')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-controlled.tsx',
+      },
+      {
+        title: 'Resume',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-resume')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-resume.tsx',
+      },
+      {
+        title: 'Conditional items',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-conditional')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-conditional.tsx',
+      },
+      {
+        title: 'Navigation state',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/questionnaire-navigation-state')
+        ),
+        sourceFile:
+          'registry/default/examples/questionnaire-navigation-state.tsx',
+      },
+      {
+        title: 'Custom progress',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-progress')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-progress.tsx',
+      },
+      {
+        title: 'Animated items',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-animated')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-animated.tsx',
+      },
+      {
+        title: 'Card',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-card')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-card.tsx',
+      },
+      {
+        title: 'Dialog',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-dialog')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-dialog.tsx',
+      },
+    ],
+  },
+  confirmation: {
+    component: lazy(() => import('@/registry/default/demos/confirmation-demo')),
+    sourceFile: 'registry/default/demos/confirmation-demo.tsx',
+  },
+  checkpoint: {
+    component: lazy(() => import('@/registry/default/demos/checkpoint-demo')),
+    sourceFile: 'registry/default/demos/checkpoint-demo.tsx',
+  },
+  suggestion: {
+    component: lazy(() => import('@/registry/default/demos/suggestion-demo')),
+    sourceFile: 'registry/default/demos/suggestion-demo.tsx',
+  },
+  queue: {
+    component: lazy(() => import('@/registry/default/demos/queue-demo')),
+    sourceFile: 'registry/default/demos/queue-demo.tsx',
+    examples: [
+      {
+        title: 'Descriptions',
+        component: lazy(
+          () => import('@/registry/default/examples/queue-descriptions')
+        ),
+        sourceFile: 'registry/default/examples/queue-descriptions.tsx',
+      },
+    ],
+  },
+  context: {
+    component: lazy(() => import('@/registry/default/demos/context-demo')),
+    sourceFile: 'registry/default/demos/context-demo.tsx',
+  },
+  chat: {
+    component: lazy(() => import('@/registry/default/demos/chat-demo')),
+    sourceFile: 'registry/default/demos/chat-demo.tsx',
+    examples: [
+      {
+        title: 'Edit mode',
+        component: lazy(
+          () => import('@/registry/default/examples/chat-edit-mode')
+        ),
+        sourceFile: 'registry/default/examples/chat-edit-mode.tsx',
+      },
+    ],
+  },
+  'prompt-input': {
+    component: lazy(() => import('@/registry/default/demos/prompt-input-demo')),
+    sourceFile: 'registry/default/demos/prompt-input-demo.tsx',
+  },
+  sources: {
+    component: lazy(() => import('@/registry/default/demos/sources-demo')),
+    sourceFile: 'registry/default/demos/sources-demo.tsx',
+    examples: [
+      {
+        title: 'Basic',
+        component: lazy(
+          () => import('@/registry/default/examples/sources-basic')
+        ),
+        sourceFile: 'registry/default/examples/sources-basic.tsx',
+      },
+    ],
+  },
+  'inline-citation': {
+    component: lazy(
+      () => import('@/registry/default/demos/inline-citation-demo')
+    ),
+    sourceFile: 'registry/default/demos/inline-citation-demo.tsx',
+  },
+  'model-selector': {
+    component: lazy(
+      () => import('@/registry/default/demos/model-selector-demo')
+    ),
+    sourceFile: 'registry/default/demos/model-selector-demo.tsx',
+  },
+  'file-tree': {
+    component: lazy(() => import('@/registry/default/demos/file-tree-demo')),
+    sourceFile: 'registry/default/demos/file-tree-demo.tsx',
+  },
   avatar: {
     component: lazy(() => import('@/registry/default/demos/avatar-demo')),
     sourceFile: 'registry/default/demos/avatar-demo.tsx',

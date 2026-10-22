@@ -1,0 +1,53 @@
+Inline Citation is a source in a sentence that opens on hover.
+
+<ComponentPreview name="inline-citation" peekCode />
+
+Inline Citation sits in the sentence that it supports. It is a [Hover Card](/docs/components/hover-card) on a [Button](/docs/components/button). To show a list of sources after the reply, use [Sources](/docs/ai-elements/sources).
+
+## Installation
+
+Inline Citation is built with the [Hover Card](/docs/components/hover-card) and [Button](/docs/components/button) components.
+
+```bash
+npx shadcn@latest add @formance/hover-card @formance/button
+```
+
+## Usage
+
+```tsx
+<HoverCard openDelay={10} closeDelay={100}>
+  <HoverCardTrigger asChild>
+    <Button variant="secondary" size="sm" caseSensitive>
+      {hostname}
+    </Button>
+  </HoverCardTrigger>
+  <HoverCardContent className="flex w-64 flex-col gap-1">
+    <div className="font-medium">{title}</div>
+    <a href={url} target="_blank" rel="noreferrer">
+      {hostname}
+      <span className="sr-only"> (opens in a new tab)</span>
+    </a>
+  </HoverCardContent>
+</HoverCard>
+```
+
+`caseSensitive` keeps the case of the hostname. Without it, the DS Button shows its label in uppercase.
+
+## AI SDK
+
+A `source-url` part is the citation. Set `sendSources: true` on `toUIMessageStreamResponse()`, or write the part yourself.
+
+```ts title="app/api/chat/route.ts"
+writer.write({
+  type: 'source-url',
+  sourceId: 'ledger',
+  url: 'https://docs.formance.com/ledger',
+  title: 'Ledger',
+});
+```
+
+```tsx
+const sources = message.parts.filter((part) => part.type === 'source-url');
+```
+
+`title` is optional. When it is missing, show the hostname of the URL.

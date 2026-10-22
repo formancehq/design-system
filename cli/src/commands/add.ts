@@ -7,7 +7,10 @@ import {
 } from '../lib/registry.js';
 import { ensureFragmentDependencies } from '../lib/ensure-fragment-deps.js';
 import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
-import { writeGlobalsFromTemplate } from '../lib/rewrite-globals.js';
+import {
+  ensureCodeThemesImport,
+  writeGlobalsFromTemplate,
+} from '../lib/rewrite-globals.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
 
 type TAddOptions = {
@@ -91,6 +94,9 @@ export const addCommand = new Command('add')
         console.warn(
           '⚠ Could not rewrite globals.css: no components.json with a tailwind.css entry found at the target. Pass --cwd <project-with-components.json>.'
         );
+    } else {
+      const patched = ensureCodeThemesImport(cwd);
+      if (patched) console.log(`✔ Imported code-themes.css in ${patched}`);
     }
 
     // Fragment import/dependency rewriting operates on freshly installed files,

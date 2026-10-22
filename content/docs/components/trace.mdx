@@ -1,0 +1,419 @@
+<ComponentPreview name="trace" peekCode />
+
+`Trace` is a list of lines. Each line has an icon, a title, and an optional
+description and status. A line can expand to show more detail, link to a page,
+or open a dialog or a sheet.
+
+All lines have the same shape. Thus reasoning, tool calls, sources, and plans
+that you build from `Trace` look and behave the same.
+
+Use `Trace` for the steps that an agent takes, for example a tool call, a
+subagent run, or a schema edit. Use [Message](/docs/components/message) for
+the reply of the agent. Use [Marker](/docs/components/marker) for notes and
+separators between turns.
+
+## Built with Trace
+
+These patterns are compositions of `Trace` parts:
+
+- [Chain of Thought](/docs/ai-elements/chain-of-thought): a summary that expands into the steps behind it.
+- [Plan](/docs/ai-elements/plan): the steps that the agent plans to take, and its progress.
+- [Queue](/docs/ai-elements/queue): the todo list of the agent, split into open and done items.
+- [Reasoning](/docs/ai-elements/reasoning): the thinking of the agent, while it streams.
+- [Sources](/docs/ai-elements/sources): the links that the agent used for a reply.
+- [Stack Trace](/docs/ai-elements/stack-trace): a failed tool call and its stack frames.
+- [Subagent](/docs/ai-elements/subagent): a subagent run, with its tool calls and its result.
+- [Task](/docs/ai-elements/task): the steps that the agent takes, when it takes them.
+- [Terminal](/docs/ai-elements/terminal): a command that the agent runs, with its output while it streams.
+- [Test Results](/docs/ai-elements/test-results): a test run of the agent, with its suites and failures.
+- [Tool](/docs/ai-elements/tool): a tool call of the agent, from input to output.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/trace
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install lucide-react
+npx shadcn@latest add @formance/collapsible
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="trace" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+Use a `TraceLine` for a single step:
+
+```tsx
+import { Trace, TraceIcon, TraceLine, TraceTitle } from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceLine>
+    <TraceIcon>
+      <SearchIcon />
+    </TraceIcon>
+    <TraceTitle>Searched for bank:omnibus</TraceTitle>
+  </TraceLine>
+</Trace>
+```
+
+To show more detail when the line expands, put the line in a
+`TraceCollapsible`:
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <TerminalIcon />
+        </TraceIcon>
+        <TraceTitle>Ran fctl version</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>Version | v3.8.0</TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Composition
+
+A trace line has this composition:
+
+```text
+Trace
+└── TraceLine
+    ├── TraceIcon
+    ├── TraceTitle
+    ├── TraceDescription
+    └── TraceIcon
+```
+
+To show more detail when the line expands, put it in a `TraceCollapsible`:
+
+```text
+Trace
+└── TraceCollapsible
+    ├── TraceCollapsibleTrigger
+    │   └── TraceLine
+    └── TraceCollapsibleContent
+```
+
+`TraceLine` is always the line. To make a line do an action, put it in the
+trigger of that action.
+
+## Features
+
+- One row for reasoning, tool calls, sources, plans, and tasks.
+- Rows that expand, link to a page, or open a dialog, a sheet, a drawer, or a popover.
+- The `running`, `error`, and `pending` states, with a shimmer while a step runs.
+- Nested rows: a summary expands into steps, and a step expands into its output.
+- Support for the reasoning, tool, and source parts of the AI SDK.
+- Keyboard and screen reader support from the trigger around each row.
+- A `className` prop on each part for custom styles.
+
+## Examples
+
+### Trace Line
+
+Use a `TraceLine` alone for a step that has no detail. It shows as plain text.
+
+<ComponentPreview name="trace-static" />
+
+### Status
+
+Set `status` on `TraceLine` when a step runs, fails, or did not start yet.
+
+<ComponentPreview name="trace-status" />
+
+- No status: the work is done. For example, "Validated the schema".
+- `"error"`: the work failed. Say it in the title, for example "Failed to deploy the schema".
+- `"running"`: the work continues. Write the title in the present tense, for example "Running the design run".
+- `"pending"`: the work did not start, for example a plan step "Run the deposit test".
+
+### Description
+
+Put secondary text after the `TraceTitle`, in a `TraceDescription`. For
+example, a diff stat, a duration, or a count. The description does not
+truncate.
+
+<ComponentPreview name="trace-description" />
+
+### Collapsible
+
+To show more detail when the line expands, put the line in a
+`TraceCollapsible`. Put the `TraceLine` in `TraceCollapsibleTrigger`, and the
+detail in `TraceCollapsibleContent`.
+
+<ComponentPreview name="trace-collapsible" />
+
+### Open State
+
+Rows are closed at the start. Use `defaultOpen` on `TraceCollapsible` to open
+a row at the start. Use `open` with `onOpenChange` to control a row.
+
+<ComponentPreview name="trace-open" />
+
+To open a row while it streams, and to keep the choice of the reader when they
+click, pass `open ?? running`:
+
+```tsx
+const [open, setOpen] = React.useState<boolean>();
+
+<TraceCollapsible open={open ?? running} onOpenChange={setOpen}>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={running ? 'running' : undefined}>…</TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>{text}</TraceCollapsibleContent>
+</TraceCollapsible>;
+```
+
+### Link
+
+Put the `TraceLine` in an anchor. For a new tab, use an arrow-up-right icon,
+and add "(opens in a new tab)" with `sr-only`.
+
+<ComponentPreview name="trace-link" />
+
+```tsx
+<a
+  href="https://docs.formance.com/modules/ledger/introduction"
+  target="_blank"
+  rel="noreferrer"
+>
+  <TraceLine>
+    <TraceTitle>
+      Ledger | docs.formance.com
+      <span className="sr-only"> (opens in a new tab)</span>
+    </TraceTitle>
+    <TraceIcon>
+      <ArrowUpRightIcon />
+    </TraceIcon>
+  </TraceLine>
+</a>
+```
+
+### Dialog
+
+Put the `TraceLine` in the trigger of the dialog. The dialog controls its open
+state, the Escape key, and the return of the focus.
+
+<ComponentPreview name="trace-dialog" />
+
+```tsx
+<Dialog>
+  <DialogTrigger>
+    <TraceLine>
+      <TraceTitle>Searched the docs for overdraft rules</TraceTitle>
+      <TraceIcon>
+        <ChevronRightIcon />
+      </TraceIcon>
+    </TraceLine>
+  </DialogTrigger>
+  <DialogContent>…</DialogContent>
+</Dialog>
+```
+
+### Sheet
+
+A sheet has the same shape as a dialog. A drawer and a popover also work in the
+same way.
+
+<ComponentPreview name="trace-sheet" />
+
+### Group
+
+Put adjacent rows in one `Trace`. `Trace` also styles each trigger or link that
+holds a `TraceLine`.
+
+<ComponentPreview name="trace-group" />
+
+### Sources
+
+A collapsible row, with a `Trace` of link rows as its detail.
+
+<ComponentPreview name="trace-sources" />
+
+Refer to [Sources](/docs/ai-elements/sources) for more examples.
+
+### Chain of Thought
+
+A chain of thought is a collapsible row with step rows in it. Set the status and
+the title of the parent row from its child rows.
+
+<ComponentPreview name="trace-steps" />
+
+Refer to [Chain of Thought](/docs/ai-elements/chain-of-thought) and
+[Task](/docs/ai-elements/task) for more examples.
+
+### Commit
+
+A commit is a collapsible row with one line for each changed file. Say the
+change in the title: Added, Edited, or Deleted. Put the line counts in the
+description. Each file opens its diff in a [Sheet](#sheet).
+
+<ComponentPreview name="trace-commit" />
+
+### Whole Turn
+
+A turn has three levels: the turn, a summary, and the rows. Text between two
+steps goes between two `Trace` lists.
+
+<ComponentPreview name="trace-turn" />
+
+### Reasoning
+
+Show a `reasoning` part of the AI SDK. The row is a `TraceLine` until the first
+text arrives. Refer to [Open State](#open-state).
+
+<ComponentPreview name="trace-thinking" />
+
+Refer to [Reasoning](/docs/ai-elements/reasoning) for more examples.
+
+### Tool
+
+Show the tool parts of the AI SDK. Map each tool part as in
+[Tool](/docs/ai-elements/tool#states).
+
+<ComponentPreview name="trace-tool-calls" />
+
+Refer to [Tool](/docs/ai-elements/tool) for more examples.
+
+## Accessibility
+
+`Trace` adds no roles. Each line gets its semantics from the element around it.
+
+- A `TraceLine` alone is a `span`. Screen readers read it as text, and it is not a tab stop.
+- In a `TraceCollapsibleTrigger`, the line becomes a button with `aria-expanded`. In a link, or in the trigger of a dialog or a sheet, the line gets the keyboard and focus behavior of that element.
+- `TraceIcon` is hidden from assistive technology, so `TraceTitle` is the accessible name. Write the title as a sentence that says what occurred, for example "Edited deposit.num", not only "deposit.num".
+- When a link opens a new tab, add "(opens in a new tab)" to the title with `sr-only`.
+- Color and motion show the status. Thus, also put the status in the title: "Deploying the schema" while it runs, and "Failed to deploy the schema" when it fails.
+- The shimmer on a running title stops when the reader prefers reduced motion. The title continues to say what occurs.
+- In a [Message Scroller](/docs/components/message-scroller), screen readers announce each line one time, when it is added.
+- `TraceCollapsibleContent` mutes its text. If you put a block with a muted background in it, give the block `text-foreground` to keep its contrast. `CodeBlock` sets its own text color.
+
+## API Reference
+
+### Trace
+
+A list of rows. It also styles each trigger or link that holds a `TraceLine`.
+
+| Prop        | Type                          | Default | Description                 |
+| ----------- | ----------------------------- | ------- | --------------------------- |
+| `className` | `string`                      | -       | Classes to add to the list. |
+| `...props`  | `React.ComponentProps<"div">` | -       | Props given to the `div`.   |
+
+### TraceLine
+
+One line: an icon and a title. It is a `span`, so it is not a button or a tab
+stop. Put it in a trigger or a link to make it interactive.
+
+| Prop        | Type                                | Default | Description                                                                                                                    |
+| ----------- | ----------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `status`    | `"running" \| "error" \| "pending"` | -       | The state of the work on the line. `running` shimmers the title, `error` uses the destructive color, `pending` fades the line. |
+| `className` | `string`                            | -       | Classes to add to the line.                                                                                                    |
+| `...props`  | `React.ComponentProps<"span">`      | -       | Props given to the `span`.                                                                                                     |
+
+### TraceIcon
+
+A decorative icon slot, hidden from assistive technology. Before the title, it
+shows the action. After the title, it is the indicator.
+
+| Prop        | Type                           | Default | Description                      |
+| ----------- | ------------------------------ | ------- | -------------------------------- |
+| `className` | `string`                       | -       | Classes to add to the icon slot. |
+| `...props`  | `React.ComponentProps<"span">` | -       | Props given to the `span`.       |
+
+### TraceTitle
+
+One sentence on one line. It truncates, and it shimmers while the line is
+running.
+
+| Prop        | Type                           | Default | Description                  |
+| ----------- | ------------------------------ | ------- | ---------------------------- |
+| `className` | `string`                       | -       | Classes to add to the title. |
+| `...props`  | `React.ComponentProps<"span">` | -       | Props given to the `span`.   |
+
+### TraceDescription
+
+Secondary text after the title, such as a count or a duration. It does not
+truncate.
+
+| Prop        | Type                           | Default | Description                        |
+| ----------- | ------------------------------ | ------- | ---------------------------------- |
+| `className` | `string`                       | -       | Classes to add to the description. |
+| `...props`  | `React.ComponentProps<"span">` | -       | Props given to the `span`.         |
+
+### TraceCollapsible
+
+A row that expands. It accepts the props of
+[Collapsible](/docs/components/collapsible), except `asChild`.
+
+| Prop           | Type                      | Default | Description                                                                         |
+| -------------- | ------------------------- | ------- | ----------------------------------------------------------------------------------- |
+| `open`         | `boolean`                 | -       | The controlled open state. When you give `open`, you must also give `onOpenChange`. |
+| `onOpenChange` | `(open: boolean) => void` | -       | Called when the open state changes.                                                 |
+| `defaultOpen`  | `boolean`                 | `false` | Whether the row is open at the start.                                               |
+| `disabled`     | `boolean`                 | `false` | Prevents the row from opening and closing.                                          |
+| `className`    | `string`                  | -       | Classes to add to the row.                                                          |
+
+### TraceCollapsibleTrigger
+
+The button that opens and closes the row. Put a `TraceLine` in it. It adds a
+chevron after the line, which turns when the row is open.
+
+| Prop        | Type                                              | Default | Description                                   |
+| ----------- | ------------------------------------------------- | ------- | --------------------------------------------- |
+| `className` | `string`                                          | -       | Classes to add to the trigger.                |
+| `...props`  | `React.ComponentProps<typeof CollapsibleTrigger>` | -       | Props given to the trigger, except `asChild`. |
+
+### TraceCollapsibleContent
+
+The detail of a row that expands. It animates open and closed.
+
+| Prop         | Type      | Default | Description                                                                          |
+| ------------ | --------- | ------- | ------------------------------------------------------------------------------------ |
+| `className`  | `string`  | -       | Classes to add to the inner detail block (the indented column with the left border). |
+| `forceMount` | `boolean` | -       | Keeps the detail in the DOM when the row is closed, for example to animate it.       |

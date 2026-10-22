@@ -1,0 +1,85 @@
+Confirmation asks for approval before a tool runs.
+
+<ComponentPreview name="confirmation" peekCode />
+
+Confirmation asks the user for a yes or a no before a tool runs. The question
+is an [Item](/docs/components/item) with Deny and Approve buttons. After the
+user answers, the call becomes a [Tool](/docs/ai-elements/tool) line.
+
+## Installation
+
+Confirmation is built with the [Item](/docs/components/item) and
+[Button](/docs/components/button) components.
+
+```bash
+npx shadcn@latest add @formance/item @formance/button
+```
+
+## Usage
+
+```tsx
+<Item variant="outline" size="sm">
+  <ItemMedia variant="icon">
+    <TerminalIcon />
+  </ItemMedia>
+  <ItemContent>
+    <ItemTitle>Run {part.input.command}?</ItemTitle>
+    <ItemDescription>The command runs on the sandbox ledger.</ItemDescription>
+  </ItemContent>
+  <ItemActions>
+    <Button size="sm" variant="outline" onClick={deny}>
+      Deny
+    </Button>
+    <Button size="sm" onClick={approve}>
+      Approve
+    </Button>
+  </ItemActions>
+</Item>
+```
+
+## AI SDK
+
+While the part is `approval-requested`, answer with the approval id. Set
+`sendAutomaticallyWhen` to `lastAssistantMessageIsCompleteWithApprovalResponses`.
+The chat then continues when each approval has an answer.
+
+```tsx
+addToolApprovalResponse({
+  id: part.approval.id,
+  approved: true,
+});
+```
+
+```tsx
+useChat({
+  sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithApprovalResponses,
+});
+```
+
+Approve streams the output of the tool. Deny streams `output-denied`. In the
+two cases, the part becomes a Tool line. See [Tool](/docs/ai-elements/tool).
+
+## AI SDK helper
+
+To script an approval with `createChat` from `@shadcn/helpers/ai-sdk`, set
+`needsApproval` on the tool. The `output` streams after the approval, and the
+next turn of the agent reads `toolCall.approved`.
+
+```ts
+const chat = createChat()
+  .user('Revert the duplicate deposit, transaction 42.')
+  .assistant(({ writer }) => {
+    writer.tool('runCommand', {
+      input: { command: 'fctl ledger transactions revert 42 --ledger sandbox' },
+      needsApproval: true,
+      output: { stdout: '' },
+    });
+  })
+  .assistant(({ writer, toolCall }) => {
+    writer.text(
+      toolCall?.approved
+        ? 'Reverted transaction 42.'
+        : 'Okay, I left transaction 42 in place.'
+    );
+  });
+```

@@ -1,0 +1,130 @@
+Queue shows the todo list of the agent, in two parts: the todos to do and the todos that are complete.
+
+<ComponentPreview name="queue" peekCode />
+
+The todos are in two sections, To do and Completed. The icon of each todo
+shows its status. The agent updates the list while it works, so a todo moves
+to the other section when it is complete.
+
+Queue is built with `Trace`, with a `TraceCollapsible` for each section.
+
+## Installation
+
+Queue is built with the [Trace](/docs/components/trace) component.
+
+```bash
+npx shadcn@latest add @formance/trace
+```
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <ListTodoIcon />
+        </TraceIcon>
+        <TraceTitle>2 to do</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon>
+            <CircleIcon />
+          </TraceIcon>
+          <TraceTitle>Add a balance query per client</TraceTitle>
+        </TraceLine>
+        <TraceLine>
+          <TraceIcon>
+            <CircleIcon />
+          </TraceIcon>
+          <TraceTitle>Run the validation checks</TraceTitle>
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <ListChecksIcon />
+        </TraceIcon>
+        <TraceTitle>1 completed</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon>
+            <CircleCheckIcon />
+          </TraceIcon>
+          <TraceTitle>Pick the omnibus template</TraceTitle>
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### Descriptions
+
+A todo with a description is a `TraceCollapsible` that opens to show the
+description. A todo without a description stays a `TraceLine`.
+
+<ComponentPreview name="queue-descriptions" />
+
+```tsx
+<TraceCollapsible>
+  <TraceCollapsibleTrigger>
+    <TraceLine>
+      <TraceIcon>
+        <CircleIcon />
+      </TraceIcon>
+      <TraceTitle>Fix the withdrawal transaction</TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    It posts from world instead of the client account.
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+```
+
+## AI SDK
+
+The agent writes its todos with a tool, `writeTodos` in this example. Each call
+sends the full list. Render the last call, and ignore a call while its input
+streams.
+
+```tsx
+const todos = message.parts
+  .filter((part) => part.type === 'tool-writeTodos')
+  .filter((part) => part.state !== 'input-streaming')
+  .at(-1)?.input?.todos;
+```
+
+Map the status of each todo to a section, an icon, and a `TraceLine` status.
+Set `"running"` on the todo in progress only while the chat streams. Its title
+then stops the shimmer when the agent stops.
+
+| Todo status   | Section   | Icon              | `TraceLine` status                 |
+| ------------- | --------- | ----------------- | ---------------------------------- |
+| `pending`     | To do     | `CircleIcon`      | none                               |
+| `in_progress` | To do     | `CircleDotIcon`   | `"running"` while the chat streams |
+| `completed`   | Completed | `CircleCheckIcon` | none                               |

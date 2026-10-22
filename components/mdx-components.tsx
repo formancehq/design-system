@@ -20,6 +20,14 @@ import {
   TypographyInlineCode,
 } from '@/registry/default/ui/typography';
 import { Tabs, TabsList, TabsTrigger } from '@/registry/default/ui/tabs';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/registry/default/ui/table';
 import { Tabs as TabsPrimitive } from 'radix-ui';
 import { cn } from '@/lib/utils';
 import { Eyebrow } from '@/registry/default/ui/eyebrow';
@@ -126,6 +134,31 @@ export const mdxComponents: MDXComponents = {
       />
     );
   },
+  strong: ({ className, ...props }) => (
+    <strong
+      className={cn('font-medium text-foreground', className)}
+      {...props}
+    />
+  ),
+  ul: ({ className, ...props }) => (
+    <ul
+      className={cn(
+        'ml-6 list-disc [&>li]:mt-2',
+        className?.includes('contains-task-list') && 'ml-0 list-none',
+        className
+      )}
+      {...props}
+    />
+  ),
+  ol: ({ className, ...props }) => (
+    <ol className={cn('ml-6 list-decimal [&>li]:mt-2', className)} {...props} />
+  ),
+  li: ({ className, ...props }) => (
+    <li
+      className={cn('leading-7 text-muted-foreground', className)}
+      {...props}
+    />
+  ),
   code: ({ children, className, ...props }) => {
     const isBlock = className?.startsWith('language-');
 
@@ -164,6 +197,12 @@ export const mdxComponents: MDXComponents = {
 
     return <pre>{children}</pre>;
   },
+  table: (props) => <Table {...props} />,
+  thead: (props) => <TableHeader {...props} />,
+  tbody: (props) => <TableBody {...props} />,
+  tr: (props) => <TableRow {...props} />,
+  th: (props) => <TableHead {...props} />,
+  td: (props) => <TableCell {...props} />,
   ComponentPreview,
   ComponentSource,
   CollapsibleCode,

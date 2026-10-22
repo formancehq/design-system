@@ -1,0 +1,95 @@
+Sources shows the links that the agent used for a reply.
+
+<ComponentPreview name="sources" peekCode />
+
+Sources is a line that lists the links of a reply. It shows how many links there are, for example "Used 3 sources". It opens to show a link for each source. Sources is a `Trace` with a `TraceCollapsible` for the list.
+
+## Installation
+
+Sources is built with the [Trace](/docs/components/trace) component.
+
+```bash
+npx shadcn@latest add @formance/trace
+```
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <GlobeIcon />
+        </TraceIcon>
+        <TraceTitle>Used {sources.length} sources</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        {sources.map((source) => (
+          <a
+            key={source.url}
+            href={source.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <TraceLine>
+              <TraceTitle>
+                {source.title ?? new URL(source.url).hostname}
+                <span className="sr-only"> (opens in a new tab)</span>
+              </TraceTitle>
+              <TraceIcon>
+                <ArrowUpRightIcon />
+              </TraceIcon>
+            </TraceLine>
+          </a>
+        ))}
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### Basic
+
+A static list of sources, open by default, with an icon on each link.
+
+<ComponentPreview name="sources-basic" />
+
+## AI SDK
+
+Collect the `source-url` parts of a message, and show them after the text. The agent can cite the same page more than one time, so remove the duplicates by `url`.
+
+```tsx
+const sources = message.parts
+  .filter((part) => part.type === 'source-url')
+  .filter(
+    (part, index, all) =>
+      all.findIndex((other) => other.url === part.url) === index
+  );
+```
+
+`title` is optional on a `source-url` part. When it is missing, show the hostname of the URL.
+
+## Accessibility
+
+Each source is a plain link in the list.
+
+- Links open in a new tab. Add `sr-only` text, for example "(opens in a new tab)", so that screen readers announce it.
+- The arrow icon is decorative. The title is the name of the link.
+- The count in the trigger, for example "Used 3 sources", tells the person what opens before they open it.

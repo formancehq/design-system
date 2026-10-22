@@ -213,6 +213,7 @@ After `shadcn add` writes the file, `init` runs `rewriteGlobalsFromTemplate` (`c
 4. Carries over every root-level `@source` the installed file has and the template lacks, with the comment directly above it. Those lines are the consumer's: only it knows which trees Tailwind cannot reach on its own, and a package resolved through `node_modules` is never scanned — so a rewrite that dropped them would silently stop generating classes used only there. A glob the template _used_ to ship is indistinguishable from a consumer-authored one, so deleting one from the template only reaches consumers that have not installed yet; existing ones need a one-off edit to their own file. When the destination cannot be parsed, `add --overwrite` warns and overwrites it anyway — restoring a mangled stylesheet is what that flag is for.
 5. When `--internal` is **not** set, strips Formance-CDN `@font-face` blocks and removes `'Polymath'` / `'Berkeley Mono'` from `--font-sans` / `--font-mono` (Google Fonts Figtree import and remaining fallbacks are preserved).
 6. Writes the result back, and copies `cli/src/templates/typeset.css` next to it (the template imports `./typeset.css`). The copy runs on every rewrite, even when `globals.css` is unchanged, so a typeset update always lands.
+7. When the consumer has `code-themes.css` installed (`components/code/` or `src/components/code/`), adds an `@import` for it, relative to `globals.css`, after the `typeset.css` import. The template has no fixed path for it: a consumer without the file gets no import that cannot resolve. `add` without `--overwrite` still adds this one line when it is missing.
 
 `add` writes the same template — `writeGlobalsFromTemplate`, which skips the token injection but keeps the `@source`, font and `typeset.css` handling — and only when `--overwrite` is set.
 
@@ -242,3 +243,13 @@ cd cli && pnpm build
 After the copy, restore the typeset lines unless platform-ui already has them: `@import './typeset.css';` after `tw-animate-css`, `--font-heading: var(--font-sans);` in `:root`, and the `.typeset-docs` preset at the end.
 
 Also delete the `@source` lines that describe platform-ui's own tree (`../../../kit/src/**` and anything like it). They belong to that consumer, the rewrite preserves them there anyway, and in the template they would be a path no other project has.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

@@ -4,9 +4,9 @@ export default function ApiSnippetGet() {
   return (
     <div className="w-full">
       <ApiSnippet
-        operation="v2GetLedger"
+        operation="v2ReadStats"
         params={{ ledger: 'testing' }}
-        fctl="fctl ledger show testing"
+        fctl="fctl ledger stats --ledger testing"
       />
     </div>
   );

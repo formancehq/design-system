@@ -46,6 +46,7 @@ function CollapsibleContent(props: CollapsibleContentProps) {
   return (
     <CollapsiblePrimitive.CollapsibleContent
       data-slot="collapsible-content"
+      forceMount={forceMount || undefined}
       {...contentProps}
     />
   );

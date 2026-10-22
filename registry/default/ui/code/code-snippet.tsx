@@ -1,79 +1,56 @@
 'use client';
 
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Check, Copy } from 'lucide-react';
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode } from 'react';
 
 import { cn } from '@/lib/utils';
-import { Button } from '@/registry/default/ui/button';
+import { useHighlightedCode } from '@/registry/default/hooks/use-highlighted-code';
 import {
-  cssVarsTheme,
-  getHighlighter,
-  type TCodeLanguage,
-} from '@/registry/default/ui/code/code-themes';
-import {
-  renderHast,
-  type HastNode,
-} from '@/registry/default/ui/code/render-hast';
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockContent,
+  CodeBlockCopyButton,
+  CodeBlockHeader,
+  CodeBlockLine,
+  CodeBlockTitle,
+} from '@/registry/default/ui/code-block';
+import { type TCodeLanguage } from '@/registry/default/ui/code/code-themes';
 
-// ---------------------------------------------------------------------------
-// Variants
-// ---------------------------------------------------------------------------
+// A one-line CodeBlock: highlights `code` with the same highlighter as
+// CodeBlock, and keeps the Shiki background of the Formance code theme.
 
-const codeSnippetVariants = cva(
-  'not-prose overflow-hidden rounded-lg font-mono [&>pre]:overflow-x-scroll [&>pre]:[scrollbar-width:none] [&>pre::-webkit-scrollbar]:hidden [&_code]:font-mono',
-  {
-    variants: {
-      size: {
-        sm: 'text-sm [&>pre]:p-3',
-        md: 'text-base [&>pre]:p-4',
-        lg: 'text-lg [&>pre]:p-6',
-      },
-      bordered: {
-        true: 'border border-border',
-        false: '',
-      },
-      isSingleLine: {
-        true: '[&>pre]:whitespace-nowrap',
-        false: '',
-      },
+const codeSnippetContentVariants = cva('', {
+  variants: {
+    size: {
+      sm: '',
+      md: 'px-4 py-4 text-base',
+      lg: 'px-6 py-6 text-lg',
     },
-    defaultVariants: {
-      size: 'sm',
-      bordered: true,
-      isSingleLine: false,
-    },
-  }
-);
-
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
+  },
+  defaultVariants: {
+    size: 'sm',
+  },
+});
 
 type TCodeSnippetProps = {
-  /** Source code to highlight */
   code: string;
-  /** Language for syntax highlighting */
   language?: TCodeLanguage;
-  /** Show line numbers gutter */
   showLineNumbers?: boolean;
-  /** Show copy-to-clipboard button */
   canCopy?: boolean;
   /**
-   * Render a top bar showing the language label on the left and the copy
-   * button on the right, instead of the floating hover copy button.
+   * Render a top bar with the language on the left and the actions on the
+   * right, instead of actions that show on hover.
    */
   showHeader?: boolean;
-  /**
-   * Extra actions rendered alongside the copy button — in the header
-   * (when `showHeader`) or in the floating hover cluster otherwise.
-   */
+  /** Rendered next to the copy button, in the header or in the hover actions. */
   headerActions?: ReactNode;
-  /** Force a specific theme instead of inheriting from the document */
+  /** Force a theme instead of inheriting it from the document. */
   isDark?: boolean;
-  /** Additional class names on the outer wrapper */
+  bordered?: boolean;
+  /** @deprecated Code never wraps: a long line scrolls. Kept so existing calls compile. */
+  isSingleLine?: boolean;
   className?: string;
-} & VariantProps<typeof codeSnippetVariants>;
+} & VariantProps<typeof codeSnippetContentVariants>;
 
 function CodeSnippet({
   code,
@@ -83,146 +60,49 @@ function CodeSnippet({
   showHeader = false,
   headerActions,
   size,
-  bordered,
+  bordered = true,
   isDark,
-  isSingleLine,
   className,
 }: TCodeSnippetProps) {
-  const [highlighted, setHighlighted] = useState<ReactNode>(null);
-  const [copied, setCopied] = useState(false);
+  const lines = useHighlightedCode(code, language);
+  const hasActions = canCopy || headerActions !== undefined;
 
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      if (!code) {
-        setHighlighted(null);
-
-        return;
-      }
-
-      const highlighter = await getHighlighter();
-      // Fall back to plaintext for any language the highlighter didn't load,
-      // so an unsupported `language` renders unhighlighted instead of throwing.
-      const safeLang = highlighter.getLoadedLanguages().includes(language)
-        ? language
-        : 'plaintext';
-      const result = highlighter.codeToHast(code, {
-        lang: safeLang,
-        theme: cssVarsTheme.name!,
-        transformers: showLineNumbers
-          ? [
-              {
-                name: 'line-numbers',
-                line(node, line) {
-                  node.properties['data-line'] = line;
-                  node.children.unshift({
-                    type: 'element',
-                    tagName: 'span',
-                    properties: {
-                      class: 'line-number',
-                      style:
-                        'color: var(--shiki-token-comment); margin-right: 1rem; user-select: none; display: inline-block; width: 2em; text-align: right;',
-                    },
-                    children: [{ type: 'text', value: String(line) }],
-                  });
-                },
-              },
-            ]
-          : [],
-      });
-
-      if (!cancelled) setHighlighted(renderHast(result as HastNode));
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [code, language, showLineNumbers]);
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(code.trim());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const dataShikiTheme =
-    isDark !== undefined
-      ? { 'data-shiki-theme': isDark ? 'dark' : 'light' }
-      : {};
-
-  const codeAreaClassName = cn(
-    codeSnippetVariants({
-      size,
-      bordered: showHeader ? false : bordered,
-      isSingleLine,
-    }),
-    showHeader && 'rounded-none'
+  const actions = hasActions && (
+    <CodeBlockActions>
+      {headerActions}
+      {canCopy && <CodeBlockCopyButton value={code.trim()} />}
+    </CodeBlockActions>
   );
-
-  const codeArea = highlighted ? (
-    <div className={codeAreaClassName}>{highlighted}</div>
-  ) : (
-    <div className={codeAreaClassName}>
-      <pre>
-        <code className="font-mono">{code}</code>
-      </pre>
-    </div>
-  );
-
-  const copyButton = canCopy && (
-    <Button
-      variant="outline"
-      size="icon-sm"
-      aria-label="Copy code"
-      onClick={handleCopy}
-      className={cn(
-        'text-muted-foreground',
-        !showHeader && 'bg-background/80 backdrop-blur-sm'
-      )}
-    >
-      {copied ? <Check /> : <Copy />}
-    </Button>
-  );
-
-  if (showHeader) {
-    return (
-      <div
-        className={cn(
-          'group/code-snippet overflow-hidden rounded-lg',
-          bordered !== false && 'border border-border',
-          className
-        )}
-        {...dataShikiTheme}
-      >
-        <div className="flex items-center justify-between border-b bg-muted/40 p-1.5 pl-3">
-          <span className="font-mono text-xs uppercase text-muted-foreground">
-            {language}
-          </span>
-          <div className="flex items-center gap-1">
-            {headerActions}
-            {copyButton}
-          </div>
-        </div>
-        {codeArea}
-      </div>
-    );
-  }
 
   return (
-    <div
-      className={cn('group/code-snippet relative', className)}
-      {...dataShikiTheme}
-    >
-      {codeArea}
-      {(copyButton || headerActions) && (
-        <div className="absolute right-3 top-3 flex items-center gap-1 opacity-0 transition-opacity group-hover/code-snippet:opacity-100">
-          {headerActions}
-          {copyButton}
-        </div>
+    <CodeBlock
+      data-shiki-theme={
+        isDark === undefined ? undefined : isDark ? 'dark' : 'light'
+      }
+      className={cn(
+        'bg-(--shiki-background) text-(--shiki-foreground) dark:bg-(--shiki-background)',
+        !bordered && 'border-0',
+        className
       )}
-    </div>
+    >
+      {showHeader ? (
+        <CodeBlockHeader>
+          <CodeBlockTitle className="uppercase">{language}</CodeBlockTitle>
+          {actions}
+        </CodeBlockHeader>
+      ) : (
+        actions
+      )}
+      <CodeBlockContent
+        lineNumbers={showLineNumbers}
+        className={codeSnippetContentVariants({ size })}
+      >
+        {lines.map((line, index) => (
+          <CodeBlockLine key={index}>{line}</CodeBlockLine>
+        ))}
+      </CodeBlockContent>
+    </CodeBlock>
   );
 }
 
-export { CodeSnippet, codeSnippetVariants, type TCodeSnippetProps };
+export { CodeSnippet, type TCodeSnippetProps };

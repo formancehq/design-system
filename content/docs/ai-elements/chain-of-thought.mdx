@@ -1,0 +1,128 @@
+Chain of Thought shows a summary that expands into the steps of the agent.
+
+<ComponentPreview name="chain-of-thought" peekCode />
+
+Chain of Thought is a summary line. It expands into the steps that the agent
+took. The summary says what occurred, for example "Researched in 3 steps". The
+steps are in the summary, each step on its own line.
+
+Chain of Thought is a `Trace` with a `TraceCollapsible` for the summary.
+
+## Installation
+
+Chain of Thought is built with the [Trace](/docs/components/trace), [Code Block](/docs/components/code-block), and [Badge](/docs/components/badge) components.
+
+```bash
+npx shadcn@latest add @formance/trace @formance/code-block @formance/badge
+```
+
+## Usage
+
+```tsx
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible defaultOpen>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <CircleCheckIcon />
+        </TraceIcon>
+        <TraceTitle>Researched in 3 steps</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon>
+            <CircleCheckIcon />
+          </TraceIcon>
+          <TraceTitle>Read the deploy log for run_8Kx2</TraceTitle>
+        </TraceLine>
+        <TraceLine>
+          <TraceIcon>
+            <CircleCheckIcon />
+          </TraceIcon>
+          <TraceTitle>
+            Searched the web for numscript insufficient funds
+          </TraceTitle>
+        </TraceLine>
+        <TraceLine>
+          <TraceIcon>
+            <CircleCheckIcon />
+          </TraceIcon>
+          <TraceTitle>Searched the code for @bank:omnibus</TraceTitle>
+        </TraceLine>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Steps
+
+Each step is a `TraceLine`. Set its `status`, and write the title in the
+correct tense:
+
+- Running: status `"running"`, title "Searching for …".
+- Done, with detail: no status, title "Searched for …".
+- Done, with a link: no status, title "Read the Numscript docs".
+- Failed: status `"error"`, title "Failed to search for …".
+
+## Search Results
+
+When a step runs a web search, show the results in the content of the step. Show
+one `Badge` for each hostname.
+
+```tsx
+<TraceCollapsibleContent className="flex flex-wrap gap-1.5">
+  {results.map((result) => (
+    <Badge key={result.url} variant="secondary">
+      {new URL(result.url).hostname}
+    </Badge>
+  ))}
+</TraceCollapsibleContent>
+```
+
+## AI SDK
+
+Show each tool part as a step. `running` is true while the tool parts stream
+and before the reply starts. Set the status and the title of the summary from
+the steps. The summary opens while the steps run, as in
+[Trace](/docs/components/trace#open-state).
+
+```tsx
+const [open, setOpen] = React.useState<boolean>();
+const running = streaming && !answering;
+const failed = steps.filter((part) => part.state === 'output-error').length;
+
+<TraceCollapsible open={open ?? running} onOpenChange={setOpen}>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={running ? 'running' : failed > 0 ? 'error' : undefined}>
+      <TraceTitle>
+        {running ? 'Researching' : `Researched in ${steps.length} steps`}
+      </TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>
+      {steps.map((part) => (
+        <StepLine key={part.toolCallId} part={part} streaming={streaming} />
+      ))}
+    </Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>;
+```
+
+`StepLine` shows one tool part as a `TraceLine`, as in
+[Tool](/docs/ai-elements/tool#states).

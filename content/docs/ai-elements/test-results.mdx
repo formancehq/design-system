@@ -1,0 +1,121 @@
+Test Results shows a test run by the agent. The summary line counts the tests that passed and failed. Open it to see each suite, its tests, and the error of each failure.
+
+<ComponentPreview name="test-results" peekCode />
+
+Test Results is a `Trace` with a `TraceCollapsible` for the run and for each suite.
+
+## Installation
+
+Test Results is built from the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components. Install them:
+
+```bash
+npx shadcn@latest add @formance/trace @formance/code-block
+```
+
+There is nothing else to install. Copy the code of the demo into your project and change it as you need.
+
+## Usage
+
+```tsx
+import { CodeBlock, CodeBlockContent } from '@/components/ui/code-block';
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine status="error">
+        <TraceIcon>
+          <FlaskConicalIcon />
+        </TraceIcon>
+        <TraceTitle>Ran 2 tests, 1 failed</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <Trace>
+        <TraceLine>
+          <TraceIcon>
+            <CheckIcon />
+          </TraceIcon>
+          <TraceTitle>TestPosting/deposit</TraceTitle>
+        </TraceLine>
+        <TraceCollapsible>
+          <TraceCollapsibleTrigger>
+            <TraceLine status="error">
+              <TraceIcon>
+                <XIcon />
+              </TraceIcon>
+              <TraceTitle>TestOverdraft/bounded_client</TraceTitle>
+            </TraceLine>
+          </TraceCollapsibleTrigger>
+          <TraceCollapsibleContent>
+            <CodeBlock size="sm">
+              <CodeBlockContent wrap className="max-h-64">
+                expected INSUFFICIENT_FUND, got nil
+              </CodeBlockContent>
+            </CodeBlock>
+          </TraceCollapsibleContent>
+        </TraceCollapsible>
+      </Trace>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### Suites
+
+Group the tests by file. Each suite is a collapsible line with a `Trace` of its tests. Open the suites that have a failure.
+
+<ComponentPreview name="test-results-suites" />
+
+```tsx
+<TraceCollapsible defaultOpen={failed > 0}>
+  <TraceCollapsibleTrigger>
+    <TraceLine status={failed > 0 ? 'error' : undefined}>
+      <TraceIcon>
+        <FileCodeIcon />
+      </TraceIcon>
+      <TraceTitle>api_test.go, 3 tests, 1 failed</TraceTitle>
+    </TraceLine>
+  </TraceCollapsibleTrigger>
+  <TraceCollapsibleContent>
+    <Trace>…</Trace>
+  </TraceCollapsibleContent>
+</TraceCollapsible>
+```
+
+## AI SDK
+
+Run the tests as a tool and show its output. The tool states map the same way as in [Tool](/docs/ai-elements/tool).
+
+```tsx
+const tests = part.output.suites.flatMap((suite) => suite.tests);
+const failed = tests.filter((test) => test.status === 'failed').length;
+
+return (
+  <TraceCollapsible defaultOpen={failed > 0}>
+    <TraceCollapsibleTrigger>
+      <TraceLine status={failed > 0 ? 'error' : undefined}>
+        <TraceIcon>
+          <FlaskConicalIcon />
+        </TraceIcon>
+        <TraceTitle>
+          Ran {tests.length} tests{failed > 0 && `, ${failed} failed`}
+        </TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>…</TraceCollapsibleContent>
+  </TraceCollapsible>
+);
+```

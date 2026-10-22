@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import postcss, {
@@ -204,6 +204,66 @@ const resolveCssPath = (cwd: string): string | null => {
   return resolve(cwd, cssRel);
 };
 
+// Where `shadcn add code-themes` lands the stylesheet: its registry target is
+// alias-relative, so a `src`-rooted project gets it under `src/`.
+const CODE_THEMES_TARGET = join('components', 'code', 'code-themes.css');
+
+/**
+ * CodeSnippet, CodeEditor and CodeBlock read their token and ANSI colors from
+ * `code-themes.css`, which ships as a separate file of the `code-themes` item.
+ * The stylesheet imports it only when it is installed — an `@import` of a
+ * missing file breaks the consumer's build — and in the utilities layer, as
+ * the docs site does.
+ */
+const addCodeThemesImport = (
+  root: Root,
+  cwd: string,
+  cssAbs: string
+): boolean => {
+  const codeThemes = [
+    join(cwd, CODE_THEMES_TARGET),
+    join(cwd, 'src', CODE_THEMES_TARGET),
+  ].find((candidate) => existsSync(candidate));
+  const hasCodeThemesImport = root.nodes.some(
+    (node) =>
+      node.type === 'atrule' &&
+      node.name === 'import' &&
+      node.params.includes('code-themes.css')
+  );
+  if (!codeThemes || hasCodeThemesImport) return false;
+
+  const rel = relative(dirname(cssAbs), codeThemes).split(sep).join('/');
+  const importRule = postcss.atRule({
+    name: 'import',
+    params: `'${rel.startsWith('.') ? rel : `./${rel}`}' layer(utilities)`,
+  });
+  const lastImport = root.nodes
+    .filter((node) => node.type === 'atrule' && node.name === 'import')
+    .at(-1);
+  if (lastImport) {
+    lastImport.after(importRule);
+    importRule.raws.before = '\n';
+  } else root.prepend(importRule);
+
+  return true;
+};
+
+/**
+ * `add` without `--overwrite` leaves globals.css alone, so installing
+ * `code-themes` there only adds the one import it needs.
+ */
+export function ensureCodeThemesImport(cwd: string): string | null {
+  const cssAbs = resolveCssPath(cwd);
+  if (!cssAbs || !existsSync(cssAbs)) return null;
+
+  const root = postcss.parse(readFileSync(cssAbs, 'utf8'));
+  if (!addCodeThemesImport(root, cwd, cssAbs)) return null;
+
+  writeFileSync(cssAbs, root.toString());
+
+  return cssAbs;
+}
+
 export function writeGlobalsFromTemplate(
   cwd: string,
   options: TRewriteOptions = {}
@@ -230,6 +290,7 @@ export function writeGlobalsFromTemplate(
     }
   }
 
+  addCodeThemesImport(templateRoot, cwd, cssAbs);
   if (!options.internal) stripFormanceFonts(templateRoot);
 
   writeFileSync(cssAbs, templateRoot.toString());
@@ -266,6 +327,7 @@ export function rewriteGlobalsFromTemplate(
     applyValues(atRule, themeVars);
   });
 
+  addCodeThemesImport(templateRoot, cwd, cssAbs);
   if (!options.internal) stripFormanceFonts(templateRoot);
 
   // Before the early return: a typeset update must land even when the

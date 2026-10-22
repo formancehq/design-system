@@ -1,0 +1,98 @@
+Terminal shows a shell command that the agent runs, for example a ledger creation, a schema insert, or a Numscript transaction. The line shows the command. The output streams in below it while the command runs.
+
+<ComponentPreview name="terminal" peekCode />
+
+Terminal is a `Trace` with a `TraceCollapsible` for each command.
+
+## Installation
+
+Terminal is built from the [Trace](/docs/components/trace) and [Code Block](/docs/components/code-block) components. Install them:
+
+```bash
+npx shadcn@latest add @formance/trace @formance/code-block
+```
+
+There is nothing else to install. Copy the code of the demo into your project and change it as you need.
+
+## Usage
+
+```tsx
+import { CodeBlock, CodeBlockContent } from '@/components/ui/code-block';
+import {
+  Trace,
+  TraceCollapsible,
+  TraceCollapsibleContent,
+  TraceCollapsibleTrigger,
+  TraceIcon,
+  TraceLine,
+  TraceTitle,
+} from '@/components/ui/trace';
+```
+
+```tsx
+<Trace>
+  <TraceCollapsible>
+    <TraceCollapsibleTrigger>
+      <TraceLine>
+        <TraceIcon>
+          <TerminalIcon />
+        </TraceIcon>
+        <TraceTitle>Ran fctl ledger schemas insert v4 schema.yaml</TraceTitle>
+      </TraceLine>
+    </TraceCollapsibleTrigger>
+    <TraceCollapsibleContent>
+      <CodeBlock size="sm">
+        <CodeBlockContent wrap className="max-h-64">
+          {output}
+        </CodeBlockContent>
+      </CodeBlock>
+    </TraceCollapsibleContent>
+  </TraceCollapsible>
+</Trace>
+```
+
+## Examples
+
+### Exit code
+
+A command that exits with a code other than `0` failed. Set `status="error"` on its line.
+
+<ComponentPreview name="terminal-error" />
+
+| Command                      | `status`    | Title                                                      |
+| ---------------------------- | ----------- | ---------------------------------------------------------- |
+| Running                      | `"running"` | Running fctl ledger transactions num deposit.num           |
+| Exited with `0`              | none        | Ran fctl ledger transactions num deposit.num               |
+| Exited with a different code | `"error"`   | fctl ledger transactions num payout.num exited with code 2 |
+
+The command is a tool call. Its states map the same way as in [Tool](/docs/ai-elements/tool).
+
+### Open while running
+
+Open the line when the first output arrives, so that the output shows while the command runs. After that, keep the line open or closed, as in [Trace](/docs/components/trace).
+
+## AI SDK
+
+A tool result arrives only when the command exits. To stream the output while the command runs, write the output from the tool as a data part with the ID of the tool call. The AI SDK replaces a data part that has the same ID, so the output grows in place.
+
+```ts
+writer.write({
+  type: 'data-terminal',
+  id: toolCallId,
+  data: { output },
+});
+```
+
+On the client, find the data part that matches each tool part.
+
+```tsx
+function getOutput(message: TChatMessage, toolCallId: string) {
+  for (const part of message.parts) {
+    if (part.type === 'data-terminal' && part.id === toolCallId) {
+      return part.data.output;
+    }
+  }
+
+  return '';
+}
+```

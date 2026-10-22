@@ -1,0 +1,55 @@
+Suggestion is a short prompt that the user sends to the agent with one click.
+
+<ComponentPreview name="suggestion" peekCode />
+
+The user sends a suggestion without typing. Each suggestion is a
+[Button](/docs/components/button) with the prompt as its label. Put a row of
+suggestions above the [Prompt Input](/docs/ai-elements/prompt-input).
+
+## Installation
+
+Suggestion is built with the [Button](/docs/components/button) component.
+
+```bash
+npx shadcn@latest add @formance/button
+```
+
+## Usage
+
+```tsx
+import { Button } from '@/components/ui/button';
+```
+
+```tsx
+<div className="scrollbar-none flex scroll-fade-x gap-2 overflow-x-auto overscroll-x-contain">
+  {suggestions.map((suggestion) => (
+    <Button
+      key={suggestion}
+      variant="outline"
+      size="sm"
+      caseSensitive
+      className="shrink-0"
+      onClick={() => send(suggestion)}
+    >
+      {suggestion}
+    </Button>
+  ))}
+</div>
+```
+
+The Formance Button shows its label in uppercase. A suggestion is a prompt, so
+set `caseSensitive` to keep the case of the text.
+
+## Scrolling
+
+When the suggestions do not fit, the row scrolls horizontally. `scroll-fade-x`
+fades the edge that has more content, and `shrink-0` keeps each label on one
+line.
+
+## AI SDK
+
+The label is the message. Send it without changes.
+
+```tsx
+sendMessage({ text: suggestion });
+```

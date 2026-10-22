@@ -1,0 +1,171 @@
+<ComponentPreview name="marker" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/marker
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="marker" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Marker, MarkerContent, MarkerIcon } from '@/components/ui/marker';
+```
+
+```tsx
+<Marker role="status">
+  <MarkerContent className="shimmer">Thinking…</MarkerContent>
+</Marker>
+```
+
+Add the `shimmer` utility to `MarkerContent` while a step is pending, and set
+`role="status"` so that screen readers announce it.
+
+## Composition
+
+```text
+Marker
+├── MarkerIcon
+└── MarkerContent
+```
+
+## Features
+
+- Three variants: an inline marker, a row with a border, and a separator with a label.
+- A decorative icon slot that assistive tech does not read.
+- `asChild` on `Marker` makes a link marker or a button marker.
+- Works with the `shimmer` utility for streaming status text.
+- Each part accepts `className`.
+
+## Examples
+
+### Variants
+
+Use `variant` to change between an inline marker, a row with a border, and a
+separator with a label.
+
+<ComponentPreview name="marker-variants" />
+
+| Variant     | Description                                      |
+| ----------- | ------------------------------------------------ |
+| `default`   | An inline marker for status, notes, and actions. |
+| `border`    | A default marker with a border below the row.    |
+| `separator` | A label in the center, with a line on each side. |
+
+### Status
+
+Set `role="status"` and add a [Spinner](/docs/components/spinner) to a marker
+that streams or is in progress, so that screen readers announce it.
+
+<ComponentPreview name="marker-status" />
+
+### Shimmer
+
+Add the `shimmer` utility to `MarkerContent` for an animated streaming text.
+`@formance/ds init` installs the utility in your `globals.css`.
+
+<ComponentPreview name="marker-shimmer" />
+
+### Separator
+
+Use `variant="separator"` for date breaks and mode changes. A
+[Checkpoint](/docs/ai-elements/checkpoint) is a separator with a button that
+restores the conversation to that point.
+
+<ComponentPreview name="marker-separator" />
+
+### Border
+
+Use `variant="border"` for a list of rows, for example validation warnings.
+
+<ComponentPreview name="marker-border" />
+
+### With icon
+
+Use `MarkerIcon` to show an icon before the content. Add `flex-col` to put the
+icon above the content.
+
+<ComponentPreview name="marker-icon" />
+
+### Links and buttons
+
+Set `asChild` on `Marker` to render a marker as a link or as a button.
+
+<ComponentPreview name="marker-link-button" />
+
+```tsx
+<Marker asChild>
+  <a href="/ledger/schema">
+    <MarkerContent>View the schema diff</MarkerContent>
+  </a>
+</Marker>
+```
+
+## Accessibility
+
+- For a marker that streams or shows progress, for example "Thinking…", set
+  `role="status"`. `Marker` sends `role` to its element.
+- A separator with a label needs no role. Its lines are decorative, and screen
+  readers read its text. Do not add `role="separator"` to it: a separator takes
+  its name from `aria-label`, not from its text.
+- The border of a `border` marker is decorative. Choose the role from the
+  purpose of the marker.
+- `MarkerIcon` has `aria-hidden`, so `MarkerContent` gives the meaning. For a
+  marker with only an icon, add an `aria-label`.
+- When a marker is interactive, use a real `<button>` or `<a>` with `asChild`.
+  The text of the marker is the accessible name.
+
+## API reference
+
+### Marker
+
+| Prop        | Type                                   | Default     | Description                           |
+| ----------- | -------------------------------------- | ----------- | ------------------------------------- |
+| `variant`   | `"default" \| "separator" \| "border"` | `"default"` | The visual treatment.                 |
+| `asChild`   | `boolean`                              | `false`     | Render the child, for example a link. |
+| `className` | `string`                               | -           | More classes for the marker.          |
+
+### MarkerIcon
+
+| Prop        | Type     | Default | Description                     |
+| ----------- | -------- | ------- | ------------------------------- |
+| `className` | `string` | -       | More classes for the icon slot. |
+
+### MarkerContent
+
+| Prop        | Type     | Default | Description                   |
+| ----------- | -------- | ------- | ----------------------------- |
+| `className` | `string` | -       | More classes for the content. |

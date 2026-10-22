@@ -1,0 +1,66 @@
+Checkpoint marks a point in the conversation that the user can go back to.
+
+<ComponentPreview name="checkpoint" peekCode />
+
+Checkpoint is a [Marker](/docs/components/marker) after a turn, with a
+Restore button. Restore keeps that turn and removes all the messages after it.
+
+## Installation
+
+Checkpoint is built with the [Marker](/docs/components/marker) and
+[Button](/docs/components/button) components.
+
+```bash
+npx shadcn@latest add @formance/marker @formance/button
+```
+
+## Usage
+
+Render a marker after the turn, with a button that restores it.
+
+```tsx
+<Marker variant="separator">
+  <MarkerContent className="inline-flex items-center gap-2">
+    {label}
+    <Button size="sm" variant="outline" onClick={restore}>
+      Restore
+    </Button>
+  </MarkerContent>
+</Marker>
+```
+
+See the separator example on the [Marker](/docs/components/marker) page.
+
+## AI SDK
+
+Restore replaces the thread with the messages up to that turn, including that
+turn. All the turns after it are removed. To continue from there, send a new
+message.
+
+```tsx
+const index = messages.findIndex((message) => message.id === messageId);
+setMessages(messages.slice(0, index + 1));
+```
+
+## AI SDK helper
+
+To script a checkpoint with `createChat` from `@shadcn/helpers/ai-sdk`, write
+it as a data part on the turn of the agent. Send the same `id` again only to
+update that checkpoint.
+
+```ts
+const chat = createChat()
+  .user('Rename the fees account to platform fees.')
+  .assistant(({ writer }) => {
+    writer.text('Renamed fees:collected to fees:platform in the schema.');
+    writer.data({
+      type: 'data-checkpoint',
+      id: 'rename',
+      data: { label: 'Fees account renamed' },
+    });
+  })
+  .user('Update the Numscript templates to match.')
+  .assistant(({ writer }) => {
+    writer.text('Updated the three templates that post to fees:platform.');
+  });
+```

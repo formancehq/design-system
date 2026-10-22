@@ -1,0 +1,60 @@
+File Tree shows the files that the agent changed, as folders that you can open.
+
+<ComponentPreview name="file-tree" peekCode />
+
+A folder is a [Collapsible](/docs/components/collapsible). A file is a [Button](/docs/components/button). For one file that the agent read or changed, use a [Tool](/docs/ai-elements/tool) line instead.
+
+## Installation
+
+File Tree is built with the [Collapsible](/docs/components/collapsible) and [Button](/docs/components/button) components.
+
+```bash
+npx shadcn@latest add @formance/collapsible @formance/button
+```
+
+## Usage
+
+Render the nodes recursively. Put the children of each folder in its `CollapsibleContent`.
+
+```tsx
+if (node.type === 'folder') {
+  return (
+    <Collapsible defaultOpen className="group/folder">
+      <CollapsibleTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          caseSensitive
+          className="w-full justify-start"
+        >
+          <ChevronRightIcon className="transition-transform group-data-[state=open]/folder:rotate-90" />
+          <FolderIcon />
+          {node.name}
+        </Button>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <div className="ml-4 flex flex-col">
+          {node.children.map((child) => (
+            <FileTreeNode key={child.path} node={child} />
+          ))}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+```
+
+```tsx
+<Button
+  variant="ghost"
+  size="sm"
+  caseSensitive
+  className="w-full justify-start"
+  onClick={() => onSelect(node.path)}
+>
+  <FileIcon />
+  {node.name}
+</Button>
+```
+
+`caseSensitive` keeps the case of the file names. Without it, the DS Button shows its label in uppercase.

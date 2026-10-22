@@ -1,0 +1,228 @@
+<ComponentPreview name="bubble" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/bubble
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="bubble" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Bubble, BubbleContent, BubbleReactions } from '@/components/ui/bubble';
+```
+
+```tsx
+<Bubble variant="muted">
+  <BubbleContent>How do withdrawals move money?</BubbleContent>
+  <BubbleReactions role="img" aria-label="Reaction: thumbs up">
+    <span>👍</span>
+  </BubbleReactions>
+</Bubble>
+```
+
+Use `muted` for the messages of the user, and `ghost` for long assistant
+replies rendered with the [Markdown](/docs/fragments/markdown) fragment.
+
+## Composition
+
+```text
+Bubble
+├── BubbleContent
+└── BubbleReactions
+```
+
+Use `BubbleGroup` to group consecutive bubbles from the same sender:
+
+```text
+BubbleGroup
+├── Bubble
+│   └── BubbleContent
+└── Bubble
+    └── BubbleContent
+```
+
+## Features
+
+- Seven variants, from a strong primary bubble to content with no frame.
+- Start and end alignment, for the user and for the assistant.
+- Reactions that attach to the edge of the bubble, with a side and an alignment.
+- A bubble is as wide as its content, to a maximum of 80% of the container.
+- `asChild` on `BubbleContent` makes a link bubble or a button bubble.
+- Each part accepts `className`.
+
+## Examples
+
+### Variants
+
+Use `variant` to change the visual treatment of the bubble.
+
+<ComponentPreview name="bubble-variants" />
+
+| Variant       | Description                                      |
+| ------------- | ------------------------------------------------ |
+| `default`     | A strong primary bubble, usually for the user.   |
+| `secondary`   | A neutral bubble for conversation content.       |
+| `muted`       | A bubble with less emphasis, for quiet content.  |
+| `tinted`      | A bubble with a light tint of the primary color. |
+| `outline`     | A bubble with a border, for secondary content.   |
+| `ghost`       | Content with no frame, for assistant text.       |
+| `destructive` | A bubble for errors and failed actions.          |
+
+The `ghost` variant has no maximum width, so assistant text can use the full
+row.
+
+### Alignment
+
+Use `align` on `Bubble` to align the bubble to the start or to the end of the
+conversation.
+
+<ComponentPreview name="bubble-alignment" />
+
+| align   | Description                                        |
+| ------- | -------------------------------------------------- |
+| `start` | Align the bubble to the start of the conversation. |
+| `end`   | Align the bubble to the end of the conversation.   |
+
+In a chat interface, set `align` on the [Message](/docs/components/message)
+instead. The bubbles in the message then align with it.
+
+### Bubble group
+
+Use `BubbleGroup` to group consecutive bubbles from the same sender. Set
+`align` on each `Bubble`, not on the `BubbleGroup`.
+
+<ComponentPreview name="bubble-group" />
+
+### Links and buttons
+
+Set `asChild` on `BubbleContent` to render a bubble as a link or as a button.
+
+<ComponentPreview name="bubble-link-button" />
+
+```tsx
+<Bubble variant="muted">
+  <BubbleContent asChild>
+    <button type="button">Explain my chart of accounts</button>
+  </BubbleContent>
+</Bubble>
+```
+
+### Reactions
+
+Use `BubbleReactions` to show reactions or quick actions. Use `side` and
+`align` to set the position. `side="top"` attaches the row to the top edge.
+Reactions go across the edge of the bubble, so keep a large `gap` between
+rows.
+
+<ComponentPreview name="bubble-reactions" />
+
+### Show more
+
+Use a [Collapsible](/docs/components/collapsible) to show or hide long bubble
+content. A `CollapsibleTrigger` opens and closes it.
+
+<ComponentPreview name="bubble-collapsible" />
+
+### Tooltip
+
+Use a [Tooltip](/docs/components/tooltip) to show metadata on hover, for
+example the time when a message was read.
+
+<ComponentPreview name="bubble-tooltip" />
+
+### Popover
+
+Use a [Popover](/docs/components/popover) to show more information on demand,
+for example the full error of a failed action.
+
+<ComponentPreview name="bubble-popover" />
+
+### Suggestions
+
+Use `asChild` buttons in a `BubbleGroup` to show replies the user can pick.
+
+<ComponentPreview name="bubble-suggestions" />
+
+### Error
+
+Use `destructive` when the assistant cannot complete a request.
+
+<ComponentPreview name="bubble-error" />
+
+## Accessibility
+
+- Reactions are a row of emoji. A screen reader reads each glyph with no
+  context, and reads `+2` as "plus two". Set `role="img"` and an `aria-label`
+  on `BubbleReactions`, so the row is announced one time.
+- When a reaction is interactive, use a button. Give an `aria-label` to a
+  button that has only an icon.
+- When a bubble is interactive, use a real `<button>` or `<a>` with `asChild`.
+  `BubbleContent` shows a focus ring, and the text of the bubble is the
+  accessible name.
+- A variant gives meaning with color. Also give the meaning in the text, the
+  alignment, or an icon. For a `destructive` bubble, put the error in the text.
+
+## API reference
+
+### Bubble
+
+| Prop        | Type                                                                                       | Default     | Description                   |
+| ----------- | ------------------------------------------------------------------------------------------ | ----------- | ----------------------------- |
+| `variant`   | `"default" \| "secondary" \| "muted" \| "tinted" \| "outline" \| "ghost" \| "destructive"` | `"default"` | The visual treatment.         |
+| `align`     | `"start" \| "end"`                                                                         | `"start"`   | The side of the conversation. |
+| `className` | `string`                                                                                   | -           | More classes for the bubble.  |
+
+### BubbleContent
+
+| Prop        | Type      | Default | Description                                       |
+| ----------- | --------- | ------- | ------------------------------------------------- |
+| `asChild`   | `boolean` | `false` | Render the child, for example a button or a link. |
+| `className` | `string`  | -       | More classes for the content.                     |
+
+### BubbleReactions
+
+| Prop        | Type                | Default    | Description                            |
+| ----------- | ------------------- | ---------- | -------------------------------------- |
+| `side`      | `"top" \| "bottom"` | `"bottom"` | The edge of the bubble.                |
+| `align`     | `"start" \| "end"`  | `"end"`    | The position along the edge.           |
+| `className` | `string`            | -          | More classes for the row of reactions. |
+
+### BubbleGroup
+
+| Prop        | Type     | Default | Description                 |
+| ----------- | -------- | ------- | --------------------------- |
+| `className` | `string` | -       | More classes for the group. |
