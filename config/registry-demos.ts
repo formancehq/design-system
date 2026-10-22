@@ -98,6 +98,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/attachment-upload-states.tsx',
       },
       {
+        title: 'Image states',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-image-states')
+        ),
+        sourceFile: 'registry/default/examples/attachment-image-states.tsx',
+      },
+      {
         title: 'Sizes',
         component: lazy(
           () => import('@/registry/default/examples/attachment-sizes')
@@ -118,6 +125,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/attachment-trigger.tsx',
       },
+      {
+        title: 'Content only',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-content-only')
+        ),
+        sourceFile: 'registry/default/examples/attachment-content-only.tsx',
+      },
     ],
   },
   bubble: {
@@ -130,6 +144,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/bubble-variants')
         ),
         sourceFile: 'registry/default/examples/bubble-variants.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-sizes')
+        ),
+        sourceFile: 'registry/default/examples/bubble-sizes.tsx',
       },
       {
         title: 'Alignment',
@@ -248,6 +269,20 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/marker-link-button')
         ),
         sourceFile: 'registry/default/examples/marker-link-button.tsx',
+      },
+      {
+        title: 'Accordion',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-accordion')
+        ),
+        sourceFile: 'registry/default/examples/marker-accordion.tsx',
+      },
+      {
+        title: 'Drawer',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-drawer')
+        ),
+        sourceFile: 'registry/default/examples/marker-drawer.tsx',
       },
     ],
   },
@@ -894,6 +929,22 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/questionnaire-dialog')
         ),
         sourceFile: 'registry/default/examples/questionnaire-dialog.tsx',
+      },
+      {
+        title: 'Disabled choice',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-disabled')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-disabled.tsx',
+      },
+      {
+        title: 'No description',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/questionnaire-no-description')
+        ),
+        sourceFile:
+          'registry/default/examples/questionnaire-no-description.tsx',
       },
     ],
   },
