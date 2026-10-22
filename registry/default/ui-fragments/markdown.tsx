@@ -2,54 +2,60 @@
 
 import 'katex/dist/katex.min.css';
 
-import { useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 
 import { cn } from '@/lib/utils';
-import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
+import { useHighlightedCode } from '@/registry/default/hooks/use-highlighted-code';
 import {
-  CODE_LANGUAGES,
-  type TCodeLanguage,
-} from '@/registry/default/ui/code/code-themes';
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockContent,
+  CodeBlockCopyButton,
+  CodeBlockHeader,
+  CodeBlockLine,
+  CodeBlockTitle,
+} from '@/registry/default/ui/code-block';
 
 // ---------------------------------------------------------------------------
-// Language resolution
+// Code block — the highlighter resolves language aliases (ts, sh, yml…) and
+// shows an unknown language as plain text
 // ---------------------------------------------------------------------------
 
-const LANGUAGE_ALIASES: Record<string, TCodeLanguage> = {
-  js: 'typescript',
-  javascript: 'typescript',
-  ts: 'typescript',
-  typescript: 'typescript',
-  jsx: 'tsx',
-  tsx: 'tsx',
-  yml: 'yaml',
-  yaml: 'yaml',
-  json: 'json',
-  sh: 'bash',
-  shell: 'bash',
-  zsh: 'bash',
-  bash: 'bash',
-  css: 'css',
-  md: 'markdown',
-  markdown: 'markdown',
-  numscript: 'numscript',
-};
+// True while the source has a fence that is not closed: an odd number of
+// ``` markers, as when a reply streams. Copy waits for the complete code.
+const UnclosedFenceContext = createContext(false);
 
-function fenceLanguage(className?: string): string | undefined {
-  return className?.match(/language-(\w+)/)?.[1]?.toLowerCase();
-}
+function MarkdownCodeBlock({
+  code,
+  language,
+}: {
+  code: string;
+  language: string;
+}) {
+  const lines = useHighlightedCode(code, language);
+  const unclosedFence = useContext(UnclosedFenceContext);
 
-function resolveLanguage(lang?: string): TCodeLanguage {
-  if (!lang) return 'plaintext';
-  if (lang in LANGUAGE_ALIASES) return LANGUAGE_ALIASES[lang]!;
-
-  return (CODE_LANGUAGES as readonly string[]).includes(lang)
-    ? (lang as TCodeLanguage)
-    : 'plaintext';
+  return (
+    <CodeBlock>
+      <CodeBlockHeader>
+        <CodeBlockTitle className="uppercase">
+          {language || 'text'}
+        </CodeBlockTitle>
+        <CodeBlockActions>
+          <CodeBlockCopyButton value={code} disabled={unclosedFence} />
+        </CodeBlockActions>
+      </CodeBlockHeader>
+      <CodeBlockContent>
+        {lines.map((line, index) => (
+          <CodeBlockLine key={index}>{line}</CodeBlockLine>
+        ))}
+      </CodeBlockContent>
+    </CodeBlock>
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -192,7 +198,7 @@ const markdownComponents: Partial<Components> = {
   pre: ({ children }) => <>{children}</>,
   code: ({ node, className, children, ...props }) => {
     const raw = String(children ?? '');
-    const lang = fenceLanguage(className);
+    const lang = className?.match(/language-(\S+)/)?.[1]?.toLowerCase() ?? '';
     const isBlock = Boolean(lang) || raw.includes('\n');
 
     if (!isBlock) {
@@ -215,7 +221,7 @@ const markdownComponents: Partial<Components> = {
 
     return (
       <div className="not-typeset my-4">
-        <CodeSnippet code={code} language={resolveLanguage(lang)} />
+        <MarkdownCodeBlock code={code} language={lang} />
       </div>
     );
   },
@@ -238,15 +244,19 @@ export type TMarkdownProps = {
 };
 
 function Markdown({ children, className, components }: TMarkdownProps) {
+  const hasUnclosedFence = (children.match(/```/g)?.length ?? 0) % 2 === 1;
+
   return (
     <div className={cn('typeset typeset-docs max-w-[37em]', className)}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[rehypeKatex]}
-        components={{ ...markdownComponents, ...components }}
-      >
-        {children}
-      </ReactMarkdown>
+      <UnclosedFenceContext value={hasUnclosedFence}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[rehypeKatex]}
+          components={{ ...markdownComponents, ...components }}
+        >
+          {children}
+        </ReactMarkdown>
+      </UnclosedFenceContext>
     </div>
   );
 }

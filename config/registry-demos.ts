@@ -98,6 +98,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/attachment-upload-states.tsx',
       },
       {
+        title: 'Image states',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-image-states')
+        ),
+        sourceFile: 'registry/default/examples/attachment-image-states.tsx',
+      },
+      {
         title: 'Sizes',
         component: lazy(
           () => import('@/registry/default/examples/attachment-sizes')
@@ -118,6 +125,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/attachment-trigger.tsx',
       },
+      {
+        title: 'Content only',
+        component: lazy(
+          () => import('@/registry/default/examples/attachment-content-only')
+        ),
+        sourceFile: 'registry/default/examples/attachment-content-only.tsx',
+      },
     ],
   },
   bubble: {
@@ -130,6 +144,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/bubble-variants')
         ),
         sourceFile: 'registry/default/examples/bubble-variants.tsx',
+      },
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/bubble-sizes')
+        ),
+        sourceFile: 'registry/default/examples/bubble-sizes.tsx',
       },
       {
         title: 'Alignment',
@@ -248,6 +269,20 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/marker-link-button')
         ),
         sourceFile: 'registry/default/examples/marker-link-button.tsx',
+      },
+      {
+        title: 'Accordion',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-accordion')
+        ),
+        sourceFile: 'registry/default/examples/marker-accordion.tsx',
+      },
+      {
+        title: 'Drawer',
+        component: lazy(
+          () => import('@/registry/default/examples/marker-drawer')
+        ),
+        sourceFile: 'registry/default/examples/marker-drawer.tsx',
       },
     ],
   },
@@ -714,6 +749,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/code-block-typeset.tsx',
       },
       {
+        title: 'RTL',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-rtl')
+        ),
+        sourceFile: 'registry/default/examples/code-block-rtl.tsx',
+      },
+      {
         title: 'Syntax highlighting',
         component: lazy(
           () => import('@/registry/default/examples/code-block-highlighting')
@@ -888,6 +930,22 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/questionnaire-dialog.tsx',
       },
+      {
+        title: 'Disabled choice',
+        component: lazy(
+          () => import('@/registry/default/examples/questionnaire-disabled')
+        ),
+        sourceFile: 'registry/default/examples/questionnaire-disabled.tsx',
+      },
+      {
+        title: 'No description',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/questionnaire-no-description')
+        ),
+        sourceFile:
+          'registry/default/examples/questionnaire-no-description.tsx',
+      },
     ],
   },
   confirmation: {
@@ -929,6 +987,11 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/chat-edit-mode')
         ),
         sourceFile: 'registry/default/examples/chat-edit-mode.tsx',
+      },
+      {
+        title: 'Files',
+        component: lazy(() => import('@/registry/default/examples/chat-files')),
+        sourceFile: 'registry/default/examples/chat-files.tsx',
       },
     ],
   },
@@ -1508,6 +1571,109 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/scroll-area-horizontal')
         ),
         sourceFile: 'registry/default/examples/scroll-area-horizontal.tsx',
+      },
+    ],
+  },
+  'scroll-fade': {
+    component: lazy(() => import('@/registry/default/demos/scroll-fade-demo')),
+    sourceFile: 'registry/default/demos/scroll-fade-demo.tsx',
+    examples: [
+      {
+        title: 'No overflow',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-overflow')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-overflow.tsx',
+      },
+      {
+        title: 'Horizontal',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-horizontal')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-horizontal.tsx',
+      },
+      {
+        title: 'Edge fades',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-edge')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-edge.tsx',
+      },
+      {
+        title: 'Fade size',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-size')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-size.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-none')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-none.tsx',
+      },
+      {
+        title: 'RTL',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-rtl')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-rtl.tsx',
+      },
+    ],
+  },
+  shimmer: {
+    component: lazy(() => import('@/registry/default/demos/shimmer-demo')),
+    sourceFile: 'registry/default/demos/shimmer-demo.tsx',
+    examples: [
+      {
+        title: 'Color',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-color')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-color.tsx',
+      },
+      {
+        title: 'Duration',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-duration')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-duration.tsx',
+      },
+      {
+        title: 'Spread',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-spread')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-spread.tsx',
+      },
+      {
+        title: 'Angle',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-angle')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-angle.tsx',
+      },
+      {
+        title: 'Play once',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-once')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-once.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-none')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-none.tsx',
+      },
+      {
+        title: 'RTL',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-rtl')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-rtl.tsx',
       },
     ],
   },

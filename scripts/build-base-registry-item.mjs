@@ -57,10 +57,15 @@ const baseItem = {
   description:
     'Brand tokens, fonts, and Tailwind @theme mapping. Install with `formance-ds init`.',
   dependencies: ['tw-animate-css', '@tailwindcss/typography'],
+  // `shadcn/tailwind.css` ships the shared component CSS (shimmer, scroll-fade,
+  // data-open/closed/checked variants, accordion keyframes), as upstream's
+  // style item does.
+  devDependencies: ['shadcn'],
   cssVars: { theme, light, dark },
   css: {
     "@plugin '@tailwindcss/typography'": {},
     "@import 'tw-animate-css'": {},
+    "@import 'shadcn/tailwind.css'": {},
     "@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap')":
       {},
     '@layer base': {
@@ -97,14 +102,6 @@ const baseItem = {
     },
     '@utility font-text': {
       'font-variation-settings': "'opsz' var(--font-opsz-text)",
-    },
-    '@keyframes accordion-down': {
-      from: { height: '0' },
-      to: { height: 'var(--radix-accordion-content-height)' },
-    },
-    '@keyframes accordion-up': {
-      from: { height: 'var(--radix-accordion-content-height)' },
-      to: { height: '0' },
     },
     '@keyframes collapsible-down': {
       from: { height: '0' },

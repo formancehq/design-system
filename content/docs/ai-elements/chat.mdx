@@ -45,6 +45,12 @@ In Edit mode, the agent proposes a change to the schema as a diff. The person ap
 
 <ComponentPreview name="chat-edit-mode" />
 
+## Files
+
+A turn can carry AI SDK file parts. The person sends a statement and a photo, and the agent answers with a report. Each file part is an [Attachment](/docs/components/attachment): an image shows its preview, a document shows its media type.
+
+<ComponentPreview name="chat-files" />
+
 ## AI SDK helper
 
 To build without a model, write the conversation as a script with `createChat` from `@shadcn/helpers/ai-sdk`. Each agent turn streams reasoning, a tool call, and a reply. `chat.next()` fills the field with the next message of the script. When the script has no more turns, the string `fallback` is the reply.
