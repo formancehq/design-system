@@ -9,6 +9,7 @@
       "title": "Formance Base",
       "description": "Brand tokens, fonts, and Tailwind @theme mapping. Install with `formance-ds init`.",
       "dependencies": ["tw-animate-css", "@tailwindcss/typography"],
+      "devDependencies": ["shadcn"],
       "cssVars": {
         "theme": {
           "font-sans": "'Polymath', 'Figtree', ui-sans-serif, system-ui, sans-serif,\n    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
@@ -147,6 +148,7 @@
           "animate-collapsible-up": "collapsible-up 0.2s ease-out"
         },
         "light": {
+          "font-heading": "var(--font-sans)",
           "font-opsz-heading": "72",
           "font-opsz-text": "6",
           "sidebar-width": "16rem",
@@ -355,6 +357,7 @@
       "css": {
         "@plugin '@tailwindcss/typography'": {},
         "@import 'tw-animate-css'": {},
+        "@import 'shadcn/tailwind.css'": {},
         "@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap')": {},
         "@layer base": {
           "*": {
@@ -390,22 +393,6 @@
         },
         "@utility font-text": {
           "font-variation-settings": "'opsz' var(--font-opsz-text)"
-        },
-        "@keyframes accordion-down": {
-          "from": {
-            "height": "0"
-          },
-          "to": {
-            "height": "var(--radix-accordion-content-height)"
-          }
-        },
-        "@keyframes accordion-up": {
-          "from": {
-            "height": "var(--radix-accordion-content-height)"
-          },
-          "to": {
-            "height": "0"
-          }
         },
         "@keyframes collapsible-down": {
           "from": {
