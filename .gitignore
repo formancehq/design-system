@@ -43,3 +43,6 @@ ds-bundle/
 .design-sync/node_modules
 .design-sync/chunk-*.json
 .design-sync/upload-list.txt
+
+# /brag launch videos: rendered output and intermediate frames, never committed.
+brag-output*/
