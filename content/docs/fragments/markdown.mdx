@@ -1,6 +1,6 @@
 <ComponentPreview name="markdown" peekCode />
 
-A Formance-styled markdown renderer built on **react-markdown**. Pass a markdown string as children and it renders headings, prose, lists, links, tables, and code blocks with the design system's tokens and typography. Typography comes from [typeset](https://ui.shadcn.com/docs/typeset): the wrapper carries `typeset typeset-docs`, so the rendered elements need no classes of their own. Fenced code blocks route through `CodeSnippet` (Shiki) and inline code stays lightweight.
+A Formance-styled markdown renderer built on **react-markdown**. Pass a markdown string as children and it renders headings, prose, lists, links, tables, and code blocks with the design system's tokens and typography. Typography comes from [typeset](https://ui.shadcn.com/docs/typeset): the wrapper carries `typeset typeset-docs`, so the rendered elements need no classes of their own. Fenced code blocks render as a [Code Block](/docs/components/code-block) (Shiki), with the language in the header and a copy button, and inline code stays lightweight. While a fence is not closed (an odd number of ` ``` ` markers, as when a reply streams), the copy button is disabled.
 
 Out of the box it supports GitHub Flavored Markdown (`remark-gfm`), math (`remark-math` + `rehype-katex`), and ` ```mermaid ` diagrams (loaded lazily). Every element renderer is overridable through the `components` prop, which is merged over the defaults — override one tag without losing the rest. The same map is exported as `markdownComponents` so you can reuse the renderers in your own react-markdown (or streamdown) instance — wrap that output in `typeset typeset-docs` to get the same typography. To keep an embedded component out of typeset, give it the `not-typeset` class.
 
@@ -19,7 +19,7 @@ import { Markdown } from '@/components/ui-fragments/markdown';
 
 <Section
   title="Code blocks"
-  description="Fenced blocks render through CodeSnippet (Shiki); unknown languages fall back to plain text."
+  description="Fenced blocks render as a CodeBlock (Shiki); unknown languages fall back to plain text."
 >
   <ComponentPreview name="markdown-code" />
 </Section>

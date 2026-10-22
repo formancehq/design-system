@@ -1937,7 +1937,10 @@
         "katex",
         "mermaid"
       ],
-      "registryDependencies": ["https://ds.formance.com/r/code-snippet.json"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/code-block.json",
+        "https://ds.formance.com/r/use-highlighted-code.json"
+      ],
       "files": [
         {
           "path": "registry/default/ui-fragments/markdown.tsx",

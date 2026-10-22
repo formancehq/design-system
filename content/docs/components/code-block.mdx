@@ -334,11 +334,11 @@ While the code streams, the hook tokenizes only the new lines. It starts where t
 
 ### Markdown
 
-Render the message with the [Markdown](/docs/fragments/markdown) fragment, and send fenced code to a `CodeBlock` with its `components` prop. A fence has a `language-*` class or more than one line. Inline code stays inline.
+The [Markdown](/docs/fragments/markdown) fragment renders fenced code as a `CodeBlock`. A fence has a `language-*` class or more than one line. Inline code stays inline. This example writes the same `code` override with the `components` prop, to show how to change it.
 
 <ComponentPreview name="code-block-markdown" />
 
-While the reply streams, a fence that is not closed yet has an odd number of ` ``` ` markers. Use this to disable the copy button until the code is complete.
+While the reply streams, a fence that is not closed yet has an odd number of ` ``` ` markers. The fragment uses this to disable the copy button until the code is complete.
 
 ## Accessibility
 
