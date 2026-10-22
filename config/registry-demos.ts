@@ -1511,6 +1511,109 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'scroll-fade': {
+    component: lazy(() => import('@/registry/default/demos/scroll-fade-demo')),
+    sourceFile: 'registry/default/demos/scroll-fade-demo.tsx',
+    examples: [
+      {
+        title: 'No overflow',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-overflow')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-overflow.tsx',
+      },
+      {
+        title: 'Horizontal',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-horizontal')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-horizontal.tsx',
+      },
+      {
+        title: 'Edge fades',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-edge')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-edge.tsx',
+      },
+      {
+        title: 'Fade size',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-size')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-size.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-none')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-none.tsx',
+      },
+      {
+        title: 'RTL',
+        component: lazy(
+          () => import('@/registry/default/examples/scroll-fade-rtl')
+        ),
+        sourceFile: 'registry/default/examples/scroll-fade-rtl.tsx',
+      },
+    ],
+  },
+  shimmer: {
+    component: lazy(() => import('@/registry/default/demos/shimmer-demo')),
+    sourceFile: 'registry/default/demos/shimmer-demo.tsx',
+    examples: [
+      {
+        title: 'Color',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-color')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-color.tsx',
+      },
+      {
+        title: 'Duration',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-duration')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-duration.tsx',
+      },
+      {
+        title: 'Spread',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-spread')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-spread.tsx',
+      },
+      {
+        title: 'Angle',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-angle')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-angle.tsx',
+      },
+      {
+        title: 'Play once',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-once')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-once.tsx',
+      },
+      {
+        title: 'Disabled',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-none')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-none.tsx',
+      },
+      {
+        title: 'RTL',
+        component: lazy(
+          () => import('@/registry/default/examples/shimmer-rtl')
+        ),
+        sourceFile: 'registry/default/examples/shimmer-rtl.tsx',
+      },
+    ],
+  },
   select: {
     component: lazy(() => import('@/registry/default/demos/select-demo')),
     sourceFile: 'registry/default/demos/select-demo.tsx',

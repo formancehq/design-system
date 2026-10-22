@@ -1378,6 +1378,14 @@ export const docsConfig: TDocsConfig = {
       ],
     },
     {
+      title: 'Utilities',
+      sortOrder: 'alphabetical',
+      items: [
+        { title: 'Scroll Fade', href: '/docs/utils/scroll-fade' },
+        { title: 'Shimmer', href: '/docs/utils/shimmer' },
+      ],
+    },
+    {
       title: 'Examples',
       sortOrder: 'alphabetical',
       items: [
