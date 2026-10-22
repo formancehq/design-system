@@ -4,7 +4,7 @@
   "description": "CLI for installing Formance design system components.",
   "type": "module",
   "bin": {
-    "formance-ds": "./dist/index.js"
+    "formance-ds": "dist/index.js"
   },
   "files": [
     "dist",
