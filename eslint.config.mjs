@@ -17,6 +17,7 @@ const eslintConfig = [
       '.github',
       '.helm',
       'public/build',
+      'brag-output*/**',
       '.dockerignore',
       'docker-compose.yml',
       'otel-config.yml',
