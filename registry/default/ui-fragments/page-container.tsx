@@ -1,5 +1,5 @@
+import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { forwardRef, type HTMLAttributes } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -17,21 +17,17 @@ const pageContainerVariants = cva(['mx-auto w-full @container px-6 xl:px-10'], {
   },
 });
 
-type TPageContainerProps = HTMLAttributes<HTMLDivElement> &
+type TPageContainerProps = React.ComponentProps<'div'> &
   VariantProps<typeof pageContainerVariants>;
 
-const PageContainer = forwardRef<HTMLDivElement, TPageContainerProps>(
-  ({ className, size, ...props }, ref) => (
+function PageContainer({ className, size, ...props }: TPageContainerProps) {
+  return (
     <div
       data-slot="page-container"
-      ref={ref}
       {...props}
       className={cn(pageContainerVariants({ size }), className)}
-      data-
     />
-  )
-);
-
-PageContainer.displayName = 'PageContainer';
+  );
+}
 
 export { PageContainer, pageContainerVariants, type TPageContainerProps };
