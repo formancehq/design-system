@@ -937,6 +937,11 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/chat-edit-mode.tsx',
       },
+      {
+        title: 'Files',
+        component: lazy(() => import('@/registry/default/examples/chat-files')),
+        sourceFile: 'registry/default/examples/chat-files.tsx',
+      },
     ],
   },
   'prompt-input': {
