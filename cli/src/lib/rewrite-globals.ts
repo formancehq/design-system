@@ -204,6 +204,13 @@ const resolveCssPath = (cwd: string): string | null => {
   return resolve(cwd, cssRel);
 };
 
+const SHADCN_TAILWIND_CSS = 'shadcn/tailwind.css';
+
+const rootImports = (root: Root) =>
+  root.nodes.filter(
+    (node): node is AtRule => node.type === 'atrule' && node.name === 'import'
+  );
+
 // Where `shadcn add code-themes` lands the stylesheet: its registry target is
 // alias-relative, so a `src`-rooted project gets it under `src/`.
 const CODE_THEMES_TARGET = join('components', 'code', 'code-themes.css');
@@ -237,9 +244,7 @@ const addCodeThemesImport = (
     name: 'import',
     params: `'${rel.startsWith('.') ? rel : `./${rel}`}' layer(utilities)`,
   });
-  const lastImport = root.nodes
-    .filter((node) => node.type === 'atrule' && node.name === 'import')
-    .at(-1);
+  const lastImport = rootImports(root).at(-1);
   if (lastImport) {
     lastImport.after(importRule);
     importRule.raws.before = '\n';
@@ -249,19 +254,120 @@ const addCodeThemesImport = (
 };
 
 /**
- * `add` without `--overwrite` leaves globals.css alone, so installing
- * `code-themes` there only adds the one import it needs.
+ * The shared AI CSS (`shimmer`, `scroll-fade-*`, the `data-open` / `data-closed`
+ * / `data-checked` variants, accordion keyframes) is not shipped per component:
+ * like upstream shadcn, every component assumes the stylesheet imports
+ * `shadcn/tailwind.css` from the `shadcn` package. It goes right after
+ * `tw-animate-css` (where the template has it), else after `tailwindcss`.
  */
-export function ensureCodeThemesImport(cwd: string): string | null {
+const addShadcnTailwindImport = (root: Root): boolean => {
+  const imports = rootImports(root);
+  if (imports.some((node) => node.params.includes(SHADCN_TAILWIND_CSS)))
+    return false;
+
+  const importRule = postcss.atRule({
+    name: 'import',
+    params: `'${SHADCN_TAILWIND_CSS}'`,
+  });
+  const anchor =
+    imports.find((node) => node.params.includes('tw-animate-css')) ??
+    imports.find((node) => /^["']tailwindcss["']/.test(node.params)) ??
+    imports.at(-1);
+  if (anchor) {
+    anchor.after(importRule);
+    importRule.raws.before = '\n';
+  } else root.prepend(importRule);
+
+  return true;
+};
+
+// Rules the DS used to hand-copy from `shadcn/tailwind.css` into globals.css.
+// Next to the import they are a second definition that wins over the upstream
+// one, so the consumer is told to remove them.
+const COPIED_FROM_SHADCN = new Set([
+  'custom-variant data-open',
+  'custom-variant data-closed',
+  'custom-variant data-checked',
+  'custom-variant data-disabled',
+  'utility shimmer',
+  'utility shimmer-none',
+  'utility scroll-fade-x',
+  'utility scroll-fade-y',
+  'utility scroll-fade-b',
+  'keyframes accordion-down',
+  'keyframes accordion-up',
+]);
+
+const findCopiedShadcnRules = (root: Root): string[] =>
+  root.nodes
+    .filter((node): node is AtRule => node.type === 'atrule')
+    .map((node) => `${node.name} ${node.params.trim()}`)
+    .filter((rule) => COPIED_FROM_SHADCN.has(rule));
+
+export type TEnsureGlobalsImportsResult = {
+  cssPath: string;
+  added: string[];
+  copiedShadcnRules: string[];
+};
+
+/**
+ * `add` without `--overwrite` leaves globals.css alone, apart from the imports
+ * the installed components cannot work without: `shadcn/tailwind.css` always,
+ * and `code-themes.css` once the `code-themes` item is installed.
+ */
+export function ensureGlobalsImports(
+  cwd: string
+): TEnsureGlobalsImportsResult | null {
   const cssAbs = resolveCssPath(cwd);
   if (!cssAbs || !existsSync(cssAbs)) return null;
 
   const root = postcss.parse(readFileSync(cssAbs, 'utf8'));
-  if (!addCodeThemesImport(root, cwd, cssAbs)) return null;
+  const added = [
+    addShadcnTailwindImport(root) && SHADCN_TAILWIND_CSS,
+    addCodeThemesImport(root, cwd, cssAbs) && 'code-themes.css',
+  ].filter((name): name is string => typeof name === 'string');
 
-  writeFileSync(cssAbs, root.toString());
+  if (added.length > 0) writeFileSync(cssAbs, root.toString());
 
-  return cssAbs;
+  return {
+    cssPath: cssAbs,
+    added,
+    copiedShadcnRules: findCopiedShadcnRules(root),
+  };
+}
+
+type TPackageJson = {
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+};
+
+// The `shadcn` release whose `tailwind.css` the components are written
+// against. Upstream lists it as a devDependency of its style item.
+const SHADCN_VERSION_RANGE = '^4.22.1';
+
+/**
+ * `@import 'shadcn/tailwind.css'` resolves from the consumer's `node_modules`,
+ * so the package that owns globals.css must depend on `shadcn`. Adds it as a
+ * devDependency when neither dependency list has it; returns whether it did.
+ */
+export function ensureShadcnDevDependency(cwd: string): boolean {
+  const pkgPath = join(cwd, 'package.json');
+  if (!existsSync(pkgPath)) return false;
+
+  const raw = readFileSync(pkgPath, 'utf8');
+  const pkg = JSON.parse(raw) as TPackageJson;
+  if (pkg.dependencies?.shadcn || pkg.devDependencies?.shadcn) return false;
+
+  pkg.devDependencies = Object.fromEntries(
+    Object.entries({
+      ...pkg.devDependencies,
+      shadcn: SHADCN_VERSION_RANGE,
+    }).sort(([a], [b]) => a.localeCompare(b))
+  );
+  const trailingNewline = raw.endsWith('\n') ? '\n' : '';
+  writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + trailingNewline);
+
+  return true;
 }
 
 export function writeGlobalsFromTemplate(

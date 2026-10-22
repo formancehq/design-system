@@ -87,7 +87,7 @@ Put a file's header comment **below its imports**, never above the first stateme
 
 The DS is the **upstream source of truth**. Consumers pull components **only through the registry** — never by copying files locally. This keeps import rewriting, CSS tokens, and utility classes consistent with what external installs receive.
 
-> Local file-copy syncing (the former `scripts/sync-to-project.sh`) has been removed on purpose: it copied `.tsx` files without the component's CSS (utilities like `shimmer` / `scroll-fade-x` live in `globals.css`), which silently broke styling. Always go through the registry.
+> Local file-copy syncing (the former `scripts/sync-to-project.sh`) has been removed on purpose: it copied `.tsx` files without the component's CSS (Formance utilities live in `globals.css`), which silently broke styling. Always go through the registry.
 
 ### Add / update components (needs dev server running)
 
@@ -217,8 +217,14 @@ After `shadcn add` writes the file, `init` runs `rewriteGlobalsFromTemplate` (`c
 
 `add` writes the same template — `writeGlobalsFromTemplate`, which skips the token injection but keeps the `@source`, font and `typeset.css` handling — and only when `--overwrite` is set.
 
+### Shared shadcn CSS: `@import 'shadcn/tailwind.css'`
+
+The CSS that the shadcn components share — `shimmer*`, `scroll-fade*` with their `@property` rules, `no-scrollbar`, the `data-open` / `data-closed` / `data-checked` / `data-disabled` / … custom variants, and the accordion keyframes — is **not** in this repo. It comes from the `shadcn` npm package through `@import 'shadcn/tailwind.css';`, right after `tw-animate-css`, in `app/globals.css`, the CLI template and the `base` style item (`css` field + `devDependencies: ['shadcn']`, as upstream's style item). Never copy rules from that file into a globals file: a copy freezes at one shadcn version and, placed after the import, wins over it. A deliberate Formance override goes after the import with a one-line comment saying what it overrides. To pick up upstream changes, bump `shadcn` in `package.json` and the `SHADCN_VERSION_RANGE` in `cli/src/lib/rewrite-globals.ts`.
+
+`add` without `--overwrite` adds the import when the consumer's `globals.css` lacks it, warns when the file still holds the rules the DS used to copy, and both `add` and `init` add `shadcn` to the consumer's `devDependencies` when it is missing.
+
 > **⚠️ Any CSS a component relies on MUST be shipped, not just added to `app/globals.css`.**
-> `app/globals.css` only styles the docs site. Consumers get their CSS from the CLI template (`cli/src/templates/globals.css`) via `@formance/ds init`. A component whose class (e.g. `shimmer`, `scroll-fade-x`, `scrollbar-none`) lives only in `app/globals.css` will render **unstyled** everywhere else — this is exactly how the Attachment utilities shipped broken to platform-ui.
+> `app/globals.css` only styles the docs site. Consumers get their CSS from the CLI template (`cli/src/templates/globals.css`) via `@formance/ds init`. A component whose class (e.g. `font-heading`, `container`) lives only in `app/globals.css` will render **unstyled** everywhere else — this is exactly how the Attachment utilities shipped broken to platform-ui.
 >
 > **When you add or change any `@utility` / `@keyframes` / `@property` / `@layer` rule for a component:**
 >
@@ -240,7 +246,7 @@ cp ../platform-ui/packages/ui/src/styles/globals.css cli/src/templates/globals.c
 cd cli && pnpm build
 ```
 
-After the copy, restore the typeset lines unless platform-ui already has them: `@import './typeset.css';` after `tw-animate-css`, `--font-heading: var(--font-sans);` in `:root`, and the `.typeset-docs` preset at the end.
+After the copy, restore `@import 'shadcn/tailwind.css';` after `tw-animate-css` and delete any rule that file provides (see above), then restore the typeset lines unless platform-ui already has them: `@import './typeset.css';` after the shadcn import, `--font-heading: var(--font-sans);` in `:root`, and the `.typeset-docs` preset at the end.
 
 Also delete the `@source` lines that describe platform-ui's own tree (`../../../kit/src/**` and anything like it). They belong to that consumer, the rewrite preserves them there anyway, and in the template they would be a path no other project has.
 

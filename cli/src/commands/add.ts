@@ -8,7 +8,8 @@ import {
 import { ensureFragmentDependencies } from '../lib/ensure-fragment-deps.js';
 import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
 import {
-  ensureCodeThemesImport,
+  ensureGlobalsImports,
+  ensureShadcnDevDependency,
   writeGlobalsFromTemplate,
 } from '../lib/rewrite-globals.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
@@ -95,9 +96,21 @@ export const addCommand = new Command('add')
           '⚠ Could not rewrite globals.css: no components.json with a tailwind.css entry found at the target. Pass --cwd <project-with-components.json>.'
         );
     } else {
-      const patched = ensureCodeThemesImport(cwd);
-      if (patched) console.log(`✔ Imported code-themes.css in ${patched}`);
+      const ensured = ensureGlobalsImports(cwd);
+      if (ensured && ensured.added.length > 0)
+        console.log(
+          `✔ Imported ${ensured.added.join(' and ')} in ${ensured.cssPath}`
+        );
+      if (ensured && ensured.copiedShadcnRules.length > 0)
+        console.warn(
+          `⚠ ${ensured.cssPath} still defines rules that shadcn/tailwind.css now provides (${ensured.copiedShadcnRules.map((rule) => `@${rule}`).join(', ')}). They override the upstream ones: delete them, or re-run with --overwrite to rewrite the file from the template.`
+        );
     }
+
+    if (ensureShadcnDevDependency(cwd))
+      console.log(
+        '✔ Added shadcn to devDependencies (globals.css imports shadcn/tailwind.css). Run your package manager install to fetch it.'
+      );
 
     // Fragment import/dependency rewriting operates on freshly installed files,
     // so it runs over the components that landed rather than over everything
