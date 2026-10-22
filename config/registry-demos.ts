@@ -714,6 +714,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/code-block-typeset.tsx',
       },
       {
+        title: 'RTL',
+        component: lazy(
+          () => import('@/registry/default/examples/code-block-rtl')
+        ),
+        sourceFile: 'registry/default/examples/code-block-rtl.tsx',
+      },
+      {
         title: 'Syntax highlighting',
         component: lazy(
           () => import('@/registry/default/examples/code-block-highlighting')
