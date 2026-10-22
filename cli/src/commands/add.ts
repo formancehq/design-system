@@ -9,7 +9,7 @@ import { ensureFragmentDependencies } from '../lib/ensure-fragment-deps.js';
 import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
 import {
   ensureGlobalsImports,
-  ensureShadcnDevDependency,
+  ensureShadcnDependency,
   writeGlobalsFromTemplate,
 } from '../lib/rewrite-globals.js';
 import { runShadcnAdd } from '../lib/shadcn.js';
@@ -107,10 +107,7 @@ export const addCommand = new Command('add')
         );
     }
 
-    if (ensureShadcnDevDependency(cwd))
-      console.log(
-        '✔ Added shadcn to devDependencies (globals.css imports shadcn/tailwind.css). Run your package manager install to fetch it.'
-      );
+    ensureShadcnDependency(cwd);
 
     // Fragment import/dependency rewriting operates on freshly installed files,
     // so it runs over the components that landed rather than over everything

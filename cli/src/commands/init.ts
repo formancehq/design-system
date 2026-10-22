@@ -7,7 +7,7 @@ import {
 } from '../lib/registry.js';
 import { rewriteFragmentImports } from '../lib/rewrite-fragment-imports.js';
 import {
-  ensureShadcnDevDependency,
+  ensureShadcnDependency,
   rewriteGlobalsFromTemplate,
   writeGlobalsFromTemplate,
 } from '../lib/rewrite-globals.js';
@@ -74,10 +74,7 @@ export const initCommand = new Command('init')
         ? writeGlobalsFromTemplate(cwd, { internal: options.internal })
         : rewriteGlobalsFromTemplate(cwd, { internal: options.internal });
       if (rewritten) console.log(`✔ Rewrote ${rewritten} from template`);
-      if (ensureShadcnDevDependency(cwd))
-        console.log(
-          '✔ Added shadcn to devDependencies (globals.css imports shadcn/tailwind.css). Run your package manager install to fetch it.'
-        );
+      ensureShadcnDependency(cwd);
 
       const fragmentResult = await rewriteFragmentImports(
         options.cwd ?? process.cwd(),

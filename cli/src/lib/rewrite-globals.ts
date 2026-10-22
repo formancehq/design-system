@@ -342,32 +342,67 @@ type TPackageJson = {
 };
 
 // The `shadcn` release whose `tailwind.css` the components are written
-// against. Upstream lists it as a devDependency of its style item.
-const SHADCN_VERSION_RANGE = '^4.22.1';
+// against. Upstream lists it as a devDependency of its style item. Older
+// releases resolve the import but lack rules: 4.5.0 has no shimmer or
+// scroll-fade at all, 4.19.0 no shimmer reduced-motion fallback.
+const SHADCN_MIN_VERSION = '4.22.1';
+
+const installedShadcnVersion = (cwd: string): string | null => {
+  for (let dir = resolve(cwd); ; dir = dirname(dir)) {
+    const pkgPath = join(dir, 'node_modules', 'shadcn', 'package.json');
+    if (existsSync(pkgPath))
+      return (
+        (JSON.parse(readFileSync(pkgPath, 'utf8')) as { version?: string })
+          .version ?? null
+      );
+    if (dirname(dir) === dir) return null;
+  }
+};
+
+const isOlderThan = (version: string, minimum: string) => {
+  const [a, b] = [version, minimum].map((v) =>
+    v.split(/[.-]/).slice(0, 3).map(Number)
+  );
+  const index = a!.findIndex((part, i) => part !== b![i]);
+
+  return index >= 0 && a![index]! < b![index]!;
+};
 
 /**
  * `@import 'shadcn/tailwind.css'` resolves from the consumer's `node_modules`,
- * so the package that owns globals.css must depend on `shadcn`. Adds it as a
- * devDependency when neither dependency list has it; returns whether it did.
+ * so the package that owns globals.css must depend on a recent `shadcn`. Adds
+ * it as a devDependency when neither dependency list has it, and warns when
+ * the installed release is older than the one the components need.
  */
-export function ensureShadcnDevDependency(cwd: string): boolean {
+export function ensureShadcnDependency(cwd: string) {
   const pkgPath = join(cwd, 'package.json');
-  if (!existsSync(pkgPath)) return false;
+  if (!existsSync(pkgPath)) return;
 
   const raw = readFileSync(pkgPath, 'utf8');
   const pkg = JSON.parse(raw) as TPackageJson;
-  if (pkg.dependencies?.shadcn || pkg.devDependencies?.shadcn) return false;
+  const declared = pkg.dependencies?.shadcn ?? pkg.devDependencies?.shadcn;
 
-  pkg.devDependencies = Object.fromEntries(
-    Object.entries({
-      ...pkg.devDependencies,
-      shadcn: SHADCN_VERSION_RANGE,
-    }).sort(([a], [b]) => a.localeCompare(b))
-  );
-  const trailingNewline = raw.endsWith('\n') ? '\n' : '';
-  writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + trailingNewline);
+  if (!declared) {
+    pkg.devDependencies = Object.fromEntries(
+      Object.entries({
+        ...pkg.devDependencies,
+        shadcn: `^${SHADCN_MIN_VERSION}`,
+      }).sort(([a], [b]) => a.localeCompare(b))
+    );
+    const trailingNewline = raw.endsWith('\n') ? '\n' : '';
+    writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + trailingNewline);
+    console.log(
+      `✔ Added shadcn@^${SHADCN_MIN_VERSION} to devDependencies (globals.css imports shadcn/tailwind.css). Run your package manager install to fetch it.`
+    );
 
-  return true;
+    return;
+  }
+
+  const installed = installedShadcnVersion(cwd);
+  if (installed && isOlderThan(installed, SHADCN_MIN_VERSION))
+    console.warn(
+      `⚠ shadcn ${installed} is installed (${pkgPath} declares "${declared}"). shadcn/tailwind.css from it lacks rules the components use. Upgrade it to ^${SHADCN_MIN_VERSION}.`
+    );
 }
 
 export function writeGlobalsFromTemplate(
