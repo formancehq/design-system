@@ -454,6 +454,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/trace-description.tsx',
       },
       {
+        title: 'Block Description',
+        component: lazy(
+          () => import('@/registry/default/examples/trace-description-block')
+        ),
+        sourceFile: 'registry/default/examples/trace-description-block.tsx',
+      },
+      {
         title: 'Collapsible',
         component: lazy(
           () => import('@/registry/default/examples/trace-collapsible')

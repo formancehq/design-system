@@ -181,6 +181,14 @@ truncate.
 
 <ComponentPreview name="trace-description" />
 
+For a description that is a paragraph, for example the reasoning of a model,
+use `variant="block"`. The line wraps, and the description goes below the
+title, aligned with the title. Put this line in `TraceCollapsibleContent`, not
+in `TraceCollapsibleTrigger`. Lines and a nested `Trace` in
+`TraceCollapsibleContent` have the same gap as the lines of a `Trace`.
+
+<ComponentPreview name="trace-description-block" />
+
 ### Collapsible
 
 To show more detail when the line expands, put the line in a
