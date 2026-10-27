@@ -860,7 +860,7 @@
       "type": "registry:ui",
       "title": "Trace",
       "description": "The building block for agent steps: reasoning, tool calls, sources, and more.",
-      "dependencies": ["lucide-react"],
+      "dependencies": ["class-variance-authority", "lucide-react"],
       "registryDependencies": ["https://ds.formance.com/r/collapsible.json"],
       "files": [
         {

@@ -32,7 +32,7 @@ export default function TraceSteps() {
                   <TraceTitle>Searched the deploy log for errors</TraceTitle>
                 </TraceLine>
               </TraceCollapsibleTrigger>
-              <TraceCollapsibleContent className="flex flex-wrap gap-1.5">
+              <TraceCollapsibleContent className="flex-row flex-wrap gap-1.5">
                 <Badge variant="secondary">docs.formance.com</Badge>
                 <Badge variant="secondary">github.com</Badge>
               </TraceCollapsibleContent>
