@@ -111,14 +111,22 @@ function FilterGroupBody({
     onChange({ ...group, children });
   const isRoot = scope.depth === 1;
   const canNest = scope.depth < scope.maxDepth;
+  // An empty root is the first thing a popover shows: centered, as the data
+  // table's filters always were, with Add filter under the text.
+  const isEmptyRoot = isRoot && group.children.length === 0;
 
   return (
-    <div className="flex flex-col gap-2">
-      {group.children.length === 0 ? (
+    <div className={cn('flex flex-col gap-2', isEmptyRoot && 'gap-4 py-2')}>
+      {isEmptyRoot ? (
+        <div className="flex flex-col gap-1 text-center">
+          <p className="text-sm font-medium">No filters applied</p>
+          <p className="text-muted-foreground text-sm">
+            Add filters to refine the rows.
+          </p>
+        </div>
+      ) : group.children.length === 0 ? (
         <p className="text-muted-foreground px-1 text-sm">
-          {isRoot
-            ? 'No filters: every row is shown.'
-            : 'An empty group filters nothing.'}
+          An empty group filters nothing.
         </p>
       ) : (
         <Sortable
@@ -150,7 +158,12 @@ function FilterGroupBody({
           </SortableContent>
         </Sortable>
       )}
-      <div className="flex flex-wrap items-center gap-2">
+      <div
+        className={cn(
+          'flex flex-wrap items-center gap-2',
+          isEmptyRoot && 'justify-center'
+        )}
+      >
         <FilterAddMenu
           fields={scope.fields}
           canNest={canNest}
