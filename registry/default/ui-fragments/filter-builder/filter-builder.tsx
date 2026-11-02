@@ -43,6 +43,7 @@ import {
 
 function FilterBuilder({
   fields,
+  unavailableFields,
   value,
   onChange,
   maxDepth = 2,
@@ -53,6 +54,7 @@ function FilterBuilder({
 }: TFilterEditorProps) {
   const scope = {
     fields,
+    unavailableFields,
     depth: 1,
     maxDepth,
     suggestions,
@@ -166,6 +168,7 @@ function FilterGroupBody({
       >
         <FilterAddMenu
           fields={scope.fields}
+          unavailable={scope.unavailableFields}
           canNest={canNest}
           join={group.join}
           onAdd={(node) => setChildren([...group.children, node])}

@@ -45,6 +45,7 @@ const CHIP_SEGMENT =
 
 function FilterBar({
   fields,
+  unavailableFields,
   value,
   onChange,
   maxDepth = 2,
@@ -56,6 +57,7 @@ function FilterBar({
 }: TFilterBarProps) {
   const scope = {
     fields,
+    unavailableFields,
     depth: 1,
     maxDepth,
     suggestions,
@@ -82,6 +84,7 @@ function FilterBar({
       <FilterBarNodes group={value} onChange={onChange} scope={scope} />
       <FilterAddMenu
         fields={fields}
+        unavailable={unavailableFields}
         canNest={maxDepth > 1}
         join={value.join}
         onAdd={add}
@@ -214,6 +217,7 @@ function FilterGroupFrame({
       <span className="inline-flex gap-1.5">
         <FilterAddMenu
           fields={scope.fields}
+          unavailable={scope.unavailableFields}
           canNest={scope.depth + 1 < scope.maxDepth}
           join={group.join}
           onAdd={(child) =>

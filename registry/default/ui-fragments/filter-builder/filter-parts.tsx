@@ -40,6 +40,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/registry/default/ui/select';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/registry/default/ui/tooltip';
 
 // The parts both layouts draw a condition with: the `FilterBuilder` as rows,
 // the `FilterBar` as chips. Each layout gives them its own class names.
@@ -61,12 +66,20 @@ type TFilterSuggestionRequest = {
 /** One value an input offers: what it writes, how it reads, how many hold it. */
 type TFilterSuggestion = { value: string; label?: string; count?: number };
 
+/** A field the reader cannot add now, and why. */
+type TFilterUnavailableField = { label: string; reason: string };
+
 type TFilterEditorProps = {
   /** The resource's vocabulary. A platform `FilterConfig` fits as it is. */
   fields: TFilterFields;
   /** The root group. Start from `createFilterGroup()` or `filterOfQuery()`. */
   value: TFilterGroup;
   onChange: (value: TFilterGroup) => void;
+  /**
+   * The fields of the vocabulary the reader cannot add now, by field id. Add
+   * filter lists them after the others, disabled, with the reason on hover.
+   */
+  unavailableFields?: Readonly<Record<string, TFilterUnavailableField>>;
   /**
    * How many levels of groups the reader can open. `1` is a flat list with
    * one join, as the data table's filters are today; `2` holds an `$or` of
@@ -92,18 +105,32 @@ type TFilterEditorProps = {
 /** Where a group sits in the tree, given to each level as it is drawn. */
 type TFilterScope = Pick<
   TFilterEditorProps,
-  'suggestions' | 'activeGroupId' | 'onActiveGroupChange'
+  'suggestions' | 'activeGroupId' | 'onActiveGroupChange' | 'unavailableFields'
 > & {
   fields: TFilterFields;
   depth: number;
   maxDepth: number;
 };
 
-const DAY_FORMAT = new Intl.DateTimeFormat('en-US', {
+const DAY_OPTIONS: Intl.DateTimeFormatOptions = {
   month: 'short',
   day: 'numeric',
   year: 'numeric',
+};
+
+/** The days in the reader's time zone: in the browser only. */
+const DAY_FORMAT = new Intl.DateTimeFormat('en-US', DAY_OPTIONS);
+
+/**
+ * The days on the server and in the hydration pass, which must draw the same
+ * text and know no reader's time zone.
+ */
+const UTC_DAY_FORMAT = new Intl.DateTimeFormat('en-US', {
+  ...DAY_OPTIONS,
+  timeZone: 'UTC',
 });
+
+const subscribeToNothing = () => () => {};
 
 const COUNT_FORMAT = new Intl.NumberFormat('en-US');
 
@@ -149,18 +176,21 @@ const ACTIVE_GROUP =
 
 /**
  * **The one way to add to a group**, in both layouts: the trigger (Add filter)
- * opens the fields, and a condition starts on the field picked. When
+ * opens the fields, and a condition starts on the field picked. A field the
+ * reader cannot add follows them, disabled, with its reason on hover. When
  * `canNest`, **Group** is the last item: a group of the other join with one
  * condition in it. A group is one more thing to add, not a second button.
  */
 function FilterAddMenu({
   fields,
+  unavailable = {},
   canNest,
   join,
   onAdd,
   children,
 }: {
   fields: TFilterFields;
+  unavailable?: TFilterEditorProps['unavailableFields'];
   canNest: boolean;
   /** The join of the group added to. A new group takes the other one. */
   join: TFilterJoin;
@@ -180,6 +210,24 @@ function FilterAddMenu({
             {field.label}
           </DropdownMenuItem>
         ))}
+        {Object.entries(unavailable)
+          // A field already in the vocabulary is offered above.
+          .filter(([key]) => !(key in fields))
+          .map(([key, { label, reason }]) => (
+            <Tooltip key={key}>
+              {/* A disabled item takes no pointer events: the span holds the hover. */}
+              <TooltipTrigger asChild>
+                <span className="block">
+                  <DropdownMenuItem disabled data-field={key}>
+                    {label}
+                  </DropdownMenuItem>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent side="right" className="max-w-64">
+                {reason}
+              </TooltipContent>
+            </Tooltip>
+          ))}
         {canNest && (
           <>
             <DropdownMenuSeparator />
@@ -264,125 +312,161 @@ function FilterConditionSelects({
   );
 }
 
-function FilterValueInput({
-  condition,
-  fields,
-  onChange,
-  suggestions,
-  className,
-}: {
+type TFilterValueInputProps = {
   condition: TFilterCondition;
   fields: TFilterFields;
   onChange: (value: TFilterValue) => void;
   suggestions?: TFilterEditorProps['suggestions'];
   /** Given to each control the value takes: one, or two for a keyed value. */
   className?: string;
-}) {
-  const field = fields[condition.field];
-  const { value } = condition;
-  const takesValue =
-    condition.operator !== 'isEmpty' && condition.operator !== 'isNotEmpty';
+};
+
+const takesValue = (condition: TFilterCondition) =>
+  condition.operator !== 'isEmpty' && condition.operator !== 'isNotEmpty';
+
+function FilterValueInput(props: TFilterValueInputProps) {
+  const { value } = props.condition;
 
   switch (value.kind) {
     case 'instants':
       return (
         <FilterRangeInput
           value={value}
-          onChange={onChange}
-          className={className}
+          onChange={props.onChange}
+          className={props.className}
         />
       );
     case 'keyed':
-      return (
-        <>
-          <SuggestedInput
-            aria-label="Key"
-            className={className}
-            placeholder={field?.placeholderKey ?? 'Key...'}
-            text={value.key}
-            onText={(key) => onChange({ ...value, key })}
-            offers={
-              suggestions &&
-              ((text, pick) =>
-                suggestions({ condition, part: 'key', text, pick }))
-            }
-          />
-          {takesValue && (
-            <SuggestedInput
-              aria-label="Value"
-              className={className}
-              placeholder={field?.placeholderValue ?? 'Value...'}
-              text={value.text}
-              onText={(text) => onChange({ ...value, text })}
-              offers={
-                suggestions &&
-                ((text, pick) =>
-                  suggestions({ condition, part: 'value', text, pick }))
-              }
-            />
-          )}
-        </>
-      );
+      return <FilterKeyedInput {...props} value={value} />;
     case 'list':
-      // Items are kept as typed, blanks included, so a trailing comma stays
-      // in the box; the query drops the blanks.
-      return (
-        <Input
-          aria-label="Values"
-          className={className}
-          placeholder={field?.placeholder ?? 'One, two, three...'}
-          value={value.items.join(',')}
-          onChange={(event) =>
-            onChange({ kind: 'list', items: event.target.value.split(',') })
-          }
-        />
-      );
-    case 'text': {
-      if (!takesValue) {
-        return null;
-      }
+      return <FilterListInput {...props} value={value} />;
+    case 'text':
+      return takesValue(props.condition) ? (
+        <FilterTextInput {...props} value={value} />
+      ) : null;
+  }
+}
 
-      const options =
-        field?.variant === 'boolean'
-          ? [
-              { label: 'True', value: 'true' },
-              { label: 'False', value: 'false' },
-            ]
-          : field?.options;
+/** A key, then its value unless the operator takes none. */
+function FilterKeyedInput({
+  condition,
+  fields,
+  onChange,
+  suggestions,
+  className,
+  value,
+}: TFilterValueInputProps & {
+  value: Extract<TFilterValue, { kind: 'keyed' }>;
+}) {
+  const field = fields[condition.field];
 
-      return options ? (
-        <Select
-          value={value.text}
-          onValueChange={(text) => onChange({ kind: 'text', text })}
-        >
-          <SelectTrigger aria-label="Value" className={className}>
-            <SelectValue placeholder={field?.placeholder ?? 'Pick a value'} />
-          </SelectTrigger>
-          <SelectContent>
-            {options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      ) : (
+  return (
+    <>
+      <SuggestedInput
+        aria-label="Key"
+        className={className}
+        placeholder={field?.placeholderKey ?? 'Key...'}
+        text={value.key}
+        onText={(key) => onChange({ ...value, key })}
+        offers={
+          suggestions &&
+          ((text, pick) => suggestions({ condition, part: 'key', text, pick }))
+        }
+      />
+      {takesValue(condition) && (
         <SuggestedInput
           aria-label="Value"
           className={className}
-          inputMode={field?.variant === 'number' ? 'numeric' : undefined}
-          placeholder={field?.placeholder ?? 'Value...'}
+          placeholder={field?.placeholderValue ?? 'Value...'}
           text={value.text}
-          onText={(text) => onChange({ kind: 'text', text })}
+          onText={(text) => onChange({ ...value, text })}
           offers={
             suggestions &&
             ((text, pick) =>
               suggestions({ condition, part: 'value', text, pick }))
           }
         />
-      );
-    }
-  }
+      )}
+    </>
+  );
+}
+
+/**
+ * Items are kept as typed, blanks included, so a trailing comma stays in the
+ * box; the query drops the blanks.
+ */
+function FilterListInput({
+  condition,
+  fields,
+  onChange,
+  className,
+  value,
+}: TFilterValueInputProps & {
+  value: Extract<TFilterValue, { kind: 'list' }>;
+}) {
+  return (
+    <Input
+      aria-label="Values"
+      className={className}
+      placeholder={fields[condition.field]?.placeholder ?? 'One, two, three...'}
+      value={value.items.join(',')}
+      onChange={(event) =>
+        onChange({ kind: 'list', items: event.target.value.split(',') })
+      }
+    />
+  );
+}
+
+/** A choice when the field has options (a boolean has two), else a text box. */
+function FilterTextInput({
+  condition,
+  fields,
+  onChange,
+  suggestions,
+  className,
+  value,
+}: TFilterValueInputProps & {
+  value: Extract<TFilterValue, { kind: 'text' }>;
+}) {
+  const field = fields[condition.field];
+  const options =
+    field?.variant === 'boolean'
+      ? [
+          { label: 'True', value: 'true' },
+          { label: 'False', value: 'false' },
+        ]
+      : field?.options;
+
+  return options ? (
+    <Select
+      value={value.text}
+      onValueChange={(text) => onChange({ kind: 'text', text })}
+    >
+      <SelectTrigger aria-label="Value" className={className}>
+        <SelectValue placeholder={field?.placeholder ?? 'Pick a value'} />
+      </SelectTrigger>
+      <SelectContent>
+        {options.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  ) : (
+    <SuggestedInput
+      aria-label="Value"
+      className={className}
+      inputMode={field?.variant === 'number' ? 'numeric' : undefined}
+      placeholder={field?.placeholder ?? 'Value...'}
+      text={value.text}
+      onText={(text) => onChange({ kind: 'text', text })}
+      offers={
+        suggestions &&
+        ((text, pick) => suggestions({ condition, part: 'value', text, pick }))
+      }
+    />
+  );
 }
 
 /**
@@ -565,6 +649,11 @@ function FilterRangeInput({
     value.from && value.to
       ? { from: new Date(value.from), to: new Date(value.to) }
       : undefined;
+  const days = React.useSyncExternalStore(
+    subscribeToNothing,
+    () => DAY_FORMAT,
+    () => UTC_DAY_FORMAT
+  );
 
   return (
     <Popover>
@@ -582,7 +671,7 @@ function FilterRangeInput({
           <CalendarIcon className="size-4 shrink-0" />
           <span className="truncate">
             {selected?.from && selected.to
-              ? `${DAY_FORMAT.format(selected.from)} – ${DAY_FORMAT.format(selected.to)}`
+              ? `${days.format(selected.from)} – ${days.format(selected.to)}`
               : 'Pick a range of days'}
           </span>
         </Button>

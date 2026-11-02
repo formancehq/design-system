@@ -66,22 +66,27 @@ npx shadcn@latest add @formance/calendar @formance/dropdown-menu @formance/sorta
 import { FilterBar } from '@/components/ui-fragments/filter-builder/filter-bar';
 import { FilterBuilder } from '@/components/ui-fragments/filter-builder/filter-builder';
 import {
-  createFilterGroup,
   filterOfQuery,
   queryOfFilter,
 } from '@/components/ui-fragments/filter-builder/filter-query';
 ```
 
 ```tsx
-const [filter, setFilter] = useState(
-  () => filterOfQuery(storedQuery, fields) ?? createFilterGroup()
+// An absent query is an empty group. `null`: the builder cannot hold the
+// stored query exactly, so keep the query and show it in the raw editor.
+const [filter, setFilter] = useState(() => filterOfQuery(storedQuery, fields));
+
+// The ledger query to send: the builder's (`null` when nothing is written),
+// else the stored query as it is.
+const query = filter ? queryOfFilter(filter, fields) : storedQuery;
+
+return filter ? (
+  // Or a `FilterBar`, with the same props, inline above a table.
+  <FilterBuilder fields={fields} value={filter} onChange={setFilter} />
+) : (
+  // Your raw editor: a JSON `CodeEditor` of the stored query.
+  <RawQueryEditor value={storedQuery} onChange={setStoredQuery} />
 );
-
-<FilterBuilder fields={fields} value={filter} onChange={setFilter} />;
-<FilterBar fields={fields} value={filter} onChange={setFilter} />;
-
-// The ledger query to send: `null` when nothing is written.
-const query = queryOfFilter(filter, fields);
 ```
 
 Both layouts take `fields`, `value`, `onChange`, `maxDepth` and `className`. `maxDepth={1}` removes **Group** from **Add filter**: a flat list with one join. The bar also takes `actions`, the other controls of its row, drawn after Reset: Inspect query.
@@ -90,6 +95,7 @@ Both layouts also take:
 
 - **`suggestions`**: what a value or key input offers while it has focus. It gets the condition, the input (`key` or `value`), the text typed and a `pick` that writes a value. Return a `FilterSuggestionList` of `{ value, label?, count? }`, or `null` to offer nothing. It is mounted only while the input has focus, so a read made in it (a ledger's facets) is made only then.
 - **`activeGroupId`** and **`onActiveGroupChange`**: for a surface that writes into one group of the tree, such as a filter panel. A press inside a group makes the innermost group the target, and the target's frame is drawn solid. With them, the root is drawn as a frame too, so the root can be the target. `findFilterGroup` and `updateFilterGroup` read and replace the target.
+- **`unavailableFields`**: the fields the reader cannot add now, by field id, each `{ label, reason }`. **Add filter** lists them after the other fields, disabled, and shows the reason on hover. Use it for a field the backend cannot answer, such as a ledger field with no index. A field already in `fields` is not listed twice.
 
 ### The model
 

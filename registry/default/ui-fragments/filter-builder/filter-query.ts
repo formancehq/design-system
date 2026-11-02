@@ -654,6 +654,44 @@ const likePattern = (pattern: string): RegExp =>
     'i'
   );
 
+/** A row value or a written threshold as decimal text, or `null` if no number. */
+const decimalOf = (one: unknown): string | null => {
+  if (typeof one === 'number') {
+    return Number.isFinite(one) ? String(one) : null;
+  }
+
+  return typeof one === 'string' &&
+    one.trim() !== '' &&
+    Number.isFinite(Number(one))
+    ? one.trim()
+    : null;
+};
+
+const INTEGER = /^-?\d+$/;
+
+/**
+ * The sign of `actual - expected`, or `null` when one of them is no number.
+ * Two integers compare as `BigInt`: a uint64 id past `Number.MAX_SAFE_INTEGER`
+ * stays a decimal string in the query, and `Number()` would round it onto a
+ * neighbour.
+ */
+function compareNumbers(actual: unknown, expected: unknown): number | null {
+  const left = decimalOf(actual);
+  const right = decimalOf(expected);
+
+  if (left === null || right === null) {
+    return null;
+  }
+
+  if (INTEGER.test(left) && INTEGER.test(right)) {
+    const [a, b] = [BigInt(left), BigInt(right)];
+
+    return a === b ? 0 : a < b ? -1 : 1;
+  }
+
+  return Math.sign(Number(left) - Number(right));
+}
+
 /** Whether one row passes one complete condition. */
 function conditionMatches(
   condition: TFilterCondition,
@@ -692,7 +730,7 @@ function conditionMatches(
   }
 
   const expected = scalarOf(text, field, operator);
-  const compare = typeof expected === 'number' ? Number(actual) - expected : 0;
+  const compare = compareNumbers(actual, expected);
 
   switch (operator) {
     case 'ne':
@@ -700,13 +738,13 @@ function conditionMatches(
     case 'like':
       return likePattern(text).test(String(actual));
     case 'lt':
-      return compare < 0;
+      return compare !== null && compare < 0;
     case 'lte':
-      return compare <= 0;
+      return compare !== null && compare <= 0;
     case 'gt':
-      return compare > 0;
+      return compare !== null && compare > 0;
     case 'gte':
-      return compare >= 0;
+      return compare !== null && compare >= 0;
     default:
       return String(actual) === String(expected);
   }
