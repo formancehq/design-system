@@ -413,6 +413,7 @@ function FilterConditionEditor({
         condition={condition}
         fields={fields}
         onChange={(value) => onChange({ ...condition, value })}
+        className="min-w-0 flex-1"
       />
     </div>
   );
@@ -422,10 +423,13 @@ function FilterValueInput({
   condition,
   fields,
   onChange,
+  className,
 }: {
   condition: TFilterCondition;
   fields: TFilterFields;
   onChange: (value: TFilterValue) => void;
+  /** Given to each control the value takes: one, or two for a keyed value. */
+  className?: string;
 }) {
   const field = fields[condition.field];
   const { value } = condition;
@@ -434,13 +438,19 @@ function FilterValueInput({
 
   switch (value.kind) {
     case 'instants':
-      return <FilterRangeInput value={value} onChange={onChange} />;
+      return (
+        <FilterRangeInput
+          value={value}
+          onChange={onChange}
+          className={className}
+        />
+      );
     case 'keyed':
       return (
         <>
           <Input
             aria-label="Key"
-            className="min-w-0 flex-1"
+            className={className}
             placeholder={field?.placeholderKey ?? 'Key...'}
             value={value.key}
             onChange={(event) =>
@@ -450,7 +460,7 @@ function FilterValueInput({
           {takesValue && (
             <Input
               aria-label="Value"
-              className="min-w-0 flex-1"
+              className={className}
               placeholder={field?.placeholderValue ?? 'Value...'}
               value={value.text}
               onChange={(event) =>
@@ -466,7 +476,7 @@ function FilterValueInput({
       return (
         <Input
           aria-label="Values"
-          className="min-w-0 flex-1"
+          className={className}
           placeholder={field?.placeholder ?? 'One, two, three...'}
           value={value.items.join(',')}
           onChange={(event) =>
@@ -492,7 +502,7 @@ function FilterValueInput({
           value={value.text}
           onValueChange={(text) => onChange({ kind: 'text', text })}
         >
-          <SelectTrigger aria-label="Value" className="min-w-0 flex-1">
+          <SelectTrigger aria-label="Value" className={className}>
             <SelectValue placeholder={field?.placeholder ?? 'Pick a value'} />
           </SelectTrigger>
           <SelectContent>
@@ -506,7 +516,7 @@ function FilterValueInput({
       ) : (
         <Input
           aria-label="Value"
-          className="min-w-0 flex-1"
+          className={className}
           inputMode={field?.variant === 'number' ? 'numeric' : undefined}
           placeholder={field?.placeholder ?? 'Value...'}
           value={value.text}
@@ -526,9 +536,11 @@ function FilterValueInput({
 function FilterRangeInput({
   value,
   onChange,
+  className,
 }: {
   value: Extract<TFilterValue, { kind: 'instants' }>;
   onChange: (value: TFilterValue) => void;
+  className?: string;
 }) {
   const selected: DateRange | undefined =
     value.from && value.to
@@ -543,8 +555,9 @@ function FilterRangeInput({
           variant="outline"
           caseSensitive
           className={cn(
-            'min-w-0 flex-1 justify-start gap-2 font-sans font-normal',
-            !selected && 'text-muted-foreground'
+            'justify-start gap-2 font-sans font-normal',
+            !selected && 'text-muted-foreground',
+            className
           )}
         >
           <CalendarIcon className="size-4 shrink-0" />
@@ -583,4 +596,4 @@ function FilterRangeInput({
   );
 }
 
-export { FilterBuilder, type TFilterBuilderProps };
+export { FilterBuilder, FilterValueInput, type TFilterBuilderProps };

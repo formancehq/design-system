@@ -1,0 +1,78 @@
+<ComponentPreview name="filter-bar" peekCode />
+
+The [Filter Builder](/docs/fragments/filter-builder)'s tree, drawn inline so it stays on screen above a table. It holds the same `TFilterGroup` and writes the same ledger query, so the two can edit one value side by side.
+
+- A **condition** is one chip of segments: the field, the operator, the value, and remove.
+- A **group** is a framed run of chips. Its **+** adds a condition or, while `maxDepth` allows, a nested group.
+- The **join** sits between each two children of a group. A group has one join, so a click on any of them switches the whole group between `and` and `or`.
+- A group that loses its last chip is removed with it.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/filter-bar
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>
+  Install the Filter Builder first. The bar uses its model and its value inputs:
+</Step>
+
+```bash
+npx shadcn@latest add @formance/filter-builder
+```
+
+<Step>
+  Copy `registry/default/ui-fragments/filter-builder/filter-bar.tsx` into
+  `components/ui-fragments/filter-builder/`.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { FilterBar } from '@/components/ui-fragments/filter-builder/filter-bar';
+import {
+  createFilterGroup,
+  queryOfFilter,
+} from '@/components/ui-fragments/filter-builder/filter-query';
+```
+
+```tsx
+const [filter, setFilter] = useState(() => createFilterGroup());
+
+<FilterBar fields={fields} value={filter} onChange={setFilter} />;
+```
+
+`maxDepth={1}` hides groups: a flat row of chips with one join. `actions` takes the toolbar's other controls, drawn after Clear in the same row, such as the Console's Raw body query.
+
+## Examples
+
+<Section
+  title="Above a data table"
+  level={3}
+  description="The bar in a table's toolbar, with Raw body query beside it as the Console's widget toolbar has it. The rows are filtered in the browser with filterMatches."
+>
+  <ComponentPreview name="filter-bar-data-table" />
+</Section>

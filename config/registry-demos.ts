@@ -2739,6 +2739,19 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'filter-bar': {
+    component: lazy(() => import('@/registry/default/demos/filter-bar-demo')),
+    sourceFile: 'registry/default/demos/filter-bar-demo.tsx',
+    examples: [
+      {
+        title: 'Above a data table',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-bar-data-table')
+        ),
+        sourceFile: 'registry/default/examples/filter-bar-data-table.tsx',
+      },
+    ],
+  },
   'filter-builder': {
     component: lazy(
       () => import('@/registry/default/demos/filter-builder-demo')
