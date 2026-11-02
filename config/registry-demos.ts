@@ -2739,6 +2739,58 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'filter-builder': {
+    component: lazy(
+      () => import('@/registry/default/demos/filter-builder-demo')
+    ),
+    sourceFile: 'registry/default/demos/filter-builder-demo.tsx',
+    examples: [
+      {
+        title: 'Bar',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-bar')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-bar.tsx',
+      },
+      {
+        title: 'Flat',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-flat')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-flat.tsx',
+      },
+      {
+        title: 'From a stored query',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-from-query')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-from-query.tsx',
+      },
+      {
+        title: 'In a data table',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-data-table')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-data-table.tsx',
+      },
+      {
+        title: 'In a data table, with a popover',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/filter-builder-data-table-popover')
+        ),
+        sourceFile:
+          'registry/default/examples/filter-builder-data-table-popover.tsx',
+      },
+      {
+        title: 'Target group and value offers',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-target')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-target.tsx',
+      },
+    ],
+  },
   'key-value-input': {
     component: lazy(
       () => import('@/registry/default/demos/key-value-input-demo')

@@ -7,10 +7,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const SPEC_DIR = resolve(ROOT, '../openapi/stack');
 const OUT_FILE = resolve(ROOT, 'registry/default/lib/stack-operations.json');
-const SDK_DIR = resolve(
-  ROOT,
-  '../platform-ui/packages/sdks/stack/formance/src/sdk'
-);
+// The `src/sdk` directory of a generated Formance stack SDK, to check each
+// operation's SDK module exists. Unset: the check is skipped.
+const SDK_DIR = process.env.STACK_SDK_DIR
+  ? resolve(process.env.STACK_SDK_DIR)
+  : null;
 
 type THttpMethod =
   'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
@@ -76,7 +77,8 @@ function main() {
   const spec = JSON.parse(readFileSync(join(SPEC_DIR, specFile), 'utf8'));
   const specVersion = specFile.slice(1, -5);
 
-  const sdkFiles = existsSync(SDK_DIR) ? new Set(readdirSync(SDK_DIR)) : null;
+  const sdkFiles =
+    SDK_DIR && existsSync(SDK_DIR) ? new Set(readdirSync(SDK_DIR)) : null;
   const warnings: string[] = [];
 
   const out: Record<string, TStackOperation> = {};

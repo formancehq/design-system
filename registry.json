@@ -1991,6 +1991,45 @@
       ]
     },
     {
+      "name": "filter-builder",
+      "type": "registry:component",
+      "title": "Filter Builder",
+      "description": "A filter builder for ledger queries: conditions and nested groups joined by $and or $or, read from and written to the ledger's JSON filter. Two layouts over one tree: rows for a data table's Filters popover, chips for a form or a page.",
+      "dependencies": ["lucide-react", "react-day-picker"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/calendar.json",
+        "https://ds.formance.com/r/dropdown-menu.json",
+        "https://ds.formance.com/r/input.json",
+        "https://ds.formance.com/r/popover.json",
+        "https://ds.formance.com/r/select.json",
+        "https://ds.formance.com/r/sortable.json",
+        "https://ds.formance.com/r/tooltip.json"
+      ],
+      "files": [
+        {
+          "path": "registry/default/ui-fragments/filter-builder/filter-builder.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/filter-builder/filter-builder.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/filter-builder/filter-bar.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/filter-builder/filter-bar.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/filter-builder/filter-parts.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/filter-builder/filter-parts.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/filter-builder/filter-query.ts",
+          "type": "registry:component",
+          "target": "components/ui-fragments/filter-builder/filter-query.ts"
+        }
+      ]
+    },
+    {
       "name": "sso-button",
       "type": "registry:component",
       "title": "SSO Button",

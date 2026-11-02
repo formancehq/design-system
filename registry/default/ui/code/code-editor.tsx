@@ -228,6 +228,11 @@ function CodeEditor({
   const diagnosticsRef = useRef(diagnostics);
   const onDidPasteRef = useRef(onDidPaste);
   const onCtrlEnterRef = useRef(onCtrlEnter);
+  // Values the editor sent through `onChange` that have not come back as
+  // `value` yet. A `value` among them is an echo of typing that can be behind
+  // the editor: writing it back would undo the keys typed since.
+  const pendingValuesRef = useRef<string[]>([]);
+  const isSyncingRef = useRef(false);
 
   const isClient = useSyncExternalStore(
     subscribeToNothing,
@@ -319,6 +324,7 @@ function CodeEditor({
     isReadonly,
     defaultUnfoldAll,
     onChange,
+    isControlled: value !== undefined && onChange !== undefined,
     adaptiveHeight,
     updateHeight,
     isEmpty,
@@ -331,6 +337,7 @@ function CodeEditor({
       isReadonly,
       defaultUnfoldAll,
       onChange,
+      isControlled: value !== undefined && onChange !== undefined,
       adaptiveHeight,
       updateHeight,
       isEmpty,
@@ -398,6 +405,9 @@ function CodeEditor({
 
       editor.onDidChangeModelContent(() => {
         const v = editor.getValue();
+        if (setupValues.current.isControlled && !isSyncingRef.current) {
+          pendingValuesRef.current.push(v);
+        }
         setupValues.current.onChange?.(v);
         triggerValidation(v);
       });
@@ -436,7 +446,21 @@ function CodeEditor({
   useEffect(() => {
     const editor = editorRef.current;
     if (!editor || !isInitialized) return;
-    if (editor.getValue() !== currentValue) editor.setValue(currentValue);
+
+    const pending = pendingValuesRef.current;
+    const echo = pending.indexOf(currentValue);
+    if (echo !== -1) {
+      pending.splice(0, echo + 1);
+
+      return;
+    }
+
+    pending.length = 0;
+    if (editor.getValue() !== currentValue) {
+      isSyncingRef.current = true;
+      editor.setValue(currentValue);
+      isSyncingRef.current = false;
+    }
   }, [currentValue, isInitialized]);
 
   useMonacoTheme({

@@ -27,7 +27,7 @@ const eslintConfig = [
   },
   {
     rules: {
-      // Apply consistent rules from platform-ui's @platform/eslint-config/next.mjs
+      // The same rules as the product UI consumer's shared Next.js ESLint config
       'no-console': 'warn',
       'no-useless-escape': 'error',
       'newline-before-return': 'error',

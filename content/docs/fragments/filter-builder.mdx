@@ -1,0 +1,166 @@
+<ComponentPreview name="filter-builder" peekCode />
+
+A filter builder for ledger queries. A **group** joins its children with one `$and` or one `$or`; a child is a **condition** (a field, an operator, a value) or another group. So the builder holds what the data table's flat filters cannot: an `$or` of `$and`s, such as "payments not reverted, or refunds past transaction 100".
+
+One tree, two layouts. Both take the same `TFilterGroup` and write the same ledger query, so they can edit one value side by side:
+
+- **`FilterBuilder`** draws the tree as rows, for a popover or a panel: a data table's **Filters** popover.
+- **`FilterBar`** draws it inline as chips, for a form or a page where the filter stays on screen.
+
+In both layouts, **Add filter** is the one way to add to a group. It opens the fields, and a condition starts on the field picked. While `maxDepth` allows, **Group** is the last item: a group of the other join, with one condition in it.
+
+### FilterBuilder
+
+Each group is drawn the way the data table's filters are drawn today: "Where" on the first row, the group's join on the second, and the same join on each row after it. A nested group is a framed block in its parent's row, with its own join. Rows reorder by drag inside their group.
+
+### FilterBar
+
+- A **condition** is one chip of segments: the field, the operator, the value, and remove.
+- A **group** is a framed run of chips. Its own **+** opens the same menu as **Add filter**. Its handle drags it to another place among its siblings.
+- The **join** sits between each two children of a group. A group has one join, so a click on any of them switches the whole group between `and` and `or`.
+- A group that loses its last chip is removed with it.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/filter-builder
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the Calendar, Dropdown Menu and Sortable components first:</Step>
+
+```bash
+npx shadcn@latest add @formance/calendar @formance/dropdown-menu @formance/sortable
+```
+
+<Step>
+  Copy the files of `registry/default/ui-fragments/filter-builder/` into
+  `components/ui-fragments/filter-builder/`.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { FilterBar } from '@/components/ui-fragments/filter-builder/filter-bar';
+import { FilterBuilder } from '@/components/ui-fragments/filter-builder/filter-builder';
+import {
+  filterOfQuery,
+  queryOfFilter,
+} from '@/components/ui-fragments/filter-builder/filter-query';
+```
+
+```tsx
+// An absent query is an empty group. `null`: the builder cannot hold the
+// stored query exactly, so keep the query and show it in the raw editor.
+const [filter, setFilter] = useState(() => filterOfQuery(storedQuery, fields));
+
+// The ledger query to send: the builder's (`null` when nothing is written),
+// else the stored query as it is.
+const query = filter ? queryOfFilter(filter, fields) : storedQuery;
+
+return filter ? (
+  // Or a `FilterBar`, with the same props, inline above a table.
+  <FilterBuilder fields={fields} value={filter} onChange={setFilter} />
+) : (
+  // Your raw editor: a JSON `CodeEditor` of the stored query.
+  <RawQueryEditor value={storedQuery} onChange={setStoredQuery} />
+);
+```
+
+Both layouts take `fields`, `value`, `onChange`, `maxDepth` and `className`. `maxDepth={1}` removes **Group** from **Add filter**: a flat list with one join. The bar also takes `actions`, the other controls of its row, drawn after Reset: Inspect query.
+
+Both layouts also take:
+
+- **`suggestions`**: what a value or key input offers while it has focus. It gets the condition, the input (`key` or `value`), the text typed and a `pick` that writes a value. Return a `FilterSuggestionList` of `{ value, label?, count? }`, or `null` to offer nothing. It is mounted only while the input has focus, so a read made in it (a ledger's facets) is made only then.
+- **`activeGroupId`** and **`onActiveGroupChange`**: for a surface that writes into one group of the tree, such as a filter panel. A press inside a group makes the innermost group the target, and the target's frame is drawn solid. With them, the root is drawn as a frame too, so the root can be the target. `findFilterGroup` and `updateFilterGroup` read and replace the target.
+- **`unavailableFields`**: the fields the reader cannot add now, by field id, each `{ label, reason }`. **Add filter** lists them after the other fields, disabled, and shows the reason on hover. Use it for a field the backend cannot answer, such as a ledger field with no index. A field already in `fields` is not listed twice.
+
+### The model
+
+`filter-query.ts` is pure: no React. It is the part a consumer keeps when it draws its own surface.
+
+| Export                                           | What it does                                                                                                                                                             |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `TFilterFields`                                  | The vocabulary: each field with its label, its variant and, optionally, its operators.                                                                                   |
+| `queryOfFilter(node, fields)`                    | The ledger query. Each condition is the document a flat filter writes for it. A group of one child is that child. A condition that is not complete is left out.          |
+| `filterOfQuery(query, fields)`                   | The filter a stored query is drawn as, or `null` when the builder cannot hold it **exactly**: the result is written back and compared with the query.                    |
+| `filterMatches(node, fields, read)`              | Whether one row passes, for a table filtered in the browser.                                                                                                             |
+| `createFilterGroup()`, `createFilterCondition()` | New nodes.                                                                                                                                                               |
+| `createFilterSubgroup(fields, parentJoin)`       | A new group to open under a group: the other join, with one condition.                                                                                                   |
+| `countFilterConditions(node)`                    | The conditions at any depth, for a trigger's badge.                                                                                                                      |
+| `findFilterGroup(node, id)`                      | The group of this id at any depth, the root included, or `null`: the target, or its loss when it was removed.                                                            |
+| `updateFilterGroup(root, id, update)`            | The tree with the group of this id replaced by `update(group)`.                                                                                                          |
+
+A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a query is never flattened or dropped by the screen that shows it. A condition's value has the same four shapes as the console's clause value (`text`, `list`, `keyed`, `instants`), so a condition maps onto one console clause.
+
+## Examples
+
+<Section
+  title="In a data table, with a popover"
+  level={3}
+  description="The toolbar of a Console table, opened on reverted = false and a group: reference refund-17 or fee-3. Filters opens the builder in a popover, and its badge counts the conditions while it is closed. Inspect query edits the same filter as the JSON the ledger reads: Apply writes it back when the builder can hold it. The rows are filtered in the browser with filterMatches."
+>
+  <ComponentPreview name="filter-builder-data-table-popover" />
+</Section>
+
+<Section
+  title="In a data table"
+  level={3}
+  description="The same filter as chips: the FilterBar keeps it on screen above the rows, and Inspect query shows the query as the JSON the ledger reads."
+>
+  <ComponentPreview name="filter-builder-data-table" />
+</Section>
+
+<Section
+  title="Bar"
+  level={3}
+  description="The FilterBar on the stored query of the preview at the top of the page: payments not reverted, or refunds past transaction 100."
+>
+  <ComponentPreview name="filter-builder-bar" />
+</Section>
+
+<Section
+  title="Flat"
+  level={3}
+  description="maxDepth={1} removes Group from Add filter: one list of conditions with one join."
+>
+  <ComponentPreview name="filter-builder-flat" />
+</Section>
+
+<Section
+  title="Target group and value offers"
+  level={3}
+  description="A press in a group makes it the target, drawn solid, and the button writes into it. A metadata key or value input offers what a ledger counts, with the counts, while it has focus."
+>
+  <ComponentPreview name="filter-builder-target" />
+</Section>
+
+<Section
+  title="From a stored query"
+  level={3}
+  description="Type a query in the editor above the builder. The builder draws it when it can hold it exactly, and a change in the builder writes the query back. A shape it cannot hold, such as a field outside the vocabulary or an $and of one member, opens in the raw editor instead."
+>
+  <ComponentPreview name="filter-builder-from-query" />
+</Section>
