@@ -21,24 +21,24 @@ The sidebar navigation should eventually reflect this taxonomy (Atoms → Fragme
 ### Goals
 
 1. **Public registry** — any team (internal or external) can `npx shadcn add` Formance components
-2. **Living documentation** — every component has live previews, multiple examples showing real-world usage from platform-ui, syntax-highlighted source code, and one-line install commands
-3. **Single source of truth** — platform-ui consumes components from this registry, not the other way around. The DS is upstream.
+2. **Living documentation** — every component has live previews, multiple examples showing real-world usage from the Formance products, syntax-highlighted source code, and one-line install commands
+3. **Single source of truth** — the Formance products consume components from this registry, not the other way around. The DS is upstream.
 4. **Brand consistency** — Formance fonts (Polymath, Figtree, Berkeley Mono), color tokens, and design decisions are baked into the components
 
 ## Reference Projects
 
 When adding or updating components and examples, use these projects as reference:
 
-### Platform UI (production components)
+### Product UI (production components)
 
-`/Users/brieuccaillot/Developer/Formance/platform-ui`
+The private monorepo of the Formance product UIs, checked out next to this repo. Never name it, its packages or its paths in this repo: this repo is public.
 
 - **UI components**: `packages/ui/src/components/` — production shadcn components with Formance customizations
 - **Demo components**: `packages/ui/src/components/demo/` — usage examples (date pickers, forms, data tables, etc.)
 - **Date components**: `packages/ui/src/components/date/` — DateRangePicker, DateWithHour, DateInput
 - **App components**: `packages/ui/src/components/app/` — real-world usage (filter sidebar, query builder)
 
-When creating DS examples, check platform-ui for real-world usage patterns to ensure coverage.
+When creating DS examples, check the product UI for real-world usage patterns to ensure coverage.
 
 ### Internal UI (consumer project)
 
@@ -62,7 +62,7 @@ Local clone of the Supabase design system. **Always read files directly from thi
 
 ## Architecture
 
-- **Registry components**: `registry/default/ui/` — shadcn components adapted from platform-ui
+- **Registry components**: `registry/default/ui/` — shadcn components adapted from the product UI
 - **Demos**: `registry/default/demos/` — one per component, shown in the Preview section
 - **Examples**: `registry/default/examples/` — multiple per component, shown in the Examples section
 - **Config**:
@@ -76,12 +76,12 @@ Local clone of the Supabase design system. **Always read files directly from thi
 
 ## Import Conventions
 
-When copying components from platform-ui, adapt imports:
+When copying components from the product UI, adapt its `ui` package imports:
 
-- `@platform/ui/lib/utils` → `@/lib/utils`
-- `@platform/ui/components/X` → `@/registry/default/ui/X`
+- `<ui package>/lib/utils` → `@/lib/utils`
+- `<ui package>/components/X` → `@/registry/default/ui/X`
 
-Put a file's header comment **below its imports**, never above the first statement: `shadcn add` drops the comment above a file's first statement, so the installed copy no longer matches the registry and platform-ui's `ds:drift` check fails.
+Put a file's header comment **below its imports**, never above the first statement: `shadcn add` drops the comment above a file's first statement, so the installed copy no longer matches the registry and a consumer's drift check fails.
 
 ## Syncing Components to Consumer Projects
 
@@ -106,8 +106,8 @@ This uses `shadcn add --overwrite` against the local registry. Import rewriting 
   importing a sibling fragment is affected; today that is `api-snippet` and
   `ledger-schema`, both importing `copy-button`.
 - A registry `target` is alias-relative, so the file lands under the project's
-  source root (`packages/ui/src/components/…` in both platform-ui and
-  internal-ui). The repair pass therefore looks for `<cwd>/<target>` **and**
+  source root (`packages/ui/src/components/…` in a monorepo consumer). The
+  repair pass therefore looks for `<cwd>/<target>` **and**
   `<cwd>/src/<target>`.
 
 Verify a change here by running the built CLI against a real consumer and
@@ -208,7 +208,7 @@ Typical Formance install: `npx @formance/ds init --internal --all -y --overwrite
 After `shadcn add` writes the file, `init` runs `rewriteGlobalsFromTemplate` (`cli/src/lib/rewrite-globals.ts`):
 
 1. Parses the freshly installed `globals.css` with postcss; extracts `:root`, `.dark`, and `@theme inline` variable values.
-2. Loads the canonical template from `cli/src/templates/globals.css` (a copy of `platform-ui/packages/ui/src/styles/globals.css`).
+2. Loads the canonical template from `cli/src/templates/globals.css` (a copy of the product UI's `packages/ui/src/styles/globals.css`).
 3. Injects the extracted values into the template, keeping the template's order, spacing, and comments. `--font-sans` and `--font-mono` always come from the template (listed in `TEMPLATE_OWNED_KEYS`), never from the installed file.
 4. Carries over every root-level `@source` the installed file has and the template lacks, with the comment directly above it. Those lines are the consumer's: only it knows which trees Tailwind cannot reach on its own, and a package resolved through `node_modules` is never scanned — so a rewrite that dropped them would silently stop generating classes used only there. A glob the template _used_ to ship is indistinguishable from a consumer-authored one, so deleting one from the template only reaches consumers that have not installed yet; existing ones need a one-off edit to their own file. When the destination cannot be parsed, `add --overwrite` warns and overwrites it anyway — restoring a mangled stylesheet is what that flag is for.
 5. When `--internal` is **not** set, strips Formance-CDN `@font-face` blocks and removes `'Polymath'` / `'Berkeley Mono'` from `--font-sans` / `--font-mono` (Google Fonts Figtree import and remaining fallbacks are preserved).
@@ -224,7 +224,7 @@ The CSS that the shadcn components share — `shimmer*`, `scroll-fade*` with the
 `add` without `--overwrite` adds the import when the consumer's `globals.css` lacks it, warns when the file still holds the rules the DS used to copy, and both `add` and `init` add `shadcn` to the consumer's `devDependencies` when it is missing.
 
 > **⚠️ Any CSS a component relies on MUST be shipped, not just added to `app/globals.css`.**
-> `app/globals.css` only styles the docs site. Consumers get their CSS from the CLI template (`cli/src/templates/globals.css`) via `@formance/ds init`. A component whose class (e.g. `font-heading`, `container`) lives only in `app/globals.css` will render **unstyled** everywhere else — this is exactly how the Attachment utilities shipped broken to platform-ui.
+> `app/globals.css` only styles the docs site. Consumers get their CSS from the CLI template (`cli/src/templates/globals.css`) via `@formance/ds init`. A component whose class (e.g. `font-heading`, `container`) lives only in `app/globals.css` will render **unstyled** everywhere else — this is exactly how the Attachment utilities once shipped broken to a consumer.
 >
 > **When you add or change any `@utility` / `@keyframes` / `@property` / `@layer` rule for a component:**
 >
@@ -235,20 +235,20 @@ The CSS that the shadcn components share — `shimmer*`, `scroll-fade*` with the
 >
 > Never hand-copy component `.tsx` files into a consumer — always go through the registry + `init`.
 
-### Keeping the template in sync with platform-ui
+### Keeping the template in sync with the product UI
 
-The canonical layout source is `platform-ui/packages/ui/src/styles/globals.css`. Token _values_ are injected from the registry, so token edits in platform-ui flow through automatically once the registry is regenerated.
+The canonical layout source is the product UI's `packages/ui/src/styles/globals.css`. Token _values_ are injected from the registry, so token edits there flow through automatically once the registry is regenerated.
 
 Only re-sync the template when **layout** changes (section order, comments, `@font-face` URLs, or the canonical `--font-sans` / `--font-mono` strings):
 
 ```bash
-cp ../platform-ui/packages/ui/src/styles/globals.css cli/src/templates/globals.css
+cp <product-ui>/packages/ui/src/styles/globals.css cli/src/templates/globals.css
 cd cli && pnpm build
 ```
 
-After the copy, restore `@import 'shadcn/tailwind.css';` after `tw-animate-css` and delete any rule that file provides (see above), then restore the typeset lines unless platform-ui already has them: `@import './typeset.css';` after the shadcn import, `--font-heading: var(--font-sans);` in `:root`, and the `.typeset-docs` preset at the end.
+After the copy, restore `@import 'shadcn/tailwind.css';` after `tw-animate-css` and delete any rule that file provides (see above), then restore the typeset lines unless the source already has them: `@import './typeset.css';` after the shadcn import, `--font-heading: var(--font-sans);` in `:root`, and the `.typeset-docs` preset at the end.
 
-Also delete the `@source` lines that describe platform-ui's own tree (`../../../kit/src/**` and anything like it). They belong to that consumer, the rewrite preserves them there anyway, and in the template they would be a path no other project has.
+Also delete the `@source` lines that describe the product UI's own tree (`../../../kit/src/**` and anything like it). They belong to that consumer, the rewrite preserves them there anyway, and in the template they would be a path no other project has.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

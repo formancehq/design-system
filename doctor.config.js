@@ -1,11 +1,11 @@
 /**
  * React Doctor configuration.
  *
- * This is the counterpart of `platform-ui/doctor.config.js`. The registry
- * components are synced verbatim between the two repositories, so the same
- * source produces the same findings in both — and a suppression that is honest
- * there is honest here. The only difference is the path: what platform-ui sees
- * at `packages/ui/src/components/x.tsx`, this repo holds at
+ * This is the counterpart of the product UI consumer's own `doctor.config.js`.
+ * The registry components are synced verbatim between the two repositories,
+ * so the same source produces the same findings in both — and a suppression
+ * that is honest there is honest here. The only difference is the path: what
+ * the consumer sees at `packages/ui/src/components/x.tsx`, this repo holds at
  * `registry/default/ui/x.tsx`. Keep the two files in step; a rule silenced on
  * one side and reported on the other just moves the noise.
  *
@@ -28,7 +28,7 @@ export default {
     // A registry is a published surface: every component is exported for
     // consumers that live in other repositories, so the dead-code pass — which
     // can only see this repo — reads the public API as unused. `Stepper`,
-    // `Typography` and `DescriptionList` each export parts that platform-ui and
+    // `Typography` and `DescriptionList` each export parts that consumers and
     // the docs site do compose. Turning this on here would mean deleting the
     // library to satisfy the tool.
     'deslop/unused-export': 'off',
@@ -42,7 +42,7 @@ export default {
         // wrap rather than edit. Each rule below is a real finding whose fix is
         // a breaking API change to a published component, so it is recorded
         // here rather than left on the board, and this list matches the
-        // `ui-fragments` block in platform-ui one for one.
+        // consumer's `ui-fragments` block one for one.
         files: ['registry/default/ui-fragments/**', '**/ui-fragments/**'],
         rules: [
           'react-doctor/click-events-have-key-events',

@@ -90,7 +90,7 @@
         },
         "hiddenInStudio": {
           "type": "boolean",
-          "description": "When true, the studio gallery omits this template entirely — platform-ui's codegen filters it out of the generated TEMPLATES registry. The docs site still consumes it, so this is how a recipe is documented without appearing on the gallery. Defaults to false."
+          "description": "When true, the studio gallery omits this template entirely — the studio's codegen filters it out of the generated TEMPLATES registry. The docs site still consumes it, so this is how a recipe is documented without appearing on the gallery. Defaults to false."
         }
       },
       "additionalProperties": true

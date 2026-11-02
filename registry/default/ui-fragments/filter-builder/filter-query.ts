@@ -617,7 +617,7 @@ function nodeOf(part: unknown, fields: TFilterFields): TFilterNode | null {
  * The filter a stored ledger query is drawn as, or `null` when the builder
  * cannot hold it exactly.
  *
- * **Reading never loses anything** (console ADR-0047): the filter read is
+ * **Reading never loses anything**: the filter read is
  * written back and compared with the query, so a query a colleague sent is
  * never rewritten by the screen that shows it. A `null` is the caller's cue to
  * open the raw editor instead. The root is always a group, so a lone `$match`
