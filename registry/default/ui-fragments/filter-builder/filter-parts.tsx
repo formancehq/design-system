@@ -70,7 +70,7 @@ type TFilterSuggestion = { value: string; label?: string; count?: number };
 type TFilterUnavailableField = { label: string; reason: string };
 
 type TFilterEditorProps = {
-  /** The resource's vocabulary. A platform `FilterConfig` fits as it is. */
+  /** The resource's vocabulary: its fields, by field id. */
   fields: TFilterFields;
   /** The root group. Start from `createFilterGroup()` or `filterOfQuery()`. */
   value: TFilterGroup;

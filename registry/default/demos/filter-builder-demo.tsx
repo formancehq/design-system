@@ -11,8 +11,7 @@ import {
 } from '@/components/ui-fragments/filter-builder/filter-query';
 import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 
-// The Ledger v3 transactions vocabulary, in the shape of the platform's
-// `FilterConfig` (`@platform/query/filters/ledger/v3-transactions.ts`).
+// The Ledger v3 transactions vocabulary.
 const fields: TFilterFields = {
   reference: {
     label: 'Reference',

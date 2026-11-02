@@ -1,9 +1,9 @@
 export type TFilterJoin = 'and' | 'or';
 
 /**
- * The operators and variants of `@platform/query/filters` (`operators.ts`),
- * with the same names, so a platform `FilterConfig` is a `TFilterFields` as it
- * is: no adapter between the console's vocabulary and this builder.
+ * The operators and variants of a filter field, named as the console's filter
+ * vocabulary names them, so that vocabulary is a `TFilterFields` as it is: no
+ * adapter between the console's vocabulary and this builder.
  */
 export type TFilterOperator =
   | 'eq'
@@ -284,7 +284,7 @@ function conditionPath(
 /**
  * A number as the JSON the ledger reads. An integer past
  * `Number.MAX_SAFE_INTEGER` stays a decimal string: ledger ids are uint64, and
- * `Number()` would round it onto another id. Same rule as the platform builder.
+ * `Number()` would round it onto another id.
  */
 function toNumber(raw: string): unknown {
   const parsed = Number(raw);
@@ -354,10 +354,10 @@ export function isFilterConditionComplete(
 }
 
 /**
- * The document one condition is written as: the shape the platform builder
- * (`@platform/query/filters/builder.ts`) emits for the same field, operator and
- * value, so the ledger reads it as it reads the flat filters. A date range is
- * one `$and` of a `$gte` and a `$lte`, which the ledger reads as one range.
+ * The document one condition is written as: the ledger query a flat filter
+ * writes for the same field, operator and value, so the ledger reads it as it
+ * reads the flat filters. A date range is one `$and` of a `$gte` and a `$lte`,
+ * which the ledger reads as one range.
  */
 function conditionQuery(
   condition: TFilterCondition,
@@ -390,7 +390,7 @@ function conditionQuery(
   }
 
   if (operator === 'in') {
-    // A keyed "in" is typed comma-separated, as the platform builder reads it.
+    // A keyed "in" is typed comma-separated.
     const items = cleanItems(value.text.split(','));
 
     return items.length === 1

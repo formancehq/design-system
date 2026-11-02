@@ -103,8 +103,8 @@ Both layouts also take:
 
 | Export                                           | What it does                                                                                                                                                             |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `TFilterFields`                                  | The vocabulary. It has the shape of the platform's `FilterConfig`, with the same variants and operator names, so `getLedgerV3TransactionsFiltersConfig()` fits as it is. |
-| `queryOfFilter(node, fields)`                    | The ledger query. Each condition is the document the platform builder emits for it. A group of one child is that child. A condition that is not complete is left out.    |
+| `TFilterFields`                                  | The vocabulary: each field with its label, its variant and, optionally, its operators.                                                                                   |
+| `queryOfFilter(node, fields)`                    | The ledger query. Each condition is the document a flat filter writes for it. A group of one child is that child. A condition that is not complete is left out.          |
 | `filterOfQuery(query, fields)`                   | The filter a stored query is drawn as, or `null` when the builder cannot hold it **exactly**: the result is written back and compared with the query.                    |
 | `filterMatches(node, fields, read)`              | Whether one row passes, for a table filtered in the browser.                                                                                                             |
 | `createFilterGroup()`, `createFilterCondition()` | New nodes.                                                                                                                                                               |
