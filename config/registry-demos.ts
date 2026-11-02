@@ -2774,6 +2774,15 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/filter-builder-data-table.tsx',
       },
       {
+        title: 'In a data table, with a popover',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/filter-builder-data-table-popover')
+        ),
+        sourceFile:
+          'registry/default/examples/filter-builder-data-table-popover.tsx',
+      },
+      {
         title: 'Target group and value offers',
         component: lazy(
           () => import('@/registry/default/examples/filter-builder-target')

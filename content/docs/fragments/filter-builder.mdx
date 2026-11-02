@@ -112,9 +112,17 @@ A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a quer
 ## Examples
 
 <Section
+  title="In a data table, with a popover"
+  level={3}
+  description="The toolbar of a Console table, opened on reverted = false and a group: reference refund-17 or fee-3. Filters opens the builder in a popover, and its badge counts the conditions while it is closed. Inspect query edits the same filter as the JSON the ledger reads: Apply writes it back when the builder can hold it. The rows are filtered in the browser with filterMatches."
+>
+  <ComponentPreview name="filter-builder-data-table-popover" />
+</Section>
+
+<Section
   title="In a data table"
   level={3}
-  description="The table's filters behind one trigger, opened on reverted = false and a group: reference refund-17 or fee-3. Filters opens the builder in a popover, and its badge counts the conditions while it is closed. Inspect query shows the query as the JSON the ledger reads. The rows are filtered in the browser with filterMatches."
+  description="The same filter as chips: the FilterBar keeps it on screen above the rows, and Inspect query shows the query as the JSON the ledger reads."
 >
   <ComponentPreview name="filter-builder-data-table" />
 </Section>

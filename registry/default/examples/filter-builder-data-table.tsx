@@ -1,13 +1,12 @@
 'use client';
 
-import { Code, Filter } from 'lucide-react';
+import { Code } from 'lucide-react';
 import { useState } from 'react';
 
 import { DataTable } from '@/components/ui-fragments/data-table/data-table';
 import type { ColumnDef } from '@/components/ui-fragments/data-table/data-table-features';
-import { FilterBuilder } from '@/components/ui-fragments/filter-builder/filter-builder';
+import { FilterBar } from '@/components/ui-fragments/filter-builder/filter-bar';
 import {
-  countFilterConditions,
   createFilterGroup,
   filterMatches,
   filterOfQuery,
@@ -137,13 +136,10 @@ const initialQuery = {
 };
 
 export default function FilterBuilderDataTable() {
-  // The table's filters sit behind one trigger, as the data table's always
-  // did: Filters opens the builder, and the badge says how many conditions
-  // narrow the rows while it is closed.
+  // The filter stays on screen above the rows, as chips.
   const [filter, setFilter] = useState(
     () => filterOfQuery(initialQuery, fields) ?? createFilterGroup()
   );
-  const count = countFilterConditions(filter);
   const rows = transactions.filter((transaction) =>
     filterMatches(filter, fields, readTransaction(transaction))
   );
@@ -155,25 +151,7 @@ export default function FilterBuilderDataTable() {
       displayPagination={false}
       displayViewOptions={false}
       toolbarLeft={
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button type="button" variant="outlineDashed" className="gap-2">
-              <Filter className="size-4" />
-              Filters
-              {count > 0 && <Badge variant="gold">{count}</Badge>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            align="start"
-            className="w-full max-w-(--radix-popover-content-available-width) p-4 sm:min-w-[560px]"
-          >
-            <FilterBuilder
-              fields={fields}
-              value={filter}
-              onChange={setFilter}
-            />
-          </PopoverContent>
-        </Popover>
+        <FilterBar fields={fields} value={filter} onChange={setFilter} />
       }
       toolbarRight={
         // The same question, as the JSON the ledger reads.
