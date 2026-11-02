@@ -9,7 +9,7 @@ import {
   type TFilterFields,
   type TFilterGroup,
 } from '@/components/ui-fragments/filter-builder/filter-query';
-import { Textarea } from '@/registry/default/ui/textarea';
+import { CodeEditor } from '@/registry/default/ui/code/code-editor';
 
 const fields: TFilterFields = {
   reference: { label: 'Reference', variant: 'text' },
@@ -61,14 +61,15 @@ export default function FilterBuilderFromQuery() {
   };
 
   return (
-    <div className="grid w-full max-w-5xl gap-4 lg:grid-cols-[2fr_3fr]">
-      <Textarea
+    <div className="flex w-full max-w-5xl flex-col gap-4">
+      <CodeEditor
         aria-label="Stored query"
-        className="min-h-64 font-mono text-xs"
+        className="min-w-0"
+        language="json"
         value={text}
-        onChange={(event) => {
-          setText(event.target.value);
-          setFilter(readFilter(event.target.value));
+        onChange={(next) => {
+          setText(next);
+          setFilter(readFilter(next));
         }}
       />
       {filter ? (
