@@ -1,13 +1,13 @@
 'use client';
 
-import { Code, SlidersHorizontal } from 'lucide-react';
+import { Code, Filter } from 'lucide-react';
 import { useState } from 'react';
 
 import { DataTable } from '@/components/ui-fragments/data-table/data-table';
 import type { ColumnDef } from '@/components/ui-fragments/data-table/data-table-features';
-import { FilterBar } from '@/components/ui-fragments/filter-builder/filter-bar';
 import { FilterBuilder } from '@/components/ui-fragments/filter-builder/filter-builder';
 import {
+  countFilterConditions,
   createFilterGroup,
   filterMatches,
   filterOfQuery,
@@ -137,11 +137,13 @@ const initialQuery = {
 };
 
 export default function FilterBuilderDataTable() {
-  // One filter, two layouts: the bar keeps it on screen, the builder in the
-  // Advanced popover edits the same tree as rows.
+  // The table's filters sit behind one trigger, as the data table's always
+  // did: Filters opens the builder, and the badge says how many conditions
+  // narrow the rows while it is closed.
   const [filter, setFilter] = useState(
     () => filterOfQuery(initialQuery, fields) ?? createFilterGroup()
   );
+  const count = countFilterConditions(filter);
   const rows = transactions.filter((transaction) =>
     filterMatches(filter, fields, readTransaction(transaction))
   );
@@ -153,28 +155,22 @@ export default function FilterBuilderDataTable() {
       displayPagination={false}
       displayViewOptions={false}
       toolbarLeft={
-        <FilterBar
-          fields={fields}
-          value={filter}
-          onChange={setFilter}
-          actions={
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button type="button" variant="outlineDashed" className="gap-2">
-                  <SlidersHorizontal className="size-4" />
-                  Advanced
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent align="start" className="w-[min(56rem,90vw)]">
-                <FilterBuilder
-                  fields={fields}
-                  value={filter}
-                  onChange={setFilter}
-                />
-              </PopoverContent>
-            </Popover>
-          }
-        />
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button type="button" variant="outlineDashed" className="gap-2">
+              <Filter className="size-4" />
+              Filters
+              {count > 0 && <Badge variant="gold">{count}</Badge>}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-[min(56rem,90vw)]">
+            <FilterBuilder
+              fields={fields}
+              value={filter}
+              onChange={setFilter}
+            />
+          </PopoverContent>
+        </Popover>
       }
       toolbarRight={
         // The same question, as the JSON the ledger reads.

@@ -1,10 +1,11 @@
 'use client';
 
-import { GripVertical, ListPlus, Plus, Trash2, X } from 'lucide-react';
+import { GripVertical, Plus, Trash2, X } from 'lucide-react';
 import * as React from 'react';
 
 import {
   ACTIVE_GROUP,
+  FilterAddMenu,
   FilterConditionSelects,
   FilterValueInput,
   groupTargetProps,
@@ -12,9 +13,7 @@ import {
   type TFilterScope,
 } from '@/components/ui-fragments/filter-builder/filter-parts';
 import {
-  createFilterCondition,
   createFilterGroup,
-  createFilterSubgroup,
   type TFilterGroup,
   type TFilterJoin,
   type TFilterNode,
@@ -152,36 +151,21 @@ function FilterGroupBody({
         </Sortable>
       )}
       <div className="flex flex-wrap items-center gap-2">
-        <Button
-          type="button"
-          variant={isRoot ? 'primary' : 'outline'}
-          className="gap-2"
-          onClick={() =>
-            setChildren([
-              ...group.children,
-              createFilterCondition(scope.fields),
-            ])
-          }
+        <FilterAddMenu
+          fields={scope.fields}
+          canNest={canNest}
+          join={group.join}
+          onAdd={(node) => setChildren([...group.children, node])}
         >
-          <Plus className="size-4" />
-          Add filter
-        </Button>
-        {canNest && (
           <Button
             type="button"
-            variant="outline"
+            variant={isRoot ? 'primary' : 'outline'}
             className="gap-2"
-            onClick={() =>
-              setChildren([
-                ...group.children,
-                createFilterSubgroup(scope.fields, group.join),
-              ])
-            }
           >
-            <ListPlus className="size-4" />
-            Add group
+            <Plus className="size-4" />
+            Add filter
           </Button>
-        )}
+        </FilterAddMenu>
         {footer}
       </div>
     </div>

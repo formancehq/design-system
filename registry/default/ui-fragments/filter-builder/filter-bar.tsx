@@ -1,10 +1,11 @@
 'use client';
 
-import { GripVertical, ListPlus, Plus, Trash2, X } from 'lucide-react';
+import { GripVertical, Plus, Trash2, X } from 'lucide-react';
 import * as React from 'react';
 
 import {
   ACTIVE_GROUP,
+  FilterAddMenu,
   FilterConditionSelects,
   FilterValueInput,
   groupTargetProps,
@@ -12,24 +13,14 @@ import {
   type TFilterScope,
 } from '@/components/ui-fragments/filter-builder/filter-parts';
 import {
-  createFilterCondition,
   createFilterGroup,
-  createFilterSubgroup,
   type TFilterCondition,
-  type TFilterFields,
   type TFilterGroup,
   type TFilterJoin,
   type TFilterNode,
 } from '@/components/ui-fragments/filter-builder/filter-query';
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/registry/default/ui/dropdown-menu';
 import {
   Sortable,
   SortableContent,
@@ -44,10 +35,7 @@ import {
 // group between `and` and `or`. A group left empty is removed with it.
 
 type TFilterBarProps = TFilterEditorProps & {
-  /**
-   * The toolbar's other controls, after Reset in the same row: Inspect query,
-   * or a popover with the `FilterBuilder` for a tree too deep for one row.
-   */
+  /** The toolbar's other controls, after Reset in the same row: Inspect query. */
   actions?: React.ReactNode;
 };
 
@@ -92,9 +80,9 @@ function FilterBar({
       )}
     >
       <FilterBarNodes group={value} onChange={onChange} scope={scope} />
-      <FilterBarAdd
+      <FilterAddMenu
         fields={fields}
-        canNest={false}
+        canNest={maxDepth > 1}
         join={value.join}
         onAdd={add}
       >
@@ -102,20 +90,7 @@ function FilterBar({
           <Plus className="size-4" />
           Add filter
         </Button>
-      </FilterBarAdd>
-      {maxDepth > 1 && (
-        // A button of its own, not an item under Add filter: a group is the
-        // one thing the flat filters could not say, so it is never hidden.
-        <Button
-          type="button"
-          variant="outlineDashed"
-          className="gap-2"
-          onClick={() => add(createFilterSubgroup(fields, value.join))}
-        >
-          <ListPlus className="size-4" />
-          Add group
-        </Button>
-      )}
+      </FilterAddMenu>
       {value.children.length > 0 && (
         <Button
           type="button"
@@ -237,7 +212,7 @@ function FilterGroupFrame({
         scope={{ ...scope, depth: scope.depth + 1 }}
       />
       <span className="inline-flex gap-1.5">
-        <FilterBarAdd
+        <FilterAddMenu
           fields={scope.fields}
           canNest={scope.depth + 1 < scope.maxDepth}
           join={group.join}
@@ -249,7 +224,7 @@ function FilterGroupFrame({
             <Plus />
             <span className="sr-only">Add to group</span>
           </Button>
-        </FilterBarAdd>
+        </FilterAddMenu>
         <Button
           type="button"
           variant="outline"
@@ -261,52 +236,6 @@ function FilterGroupFrame({
         </Button>
       </span>
     </div>
-  );
-}
-
-/**
- * The menu that adds to a group: a condition on the field picked, or, when
- * `canNest`, a group of the other join with one condition in it.
- */
-function FilterBarAdd({
-  fields,
-  canNest,
-  join,
-  onAdd,
-  children,
-}: {
-  fields: TFilterFields;
-  canNest: boolean;
-  /** The join of the group added to. A new group takes the other one. */
-  join: TFilterJoin;
-  onAdd: (node: TFilterNode) => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-48">
-        {Object.entries(fields).map(([key, field]) => (
-          <DropdownMenuItem
-            key={key}
-            onSelect={() => onAdd(createFilterCondition(fields, key))}
-          >
-            {field.label}
-          </DropdownMenuItem>
-        ))}
-        {canNest && (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onSelect={() => onAdd(createFilterSubgroup(fields, join))}
-            >
-              <ListPlus />
-              Group
-            </DropdownMenuItem>
-          </>
-        )}
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }
 

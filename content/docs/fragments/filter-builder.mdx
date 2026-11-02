@@ -4,8 +4,10 @@ A filter builder for ledger queries. A **group** joins its children with one `$a
 
 One tree, two layouts. Both take the same `TFilterGroup` and write the same ledger query, so they can edit one value side by side:
 
-- **`FilterBuilder`** draws the tree as rows, for a popover or a panel.
-- **`FilterBar`** draws it inline as chips, for a table's toolbar, where the filter stays on screen.
+- **`FilterBuilder`** draws the tree as rows, for a popover or a panel: a data table's **Filters** popover.
+- **`FilterBar`** draws it inline as chips, for a form or a page where the filter stays on screen.
+
+In both layouts, **Add filter** is the one way to add to a group. It opens the fields, and a condition starts on the field picked. While `maxDepth` allows, **Group** is the last item: a group of the other join, with one condition in it.
 
 ### FilterBuilder
 
@@ -14,7 +16,7 @@ Each group is drawn the way the data table's filters are drawn today: "Where" on
 ### FilterBar
 
 - A **condition** is one chip of segments: the field, the operator, the value, and remove.
-- A **group** is a framed run of chips. **Add group** opens one with the other join; its own **+** adds a condition or, while `maxDepth` allows, a nested group. Its handle drags it to another place among its siblings.
+- A **group** is a framed run of chips. Its own **+** opens the same menu as **Add filter**. Its handle drags it to another place among its siblings.
 - The **join** sits between each two children of a group. A group has one join, so a click on any of them switches the whole group between `and` and `or`.
 - A group that loses its last chip is removed with it.
 
@@ -82,7 +84,7 @@ const [filter, setFilter] = useState(
 const query = queryOfFilter(filter, fields);
 ```
 
-Both layouts take `fields`, `value`, `onChange`, `maxDepth` and `className`. `maxDepth={1}` hides groups: a flat list with one join. The bar also takes `actions`, the toolbar's other controls, drawn after Reset in the same row: Inspect query, or a popover with the `FilterBuilder` for a tree too deep for one row.
+Both layouts take `fields`, `value`, `onChange`, `maxDepth` and `className`. `maxDepth={1}` removes **Group** from **Add filter**: a flat list with one join. The bar also takes `actions`, the other controls of its row, drawn after Reset: Inspect query.
 
 Both layouts also take:
 
@@ -112,7 +114,7 @@ A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a quer
 <Section
   title="In a data table"
   level={3}
-  description="Both layouts on one filter. The bar sits in the table's toolbar, opened on reverted = false and a group: reference refund-17 or fee-3. Advanced opens the builder in a popover on the same tree, and Inspect query shows the query as the JSON the ledger reads. The rows are filtered in the browser with filterMatches."
+  description="The table's filters behind one trigger, opened on reverted = false and a group: reference refund-17 or fee-3. Filters opens the builder in a popover, and its badge counts the conditions while it is closed. Inspect query shows the query as the JSON the ledger reads. The rows are filtered in the browser with filterMatches."
 >
   <ComponentPreview name="filter-builder-data-table" />
 </Section>
@@ -128,7 +130,7 @@ A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a quer
 <Section
   title="Flat"
   level={3}
-  description="maxDepth={1} hides Add group: one list of conditions with one join, as the data table's filters are today."
+  description="maxDepth={1} removes Group from Add filter: one list of conditions with one join."
 >
   <ComponentPreview name="filter-builder-flat" />
 </Section>

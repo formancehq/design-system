@@ -1,21 +1,31 @@
 'use client';
 
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, ListPlus } from 'lucide-react';
 import * as React from 'react';
 import type { DateRange } from 'react-day-picker';
 
 import {
   createFilterCondition,
+  createFilterSubgroup,
   filterOperators,
   filterValueFor,
   type TFilterCondition,
   type TFilterFields,
   type TFilterGroup,
+  type TFilterJoin,
+  type TFilterNode,
   type TFilterValue,
 } from '@/components/ui-fragments/filter-builder/filter-query';
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
 import { Calendar } from '@/registry/default/ui/calendar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/registry/default/ui/dropdown-menu';
 import { Input } from '@/registry/default/ui/input';
 import {
   Popover,
@@ -132,6 +142,55 @@ function groupTargetProps(
 /** The frame of the target group: solid, in the primary color. */
 const ACTIVE_GROUP =
   'data-[active=true]:border-solid data-[active=true]:border-primary';
+
+/**
+ * **The one way to add to a group**, in both layouts: the trigger (Add filter)
+ * opens the fields, and a condition starts on the field picked. When
+ * `canNest`, **Group** is the last item: a group of the other join with one
+ * condition in it. A group is one more thing to add, not a second button.
+ */
+function FilterAddMenu({
+  fields,
+  canNest,
+  join,
+  onAdd,
+  children,
+}: {
+  fields: TFilterFields;
+  canNest: boolean;
+  /** The join of the group added to. A new group takes the other one. */
+  join: TFilterJoin;
+  onAdd: (node: TFilterNode) => void;
+  /** The trigger. */
+  children: React.ReactNode;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-48">
+        {Object.entries(fields).map(([key, field]) => (
+          <DropdownMenuItem
+            key={key}
+            onSelect={() => onAdd(createFilterCondition(fields, key))}
+          >
+            {field.label}
+          </DropdownMenuItem>
+        ))}
+        {canNest && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onSelect={() => onAdd(createFilterSubgroup(fields, join))}
+            >
+              <ListPlus />
+              Group
+            </DropdownMenuItem>
+          </>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 /** The field, then the operator. A new field starts a new condition. */
 function FilterConditionSelects({
@@ -554,6 +613,7 @@ function FilterRangeInput({
 
 export {
   ACTIVE_GROUP,
+  FilterAddMenu,
   FilterConditionSelects,
   FilterSuggestionList,
   FilterValueInput,
