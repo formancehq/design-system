@@ -163,7 +163,10 @@ export default function FilterBuilderDataTable() {
               {count > 0 && <Badge variant="gold">{count}</Badge>}
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="w-[min(56rem,90vw)]">
+          <PopoverContent
+            align="start"
+            className="w-full max-w-(--radix-popover-content-available-width) p-4 sm:min-w-[560px]"
+          >
             <FilterBuilder
               fields={fields}
               value={filter}

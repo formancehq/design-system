@@ -139,9 +139,13 @@ function groupTargetProps(
   };
 }
 
-/** The frame of the target group: solid, in the primary color. */
+/**
+ * The frame of the target group: solid, in the foreground at low opacity, as a
+ * checked card's. Not `border-primary`: the dark theme's primary is its border
+ * color, so the mark was gone there, and in the light theme it was too heavy.
+ */
 const ACTIVE_GROUP =
-  'data-[active=true]:border-solid data-[active=true]:border-primary';
+  'data-[active=true]:border-solid data-[active=true]:border-foreground/30';
 
 /**
  * **The one way to add to a group**, in both layouts: the trigger (Add filter)
