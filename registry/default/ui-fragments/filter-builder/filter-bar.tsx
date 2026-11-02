@@ -87,7 +87,7 @@ function FilterBar({
         <Button
           type="button"
           variant="outlineDashed"
-          size="sm"
+          size="md"
           className="gap-1.5"
         >
           <Plus className="size-3.5" />
@@ -98,7 +98,7 @@ function FilterBar({
         <Button
           type="button"
           variant="ghost"
-          size="sm"
+          size="md"
           onClick={() => onChange(createFilterGroup(value.join))}
         >
           Clear
@@ -140,7 +140,7 @@ function FilterBarNodes({
             size="sm"
             caseSensitive
             title={`Join this group with ${otherJoin}`}
-            className="text-muted-foreground h-7 px-1.5 text-xs"
+            className="text-muted-foreground h-8 px-1.5 text-xs"
             onClick={() => onChange({ ...group, join: otherJoin })}
           >
             {group.join}
@@ -171,7 +171,7 @@ function FilterBarNodes({
                   replace({ ...node, children: [...node.children, child] })
                 }
               >
-                <Button type="button" variant="ghost" size="icon-sm">
+                <Button type="button" variant="ghost" size="icon-md">
                   <Plus />
                   <span className="sr-only">Add to group</span>
                 </Button>
@@ -179,7 +179,7 @@ function FilterBarNodes({
               <Button
                 type="button"
                 variant="ghost"
-                size="icon-sm"
+                size="icon-md"
                 onClick={() => replace(null)}
               >
                 <X />

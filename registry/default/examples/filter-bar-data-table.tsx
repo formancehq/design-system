@@ -150,7 +150,7 @@ export default function FilterBarDataTable() {
               <Button
                 type="button"
                 variant="outlineDashed"
-                size="sm"
+                size="md"
                 className="gap-1.5"
               >
                 <Code className="size-3.5" />
