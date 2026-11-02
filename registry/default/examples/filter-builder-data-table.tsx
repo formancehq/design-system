@@ -1,19 +1,22 @@
 'use client';
 
-import { FilterIcon } from 'lucide-react';
+import { Code, SlidersHorizontal } from 'lucide-react';
 import { useState } from 'react';
 
 import { DataTable } from '@/components/ui-fragments/data-table/data-table';
 import type { ColumnDef } from '@/components/ui-fragments/data-table/data-table-features';
+import { FilterBar } from '@/components/ui-fragments/filter-builder/filter-bar';
 import { FilterBuilder } from '@/components/ui-fragments/filter-builder/filter-builder';
 import {
-  countFilterConditions,
   createFilterGroup,
   filterMatches,
+  filterOfQuery,
+  queryOfFilter,
   type TFilterFields,
 } from '@/components/ui-fragments/filter-builder/filter-query';
 import { Badge } from '@/registry/default/ui/badge';
 import { Button } from '@/registry/default/ui/button';
+import { CodeSnippet } from '@/registry/default/ui/code/code-snippet';
 import {
   Popover,
   PopoverContent,
@@ -119,9 +122,26 @@ const readTransaction =
       : transaction.metadata[key];
   };
 
+// Transactions not reverted, whose reference is either of two: a group under
+// the root's `and`, so the table opens on what the flat filters cannot say.
+const initialQuery = {
+  $and: [
+    { $match: { reverted: false } },
+    {
+      $or: [
+        { $match: { reference: 'refund-17' } },
+        { $match: { reference: 'fee-3' } },
+      ],
+    },
+  ],
+};
+
 export default function FilterBuilderDataTable() {
-  const [filter, setFilter] = useState(() => createFilterGroup());
-  const count = countFilterConditions(filter);
+  // One filter, two layouts: the bar keeps it on screen, the builder in the
+  // Advanced popover edits the same tree as rows.
+  const [filter, setFilter] = useState(
+    () => filterOfQuery(initialQuery, fields) ?? createFilterGroup()
+  );
   const rows = transactions.filter((transaction) =>
     filterMatches(filter, fields, readTransaction(transaction))
   );
@@ -133,23 +153,47 @@ export default function FilterBuilderDataTable() {
       displayPagination={false}
       displayViewOptions={false}
       toolbarLeft={
+        <FilterBar
+          fields={fields}
+          value={filter}
+          onChange={setFilter}
+          actions={
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button type="button" variant="outlineDashed" className="gap-2">
+                  <SlidersHorizontal className="size-4" />
+                  Advanced
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent align="start" className="w-[min(56rem,90vw)]">
+                <FilterBuilder
+                  fields={fields}
+                  value={filter}
+                  onChange={setFilter}
+                />
+              </PopoverContent>
+            </Popover>
+          }
+        />
+      }
+      toolbarRight={
+        // The same question, as the JSON the ledger reads.
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outlineDashed" size="md" className="gap-2">
-              <FilterIcon className="size-4" />
-              Filters
-              {count > 0 && (
-                <Badge size="sm" variant="secondary">
-                  {count}
-                </Badge>
-              )}
+            <Button type="button" variant="outline" className="gap-2">
+              <Code className="size-4" />
+              Inspect query
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="w-[min(56rem,90vw)]">
-            <FilterBuilder
-              fields={fields}
-              value={filter}
-              onChange={setFilter}
+          <PopoverContent align="end" className="w-96 border-none p-0">
+            <CodeSnippet
+              code={JSON.stringify(
+                queryOfFilter(filter, fields) ?? {},
+                null,
+                2
+              )}
+              language="json"
+              size="sm"
             />
           </PopoverContent>
         </Popover>

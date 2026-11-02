@@ -1,14 +1,18 @@
 'use client';
 
-import { ChevronDown, ListPlus, Plus, X } from 'lucide-react';
+import { GripVertical, ListPlus, Plus, Trash2, X } from 'lucide-react';
 import * as React from 'react';
 
-import { FilterValueInput } from '@/components/ui-fragments/filter-builder/filter-builder';
+import {
+  FilterConditionSelects,
+  FilterValueInput,
+  type TFilterEditorProps,
+  type TFilterScope,
+} from '@/components/ui-fragments/filter-builder/filter-parts';
 import {
   createFilterCondition,
   createFilterGroup,
-  filterOperators,
-  filterValueFor,
+  createFilterSubgroup,
   type TFilterCondition,
   type TFilterFields,
   type TFilterGroup,
@@ -25,12 +29,11 @@ import {
   DropdownMenuTrigger,
 } from '@/registry/default/ui/dropdown-menu';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/registry/default/ui/select';
+  Sortable,
+  SortableContent,
+  SortableItem,
+  SortableItemHandle,
+} from '@/registry/default/ui/sortable';
 
 // The filter, always on screen above a table: the same tree as the
 // `FilterBuilder`, drawn inline. A condition is one chip of segments (field,
@@ -38,27 +41,16 @@ import {
 // children of a group sits its join, and a click on it switches the whole
 // group between `and` and `or`. A group left empty is removed with it.
 
-type TFilterBarProps = {
-  /** The resource's vocabulary. A platform `FilterConfig` fits as it is. */
-  fields: TFilterFields;
-  /** The root group. Start from `createFilterGroup()` or `filterOfQuery()`. */
-  value: TFilterGroup;
-  onChange: (value: TFilterGroup) => void;
-  /** How many levels of groups the reader can open. `1` hides groups. */
-  maxDepth?: number;
-  /** The toolbar's other controls, after Clear in the same row: Raw body query. */
+type TFilterBarProps = TFilterEditorProps & {
+  /**
+   * The toolbar's other controls, after Reset in the same row: Inspect query,
+   * or a popover with the `FilterBuilder` for a tree too deep for one row.
+   */
   actions?: React.ReactNode;
-  className?: string;
-};
-
-type TBarScope = {
-  fields: TFilterFields;
-  depth: number;
-  maxDepth: number;
 };
 
 /** A control drawn as one segment of a chip: no frame of its own. */
-const SEGMENT =
+const CHIP_SEGMENT =
   'h-full w-auto rounded-none border-0 bg-transparent px-2 shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 dark:bg-transparent dark:hover:bg-muted/50 hover:bg-muted';
 
 function FilterBar({
@@ -70,6 +62,8 @@ function FilterBar({
   className,
 }: TFilterBarProps) {
   const scope = { fields, depth: 1, maxDepth };
+  const add = (node: TFilterNode) =>
+    onChange({ ...value, children: [...value.children, node] });
 
   return (
     <div
@@ -78,30 +72,38 @@ function FilterBar({
     >
       <FilterBarNodes group={value} onChange={onChange} scope={scope} />
       <FilterBarAdd
-        group={value}
-        scope={scope}
-        onAdd={(node) =>
-          onChange({ ...value, children: [...value.children, node] })
-        }
+        fields={fields}
+        canNest={false}
+        join={value.join}
+        onAdd={add}
       >
-        <Button
-          type="button"
-          variant="outlineDashed"
-          size="md"
-          className="gap-1.5"
-        >
-          <Plus className="size-3.5" />
+        <Button type="button" variant="outlineDashed" className="gap-2">
+          <Plus className="size-4" />
           Add filter
         </Button>
       </FilterBarAdd>
+      {maxDepth > 1 && (
+        // A button of its own, not an item under Add filter: a group is the
+        // one thing the flat filters could not say, so it is never hidden.
+        <Button
+          type="button"
+          variant="outlineDashed"
+          className="gap-2"
+          onClick={() => add(createFilterSubgroup(fields, value.join))}
+        >
+          <ListPlus className="size-4" />
+          Add group
+        </Button>
+      )}
       {value.children.length > 0 && (
         <Button
           type="button"
           variant="ghost"
-          size="md"
+          className="gap-2"
           onClick={() => onChange(createFilterGroup(value.join))}
         >
-          Clear
+          Reset
+          <X className="size-4" />
         </Button>
       )}
       {actions}
@@ -109,7 +111,11 @@ function FilterBar({
   );
 }
 
-/** A group's children, with its join between each two. */
+/**
+ * A group's children, with its join between each two. They are drawn straight
+ * into the parent's row (`withoutSlot`), so the row wraps them, and a group is
+ * dragged by its handle to another place among its siblings.
+ */
 function FilterBarNodes({
   group,
   onChange,
@@ -117,107 +123,148 @@ function FilterBarNodes({
 }: {
   group: TFilterGroup;
   onChange: (group: TFilterGroup) => void;
-  scope: TBarScope;
+  scope: TFilterScope;
 }) {
   const otherJoin: TFilterJoin = group.join === 'and' ? 'or' : 'and';
 
-  return group.children.map((node, index) => {
-    const replace = (next: TFilterNode | null) =>
-      onChange({
-        ...group,
-        children:
-          next === null || (next.kind === 'group' && next.children.length === 0)
-            ? group.children.filter((one) => one !== node)
-            : group.children.map((one) => (one === node ? next : one)),
-      });
+  return (
+    <Sortable
+      value={[...group.children]}
+      getItemValue={(node: TFilterNode) => node.id}
+      onValueChange={(children) => onChange({ ...group, children })}
+      orientation="mixed"
+    >
+      <SortableContent withoutSlot>
+        {group.children.map((node, index) => {
+          const replace = (next: TFilterNode | null) =>
+            onChange({
+              ...group,
+              children:
+                next === null ||
+                (next.kind === 'group' && next.children.length === 0)
+                  ? group.children.filter((one) => one !== node)
+                  : group.children.map((one) => (one === node ? next : one)),
+            });
 
-    return (
-      <React.Fragment key={node.id}>
-        {index > 0 && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            caseSensitive
-            title={`Join this group with ${otherJoin}`}
-            className="text-muted-foreground h-8 px-1.5 text-xs"
-            onClick={() => onChange({ ...group, join: otherJoin })}
-          >
-            {group.join}
-          </Button>
-        )}
-        {node.kind === 'condition' ? (
-          <FilterChip
-            condition={node}
-            fields={scope.fields}
-            onChange={replace}
-            onRemove={() => replace(null)}
-          />
-        ) : (
-          <div
-            data-slot="filter-group"
-            className="bg-muted/40 inline-flex flex-wrap items-center gap-1.5 rounded-md border border-dashed p-1"
-          >
-            <FilterBarNodes
-              group={node}
-              onChange={replace}
-              scope={{ ...scope, depth: scope.depth + 1 }}
-            />
-            <span className="inline-flex">
-              <FilterBarAdd
-                group={node}
-                scope={{ ...scope, depth: scope.depth + 1 }}
-                onAdd={(child) =>
-                  replace({ ...node, children: [...node.children, child] })
-                }
-              >
-                <Button type="button" variant="ghost" size="icon-md">
-                  <Plus />
-                  <span className="sr-only">Add to group</span>
+          return (
+            <React.Fragment key={node.id}>
+              {index > 0 && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  caseSensitive
+                  title={`Join this group with ${otherJoin}`}
+                  className="text-muted-foreground px-1.5 text-xs"
+                  onClick={() => onChange({ ...group, join: otherJoin })}
+                >
+                  {group.join}
                 </Button>
-              </FilterBarAdd>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon-md"
-                onClick={() => replace(null)}
-              >
-                <X />
-                <span className="sr-only">Remove group</span>
-              </Button>
-            </span>
-          </div>
-        )}
-      </React.Fragment>
-    );
-  });
+              )}
+              <SortableItem value={node.id} className="inline-flex max-w-full">
+                {node.kind === 'condition' ? (
+                  <FilterChip
+                    condition={node}
+                    fields={scope.fields}
+                    onChange={replace}
+                    onRemove={() => replace(null)}
+                  />
+                ) : (
+                  <FilterGroupFrame
+                    group={node}
+                    scope={scope}
+                    onChange={replace}
+                  />
+                )}
+              </SortableItem>
+            </React.Fragment>
+          );
+        })}
+      </SortableContent>
+    </Sortable>
+  );
+}
+
+/** A nested group: its handle, its chips, then add and remove. */
+function FilterGroupFrame({
+  group,
+  scope,
+  onChange,
+}: {
+  group: TFilterGroup;
+  scope: TFilterScope;
+  /** `null` removes the group. */
+  onChange: (group: TFilterGroup | null) => void;
+}) {
+  return (
+    <div
+      data-slot="filter-group"
+      className="bg-muted/40 inline-flex flex-wrap items-center gap-1.5 rounded-md border border-dashed p-1"
+    >
+      <SortableItemHandle asChild>
+        <Button type="button" variant="outline" size="icon-md">
+          <GripVertical className="text-muted-foreground" />
+          <span className="sr-only">Drag to reorder</span>
+        </Button>
+      </SortableItemHandle>
+      <FilterBarNodes
+        group={group}
+        onChange={onChange}
+        scope={{ ...scope, depth: scope.depth + 1 }}
+      />
+      <span className="inline-flex gap-1.5">
+        <FilterBarAdd
+          fields={scope.fields}
+          canNest={scope.depth + 1 < scope.maxDepth}
+          join={group.join}
+          onAdd={(child) =>
+            onChange({ ...group, children: [...group.children, child] })
+          }
+        >
+          <Button type="button" variant="outline" size="icon-md">
+            <Plus />
+            <span className="sr-only">Add to group</span>
+          </Button>
+        </FilterBarAdd>
+        <Button
+          type="button"
+          variant="outline"
+          size="icon-md"
+          onClick={() => onChange(null)}
+        >
+          <Trash2 />
+          <span className="sr-only">Remove group</span>
+        </Button>
+      </span>
+    </div>
+  );
 }
 
 /**
- * The menu that adds to a group: a condition on the field picked, or, while
- * the depth allows, a group of the other join with one condition in it.
+ * The menu that adds to a group: a condition on the field picked, or, when
+ * `canNest`, a group of the other join with one condition in it.
  */
 function FilterBarAdd({
-  group,
-  scope,
+  fields,
+  canNest,
+  join,
   onAdd,
   children,
 }: {
-  group: TFilterGroup;
-  scope: TBarScope;
+  fields: TFilterFields;
+  canNest: boolean;
+  /** The join of the group added to. A new group takes the other one. */
+  join: TFilterJoin;
   onAdd: (node: TFilterNode) => void;
   children: React.ReactNode;
 }) {
-  const canNest = scope.depth < scope.maxDepth;
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-48">
-        {Object.entries(scope.fields).map(([key, field]) => (
+        {Object.entries(fields).map(([key, field]) => (
           <DropdownMenuItem
             key={key}
-            onSelect={() => onAdd(createFilterCondition(scope.fields, key))}
+            onSelect={() => onAdd(createFilterCondition(fields, key))}
           >
             {field.label}
           </DropdownMenuItem>
@@ -226,13 +273,7 @@ function FilterBarAdd({
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              onSelect={() =>
-                onAdd(
-                  createFilterGroup(group.join === 'and' ? 'or' : 'and', [
-                    createFilterCondition(scope.fields),
-                  ])
-                )
-              }
+              onSelect={() => onAdd(createFilterSubgroup(fields, join))}
             >
               <ListPlus />
               Group
@@ -255,75 +296,29 @@ function FilterChip({
   onChange: (condition: TFilterCondition) => void;
   onRemove: () => void;
 }) {
-  const field = fields[condition.field];
-  const operators = field ? filterOperators(field) : [];
-
   return (
     <div
       data-slot="filter-chip"
       className="bg-background inline-flex h-8 max-w-full items-stretch divide-x overflow-hidden rounded-md border text-sm"
     >
-      <Select
-        value={condition.field}
-        onValueChange={(next) =>
-          onChange({ ...createFilterCondition(fields, next), id: condition.id })
-        }
-      >
-        <SelectTrigger
-          aria-label="Field"
-          className={cn(SEGMENT, 'gap-1 font-mono text-xs uppercase')}
-          icon={<ChevronDown className="size-3 opacity-50" />}
-        >
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {Object.entries(fields).map(([key, one]) => (
-            <SelectItem key={key} value={key}>
-              {one.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select
-        value={condition.operator}
-        onValueChange={(next) => {
-          const operator = operators.find((one) => one.value === next)?.value;
-
-          if (operator) {
-            onChange({
-              ...condition,
-              operator,
-              value: filterValueFor(field, operator, condition.value),
-            });
-          }
-        }}
-      >
-        <SelectTrigger
-          aria-label="Operator"
-          className={cn(SEGMENT, 'text-muted-foreground gap-1')}
-          icon={<ChevronDown className="size-3 opacity-50" />}
-        >
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {operators.map((one) => (
-            <SelectItem key={one.value} value={one.value}>
-              {one.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <FilterConditionSelects
+        condition={condition}
+        fields={fields}
+        onChange={onChange}
+        fieldClassName={cn(CHIP_SEGMENT, 'gap-1')}
+        operatorClassName={cn(CHIP_SEGMENT, 'text-muted-foreground gap-1')}
+      />
       <FilterValueInput
         condition={condition}
         fields={fields}
         onChange={(value) => onChange({ ...condition, value })}
-        className={cn(SEGMENT, 'field-sizing-content max-w-56 min-w-12')}
+        className={cn(CHIP_SEGMENT, 'field-sizing-content max-w-56 min-w-12')}
       />
       <Button
         type="button"
         variant="ghost"
         size="icon-sm"
-        className="h-full rounded-none"
+        className={CHIP_SEGMENT}
         onClick={onRemove}
       >
         <X />

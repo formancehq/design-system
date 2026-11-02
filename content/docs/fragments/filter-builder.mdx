@@ -2,7 +2,21 @@
 
 A filter builder for ledger queries. A **group** joins its children with one `$and` or one `$or`; a child is a **condition** (a field, an operator, a value) or another group. So the builder holds what the data table's flat filters cannot: an `$or` of `$and`s, such as "payments not reverted, or refunds past transaction 100".
 
-The builder draws each group the way the data table's filters are drawn today: "Where" on the first row, the group's join on the second, and the same join on each row after it. A nested group is a framed block in its parent's row, with its own join. Rows reorder by drag inside their group.
+One tree, two layouts. Both take the same `TFilterGroup` and write the same ledger query, so they can edit one value side by side:
+
+- **`FilterBuilder`** draws the tree as rows, for a popover or a panel.
+- **`FilterBar`** draws it inline as chips, for a table's toolbar, where the filter stays on screen.
+
+### FilterBuilder
+
+Each group is drawn the way the data table's filters are drawn today: "Where" on the first row, the group's join on the second, and the same join on each row after it. A nested group is a framed block in its parent's row, with its own join. Rows reorder by drag inside their group.
+
+### FilterBar
+
+- A **condition** is one chip of segments: the field, the operator, the value, and remove.
+- A **group** is a framed run of chips. **Add group** opens one with the other join; its own **+** adds a condition or, while `maxDepth` allows, a nested group. Its handle drags it to another place among its siblings.
+- The **join** sits between each two children of a group. A group has one join, so a click on any of them switches the whole group between `and` and `or`.
+- A group that loses its last chip is removed with it.
 
 ## Installation
 
@@ -25,10 +39,10 @@ npx shadcn@latest add @formance/filter-builder
 
 <Steps>
 
-<Step>Install the Calendar and Sortable components first:</Step>
+<Step>Install the Calendar, Dropdown Menu and Sortable components first:</Step>
 
 ```bash
-npx shadcn@latest add @formance/calendar @formance/sortable
+npx shadcn@latest add @formance/calendar @formance/dropdown-menu @formance/sortable
 ```
 
 <Step>
@@ -47,6 +61,7 @@ npx shadcn@latest add @formance/calendar @formance/sortable
 ## Usage
 
 ```tsx
+import { FilterBar } from '@/components/ui-fragments/filter-builder/filter-bar';
 import { FilterBuilder } from '@/components/ui-fragments/filter-builder/filter-builder';
 import {
   createFilterGroup,
@@ -61,10 +76,13 @@ const [filter, setFilter] = useState(
 );
 
 <FilterBuilder fields={fields} value={filter} onChange={setFilter} />;
+<FilterBar fields={fields} value={filter} onChange={setFilter} />;
 
 // The ledger query to send: `null` when nothing is written.
 const query = queryOfFilter(filter, fields);
 ```
+
+Both layouts take `fields`, `value`, `onChange`, `maxDepth` and `className`. `maxDepth={1}` hides groups: a flat list with one join. The bar also takes `actions`, the toolbar's other controls, drawn after Reset in the same row: Inspect query, or a popover with the `FilterBuilder` for a tree too deep for one row.
 
 ### The model
 
@@ -77,11 +95,28 @@ const query = queryOfFilter(filter, fields);
 | `filterOfQuery(query, fields)`                   | The filter a stored query is drawn as, or `null` when the builder cannot hold it **exactly**: the result is written back and compared with the query.                    |
 | `filterMatches(node, fields, read)`              | Whether one row passes, for a table filtered in the browser.                                                                                                             |
 | `createFilterGroup()`, `createFilterCondition()` | New nodes.                                                                                                                                                               |
+| `createFilterSubgroup(fields, parentJoin)`       | A new group to open under a group: the other join, with one condition.                                                                                                   |
 | `countFilterConditions(node)`                    | The conditions at any depth, for a trigger's badge.                                                                                                                      |
 
 A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a query is never flattened or dropped by the screen that shows it. A condition's value has the same four shapes as the console's clause value (`text`, `list`, `keyed`, `instants`), so a condition maps onto one console clause.
 
 ## Examples
+
+<Section
+  title="In a data table"
+  level={3}
+  description="Both layouts on one filter. The bar sits in the table's toolbar, opened on reverted = false and a group: reference refund-17 or fee-3. Advanced opens the builder in a popover on the same tree, and Inspect query shows the query as the JSON the ledger reads. The rows are filtered in the browser with filterMatches."
+>
+  <ComponentPreview name="filter-builder-data-table" />
+</Section>
+
+<Section
+  title="Bar"
+  level={3}
+  description="The FilterBar on the stored query of the preview at the top of the page: payments not reverted, or refunds past transaction 100."
+>
+  <ComponentPreview name="filter-builder-bar" />
+</Section>
 
 <Section
   title="Flat"
@@ -94,15 +129,7 @@ A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a quer
 <Section
   title="From a stored query"
   level={3}
-  description="Type a query on the left. The builder draws it when it can hold it exactly, and a change in the builder writes the query back. A shape it cannot hold, such as a field outside the vocabulary or an $and of one member, opens in the raw editor instead."
+  description="Type a query in the editor above the builder. The builder draws it when it can hold it exactly, and a change in the builder writes the query back. A shape it cannot hold, such as a field outside the vocabulary or an $and of one member, opens in the raw editor instead."
 >
   <ComponentPreview name="filter-builder-from-query" />
-</Section>
-
-<Section
-  title="In a data table"
-  level={3}
-  description="The builder in the toolbar's Filters popover, with a count of its conditions on the trigger. The rows are filtered in the browser with filterMatches."
->
-  <ComponentPreview name="filter-builder-data-table" />
 </Section>

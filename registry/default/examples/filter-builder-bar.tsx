@@ -70,7 +70,7 @@ const storedQuery = {
   ],
 };
 
-export default function FilterBarDemo() {
+export default function FilterBuilderBar() {
   const [filter, setFilter] = useState(
     () => filterOfQuery(storedQuery, fields) ?? createFilterGroup()
   );

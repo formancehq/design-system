@@ -934,17 +934,10 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui-fragments/sso-button.tsx',
     source: 'custom',
   },
-  'fragments/filter-bar': {
-    registryName: 'filter-bar',
-    description:
-      'The filter builder drawn inline above a table: conditions as chips and groups as framed runs of chips.',
-    sourceFile: 'registry/default/ui-fragments/filter-builder/filter-bar.tsx',
-    source: 'custom',
-  },
   'fragments/filter-builder': {
     registryName: 'filter-builder',
     description:
-      'Conditions and nested groups joined by $and or $or, read from and written to a ledger query.',
+      'Conditions and nested groups joined by $and or $or, read from and written to a ledger query. Drawn as rows in a popover or as chips above a table.',
     sourceFile:
       'registry/default/ui-fragments/filter-builder/filter-builder.tsx',
     source: 'custom',
@@ -1344,7 +1337,6 @@ export const docsConfig: TDocsConfig = {
         { title: 'Copy Button', href: '/docs/fragments/copy-button' },
         { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
-        { title: 'Filter Bar', href: '/docs/fragments/filter-bar' },
         { title: 'Filter Builder', href: '/docs/fragments/filter-builder' },
         { title: 'Markdown', href: '/docs/fragments/markdown' },
         { title: 'Mode Toggle', href: '/docs/fragments/mode-toggle' },

@@ -200,6 +200,19 @@ export const createFilterGroup = (
   children: readonly TFilterNode[] = []
 ): TFilterGroup => ({ kind: 'group', id: filterNodeId(), join, children });
 
+/**
+ * A new group to open under a group of `parentJoin`: the other join, with one
+ * condition. Under an `$or`, the group a reader opens is almost always an
+ * `$and`, and the reverse.
+ */
+export const createFilterSubgroup = (
+  fields: TFilterFields,
+  parentJoin: TFilterJoin
+): TFilterGroup =>
+  createFilterGroup(parentJoin === 'and' ? 'or' : 'and', [
+    createFilterCondition(fields),
+  ]);
+
 /** The conditions a node holds, at any depth. */
 export const countFilterConditions = (node: TFilterNode): number =>
   node.kind === 'condition'

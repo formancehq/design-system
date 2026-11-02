@@ -1994,11 +1994,12 @@
       "name": "filter-builder",
       "type": "registry:component",
       "title": "Filter Builder",
-      "description": "A filter builder for ledger queries: conditions and nested groups joined by $and or $or, read from and written to the ledger's JSON filter.",
+      "description": "A filter builder for ledger queries: conditions and nested groups joined by $and or $or, read from and written to the ledger's JSON filter. Two layouts over one tree: rows for a popover, chips for a table's toolbar.",
       "dependencies": ["lucide-react", "react-day-picker"],
       "registryDependencies": [
         "https://ds.formance.com/r/button.json",
         "https://ds.formance.com/r/calendar.json",
+        "https://ds.formance.com/r/dropdown-menu.json",
         "https://ds.formance.com/r/input.json",
         "https://ds.formance.com/r/popover.json",
         "https://ds.formance.com/r/select.json",
@@ -2011,29 +2012,19 @@
           "target": "components/ui-fragments/filter-builder/filter-builder.tsx"
         },
         {
-          "path": "registry/default/ui-fragments/filter-builder/filter-query.ts",
-          "type": "registry:component",
-          "target": "components/ui-fragments/filter-builder/filter-query.ts"
-        }
-      ]
-    },
-    {
-      "name": "filter-bar",
-      "type": "registry:component",
-      "title": "Filter Bar",
-      "description": "The filter builder's tree drawn inline above a table: conditions as chips, groups as framed runs of chips, a join between each two.",
-      "dependencies": ["lucide-react"],
-      "registryDependencies": [
-        "https://ds.formance.com/r/filter-builder.json",
-        "https://ds.formance.com/r/button.json",
-        "https://ds.formance.com/r/dropdown-menu.json",
-        "https://ds.formance.com/r/select.json"
-      ],
-      "files": [
-        {
           "path": "registry/default/ui-fragments/filter-builder/filter-bar.tsx",
           "type": "registry:component",
           "target": "components/ui-fragments/filter-builder/filter-bar.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/filter-builder/filter-parts.tsx",
+          "type": "registry:component",
+          "target": "components/ui-fragments/filter-builder/filter-parts.tsx"
+        },
+        {
+          "path": "registry/default/ui-fragments/filter-builder/filter-query.ts",
+          "type": "registry:component",
+          "target": "components/ui-fragments/filter-builder/filter-query.ts"
         }
       ]
     },
