@@ -1,0 +1,108 @@
+<ComponentPreview name="filter-builder" peekCode />
+
+A filter builder for ledger queries. A **group** joins its children with one `$and` or one `$or`; a child is a **condition** (a field, an operator, a value) or another group. So the builder holds what the data table's flat filters cannot: an `$or` of `$and`s, such as "payments not reverted, or refunds past transaction 100".
+
+The builder draws each group the way the data table's filters are drawn today: "Where" on the first row, the group's join on the second, and the same join on each row after it. A nested group is a framed block in its parent's row, with its own join. Rows reorder by drag inside their group.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/filter-builder
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the Calendar and Sortable components first:</Step>
+
+```bash
+npx shadcn@latest add @formance/calendar @formance/sortable
+```
+
+<Step>
+  Copy the files of `registry/default/ui-fragments/filter-builder/` into
+  `components/ui-fragments/filter-builder/`.
+</Step>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { FilterBuilder } from '@/components/ui-fragments/filter-builder/filter-builder';
+import {
+  createFilterGroup,
+  filterOfQuery,
+  queryOfFilter,
+} from '@/components/ui-fragments/filter-builder/filter-query';
+```
+
+```tsx
+const [filter, setFilter] = useState(
+  () => filterOfQuery(storedQuery, fields) ?? createFilterGroup()
+);
+
+<FilterBuilder fields={fields} value={filter} onChange={setFilter} />;
+
+// The ledger query to send: `null` when nothing is written.
+const query = queryOfFilter(filter, fields);
+```
+
+### The model
+
+`filter-query.ts` is pure: no React. It is the part a consumer keeps when it draws its own surface.
+
+| Export                                           | What it does                                                                                                                                                             |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `TFilterFields`                                  | The vocabulary. It has the shape of the platform's `FilterConfig`, with the same variants and operator names, so `getLedgerV3TransactionsFiltersConfig()` fits as it is. |
+| `queryOfFilter(node, fields)`                    | The ledger query. Each condition is the document the platform builder emits for it. A group of one child is that child. A condition that is not complete is left out.    |
+| `filterOfQuery(query, fields)`                   | The filter a stored query is drawn as, or `null` when the builder cannot hold it **exactly**: the result is written back and compared with the query.                    |
+| `filterMatches(node, fields, read)`              | Whether one row passes, for a table filtered in the browser.                                                                                                             |
+| `createFilterGroup()`, `createFilterCondition()` | New nodes.                                                                                                                                                               |
+| `countFilterConditions(node)`                    | The conditions at any depth, for a trigger's badge.                                                                                                                      |
+
+A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a query is never flattened or dropped by the screen that shows it. A condition's value has the same four shapes as the console's clause value (`text`, `list`, `keyed`, `instants`), so a condition maps onto one console clause.
+
+## Examples
+
+<Section
+  title="Flat"
+  level={3}
+  description="maxDepth={1} hides Add group: one list of conditions with one join, as the data table's filters are today."
+>
+  <ComponentPreview name="filter-builder-flat" />
+</Section>
+
+<Section
+  title="From a stored query"
+  level={3}
+  description="Type a query on the left. The builder draws it when it can hold it exactly, and a change in the builder writes the query back. A shape it cannot hold, such as a field outside the vocabulary or an $and of one member, opens in the raw editor instead."
+>
+  <ComponentPreview name="filter-builder-from-query" />
+</Section>
+
+<Section
+  title="In a data table"
+  level={3}
+  description="The builder in the toolbar's Filters popover, with a count of its conditions on the trigger. The rows are filtered in the browser with filterMatches."
+>
+  <ComponentPreview name="filter-builder-data-table" />
+</Section>

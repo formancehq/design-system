@@ -2739,6 +2739,35 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'filter-builder': {
+    component: lazy(
+      () => import('@/registry/default/demos/filter-builder-demo')
+    ),
+    sourceFile: 'registry/default/demos/filter-builder-demo.tsx',
+    examples: [
+      {
+        title: 'Flat',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-flat')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-flat.tsx',
+      },
+      {
+        title: 'From a stored query',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-from-query')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-from-query.tsx',
+      },
+      {
+        title: 'In a data table',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-data-table')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-data-table.tsx',
+      },
+    ],
+  },
   'key-value-input': {
     component: lazy(
       () => import('@/registry/default/demos/key-value-input-demo')

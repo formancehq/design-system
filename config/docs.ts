@@ -934,6 +934,14 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui-fragments/sso-button.tsx',
     source: 'custom',
   },
+  'fragments/filter-builder': {
+    registryName: 'filter-builder',
+    description:
+      'Conditions and nested groups joined by $and or $or, read from and written to a ledger query.',
+    sourceFile:
+      'registry/default/ui-fragments/filter-builder/filter-builder.tsx',
+    source: 'custom',
+  },
   'fragments/key-value-input': {
     registryName: 'key-value-input',
     description:
@@ -1329,6 +1337,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Copy Button', href: '/docs/fragments/copy-button' },
         { title: 'Copy Page', href: '/docs/fragments/copy-page' },
         { title: 'Data Table', href: '/docs/fragments/data-table' },
+        { title: 'Filter Builder', href: '/docs/fragments/filter-builder' },
         { title: 'Markdown', href: '/docs/fragments/markdown' },
         { title: 'Mode Toggle', href: '/docs/fragments/mode-toggle' },
         { title: 'Multi Select', href: '/docs/fragments/multi-select' },
