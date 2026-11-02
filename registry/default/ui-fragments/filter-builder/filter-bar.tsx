@@ -253,7 +253,9 @@ function FilterChip({
   return (
     <div
       data-slot="filter-chip"
-      className="bg-background inline-flex h-8 max-w-full items-stretch divide-x overflow-hidden rounded-md border text-sm"
+      // The dividers are drawn by the chip, not by `divide-x`: its rule has no
+      // specificity, so the segments' `border-0` erased it.
+      className="bg-background inline-flex h-8 max-w-full items-stretch overflow-hidden rounded-md border text-sm [&>*:not(:last-child)]:border-r"
     >
       <FilterConditionSelects
         condition={condition}
