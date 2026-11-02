@@ -4,8 +4,10 @@ import { GripVertical, ListPlus, Plus, Trash2, X } from 'lucide-react';
 import * as React from 'react';
 
 import {
+  ACTIVE_GROUP,
   FilterConditionSelects,
   FilterValueInput,
+  groupTargetProps,
   type TFilterEditorProps,
   type TFilterScope,
 } from '@/components/ui-fragments/filter-builder/filter-parts';
@@ -58,17 +60,36 @@ function FilterBar({
   value,
   onChange,
   maxDepth = 2,
+  suggestions,
+  activeGroupId,
+  onActiveGroupChange,
   actions,
   className,
 }: TFilterBarProps) {
-  const scope = { fields, depth: 1, maxDepth };
+  const scope = {
+    fields,
+    depth: 1,
+    maxDepth,
+    suggestions,
+    activeGroupId,
+    onActiveGroupChange,
+  };
   const add = (node: TFilterNode) =>
     onChange({ ...value, children: [...value.children, node] });
 
   return (
     <div
       data-slot="filter-bar"
-      className={cn('flex flex-wrap items-center gap-1.5', className)}
+      {...groupTargetProps(value.id, scope)}
+      className={cn(
+        'flex flex-wrap items-center gap-1.5',
+        // With a target to mark, the root is a group frame like the others.
+        onActiveGroupChange && [
+          'rounded-md border border-dashed p-1',
+          ACTIVE_GROUP,
+        ],
+        className
+      )}
     >
       <FilterBarNodes group={value} onChange={onChange} scope={scope} />
       <FilterBarAdd
@@ -164,7 +185,7 @@ function FilterBarNodes({
                 {node.kind === 'condition' ? (
                   <FilterChip
                     condition={node}
-                    fields={scope.fields}
+                    scope={scope}
                     onChange={replace}
                     onRemove={() => replace(null)}
                   />
@@ -198,7 +219,11 @@ function FilterGroupFrame({
   return (
     <div
       data-slot="filter-group"
-      className="bg-muted/40 inline-flex flex-wrap items-center gap-1.5 rounded-md border border-dashed p-1"
+      {...groupTargetProps(group.id, scope)}
+      className={cn(
+        'bg-muted/40 inline-flex flex-wrap items-center gap-1.5 rounded-md border border-dashed p-1',
+        ACTIVE_GROUP
+      )}
     >
       <SortableItemHandle asChild>
         <Button type="button" variant="outline" size="icon-md">
@@ -287,12 +312,12 @@ function FilterBarAdd({
 
 function FilterChip({
   condition,
-  fields,
+  scope,
   onChange,
   onRemove,
 }: {
   condition: TFilterCondition;
-  fields: TFilterFields;
+  scope: TFilterScope;
   onChange: (condition: TFilterCondition) => void;
   onRemove: () => void;
 }) {
@@ -303,14 +328,15 @@ function FilterChip({
     >
       <FilterConditionSelects
         condition={condition}
-        fields={fields}
+        fields={scope.fields}
         onChange={onChange}
         fieldClassName={cn(CHIP_SEGMENT, 'gap-1')}
         operatorClassName={cn(CHIP_SEGMENT, 'text-muted-foreground gap-1')}
       />
       <FilterValueInput
         condition={condition}
-        fields={fields}
+        fields={scope.fields}
+        suggestions={scope.suggestions}
         onChange={(value) => onChange({ ...condition, value })}
         className={cn(CHIP_SEGMENT, 'field-sizing-content max-w-56 min-w-12')}
       />

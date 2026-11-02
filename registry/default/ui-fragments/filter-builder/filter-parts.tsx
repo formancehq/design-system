@@ -1,6 +1,7 @@
 'use client';
 
 import { CalendarIcon } from 'lucide-react';
+import * as React from 'react';
 import type { DateRange } from 'react-day-picker';
 
 import {
@@ -18,6 +19,7 @@ import { Calendar } from '@/registry/default/ui/calendar';
 import { Input } from '@/registry/default/ui/input';
 import {
   Popover,
+  PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from '@/registry/default/ui/popover';
@@ -32,6 +34,23 @@ import {
 // The parts both layouts draw a condition with: the `FilterBuilder` as rows,
 // the `FilterBar` as chips. Each layout gives them its own class names.
 
+/**
+ * What the reader is typing in one input of a condition, given to a consumer
+ * that offers values for it.
+ */
+type TFilterSuggestionRequest = {
+  condition: TFilterCondition;
+  /** The input: a keyed value's key, or the value. */
+  part: 'key' | 'value';
+  /** What the input holds now. */
+  text: string;
+  /** Writes a text into that input and closes the offers. */
+  pick: (text: string) => void;
+};
+
+/** One value an input offers: what it writes, how it reads, how many hold it. */
+type TFilterSuggestion = { value: string; label?: string; count?: number };
+
 type TFilterEditorProps = {
   /** The resource's vocabulary. A platform `FilterConfig` fits as it is. */
   fields: TFilterFields;
@@ -44,11 +63,27 @@ type TFilterEditorProps = {
    * `$and`s.
    */
   maxDepth?: number;
+  /**
+   * What a value or key input offers while it has focus, drawn under it:
+   * usually a `FilterSuggestionList`. It is mounted only while the input has
+   * focus, so what it reads is read only then. `null` offers nothing.
+   */
+  suggestions?: (request: TFilterSuggestionRequest) => React.ReactNode;
+  /**
+   * The group marked as the target, for a surface that writes into one group
+   * of the tree (a filter panel). The root is a group too.
+   */
+  activeGroupId?: string;
+  /** A press inside a group makes it the target: the innermost group. */
+  onActiveGroupChange?: (groupId: string) => void;
   className?: string;
 };
 
 /** Where a group sits in the tree, given to each level as it is drawn. */
-type TFilterScope = {
+type TFilterScope = Pick<
+  TFilterEditorProps,
+  'suggestions' | 'activeGroupId' | 'onActiveGroupChange'
+> & {
   fields: TFilterFields;
   depth: number;
   maxDepth: number;
@@ -59,6 +94,44 @@ const DAY_FORMAT = new Intl.DateTimeFormat('en-US', {
   day: 'numeric',
   year: 'numeric',
 });
+
+const COUNT_FORMAT = new Intl.NumberFormat('en-US');
+
+/** Presses a group already took: the innermost group a press reaches. */
+const TARGETED_PRESSES = new WeakSet<Event>();
+
+/**
+ * What makes a group the target of a press inside it, when the surface asks
+ * for a target. A press bubbles from the innermost group out, through React
+ * portals too (a select opened from a chip), so the first group it reaches
+ * takes it and the groups around it let it pass.
+ */
+function groupTargetProps(
+  groupId: string,
+  scope: TFilterScope
+): React.HTMLAttributes<HTMLDivElement> & { 'data-active'?: boolean } {
+  const { onActiveGroupChange } = scope;
+
+  if (!onActiveGroupChange) {
+    return {};
+  }
+
+  return {
+    'data-active': scope.activeGroupId === groupId,
+    onPointerDown: (event) => {
+      if (TARGETED_PRESSES.has(event.nativeEvent)) {
+        return;
+      }
+
+      TARGETED_PRESSES.add(event.nativeEvent);
+      onActiveGroupChange(groupId);
+    },
+  };
+}
+
+/** The frame of the target group: solid, in the primary color. */
+const ACTIVE_GROUP =
+  'data-[active=true]:border-solid data-[active=true]:border-primary';
 
 /** The field, then the operator. A new field starts a new condition. */
 function FilterConditionSelects({
@@ -132,11 +205,13 @@ function FilterValueInput({
   condition,
   fields,
   onChange,
+  suggestions,
   className,
 }: {
   condition: TFilterCondition;
   fields: TFilterFields;
   onChange: (value: TFilterValue) => void;
+  suggestions?: TFilterEditorProps['suggestions'];
   /** Given to each control the value takes: one, or two for a keyed value. */
   className?: string;
 }) {
@@ -157,23 +232,29 @@ function FilterValueInput({
     case 'keyed':
       return (
         <>
-          <Input
+          <SuggestedInput
             aria-label="Key"
             className={className}
             placeholder={field?.placeholderKey ?? 'Key...'}
-            value={value.key}
-            onChange={(event) =>
-              onChange({ ...value, key: event.target.value })
+            text={value.key}
+            onText={(key) => onChange({ ...value, key })}
+            offers={
+              suggestions &&
+              ((text, pick) =>
+                suggestions({ condition, part: 'key', text, pick }))
             }
           />
           {takesValue && (
-            <Input
+            <SuggestedInput
               aria-label="Value"
               className={className}
               placeholder={field?.placeholderValue ?? 'Value...'}
-              value={value.text}
-              onChange={(event) =>
-                onChange({ ...value, text: event.target.value })
+              text={value.text}
+              onText={(text) => onChange({ ...value, text })}
+              offers={
+                suggestions &&
+                ((text, pick) =>
+                  suggestions({ condition, part: 'value', text, pick }))
               }
             />
           )}
@@ -223,19 +304,185 @@ function FilterValueInput({
           </SelectContent>
         </Select>
       ) : (
-        <Input
+        <SuggestedInput
           aria-label="Value"
           className={className}
           inputMode={field?.variant === 'number' ? 'numeric' : undefined}
           placeholder={field?.placeholder ?? 'Value...'}
-          value={value.text}
-          onChange={(event) =>
-            onChange({ kind: 'text', text: event.target.value })
+          text={value.text}
+          onText={(text) => onChange({ kind: 'text', text })}
+          offers={
+            suggestions &&
+            ((text, pick) =>
+              suggestions({ condition, part: 'value', text, pick }))
           }
         />
       );
     }
   }
+}
+
+/**
+ * An input that offers values under it while it has focus. The offers are
+ * mounted only while it is open. ArrowDown moves into them, and a pick writes
+ * the value and gives the focus back to the input.
+ */
+function SuggestedInput({
+  text,
+  onText,
+  offers,
+  ...props
+}: Omit<React.ComponentProps<typeof Input>, 'value' | 'onChange'> & {
+  text: string;
+  onText: (text: string) => void;
+  offers?: (text: string, pick: (text: string) => void) => React.ReactNode;
+}) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const generatedId = React.useId();
+  const inputId = props.id ?? generatedId;
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
+
+  if (!offers) {
+    return (
+      <Input
+        {...props}
+        value={text}
+        onChange={(event) => onText(event.target.value)}
+      />
+    );
+  }
+
+  const pick = (picked: string) => {
+    onText(picked);
+    document.getElementById(inputId)?.focus();
+    setIsOpen(false);
+  };
+  const isInside = (target: EventTarget | null) =>
+    target instanceof HTMLElement &&
+    (target.id === inputId || contentRef.current?.contains(target));
+
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverAnchor asChild>
+        <Input
+          {...props}
+          id={inputId}
+          autoComplete="off"
+          value={text}
+          onChange={(event) => {
+            onText(event.target.value);
+            setIsOpen(true);
+          }}
+          onFocus={() => setIsOpen(true)}
+          onBlur={(event) => {
+            if (!isInside(event.relatedTarget)) {
+              setIsOpen(false);
+            }
+          }}
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowDown') {
+              event.preventDefault();
+              setIsOpen(true);
+              contentRef.current
+                ?.querySelector<HTMLElement>('[data-slot=filter-suggestion]')
+                ?.focus();
+            }
+          }}
+        />
+      </PopoverAnchor>
+      <PopoverContent
+        ref={contentRef}
+        align="start"
+        className="w-64 p-1 empty:hidden"
+        // The input keeps the focus: the offers follow what is typed.
+        onOpenAutoFocus={(event) => event.preventDefault()}
+        onCloseAutoFocus={(event) => event.preventDefault()}
+        onInteractOutside={(event) => {
+          if (isInside(event.target)) {
+            event.preventDefault();
+          }
+        }}
+        onBlur={(event) => {
+          if (!isInside(event.relatedTarget)) {
+            setIsOpen(false);
+          }
+        }}
+      >
+        {isOpen && offers(text, pick)}
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+/**
+ * The values an input offers, each with how many rows hold it when that is
+ * known. Draws nothing when there is nothing to offer. ArrowUp and ArrowDown
+ * move between the values.
+ */
+function FilterSuggestionList({
+  items,
+  onPick,
+}: {
+  items: readonly TFilterSuggestion[];
+  onPick: (value: string) => void;
+}) {
+  if (items.length === 0) {
+    return null;
+  }
+
+  const move = (event: React.KeyboardEvent<HTMLElement>, step: 1 | -1) => {
+    const all = [
+      ...(event.currentTarget.parentElement?.querySelectorAll<HTMLElement>(
+        '[data-slot=filter-suggestion]'
+      ) ?? []),
+    ];
+    const next = all[all.indexOf(event.target as HTMLElement) + step];
+
+    if (next) {
+      event.preventDefault();
+      next.focus();
+    }
+  };
+
+  return (
+    <div
+      role="listbox"
+      aria-label="Suggestions"
+      className="flex max-h-64 flex-col overflow-y-auto"
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowDown') {
+          move(event, 1);
+        }
+
+        if (event.key === 'ArrowUp') {
+          move(event, -1);
+        }
+      }}
+    >
+      {items.map((item) => (
+        <Button
+          key={item.value}
+          type="button"
+          role="option"
+          aria-selected={false}
+          variant="ghost"
+          caseSensitive
+          data-slot="filter-suggestion"
+          className="w-full shrink-0 justify-between gap-3 font-sans font-normal"
+          // A press must not take the focus from the input before the click.
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={() => onPick(item.value)}
+        >
+          <span className="truncate">{item.label ?? item.value}</span>
+          {item.count !== undefined && (
+            <span className="text-muted-foreground font-mono text-xs tabular-nums">
+              {COUNT_FORMAT.format(item.count)}
+            </span>
+          )}
+        </Button>
+      ))}
+    </div>
+  );
 }
 
 /**
@@ -306,8 +553,13 @@ function FilterRangeInput({
 }
 
 export {
+  ACTIVE_GROUP,
   FilterConditionSelects,
+  FilterSuggestionList,
   FilterValueInput,
+  groupTargetProps,
   type TFilterEditorProps,
   type TFilterScope,
+  type TFilterSuggestion,
+  type TFilterSuggestionRequest,
 };

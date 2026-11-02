@@ -222,6 +222,51 @@ export const countFilterConditions = (node: TFilterNode): number =>
         0
       );
 
+/** The group of this id at any depth, the root included, or `null`. */
+export function findFilterGroup(
+  node: TFilterNode,
+  id: string
+): TFilterGroup | null {
+  if (node.kind === 'condition') {
+    return null;
+  }
+
+  if (node.id === id) {
+    return node;
+  }
+
+  for (const child of node.children) {
+    const found = findFilterGroup(child, id);
+
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * The tree with the group of this id replaced by `update(group)`, at any
+ * depth. A tree without that group is returned as it is.
+ */
+export function updateFilterGroup(
+  root: TFilterGroup,
+  id: string,
+  update: (group: TFilterGroup) => TFilterGroup
+): TFilterGroup {
+  if (root.id === id) {
+    return update(root);
+  }
+
+  return {
+    ...root,
+    children: root.children.map((child) =>
+      child.kind === 'group' ? updateFilterGroup(child, id, update) : child
+    ),
+  };
+}
+
 /** The path the ledger reads: `metadata[type]`, `balance[USD/2]`, `reference`. */
 function conditionPath(
   condition: TFilterCondition,

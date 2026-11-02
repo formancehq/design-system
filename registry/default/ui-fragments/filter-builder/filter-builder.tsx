@@ -4,8 +4,10 @@ import { GripVertical, ListPlus, Plus, Trash2, X } from 'lucide-react';
 import * as React from 'react';
 
 import {
+  ACTIVE_GROUP,
   FilterConditionSelects,
   FilterValueInput,
+  groupTargetProps,
   type TFilterEditorProps,
   type TFilterScope,
 } from '@/components/ui-fragments/filter-builder/filter-parts';
@@ -45,17 +47,38 @@ function FilterBuilder({
   value,
   onChange,
   maxDepth = 2,
+  suggestions,
+  activeGroupId,
+  onActiveGroupChange,
   className,
 }: TFilterEditorProps) {
+  const scope = {
+    fields,
+    depth: 1,
+    maxDepth,
+    suggestions,
+    activeGroupId,
+    onActiveGroupChange,
+  };
+
   return (
     <div
       data-slot="filter-builder"
-      className={cn('flex flex-col gap-3', className)}
+      {...groupTargetProps(value.id, scope)}
+      className={cn(
+        'flex flex-col gap-3',
+        // With a target to mark, the root is a group frame like the others.
+        onActiveGroupChange && [
+          'rounded-md border border-dashed p-2',
+          ACTIVE_GROUP,
+        ],
+        className
+      )}
     >
       <FilterGroupBody
         group={value}
         onChange={onChange}
-        scope={{ fields, depth: 1, maxDepth }}
+        scope={scope}
         footer={
           value.children.length > 0 && (
             <Button
@@ -190,7 +213,11 @@ function FilterRow({
         <FilterJoinCell index={index} join={join} onChange={onJoinChange} />
         <div
           data-slot="filter-group"
-          className="bg-muted/40 min-w-0 flex-1 rounded-md border border-dashed p-2"
+          {...groupTargetProps(node.id, scope)}
+          className={cn(
+            'bg-muted/40 min-w-0 flex-1 rounded-md border border-dashed p-2',
+            ACTIVE_GROUP
+          )}
         >
           <FilterGroupBody
             group={node}
@@ -224,6 +251,7 @@ function FilterRow({
         <FilterValueInput
           condition={node}
           fields={scope.fields}
+          suggestions={scope.suggestions}
           onChange={(value) => onChange({ ...node, value })}
           className="min-w-0 flex-1"
         />

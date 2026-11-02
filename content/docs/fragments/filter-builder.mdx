@@ -84,6 +84,11 @@ const query = queryOfFilter(filter, fields);
 
 Both layouts take `fields`, `value`, `onChange`, `maxDepth` and `className`. `maxDepth={1}` hides groups: a flat list with one join. The bar also takes `actions`, the toolbar's other controls, drawn after Reset in the same row: Inspect query, or a popover with the `FilterBuilder` for a tree too deep for one row.
 
+Both layouts also take:
+
+- **`suggestions`**: what a value or key input offers while it has focus. It gets the condition, the input (`key` or `value`), the text typed and a `pick` that writes a value. Return a `FilterSuggestionList` of `{ value, label?, count? }`, or `null` to offer nothing. It is mounted only while the input has focus, so a read made in it (a ledger's facets) is made only then.
+- **`activeGroupId`** and **`onActiveGroupChange`**: for a surface that writes into one group of the tree, such as a filter panel. A press inside a group makes the innermost group the target, and the target's frame is drawn solid. With them, the root is drawn as a frame too, so the root can be the target. `findFilterGroup` and `updateFilterGroup` read and replace the target.
+
 ### The model
 
 `filter-query.ts` is pure: no React. It is the part a consumer keeps when it draws its own surface.
@@ -97,6 +102,8 @@ Both layouts take `fields`, `value`, `onChange`, `maxDepth` and `className`. `ma
 | `createFilterGroup()`, `createFilterCondition()` | New nodes.                                                                                                                                                               |
 | `createFilterSubgroup(fields, parentJoin)`       | A new group to open under a group: the other join, with one condition.                                                                                                   |
 | `countFilterConditions(node)`                    | The conditions at any depth, for a trigger's badge.                                                                                                                      |
+| `findFilterGroup(node, id)`                      | The group of this id at any depth, the root included, or `null`: the target, or its loss when it was removed.                                                            |
+| `updateFilterGroup(root, id, update)`            | The tree with the group of this id replaced by `update(group)`.                                                                                                          |
 
 A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a query is never flattened or dropped by the screen that shows it. A condition's value has the same four shapes as the console's clause value (`text`, `list`, `keyed`, `instants`), so a condition maps onto one console clause.
 
@@ -124,6 +131,14 @@ A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a quer
   description="maxDepth={1} hides Add group: one list of conditions with one join, as the data table's filters are today."
 >
   <ComponentPreview name="filter-builder-flat" />
+</Section>
+
+<Section
+  title="Target group and value offers"
+  level={3}
+  description="A press in a group makes it the target, drawn solid, and the button writes into it. A metadata key or value input offers what a ledger counts, with the counts, while it has focus."
+>
+  <ComponentPreview name="filter-builder-target" />
 </Section>
 
 <Section

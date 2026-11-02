@@ -2773,6 +2773,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/filter-builder-data-table.tsx',
       },
+      {
+        title: 'Target group and value offers',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-target')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-target.tsx',
+      },
     ],
   },
   'key-value-input': {
