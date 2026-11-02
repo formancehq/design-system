@@ -950,7 +950,11 @@
       "title": "Calendar",
       "description": "A date picker calendar component.",
       "dependencies": ["react-day-picker", "lucide-react"],
-      "registryDependencies": ["button", "input", "label"],
+      "registryDependencies": [
+        "https://ds.formance.com/r/button.json",
+        "https://ds.formance.com/r/input.json",
+        "https://ds.formance.com/r/label.json"
+      ],
       "files": [
         {
           "path": "registry/default/ui/calendar.tsx",

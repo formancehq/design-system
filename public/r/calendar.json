@@ -8,9 +8,9 @@
     "lucide-react"
   ],
   "registryDependencies": [
-    "button",
-    "input",
-    "label"
+    "https://ds.formance.com/r/button.json",
+    "https://ds.formance.com/r/input.json",
+    "https://ds.formance.com/r/label.json"
   ],
   "files": [
     {
