@@ -1,6 +1,6 @@
 'use client';
 
-import { CalendarIcon, ListPlus } from 'lucide-react';
+import { CalendarIcon, ChevronsUpDown, ListPlus } from 'lucide-react';
 import * as React from 'react';
 import type { DateRange } from 'react-day-picker';
 
@@ -271,7 +271,11 @@ function FilterConditionSelects({
       >
         <SelectTrigger
           aria-label="Field"
-          className={cn('font-mono text-xs uppercase', fieldClassName)}
+          icon={<ChevronsUpDown className="size-4 shrink-0 opacity-50" />}
+          className={cn(
+            'bg-background font-mono uppercase hover:bg-muted data-[state=open]:bg-muted',
+            fieldClassName
+          )}
         >
           <SelectValue />
         </SelectTrigger>
@@ -297,12 +301,15 @@ function FilterConditionSelects({
           }
         }}
       >
-        <SelectTrigger aria-label="Operator" className={operatorClassName}>
+        <SelectTrigger
+          aria-label="Operator"
+          className={cn('lowercase', operatorClassName)}
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
           {operators.map((one) => (
-            <SelectItem key={one.value} value={one.value}>
+            <SelectItem key={one.value} value={one.value} className="lowercase">
               {one.label}
             </SelectItem>
           ))}
