@@ -160,19 +160,28 @@ function DropdownMenuRadioItem({
   );
 }
 
+// `section` is the heading over a group of items, the `SectionLabel` recipe.
+// `plain` is for other content in the label slot (the signed-in user, a
+// summary sentence): muted `text-xs`, not uppercase, so its children keep the
+// case and the tracking of their text.
 function DropdownMenuLabel({
   className,
   inset,
+  variant = 'section',
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Label> & {
   inset?: boolean;
+  variant?: 'section' | 'plain';
 }) {
   return (
     <DropdownMenuPrimitive.Label
       data-slot="dropdown-menu-label"
       data-inset={inset}
+      data-variant={variant}
       className={cn(
-        sectionLabelVariants(),
+        variant === 'section'
+          ? sectionLabelVariants()
+          : 'text-muted-foreground text-xs',
         'px-1.5 py-1 data-inset:pl-7',
         className
       )}
