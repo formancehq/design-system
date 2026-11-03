@@ -7,13 +7,17 @@ import type { DateRange } from 'react-day-picker';
 import {
   createFilterCondition,
   createFilterSubgroup,
-  filterOperators,
+  filterConditionLabel,
+  filterConditionOperators,
+  filterKeyType,
   filterValueFor,
+  withFilterValue,
   type TFilterCondition,
   type TFilterFields,
   type TFilterGroup,
   type TFilterJoin,
   type TFilterNode,
+  type TFilterOperator,
   type TFilterValue,
 } from '@/components/ui-fragments/filter-builder/filter-query';
 import { cn } from '@/lib/utils';
@@ -281,7 +285,7 @@ function FilterFieldPicker({
           className={cn('justify-between gap-2 px-3 font-normal', className)}
         >
           <span className="truncate">
-            {fields[condition.field]?.label ?? 'Select field'}
+            {filterConditionLabel(condition, fields) ?? 'Select field'}
           </span>
           <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
         </Button>
@@ -341,7 +345,7 @@ function FilterConditionSelects({
   operatorClassName?: string;
 }) {
   const field = fields[condition.field];
-  const operators = field ? filterOperators(field) : [];
+  const operators = filterConditionOperators(condition, fields);
 
   return (
     <>
@@ -357,11 +361,13 @@ function FilterConditionSelects({
           const operator = operators.find((one) => one.value === next)?.value;
 
           if (operator) {
-            onChange({
-              ...condition,
-              operator,
-              value: filterValueFor(field, operator, condition.value),
-            });
+            onChange(
+              withFilterValue(
+                { ...condition, operator },
+                filterValueFor(field, operator, condition.value),
+                fields
+              )
+            );
           }
         }}
       >
@@ -418,7 +424,15 @@ function FilterValueInput(props: TFilterValueInputProps) {
   }
 }
 
-/** A key, then its value unless the operator takes none. */
+/**
+ * A key, then its value unless the operator takes none. A field fixed on one
+ * key (a key that the field list names) asks no key: its label names it. On
+ * the metadata field with no key, only a new condition asks one: a key read
+ * from a query is in the label (`Metadata · <key>`).
+ *
+ * A key whose type the consumer knows takes its value in that type: `true` or
+ * `false`, a number, or a day.
+ */
 function FilterKeyedInput({
   condition,
   fields,
@@ -430,34 +444,67 @@ function FilterKeyedInput({
   value: Extract<TFilterValue, { kind: 'keyed' }>;
 }) {
   const field = fields[condition.field];
+  const asksKey =
+    field?.key === undefined &&
+    (field?.variant !== 'metadata' ||
+      value.asksKey === true ||
+      value.key.trim() === '');
+  const format = filterKeyType(field, value.key)?.format ?? 'string';
+  const onText = (text: string) => onChange({ ...value, text });
 
   return (
     <>
-      <SuggestedInput
-        aria-label="Key"
-        className={className}
-        placeholder={field?.placeholderKey ?? 'Key...'}
-        text={value.key}
-        onText={(key) => onChange({ ...value, key })}
-        offers={
-          suggestions &&
-          ((text, pick) => suggestions({ condition, part: 'key', text, pick }))
-        }
-      />
-      {takesValue(condition) && (
+      {asksKey && (
         <SuggestedInput
-          aria-label="Value"
+          aria-label="Key"
           className={className}
-          placeholder={field?.placeholderValue ?? 'Value...'}
-          text={value.text}
-          onText={(text) => onChange({ ...value, text })}
+          placeholder={field?.placeholderKey ?? 'Key...'}
+          text={value.key}
+          onText={(key) => onChange({ ...value, key })}
           offers={
             suggestions &&
             ((text, pick) =>
-              suggestions({ condition, part: 'value', text, pick }))
+              suggestions({ condition, part: 'key', text, pick }))
           }
         />
       )}
+      {takesValue(condition) &&
+        (format === 'bool' ? (
+          <Select value={value.text} onValueChange={onText}>
+            <SelectTrigger aria-label="Value" className={className}>
+              <SelectValue placeholder="Pick a value" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">true</SelectItem>
+              <SelectItem value="false">false</SelectItem>
+            </SelectContent>
+          </Select>
+        ) : format === 'unixMicros' ? (
+          <FilterDayInput
+            micros={value.text}
+            operator={condition.operator}
+            onMicros={onText}
+            className={className}
+          />
+        ) : (
+          <SuggestedInput
+            aria-label="Value"
+            className={className}
+            inputMode={format === 'string' ? undefined : 'numeric'}
+            placeholder={
+              format === 'string'
+                ? (field?.placeholderValue ?? 'Value...')
+                : 'Number...'
+            }
+            text={value.text}
+            onText={onText}
+            offers={
+              suggestions &&
+              ((text, pick) =>
+                suggestions({ condition, part: 'value', text, pick }))
+            }
+          />
+        ))}
     </>
   );
 }
@@ -768,6 +815,79 @@ function FilterRangeInput({
               from: from.toISOString(),
               to: to.toISOString(),
             });
+          }}
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+/**
+ * One day, written as signed Unix microseconds (a `datetime` metadata key). A
+ * bound that holds the day (`≥`, `≤`) or leaves it out (`<`, `>`) takes the
+ * start or the end of the day, so a day picked is a whole day.
+ */
+function FilterDayInput({
+  micros,
+  operator,
+  onMicros,
+  className,
+}: {
+  micros: string;
+  operator: TFilterOperator;
+  onMicros: (micros: string) => void;
+  className?: string;
+}) {
+  const selected = /^-?\d+$/.test(micros.trim())
+    ? new Date(Math.floor(Number(micros) / 1000))
+    : undefined;
+  const days = React.useSyncExternalStore(
+    subscribeToNothing,
+    () => DAY_FORMAT,
+    () => UTC_DAY_FORMAT
+  );
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          type="button"
+          variant="outline"
+          caseSensitive
+          aria-label="Value"
+          className={cn(
+            'justify-start gap-2 font-sans font-normal',
+            !selected && 'text-muted-foreground',
+            className
+          )}
+        >
+          <CalendarIcon className="size-4 shrink-0" />
+          <span className="truncate">
+            {selected ? days.format(selected) : 'Pick a day'}
+          </span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={selected}
+          onSelect={(day) => {
+            if (!day) {
+              onMicros('');
+
+              return;
+            }
+
+            const edge = new Date(day);
+            const isEnd = operator === 'gt' || operator === 'lte';
+
+            if (isEnd) {
+              edge.setHours(23, 59, 59, 999);
+            } else {
+              edge.setHours(0, 0, 0, 0);
+            }
+
+            onMicros(String(edge.getTime() * 1000 + (isEnd ? 999 : 0)));
           }}
         />
       </PopoverContent>

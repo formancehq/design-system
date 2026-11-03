@@ -14,6 +14,7 @@ import {
 } from '@/components/ui-fragments/filter-builder/filter-parts';
 import {
   createFilterGroup,
+  withFilterValue,
   type TFilterCondition,
   type TFilterGroup,
   type TFilterJoin,
@@ -274,7 +275,9 @@ function FilterChip({
         condition={condition}
         fields={scope.fields}
         suggestions={scope.suggestions}
-        onChange={(value) => onChange({ ...condition, value })}
+        onChange={(value) =>
+          onChange(withFilterValue(condition, value, scope.fields))
+        }
         className={cn(CHIP_SEGMENT, 'field-sizing-content max-w-56 min-w-12')}
       />
       <Button
