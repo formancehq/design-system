@@ -7,13 +7,22 @@ import type { DateRange } from 'react-day-picker';
 import {
   createFilterCondition,
   createFilterSubgroup,
-  filterOperators,
+  filterConditionLabel,
+  filterConditionOperators,
+  filterDayMicros,
+  filterDayOf,
+  filterDayOfPick,
+  filterDayRange,
+  filterKeyType,
+  filterPickOfDay,
   filterValueFor,
+  withFilterValue,
   type TFilterCondition,
   type TFilterFields,
   type TFilterGroup,
   type TFilterJoin,
   type TFilterNode,
+  type TFilterOperator,
   type TFilterValue,
 } from '@/components/ui-fragments/filter-builder/filter-query';
 import { cn } from '@/lib/utils';
@@ -107,6 +116,12 @@ type TFilterEditorProps = {
   activeGroupId?: string;
   /** A press inside a group makes it the target: the innermost group. */
   onActiveGroupChange?: (groupId: string) => void;
+  /**
+   * The time zone a picked day is read in (an IANA name): the instants it
+   * writes, the day the calendar marks and the days a range shows. `UTC` by
+   * default; never the browser's zone.
+   */
+  timeZone?: string;
   className?: string;
 };
 
@@ -118,6 +133,7 @@ type TFilterScope = Pick<
   fields: TFilterFields;
   depth: number;
   maxDepth: number;
+  timeZone: string;
 };
 
 const DAY_OPTIONS: Intl.DateTimeFormatOptions = {
@@ -125,20 +141,6 @@ const DAY_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   year: 'numeric',
 };
-
-/** The days in the reader's time zone: in the browser only. */
-const DAY_FORMAT = new Intl.DateTimeFormat('en-US', DAY_OPTIONS);
-
-/**
- * The days on the server and in the hydration pass, which must draw the same
- * text and know no reader's time zone.
- */
-const UTC_DAY_FORMAT = new Intl.DateTimeFormat('en-US', {
-  ...DAY_OPTIONS,
-  timeZone: 'UTC',
-});
-
-const subscribeToNothing = () => () => {};
 
 const COUNT_FORMAT = new Intl.NumberFormat('en-US');
 
@@ -281,7 +283,7 @@ function FilterFieldPicker({
           className={cn('justify-between gap-2 px-3 font-normal', className)}
         >
           <span className="truncate">
-            {fields[condition.field]?.label ?? 'Select field'}
+            {filterConditionLabel(condition, fields) ?? 'Select field'}
           </span>
           <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
         </Button>
@@ -341,7 +343,7 @@ function FilterConditionSelects({
   operatorClassName?: string;
 }) {
   const field = fields[condition.field];
-  const operators = field ? filterOperators(field) : [];
+  const operators = filterConditionOperators(condition, fields);
 
   return (
     <>
@@ -357,11 +359,13 @@ function FilterConditionSelects({
           const operator = operators.find((one) => one.value === next)?.value;
 
           if (operator) {
-            onChange({
-              ...condition,
-              operator,
-              value: filterValueFor(field, operator, condition.value),
-            });
+            onChange(
+              withFilterValue(
+                { ...condition, operator },
+                filterValueFor(field, operator, condition.value),
+                fields
+              )
+            );
           }
         }}
       >
@@ -388,6 +392,8 @@ type TFilterValueInputProps = {
   fields: TFilterFields;
   onChange: (value: TFilterValue) => void;
   suggestions?: TFilterEditorProps['suggestions'];
+  /** The time zone a picked day is read in. */
+  timeZone: string;
   /** Given to each control the value takes: one, or two for a keyed value. */
   className?: string;
 };
@@ -404,6 +410,7 @@ function FilterValueInput(props: TFilterValueInputProps) {
         <FilterRangeInput
           value={value}
           onChange={props.onChange}
+          timeZone={props.timeZone}
           className={props.className}
         />
       );
@@ -418,46 +425,89 @@ function FilterValueInput(props: TFilterValueInputProps) {
   }
 }
 
-/** A key, then its value unless the operator takes none. */
+/**
+ * A key, then its value unless the operator takes none. A field fixed on one
+ * key (a key that the field list names) asks no key: its label names it. On
+ * the metadata field with no key, only a new condition asks one: a key read
+ * from a query is in the label (`Metadata · <key>`).
+ *
+ * A key whose type the consumer knows takes its value in that type: `true` or
+ * `false`, a number, or a day.
+ */
 function FilterKeyedInput({
   condition,
   fields,
   onChange,
   suggestions,
+  timeZone,
   className,
   value,
 }: TFilterValueInputProps & {
   value: Extract<TFilterValue, { kind: 'keyed' }>;
 }) {
   const field = fields[condition.field];
+  const asksKey =
+    field?.key === undefined &&
+    (field?.variant !== 'metadata' ||
+      value.asksKey === true ||
+      value.key.trim() === '');
+  const format = filterKeyType(field, value.key)?.format ?? 'string';
+  const onText = (text: string) => onChange({ ...value, text });
 
   return (
     <>
-      <SuggestedInput
-        aria-label="Key"
-        className={className}
-        placeholder={field?.placeholderKey ?? 'Key...'}
-        text={value.key}
-        onText={(key) => onChange({ ...value, key })}
-        offers={
-          suggestions &&
-          ((text, pick) => suggestions({ condition, part: 'key', text, pick }))
-        }
-      />
-      {takesValue(condition) && (
+      {asksKey && (
         <SuggestedInput
-          aria-label="Value"
+          aria-label="Key"
           className={className}
-          placeholder={field?.placeholderValue ?? 'Value...'}
-          text={value.text}
-          onText={(text) => onChange({ ...value, text })}
+          placeholder={field?.placeholderKey ?? 'Key...'}
+          text={value.key}
+          onText={(key) => onChange({ ...value, key })}
           offers={
             suggestions &&
             ((text, pick) =>
-              suggestions({ condition, part: 'value', text, pick }))
+              suggestions({ condition, part: 'key', text, pick }))
           }
         />
       )}
+      {takesValue(condition) &&
+        (format === 'bool' ? (
+          <Select value={value.text} onValueChange={onText}>
+            <SelectTrigger aria-label="Value" className={className}>
+              <SelectValue placeholder="Pick a value" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">true</SelectItem>
+              <SelectItem value="false">false</SelectItem>
+            </SelectContent>
+          </Select>
+        ) : format === 'unixMicros' ? (
+          <FilterDayInput
+            micros={value.text}
+            operator={condition.operator}
+            onMicros={onText}
+            timeZone={timeZone}
+            className={className}
+          />
+        ) : (
+          <SuggestedInput
+            aria-label="Value"
+            className={className}
+            inputMode={format === 'string' ? undefined : 'numeric'}
+            placeholder={
+              format === 'string'
+                ? (field?.placeholderValue ?? 'Value...')
+                : 'Number...'
+            }
+            text={value.text}
+            onText={onText}
+            offers={
+              suggestions &&
+              ((text, pick) =>
+                suggestions({ condition, part: 'value', text, pick }))
+            }
+          />
+        ))}
     </>
   );
 }
@@ -704,26 +754,37 @@ function FilterSuggestionList({
 }
 
 /**
- * A range of whole days. The first day counts from its start and the last to
- * its end, so a one-day pick holds that whole day.
+ * A range of whole days in the consumer's time zone. The first day counts
+ * from its start and the last to its end, so a one-day pick holds that whole
+ * day.
  */
 function FilterRangeInput({
   value,
   onChange,
+  timeZone,
   className,
 }: {
   value: Extract<TFilterValue, { kind: 'instants' }>;
   onChange: (value: TFilterValue) => void;
+  timeZone: string;
   className?: string;
 }) {
-  const selected: DateRange | undefined =
-    value.from && value.to
-      ? { from: new Date(value.from), to: new Date(value.to) }
-      : undefined;
-  const days = React.useSyncExternalStore(
-    subscribeToNothing,
-    () => DAY_FORMAT,
-    () => UTC_DAY_FORMAT
+  const from = new Date(value.from);
+  const to = new Date(value.to);
+  const isReadable =
+    value.from !== '' &&
+    value.to !== '' &&
+    !Number.isNaN(from.getTime()) &&
+    !Number.isNaN(to.getTime());
+  const selected: DateRange | undefined = isReadable
+    ? {
+        from: filterPickOfDay(filterDayOf(from, timeZone)),
+        to: filterPickOfDay(filterDayOf(to, timeZone)),
+      }
+    : undefined;
+  const days = React.useMemo(
+    () => new Intl.DateTimeFormat('en-US', { ...DAY_OPTIONS, timeZone }),
+    [timeZone]
   );
 
   return (
@@ -741,8 +802,8 @@ function FilterRangeInput({
         >
           <CalendarIcon className="size-4 shrink-0" />
           <span className="truncate">
-            {selected?.from && selected.to
-              ? `${days.format(selected.from)} – ${days.format(selected.to)}`
+            {isReadable
+              ? `${days.format(from)} – ${days.format(to)}`
               : 'Pick a range of days'}
           </span>
         </Button>
@@ -753,21 +814,79 @@ function FilterRangeInput({
           numberOfMonths={2}
           selected={selected}
           onSelect={(range) => {
-            if (!range?.from) {
-              onChange({ kind: 'instants', from: '', to: '' });
+            onChange(
+              range?.from
+                ? filterDayRange(
+                    filterDayOfPick(range.from),
+                    filterDayOfPick(range.to ?? range.from),
+                    timeZone
+                  )
+                : { kind: 'instants', from: '', to: '' }
+            );
+          }}
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
 
-              return;
-            }
+/**
+ * One day in the consumer's time zone, written as signed Unix microseconds (a
+ * `datetime` metadata key). A bound that holds the day (`≥`, `≤`) or leaves
+ * it out (`<`, `>`) takes the start or the end of the day, so a day picked is
+ * a whole day.
+ */
+function FilterDayInput({
+  micros,
+  operator,
+  onMicros,
+  timeZone,
+  className,
+}: {
+  micros: string;
+  operator: TFilterOperator;
+  onMicros: (micros: string) => void;
+  timeZone: string;
+  className?: string;
+}) {
+  const instant = /^-?\d+$/.test(micros.trim())
+    ? new Date(Math.floor(Number(micros) / 1000))
+    : undefined;
+  const days = React.useMemo(
+    () => new Intl.DateTimeFormat('en-US', { ...DAY_OPTIONS, timeZone }),
+    [timeZone]
+  );
 
-            const from = new Date(range.from);
-            const to = new Date(range.to ?? range.from);
-            from.setHours(0, 0, 0, 0);
-            to.setHours(23, 59, 59, 999);
-            onChange({
-              kind: 'instants',
-              from: from.toISOString(),
-              to: to.toISOString(),
-            });
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          type="button"
+          variant="outline"
+          caseSensitive
+          aria-label="Value"
+          className={cn(
+            'justify-start gap-2 font-sans font-normal',
+            !instant && 'text-muted-foreground',
+            className
+          )}
+        >
+          <CalendarIcon className="size-4 shrink-0" />
+          <span className="truncate">
+            {instant ? days.format(instant) : 'Pick a day'}
+          </span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={instant && filterPickOfDay(filterDayOf(instant, timeZone))}
+          onSelect={(day) => {
+            onMicros(
+              day
+                ? filterDayMicros(filterDayOfPick(day), operator, timeZone)
+                : ''
+            );
           }}
         />
       </PopoverContent>

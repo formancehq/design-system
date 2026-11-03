@@ -47,10 +47,43 @@ export type TFilterField = {
   placeholderKey?: string;
   /** For a keyed variant (`metadata`, `balanceByAsset`): the value input. */
   placeholderValue?: string;
+  /**
+   * For the `metadata` variant: the one key this field is fixed on
+   * (`metadata[<key>]`, a key that the field list names). No key is asked.
+   */
+  key?: string;
+  /**
+   * For the `metadata` variant: what the consumer knows of each key, by key
+   * (the declared type of a ledger's metadata key). A condition on a key
+   * listed here offers that key's operators and value input; any other key
+   * offers the field's.
+   */
+  keyTypes?: Readonly<Record<string, TFilterKeyType>>;
 };
 
 /** A resource's filter vocabulary, keyed by the path the ledger reads. */
 export type TFilterFields = Record<string, TFilterField>;
+
+/**
+ * The JSON a key's value is written as: a string, a bool, a number, a decimal
+ * string, or a number of signed Unix microseconds (a day, picked as a date).
+ */
+export type TFilterKeyFormat =
+  'string' | 'bool' | 'number' | 'decimalString' | 'unixMicros';
+
+/** One key of a keyed field: the operators it takes, the format of its value. */
+export type TFilterKeyType = {
+  operators: readonly TFilterOperatorOption[];
+  format: TFilterKeyFormat;
+};
+
+/**
+ * The JSON a metadata value is written as where its text alone does not say
+ * it: a JSON bool (a `bool` key's Match) or a decimal string (an unsigned
+ * key's bound). Without it, the variant decides: a string to match, a number
+ * to bound.
+ */
+export type TFilterKeyedFormat = 'bool' | 'decimalString';
 
 /**
  * What a condition compares its field with. The same four shapes as the
@@ -62,7 +95,18 @@ export type TFilterValue =
   /** A list, for `in` on a field that is not keyed. */
   | { kind: 'list'; items: readonly string[] }
   /** A value under a key the reader names: a metadata key, a balance's asset. */
-  | { kind: 'keyed'; key: string; text: string }
+  | {
+      kind: 'keyed';
+      key: string;
+      text: string;
+      format?: TFilterKeyedFormat;
+      /**
+       * The reader types the key: a new condition on the field with no key.
+       * A key read from a query, or written by the filter panel, is not
+       * typed again: the condition's label names it (`Metadata · <key>`).
+       */
+      asksKey?: true;
+    }
   /** Two instants, both included, for a date range. */
   | { kind: 'instants'; from: string; to: string };
 
@@ -127,11 +171,115 @@ const VARIANT_OPERATORS: Record<TFilterVariant, TFilterOperatorOption[]> = {
   slider: [{ label: 'Match', value: 'eq' }],
 };
 
-/** The operators a field offers: its own, else its variant's. */
+/** Every operator's name, for an operator a field does not list. */
+const OPERATOR_LABELS: Record<TFilterOperator, string> = {
+  eq: 'Match',
+  ne: 'Is not',
+  like: 'Like',
+  in: 'Is any of',
+  isEmpty: 'Is not set',
+  isNotEmpty: 'Is set',
+  lt: 'Lower than',
+  lte: 'Lower than equal',
+  gt: 'Greater than',
+  gte: 'Greater than equal',
+  isBetween: 'Between',
+  dateRange: 'Range',
+};
+
+/**
+ * What the consumer knows of one key of a metadata field, or `null`: a field
+ * fixed on a key reads its own key, any other the key it is given.
+ */
+export function filterKeyType(
+  field: TFilterField | undefined,
+  key?: string
+): TFilterKeyType | null {
+  const name = field?.key ?? key?.trim();
+
+  return field?.variant === 'metadata' &&
+    field.keyTypes &&
+    name !== undefined &&
+    Object.hasOwn(field.keyTypes, name)
+    ? field.keyTypes[name]!
+    : null;
+}
+
+/**
+ * The operators a field offers: those of its key where the consumer knows the
+ * key's type, else the field's own, else its variant's.
+ */
 export const filterOperators = (
-  field: TFilterField
+  field: TFilterField,
+  key?: string
 ): readonly TFilterOperatorOption[] =>
-  field.operators ?? VARIANT_OPERATORS[field.variant];
+  filterKeyType(field, key)?.operators ??
+  field.operators ??
+  VARIANT_OPERATORS[field.variant];
+
+/**
+ * The operators a condition offers: its field's, on its key. An operator the
+ * list does not hold stays offered while the condition holds it, so a question
+ * read from the raw editor is drawn as it is written and never rewritten. A
+ * condition the reader is making (`asksKey`) on a key of a known type is
+ * offered that type's operators only.
+ */
+export function filterConditionOperators(
+  condition: TFilterCondition,
+  fields: TFilterFields
+): readonly TFilterOperatorOption[] {
+  const field = fields[condition.field];
+
+  if (!field) {
+    return [];
+  }
+
+  const { value } = condition;
+  const key = value.kind === 'keyed' ? value.key : undefined;
+  const operators = filterOperators(field, key);
+  const isTypedDraft =
+    value.kind === 'keyed' &&
+    value.asksKey === true &&
+    filterKeyType(field, key) !== null;
+
+  return isTypedDraft ||
+    operators.some((one) => one.value === condition.operator)
+    ? operators
+    : [
+        ...operators,
+        {
+          label:
+            field.operators?.find((one) => one.value === condition.operator)
+              ?.label ?? OPERATOR_LABELS[condition.operator],
+          value: condition.operator,
+        },
+      ];
+}
+
+/**
+ * The name a condition's field reads as: its label, and on the metadata field
+ * with no key, the key once it is set (`Metadata · <key>`). A key the reader is
+ * still typing is in its own input.
+ */
+export function filterConditionLabel(
+  condition: TFilterCondition,
+  fields: TFilterFields
+): string | null {
+  const field = fields[condition.field];
+  const { value } = condition;
+
+  if (!field) {
+    return null;
+  }
+
+  return field.variant === 'metadata' &&
+    field.key === undefined &&
+    value.kind === 'keyed' &&
+    !value.asksKey &&
+    value.key.trim() !== ''
+    ? `${field.label} · ${value.key.trim()}`
+    : field.label;
+}
 
 const isKeyedVariant = (variant: TFilterVariant | undefined) =>
   variant === 'metadata' || variant === 'balanceByAsset';
@@ -139,6 +287,12 @@ const isKeyedVariant = (variant: TFilterVariant | undefined) =>
 /** The operators that compare nothing: they take no value. */
 const takesNoValue = (operator: TFilterOperator) =>
   operator === 'isEmpty' || operator === 'isNotEmpty';
+
+const isBound = (operator: TFilterOperator) =>
+  operator === 'lt' ||
+  operator === 'lte' ||
+  operator === 'gt' ||
+  operator === 'gte';
 
 /**
  * The empty value an operator takes on a field. A value of the right shape
@@ -166,12 +320,98 @@ export function filterValueFor(
     case 'instants':
       return { kind, from: '', to: '' };
     case 'keyed':
-      return { kind, key: '', text: '' };
+      return field?.variant === 'metadata' && field.key === undefined
+        ? { kind, key: '', text: '', asksKey: true }
+        : { kind, key: field?.key ?? '', text: '' };
     case 'list':
       return { kind, items: [] };
     case 'text':
       return { kind, text: '' };
   }
+}
+
+/**
+ * A condition with a value the reader changed. On a key whose type the
+ * consumer knows, the operator is one the key takes (its first, where the one
+ * held is not), and the value is written in the key's format: a JSON bool, or
+ * an unsigned key's bound as a decimal string.
+ */
+export function withFilterValue(
+  condition: TFilterCondition,
+  value: TFilterValue,
+  fields: TFilterFields
+): TFilterCondition {
+  const type =
+    value.kind === 'keyed'
+      ? filterKeyType(fields[condition.field], value.key)
+      : null;
+
+  if (!type || value.kind !== 'keyed') {
+    return { ...condition, value };
+  }
+
+  const operator = type.operators.some(
+    ({ value: one }) => one === condition.operator
+  )
+    ? condition.operator
+    : (type.operators[0]?.value ?? condition.operator);
+  const format: TFilterKeyedFormat | null =
+    type.format === 'bool'
+      ? 'bool'
+      : type.format === 'decimalString' && isBound(operator)
+        ? 'decimalString'
+        : null;
+
+  return {
+    ...condition,
+    operator,
+    value: {
+      kind: 'keyed',
+      key: value.key,
+      text: value.text,
+      ...(value.asksKey && { asksKey: true }),
+      ...(format && { format }),
+    },
+  };
+}
+
+/**
+ * The tree with each condition the reader is making (`asksKey`) moved onto
+ * its key's type, for a type that arrived after the key was typed: an
+ * operator the key takes, a value in its format. A condition read from a
+ * query is never rewritten. A tree with nothing to move is returned as it is.
+ */
+export function withFilterKeyTypes(
+  group: TFilterGroup,
+  fields: TFilterFields
+): TFilterGroup {
+  const children = group.children.map((node): TFilterNode => {
+    if (node.kind === 'group') {
+      return withFilterKeyTypes(node, fields);
+    }
+
+    const { value } = node;
+
+    if (
+      value.kind !== 'keyed' ||
+      value.asksKey !== true ||
+      !filterKeyType(fields[node.field], value.key)
+    ) {
+      return node;
+    }
+
+    const typed = withFilterValue(node, value, fields);
+
+    return typed.operator === node.operator &&
+      typed.value.kind === 'keyed' &&
+      typed.value.format === value.format
+      ? node
+      : typed;
+  });
+
+  return children.every((child, index) => child === group.children[index])
+    ? group
+    : { ...group, children };
 }
 
 /** An id unique in this document, for React keys and drag and drop. */
@@ -185,14 +425,13 @@ export function createFilterCondition(
 ): TFilterCondition {
   const config = fields[field];
   const operator = config ? (filterOperators(config)[0]?.value ?? 'eq') : 'eq';
+  const value = filterValueFor(config, operator);
 
-  return {
-    kind: 'condition',
-    id: filterNodeId(),
-    field,
-    operator,
-    value: filterValueFor(config, operator),
-  };
+  return withFilterValue(
+    { kind: 'condition', id: filterNodeId(), field, operator, value },
+    value,
+    fields
+  );
 }
 
 export const createFilterGroup = (
@@ -298,11 +537,12 @@ function toNumber(raw: string): unknown {
     : parsed;
 }
 
-/** One text value written in the field's type. */
+/** One text value written in the field's type, or in its own format. */
 function scalarOf(
   text: string,
   field: TFilterField | undefined,
-  operator: TFilterOperator
+  operator: TFilterOperator,
+  format?: TFilterKeyedFormat
 ): unknown {
   switch (field?.variant) {
     case 'boolean':
@@ -312,9 +552,13 @@ function scalarOf(
     case 'balanceByAsset':
       return toNumber(text);
     case 'metadata':
-      return operator === 'eq' || operator === 'ne' || operator === 'in'
-        ? text
-        : toNumber(text);
+      return format === 'bool'
+        ? text.trim() === 'true'
+        : format === 'decimalString'
+          ? text.trim()
+          : operator === 'eq' || operator === 'ne' || operator === 'in'
+            ? text
+            : toNumber(text);
     default:
       return text;
   }
@@ -377,12 +621,17 @@ function conditionQuery(
     };
   }
 
-  if (operator === 'isEmpty') {
-    return { $not: { $exists: { [path]: true } } };
-  }
+  if (takesNoValue(operator)) {
+    // The ledger reads a metadata key's presence as `{"$exists": {"metadata":
+    // "<key>"}}` and refuses `metadata[<key>]` as the field of an `$exists`.
+    const exists = {
+      $exists:
+        value.kind === 'keyed' && field?.variant === 'metadata'
+          ? { metadata: value.key }
+          : { [path]: true },
+    };
 
-  if (operator === 'isNotEmpty') {
-    return { $exists: { [path]: true } };
+    return operator === 'isEmpty' ? { $not: exists } : exists;
   }
 
   if (value.kind === 'list') {
@@ -398,7 +647,12 @@ function conditionQuery(
       : { $or: items.map((one) => ({ $match: { [path]: one } })) };
   }
 
-  const scalar = scalarOf(value.text, field, operator);
+  const scalar = scalarOf(
+    value.text,
+    field,
+    operator,
+    value.kind === 'keyed' ? value.format : undefined
+  );
 
   switch (operator) {
     case 'ne':
@@ -453,7 +707,11 @@ function onlyKey(value: unknown): string | null {
   return keys.length === 1 ? keys[0]! : null;
 }
 
-/** The field and named key a ledger path is read under. */
+/**
+ * The field and named key a ledger path is read under. A metadata key with a
+ * field of its own (`key`) is read on that field, any other key on the keyed
+ * field with no key.
+ */
 function fieldOfPath(
   path: string,
   fields: TFilterFields
@@ -462,11 +720,15 @@ function fieldOfPath(
 
   if (keyed) {
     const variant = keyed[1] === 'metadata' ? 'metadata' : 'balanceByAsset';
-    const field = Object.keys(fields).find(
+    const key = keyed[2]!;
+    const ids = Object.keys(fields).filter(
       (one) => fields[one]?.variant === variant
     );
+    const field =
+      ids.find((one) => fields[one]?.key === key) ??
+      ids.find((one) => fields[one]?.key === undefined);
 
-    return field ? { field, key: keyed[2]! } : null;
+    return field ? { field, key } : null;
   }
 
   return fields[path] && !isKeyedVariant(fields[path].variant)
@@ -511,9 +773,16 @@ function leafOf(
   const body = part[op];
   const path = onlyKey(body);
 
-  return operator && path !== null && isRecord(body)
-    ? { operator, path, raw: body[path] }
-    : null;
+  if (!operator || path === null || !isRecord(body)) {
+    return null;
+  }
+
+  // `{"$exists": {"metadata": "<key>"}}`: the presence of one metadata key.
+  return op === '$exists' &&
+    path === 'metadata' &&
+    typeof body[path] === 'string'
+    ? { operator, path: `metadata[${body[path]}]`, raw: '' }
+    : { operator, path, raw: body[path] };
 }
 
 const textOf = (raw: unknown): string | null =>
@@ -587,11 +856,28 @@ function nodeOf(part: unknown, fields: TFilterFields): TFilterNode | null {
 
   const items = Array.isArray(leaf.raw) ? leaf.raw.map(textOf) : null;
   const text = textOf(leaf.raw);
+  // A metadata value the text alone would write as another JSON: a bool, or
+  // a bound written as a decimal string (an unsigned key's).
+  const format: TFilterKeyedFormat | null =
+    fields[target.field]?.variant !== 'metadata'
+      ? null
+      : typeof leaf.raw === 'boolean'
+        ? 'bool'
+        : typeof leaf.raw === 'string' &&
+            isBound(leaf.operator) &&
+            /^\d+$/.test(leaf.raw)
+          ? 'decimalString'
+          : null;
   const value: TFilterValue | null =
     target.key !== null
       ? text === null
         ? null
-        : { kind: 'keyed', key: target.key, text }
+        : {
+            kind: 'keyed',
+            key: target.key,
+            text,
+            ...(format && { format }),
+          }
       : items
         ? items.every((one): one is string => one !== null)
           ? { kind: 'list', items }
@@ -606,9 +892,11 @@ function nodeOf(part: unknown, fields: TFilterFields): TFilterNode | null {
         id: filterNodeId(),
         field: target.field,
         operator: leaf.operator,
-        value: takesNoValue(leaf.operator)
-          ? filterValueFor(fields[target.field], leaf.operator)
-          : value,
+        value: !takesNoValue(leaf.operator)
+          ? value
+          : value.kind === 'keyed'
+            ? { ...value, text: '' }
+            : filterValueFor(fields[target.field], leaf.operator),
       }
     : null;
 }
@@ -729,7 +1017,12 @@ function conditionMatches(
     return cleanItems(text.split(',')).includes(String(actual));
   }
 
-  const expected = scalarOf(text, field, operator);
+  const expected = scalarOf(
+    text,
+    field,
+    operator,
+    value.kind === 'keyed' ? value.format : undefined
+  );
   const compare = compareNumbers(actual, expected);
 
   switch (operator) {
@@ -789,3 +1082,159 @@ export const filterMatches = (
   fields: TFilterFields,
   read: (path: string) => unknown
 ): boolean => writtenMatches(node, fields, read) ?? true;
+
+/** A day on a calendar, in no time zone. `month` counts from 1. */
+export type TFilterDay = { year: number; month: number; day: number };
+
+const ZONE_CLOCKS = new Map<string, Intl.DateTimeFormat>();
+
+/** The wall clock of an instant in a time zone, to the second. */
+function zoneClock(instant: number, timeZone: string) {
+  let clock = ZONE_CLOCKS.get(timeZone);
+
+  if (!clock) {
+    clock = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hourCycle: 'h23',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    });
+    ZONE_CLOCKS.set(timeZone, clock);
+  }
+
+  const parts = Object.fromEntries(
+    clock
+      .formatToParts(instant)
+      .filter((part) => part.type !== 'literal')
+      .map((part) => [part.type, Number(part.value)])
+  );
+
+  return {
+    year: parts.year!,
+    month: parts.month!,
+    day: parts.day!,
+    hour: parts.hour!,
+    minute: parts.minute!,
+    second: parts.second!,
+  };
+}
+
+/** The day an instant falls on in a time zone. */
+export function filterDayOf(instant: Date, timeZone: string): TFilterDay {
+  const { year, month, day } = zoneClock(instant.getTime(), timeZone);
+
+  return { year, month, day };
+}
+
+/**
+ * How far a time zone's wall clock is ahead of UTC at an instant, in
+ * milliseconds: negative west of UTC.
+ */
+function zoneOffset(instant: number, timeZone: string): number {
+  const clock = zoneClock(instant, timeZone);
+  const wall = Date.UTC(
+    clock.year,
+    clock.month - 1,
+    clock.day,
+    clock.hour,
+    clock.minute,
+    clock.second
+  );
+
+  return wall - Math.floor(instant / 1000) * 1000;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * The first instant of a day in a time zone: its midnight, or, where the
+ * clock skips midnight, the instant the clock moves into the day. Each
+ * offset the zone has around the day gives one candidate; the first one that
+ * falls on the day is its start.
+ */
+export function filterDayStart(day: TFilterDay, timeZone: string): Date {
+  const midnight = Date.UTC(day.year, day.month - 1, day.day);
+  const starts = [midnight - DAY_MS, midnight, midnight + DAY_MS]
+    .map((near) => midnight - zoneOffset(near, timeZone))
+    .filter((start) => {
+      const clock = zoneClock(start, timeZone);
+
+      return (
+        clock.year === day.year &&
+        clock.month === day.month &&
+        clock.day === day.day
+      );
+    });
+
+  return new Date(Math.min(...starts));
+}
+
+/**
+ * The last millisecond of a day in a time zone: the next day's start less
+ * 1 ms, so a day of 23 or 25 hours ends where its clock does.
+ */
+export function filterDayEnd(day: TFilterDay, timeZone: string): Date {
+  const next = new Date(Date.UTC(day.year, day.month - 1, day.day + 1));
+
+  return new Date(
+    filterDayStart(
+      {
+        year: next.getUTCFullYear(),
+        month: next.getUTCMonth() + 1,
+        day: next.getUTCDate(),
+      },
+      timeZone
+    ).getTime() - 1
+  );
+}
+
+/**
+ * A range of whole days as two instants (RFC 3339): the first day from its
+ * start, the last to its end, so a one-day range holds that whole day.
+ */
+export const filterDayRange = (
+  from: TFilterDay,
+  to: TFilterDay,
+  timeZone: string
+): Extract<TFilterValue, { kind: 'instants' }> => ({
+  kind: 'instants',
+  from: filterDayStart(from, timeZone).toISOString(),
+  to: filterDayEnd(to, timeZone).toISOString(),
+});
+
+/**
+ * One day as one bound, in signed Unix microseconds. A bound that holds the
+ * day (`≥`, `≤`) or leaves it out (`<`, `>`) takes the start or the end of
+ * the day, so a day picked is a whole day. The end is its last microsecond.
+ */
+export function filterDayMicros(
+  day: TFilterDay,
+  operator: TFilterOperator,
+  timeZone: string
+): string {
+  const isEnd = operator === 'gt' || operator === 'lte';
+  const edge = isEnd
+    ? filterDayEnd(day, timeZone)
+    : filterDayStart(day, timeZone);
+
+  return String(edge.getTime() * 1000 + (isEnd ? 999 : 0));
+}
+
+/**
+ * The day a calendar's pick names. A calendar gives a day as a `Date` at its
+ * midnight on the browser's clock: its fields on that clock are the day, not
+ * an instant.
+ */
+export const filterDayOfPick = (picked: Date): TFilterDay => ({
+  year: picked.getFullYear(),
+  month: picked.getMonth() + 1,
+  day: picked.getDate(),
+});
+
+/** A day as a calendar draws it: a `Date` at its midnight on the browser's clock. */
+export const filterPickOfDay = (day: TFilterDay): Date =>
+  new Date(day.year, day.month - 1, day.day);

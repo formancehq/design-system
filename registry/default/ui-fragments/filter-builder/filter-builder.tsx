@@ -14,6 +14,7 @@ import {
 } from '@/components/ui-fragments/filter-builder/filter-parts';
 import {
   createFilterGroup,
+  withFilterValue,
   type TFilterGroup,
   type TFilterJoin,
   type TFilterNode,
@@ -50,6 +51,7 @@ function FilterBuilder({
   suggestions,
   activeGroupId,
   onActiveGroupChange,
+  timeZone = 'UTC',
   className,
 }: TFilterEditorProps) {
   const scope = {
@@ -60,6 +62,7 @@ function FilterBuilder({
     suggestions,
     activeGroupId,
     onActiveGroupChange,
+    timeZone,
   };
 
   return (
@@ -252,7 +255,10 @@ function FilterRow({
           condition={node}
           fields={scope.fields}
           suggestions={scope.suggestions}
-          onChange={(value) => onChange({ ...node, value })}
+          timeZone={scope.timeZone}
+          onChange={(value) =>
+            onChange(withFilterValue(node, value, scope.fields))
+          }
           className="min-w-0 flex-1"
         />
       </div>
