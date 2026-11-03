@@ -1082,3 +1082,159 @@ export const filterMatches = (
   fields: TFilterFields,
   read: (path: string) => unknown
 ): boolean => writtenMatches(node, fields, read) ?? true;
+
+/** A day on a calendar, in no time zone. `month` counts from 1. */
+export type TFilterDay = { year: number; month: number; day: number };
+
+const ZONE_CLOCKS = new Map<string, Intl.DateTimeFormat>();
+
+/** The wall clock of an instant in a time zone, to the second. */
+function zoneClock(instant: number, timeZone: string) {
+  let clock = ZONE_CLOCKS.get(timeZone);
+
+  if (!clock) {
+    clock = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hourCycle: 'h23',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    });
+    ZONE_CLOCKS.set(timeZone, clock);
+  }
+
+  const parts = Object.fromEntries(
+    clock
+      .formatToParts(instant)
+      .filter((part) => part.type !== 'literal')
+      .map((part) => [part.type, Number(part.value)])
+  );
+
+  return {
+    year: parts.year!,
+    month: parts.month!,
+    day: parts.day!,
+    hour: parts.hour!,
+    minute: parts.minute!,
+    second: parts.second!,
+  };
+}
+
+/** The day an instant falls on in a time zone. */
+export function filterDayOf(instant: Date, timeZone: string): TFilterDay {
+  const { year, month, day } = zoneClock(instant.getTime(), timeZone);
+
+  return { year, month, day };
+}
+
+/**
+ * How far a time zone's wall clock is ahead of UTC at an instant, in
+ * milliseconds: negative west of UTC.
+ */
+function zoneOffset(instant: number, timeZone: string): number {
+  const clock = zoneClock(instant, timeZone);
+  const wall = Date.UTC(
+    clock.year,
+    clock.month - 1,
+    clock.day,
+    clock.hour,
+    clock.minute,
+    clock.second
+  );
+
+  return wall - Math.floor(instant / 1000) * 1000;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * The first instant of a day in a time zone: its midnight, or, where the
+ * clock skips midnight, the instant the clock moves into the day. Each
+ * offset the zone has around the day gives one candidate; the first one that
+ * falls on the day is its start.
+ */
+export function filterDayStart(day: TFilterDay, timeZone: string): Date {
+  const midnight = Date.UTC(day.year, day.month - 1, day.day);
+  const starts = [midnight - DAY_MS, midnight, midnight + DAY_MS]
+    .map((near) => midnight - zoneOffset(near, timeZone))
+    .filter((start) => {
+      const clock = zoneClock(start, timeZone);
+
+      return (
+        clock.year === day.year &&
+        clock.month === day.month &&
+        clock.day === day.day
+      );
+    });
+
+  return new Date(Math.min(...starts));
+}
+
+/**
+ * The last millisecond of a day in a time zone: the next day's start less
+ * 1 ms, so a day of 23 or 25 hours ends where its clock does.
+ */
+export function filterDayEnd(day: TFilterDay, timeZone: string): Date {
+  const next = new Date(Date.UTC(day.year, day.month - 1, day.day + 1));
+
+  return new Date(
+    filterDayStart(
+      {
+        year: next.getUTCFullYear(),
+        month: next.getUTCMonth() + 1,
+        day: next.getUTCDate(),
+      },
+      timeZone
+    ).getTime() - 1
+  );
+}
+
+/**
+ * A range of whole days as two instants (RFC 3339): the first day from its
+ * start, the last to its end, so a one-day range holds that whole day.
+ */
+export const filterDayRange = (
+  from: TFilterDay,
+  to: TFilterDay,
+  timeZone: string
+): Extract<TFilterValue, { kind: 'instants' }> => ({
+  kind: 'instants',
+  from: filterDayStart(from, timeZone).toISOString(),
+  to: filterDayEnd(to, timeZone).toISOString(),
+});
+
+/**
+ * One day as one bound, in signed Unix microseconds. A bound that holds the
+ * day (`≥`, `≤`) or leaves it out (`<`, `>`) takes the start or the end of
+ * the day, so a day picked is a whole day. The end is its last microsecond.
+ */
+export function filterDayMicros(
+  day: TFilterDay,
+  operator: TFilterOperator,
+  timeZone: string
+): string {
+  const isEnd = operator === 'gt' || operator === 'lte';
+  const edge = isEnd
+    ? filterDayEnd(day, timeZone)
+    : filterDayStart(day, timeZone);
+
+  return String(edge.getTime() * 1000 + (isEnd ? 999 : 0));
+}
+
+/**
+ * The day a calendar's pick names. A calendar gives a day as a `Date` at its
+ * midnight on the browser's clock: its fields on that clock are the day, not
+ * an instant.
+ */
+export const filterDayOfPick = (picked: Date): TFilterDay => ({
+  year: picked.getFullYear(),
+  month: picked.getMonth() + 1,
+  day: picked.getDate(),
+});
+
+/** A day as a calendar draws it: a `Date` at its midnight on the browser's clock. */
+export const filterPickOfDay = (day: TFilterDay): Date =>
+  new Date(day.year, day.month - 1, day.day);

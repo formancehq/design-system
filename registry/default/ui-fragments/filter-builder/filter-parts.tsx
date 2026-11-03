@@ -9,7 +9,12 @@ import {
   createFilterSubgroup,
   filterConditionLabel,
   filterConditionOperators,
+  filterDayMicros,
+  filterDayOf,
+  filterDayOfPick,
+  filterDayRange,
   filterKeyType,
+  filterPickOfDay,
   filterValueFor,
   withFilterValue,
   type TFilterCondition,
@@ -111,6 +116,12 @@ type TFilterEditorProps = {
   activeGroupId?: string;
   /** A press inside a group makes it the target: the innermost group. */
   onActiveGroupChange?: (groupId: string) => void;
+  /**
+   * The time zone a picked day is read in (an IANA name): the instants it
+   * writes, the day the calendar marks and the days a range shows. `UTC` by
+   * default; never the browser's zone.
+   */
+  timeZone?: string;
   className?: string;
 };
 
@@ -122,6 +133,7 @@ type TFilterScope = Pick<
   fields: TFilterFields;
   depth: number;
   maxDepth: number;
+  timeZone: string;
 };
 
 const DAY_OPTIONS: Intl.DateTimeFormatOptions = {
@@ -129,20 +141,6 @@ const DAY_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   year: 'numeric',
 };
-
-/** The days in the reader's time zone: in the browser only. */
-const DAY_FORMAT = new Intl.DateTimeFormat('en-US', DAY_OPTIONS);
-
-/**
- * The days on the server and in the hydration pass, which must draw the same
- * text and know no reader's time zone.
- */
-const UTC_DAY_FORMAT = new Intl.DateTimeFormat('en-US', {
-  ...DAY_OPTIONS,
-  timeZone: 'UTC',
-});
-
-const subscribeToNothing = () => () => {};
 
 const COUNT_FORMAT = new Intl.NumberFormat('en-US');
 
@@ -394,6 +392,8 @@ type TFilterValueInputProps = {
   fields: TFilterFields;
   onChange: (value: TFilterValue) => void;
   suggestions?: TFilterEditorProps['suggestions'];
+  /** The time zone a picked day is read in. */
+  timeZone: string;
   /** Given to each control the value takes: one, or two for a keyed value. */
   className?: string;
 };
@@ -410,6 +410,7 @@ function FilterValueInput(props: TFilterValueInputProps) {
         <FilterRangeInput
           value={value}
           onChange={props.onChange}
+          timeZone={props.timeZone}
           className={props.className}
         />
       );
@@ -438,6 +439,7 @@ function FilterKeyedInput({
   fields,
   onChange,
   suggestions,
+  timeZone,
   className,
   value,
 }: TFilterValueInputProps & {
@@ -484,6 +486,7 @@ function FilterKeyedInput({
             micros={value.text}
             operator={condition.operator}
             onMicros={onText}
+            timeZone={timeZone}
             className={className}
           />
         ) : (
@@ -751,26 +754,37 @@ function FilterSuggestionList({
 }
 
 /**
- * A range of whole days. The first day counts from its start and the last to
- * its end, so a one-day pick holds that whole day.
+ * A range of whole days in the consumer's time zone. The first day counts
+ * from its start and the last to its end, so a one-day pick holds that whole
+ * day.
  */
 function FilterRangeInput({
   value,
   onChange,
+  timeZone,
   className,
 }: {
   value: Extract<TFilterValue, { kind: 'instants' }>;
   onChange: (value: TFilterValue) => void;
+  timeZone: string;
   className?: string;
 }) {
-  const selected: DateRange | undefined =
-    value.from && value.to
-      ? { from: new Date(value.from), to: new Date(value.to) }
-      : undefined;
-  const days = React.useSyncExternalStore(
-    subscribeToNothing,
-    () => DAY_FORMAT,
-    () => UTC_DAY_FORMAT
+  const from = new Date(value.from);
+  const to = new Date(value.to);
+  const isReadable =
+    value.from !== '' &&
+    value.to !== '' &&
+    !Number.isNaN(from.getTime()) &&
+    !Number.isNaN(to.getTime());
+  const selected: DateRange | undefined = isReadable
+    ? {
+        from: filterPickOfDay(filterDayOf(from, timeZone)),
+        to: filterPickOfDay(filterDayOf(to, timeZone)),
+      }
+    : undefined;
+  const days = React.useMemo(
+    () => new Intl.DateTimeFormat('en-US', { ...DAY_OPTIONS, timeZone }),
+    [timeZone]
   );
 
   return (
@@ -788,8 +802,8 @@ function FilterRangeInput({
         >
           <CalendarIcon className="size-4 shrink-0" />
           <span className="truncate">
-            {selected?.from && selected.to
-              ? `${days.format(selected.from)} – ${days.format(selected.to)}`
+            {isReadable
+              ? `${days.format(from)} – ${days.format(to)}`
               : 'Pick a range of days'}
           </span>
         </Button>
@@ -800,21 +814,15 @@ function FilterRangeInput({
           numberOfMonths={2}
           selected={selected}
           onSelect={(range) => {
-            if (!range?.from) {
-              onChange({ kind: 'instants', from: '', to: '' });
-
-              return;
-            }
-
-            const from = new Date(range.from);
-            const to = new Date(range.to ?? range.from);
-            from.setHours(0, 0, 0, 0);
-            to.setHours(23, 59, 59, 999);
-            onChange({
-              kind: 'instants',
-              from: from.toISOString(),
-              to: to.toISOString(),
-            });
+            onChange(
+              range?.from
+                ? filterDayRange(
+                    filterDayOfPick(range.from),
+                    filterDayOfPick(range.to ?? range.from),
+                    timeZone
+                  )
+                : { kind: 'instants', from: '', to: '' }
+            );
           }}
         />
       </PopoverContent>
@@ -823,28 +831,30 @@ function FilterRangeInput({
 }
 
 /**
- * One day, written as signed Unix microseconds (a `datetime` metadata key). A
- * bound that holds the day (`≥`, `≤`) or leaves it out (`<`, `>`) takes the
- * start or the end of the day, so a day picked is a whole day.
+ * One day in the consumer's time zone, written as signed Unix microseconds (a
+ * `datetime` metadata key). A bound that holds the day (`≥`, `≤`) or leaves
+ * it out (`<`, `>`) takes the start or the end of the day, so a day picked is
+ * a whole day.
  */
 function FilterDayInput({
   micros,
   operator,
   onMicros,
+  timeZone,
   className,
 }: {
   micros: string;
   operator: TFilterOperator;
   onMicros: (micros: string) => void;
+  timeZone: string;
   className?: string;
 }) {
-  const selected = /^-?\d+$/.test(micros.trim())
+  const instant = /^-?\d+$/.test(micros.trim())
     ? new Date(Math.floor(Number(micros) / 1000))
     : undefined;
-  const days = React.useSyncExternalStore(
-    subscribeToNothing,
-    () => DAY_FORMAT,
-    () => UTC_DAY_FORMAT
+  const days = React.useMemo(
+    () => new Intl.DateTimeFormat('en-US', { ...DAY_OPTIONS, timeZone }),
+    [timeZone]
   );
 
   return (
@@ -857,37 +867,26 @@ function FilterDayInput({
           aria-label="Value"
           className={cn(
             'justify-start gap-2 font-sans font-normal',
-            !selected && 'text-muted-foreground',
+            !instant && 'text-muted-foreground',
             className
           )}
         >
           <CalendarIcon className="size-4 shrink-0" />
           <span className="truncate">
-            {selected ? days.format(selected) : 'Pick a day'}
+            {instant ? days.format(instant) : 'Pick a day'}
           </span>
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={selected}
+          selected={instant && filterPickOfDay(filterDayOf(instant, timeZone))}
           onSelect={(day) => {
-            if (!day) {
-              onMicros('');
-
-              return;
-            }
-
-            const edge = new Date(day);
-            const isEnd = operator === 'gt' || operator === 'lte';
-
-            if (isEnd) {
-              edge.setHours(23, 59, 59, 999);
-            } else {
-              edge.setHours(0, 0, 0, 0);
-            }
-
-            onMicros(String(edge.getTime() * 1000 + (isEnd ? 999 : 0)));
+            onMicros(
+              day
+                ? filterDayMicros(filterDayOfPick(day), operator, timeZone)
+                : ''
+            );
           }}
         />
       </PopoverContent>

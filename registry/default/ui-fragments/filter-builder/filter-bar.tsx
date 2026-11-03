@@ -54,6 +54,7 @@ function FilterBar({
   suggestions,
   activeGroupId,
   onActiveGroupChange,
+  timeZone = 'UTC',
   actions,
   className,
 }: TFilterBarProps) {
@@ -65,6 +66,7 @@ function FilterBar({
     suggestions,
     activeGroupId,
     onActiveGroupChange,
+    timeZone,
   };
   const add = (node: TFilterNode) =>
     onChange({ ...value, children: [...value.children, node] });
@@ -275,6 +277,7 @@ function FilterChip({
         condition={condition}
         fields={scope.fields}
         suggestions={scope.suggestions}
+        timeZone={scope.timeZone}
         onChange={(value) =>
           onChange(withFilterValue(condition, value, scope.fields))
         }

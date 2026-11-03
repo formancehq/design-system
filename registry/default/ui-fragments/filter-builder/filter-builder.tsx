@@ -51,6 +51,7 @@ function FilterBuilder({
   suggestions,
   activeGroupId,
   onActiveGroupChange,
+  timeZone = 'UTC',
   className,
 }: TFilterEditorProps) {
   const scope = {
@@ -61,6 +62,7 @@ function FilterBuilder({
     suggestions,
     activeGroupId,
     onActiveGroupChange,
+    timeZone,
   };
 
   return (
@@ -253,6 +255,7 @@ function FilterRow({
           condition={node}
           fields={scope.fields}
           suggestions={scope.suggestions}
+          timeZone={scope.timeZone}
           onChange={(value) =>
             onChange(withFilterValue(node, value, scope.fields))
           }
