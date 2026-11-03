@@ -1379,6 +1379,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/dropdown-menu-submenu.tsx',
       },
+      {
+        title: 'Plain Label',
+        component: lazy(
+          () => import('@/registry/default/examples/dropdown-menu-plain-label')
+        ),
+        sourceFile: 'registry/default/examples/dropdown-menu-plain-label.tsx',
+      },
     ],
   },
   eyebrow: {
