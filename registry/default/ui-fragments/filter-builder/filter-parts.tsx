@@ -1,6 +1,6 @@
 'use client';
 
-import { CalendarIcon, ListPlus } from 'lucide-react';
+import { CalendarIcon, Check, ChevronsUpDown, ListPlus } from 'lucide-react';
 import * as React from 'react';
 import type { DateRange } from 'react-day-picker';
 
@@ -19,6 +19,14 @@ import {
 import { cn } from '@/lib/utils';
 import { Button } from '@/registry/default/ui/button';
 import { Calendar } from '@/registry/default/ui/calendar';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/registry/default/ui/command';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -244,7 +252,81 @@ function FilterAddMenu({
   );
 }
 
-/** The field, then the operator. A new field starts a new condition. */
+/**
+ * The field: a searchable list. A field list can be long, so the reader types
+ * to find one. A new field starts a new condition.
+ */
+function FilterFieldPicker({
+  condition,
+  fields,
+  onChange,
+  className,
+}: {
+  condition: TFilterCondition;
+  fields: TFilterFields;
+  onChange: (condition: TFilterCondition) => void;
+  className?: string;
+}) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          type="button"
+          variant="outline"
+          role="combobox"
+          aria-label="Field"
+          aria-expanded={open}
+          className={cn('justify-between gap-2 px-3 font-normal', className)}
+        >
+          <span className="truncate">
+            {fields[condition.field]?.label ?? 'Select field'}
+          </span>
+          <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="p-0">
+        {/* The keyboard starts on the current field. */}
+        <Command defaultValue={fields[condition.field]?.label}>
+          <CommandInput placeholder="Search fields..." />
+          <CommandList>
+            <CommandEmpty>No fields found.</CommandEmpty>
+            <CommandGroup>
+              {Object.entries(fields).map(([key, one]) => (
+                <CommandItem
+                  key={key}
+                  // The search reads the label the reader sees, and the id.
+                  value={one.label}
+                  keywords={[key]}
+                  onSelect={() => {
+                    if (key !== condition.field) {
+                      onChange({
+                        ...createFilterCondition(fields, key),
+                        id: condition.id,
+                      });
+                    }
+                    setOpen(false);
+                  }}
+                >
+                  <span className="truncate">{one.label}</span>
+                  <Check
+                    className={cn(
+                      'ml-auto',
+                      key === condition.field ? 'opacity-100' : 'opacity-0'
+                    )}
+                  />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+/** The field, then the operator. */
 function FilterConditionSelects({
   condition,
   fields,
@@ -263,26 +345,12 @@ function FilterConditionSelects({
 
   return (
     <>
-      <Select
-        value={condition.field}
-        onValueChange={(next) =>
-          onChange({ ...createFilterCondition(fields, next), id: condition.id })
-        }
-      >
-        <SelectTrigger
-          aria-label="Field"
-          className={cn('font-mono text-xs uppercase', fieldClassName)}
-        >
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {Object.entries(fields).map(([key, one]) => (
-            <SelectItem key={key} value={key}>
-              {one.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <FilterFieldPicker
+        condition={condition}
+        fields={fields}
+        onChange={onChange}
+        className={fieldClassName}
+      />
       <Select
         value={condition.operator}
         onValueChange={(next) => {
@@ -297,12 +365,15 @@ function FilterConditionSelects({
           }
         }}
       >
-        <SelectTrigger aria-label="Operator" className={operatorClassName}>
+        <SelectTrigger
+          aria-label="Operator"
+          className={cn('lowercase', operatorClassName)}
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
           {operators.map((one) => (
-            <SelectItem key={one.value} value={one.value}>
+            <SelectItem key={one.value} value={one.value} className="lowercase">
               {one.label}
             </SelectItem>
           ))}

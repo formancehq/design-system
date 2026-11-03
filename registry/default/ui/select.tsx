@@ -6,6 +6,7 @@ import { Select as SelectPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { sectionLabelVariants } from '@/registry/default/ui/section-label';
 
 function Select({
   ...props
@@ -117,7 +118,7 @@ function SelectLabel({
   return (
     <SelectPrimitive.Label
       data-slot="select-label"
-      className={cn('text-muted-foreground px-2 py-1.5 text-xs', className)}
+      className={cn(sectionLabelVariants(), 'px-2 py-1.5', className)}
       {...props}
     />
   );

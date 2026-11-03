@@ -1,0 +1,78 @@
+<ComponentPreview name="section-label" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/section-label
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority radix-ui
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="section-label" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { SectionLabel } from '@/components/ui/section-label'
+```
+
+```tsx
+<SectionLabel asChild>
+  <h3>Getting Started</h3>
+</SectionLabel>
+```
+
+`SectionLabel` is the heading over a group of items: a filter panel section, a
+detail panel section, a list of links. It is sans, uppercase, `text-xs` and
+muted. Use `asChild` to give it the heading level of the page.
+
+It has no padding. The container sets it, so the label aligns with the text of
+its items.
+
+The group labels of `Command`, `Select`, `DropdownMenu`, `ContextMenu` and
+`Menubar` use the same recipe, `sectionLabelVariants`. Inside these components,
+use their own label slot (`CommandGroup heading`, `SelectLabel`,
+`DropdownMenuLabel`, …), not `SectionLabel`: the slot connects the label to its
+group for screen readers.
+
+`Eyebrow` is different: it is mono and names a product area, such as
+`SidebarSectionLabel` in the sidebar. `SectionLabel` names a list of items.
+
+## Examples
+
+### Detail Panel
+
+<ComponentPreview name="section-label-detail-panel" />
+
+### Group Headings
+
+<ComponentPreview name="section-label-group-headings" />

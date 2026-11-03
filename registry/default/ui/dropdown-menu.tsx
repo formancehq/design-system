@@ -1,10 +1,11 @@
 'use client';
 
+import { CheckIcon, ChevronRightIcon } from 'lucide-react';
 import { DropdownMenu as DropdownMenuPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
-import { CheckIcon, ChevronRightIcon } from 'lucide-react';
+import { sectionLabelVariants } from '@/registry/default/ui/section-label';
 
 function DropdownMenu({
   ...props
@@ -171,7 +172,8 @@ function DropdownMenuLabel({
       data-slot="dropdown-menu-label"
       data-inset={inset}
       className={cn(
-        'text-muted-foreground px-1.5 py-1 text-xs font-medium data-inset:pl-7',
+        sectionLabelVariants(),
+        'px-1.5 py-1 data-inset:pl-7',
         className
       )}
       {...props}

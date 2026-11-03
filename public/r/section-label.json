@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "section-label",
+  "title": "Section Label",
+  "description": "The uppercase heading over a group of items in a list, menu, or panel.",
+  "dependencies": [
+    "class-variance-authority",
+    "radix-ui"
+  ],
+  "files": [
+    {
+      "path": "registry/default/ui/section-label.tsx",
+      "content": "import { cva } from 'class-variance-authority';\nimport { Slot as SlotPrimitive } from 'radix-ui';\nimport * as React from 'react';\n\nimport { cn } from '@/lib/utils';\n\n// The heading over a group of items: a command group, a select group, a menu\n// group, a filter panel section. Sans, not mono: `Eyebrow` is the mono label\n// that names a product area, this one names a list of items. It carries no\n// padding: the container aligns it with its items.\nconst sectionLabelVariants = cva(\n  'text-muted-foreground font-sans text-xs font-medium tracking-widest uppercase'\n);\n\ntype TSectionLabelProps = React.ComponentProps<'div'> & {\n  asChild?: boolean;\n};\n\nfunction SectionLabel({\n  className,\n  asChild = false,\n  ...props\n}: TSectionLabelProps) {\n  const Comp = asChild ? SlotPrimitive.Slot : 'div';\n\n  return (\n    <Comp\n      data-slot=\"section-label\"\n      className={cn(sectionLabelVariants(), className)}\n      {...props}\n    />\n  );\n}\n\nexport { SectionLabel, sectionLabelVariants, type TSectionLabelProps };\n",
+      "type": "registry:ui"
+    }
+  ],
+  "type": "registry:ui"
+}

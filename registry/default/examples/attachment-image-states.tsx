@@ -10,14 +10,13 @@ import {
   AttachmentMedia,
   AttachmentTitle,
 } from '@/registry/default/ui/attachment';
+import { SectionLabel } from '@/registry/default/ui/section-label';
 
 export default function AttachmentImageStates() {
   return (
     <div className="flex w-full max-w-md flex-col gap-8">
       <div className="flex w-full flex-col gap-3">
-        <div className="px-1 text-xs font-medium text-muted-foreground">
-          Horizontal
-        </div>
+        <SectionLabel className="px-1">Horizontal</SectionLabel>
         <div className="flex flex-col gap-2">
           <Attachment state="idle" className="w-full">
             <AttachmentMedia variant="image">
@@ -110,9 +109,7 @@ export default function AttachmentImageStates() {
         </div>
       </div>
       <div className="flex w-full flex-col gap-2">
-        <div className="px-1 text-xs font-medium text-muted-foreground">
-          Vertical
-        </div>
+        <SectionLabel className="px-1">Vertical</SectionLabel>
         <AttachmentGroup className="w-full">
           <Attachment state="idle" orientation="vertical">
             <AttachmentMedia variant="image">

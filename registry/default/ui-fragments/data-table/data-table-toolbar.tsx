@@ -63,7 +63,7 @@ export function DataTableToolbar<TData extends RowData>({
   return (
     <div className="flex flex-wrap items-center justify-between gap-2">
       <div
-        className="flex flex-wrap items-center gap-2 *:flex-wrap"
+        className="flex min-w-0 flex-wrap items-center gap-2 *:flex-wrap sm:flex-1"
         data-testid="datatable-toolbar-left"
       >
         {toolbarLeft}
@@ -116,7 +116,7 @@ export function DataTableToolbar<TData extends RowData>({
       </div>
 
       <div
-        className="flex flex-wrap items-center gap-2 *:flex-wrap sm:ms-auto sm:justify-end"
+        className="flex flex-wrap items-center gap-2 *:flex-wrap sm:ms-auto sm:shrink-0 sm:self-start sm:justify-end"
         data-testid="datatable-toolbar-right"
       >
         {toolbarRight}

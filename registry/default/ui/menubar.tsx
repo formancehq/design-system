@@ -5,6 +5,7 @@ import { Menubar as MenubarPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { sectionLabelVariants } from '@/registry/default/ui/section-label';
 
 function Menubar({
   className,
@@ -173,7 +174,8 @@ function MenubarLabel({
       data-slot="menubar-label"
       data-inset={inset}
       className={cn(
-        'px-2 py-1.5 text-sm font-medium data-[inset]:pl-8',
+        sectionLabelVariants(),
+        'px-2 py-1.5 data-[inset]:pl-8',
         className
       )}
       {...props}

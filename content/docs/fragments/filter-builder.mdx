@@ -9,6 +9,8 @@ One tree, two layouts. Both take the same `TFilterGroup` and write the same ledg
 
 In both layouts, **Add filter** is the one way to add to a group. It opens the fields, and a condition starts on the field picked. While `maxDepth` allows, **Group** is the last item: a group of the other join, with one condition in it.
 
+The field of a condition is a searchable list: type to find a field by its label or its id. A new field starts a new condition.
+
 ### FilterBuilder
 
 Each group is drawn the way the data table's filters are drawn today: "Where" on the first row, the group's join on the second, and the same join on each row after it. A nested group is a framed block in its parent's row, with its own join. Rows reorder by drag inside their group.

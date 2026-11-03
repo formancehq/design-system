@@ -245,7 +245,7 @@ function FilterRow({
           condition={node}
           fields={scope.fields}
           onChange={onChange}
-          fieldClassName="w-32 shrink-0"
+          fieldClassName="w-40 shrink-0"
           operatorClassName="w-32 shrink-0"
         />
         <FilterValueInput

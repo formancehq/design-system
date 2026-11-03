@@ -266,7 +266,7 @@ function FilterChip({
         fields={scope.fields}
         onChange={onChange}
         fieldClassName={cn(CHIP_SEGMENT, 'gap-1')}
-        operatorClassName={cn(CHIP_SEGMENT, 'text-muted-foreground gap-1')}
+        operatorClassName={cn(CHIP_SEGMENT, 'gap-1')}
       />
       <FilterValueInput
         condition={condition}
