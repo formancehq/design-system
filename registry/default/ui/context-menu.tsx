@@ -5,6 +5,7 @@ import { ContextMenu as ContextMenuPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { cn } from '@/lib/utils';
+import { sectionLabelVariants } from '@/registry/default/ui/section-label';
 
 function ContextMenu({
   ...props
@@ -196,7 +197,8 @@ function ContextMenuLabel({
       data-slot="context-menu-label"
       data-inset={inset}
       className={cn(
-        'text-foreground px-2 py-1.5 text-sm font-medium data-[inset]:pl-8',
+        sectionLabelVariants(),
+        'px-2 py-1.5 data-[inset]:pl-8',
         className
       )}
       {...props}

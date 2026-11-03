@@ -588,6 +588,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     source: 'custom',
     hidePreview: true,
   },
+  'components/section-label': {
+    registryName: 'section-label',
+    description:
+      'The uppercase heading over a group of items in a list, menu, or panel.',
+    sourceFile: 'registry/default/ui/section-label.tsx',
+    source: 'custom',
+  },
   'components/empty': {
     registryName: 'empty',
     description: 'Empty state placeholder with media, title, and description.',
@@ -1293,6 +1300,7 @@ export const docsConfig: TDocsConfig = {
         },
         { title: 'Resizable', href: '/docs/components/resizable' },
         { title: 'Scroll Area', href: '/docs/components/scroll-area' },
+        { title: 'Section Label', href: '/docs/components/section-label' },
         { title: 'Select', href: '/docs/components/select' },
         { title: 'Separator', href: '/docs/components/separator' },
         { title: 'Sheet', href: '/docs/components/sheet' },

@@ -1422,6 +1422,30 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'section-label': {
+    component: lazy(
+      () => import('@/registry/default/demos/section-label-demo')
+    ),
+    sourceFile: 'registry/default/demos/section-label-demo.tsx',
+    examples: [
+      {
+        title: 'Detail Panel',
+        component: lazy(
+          () => import('@/registry/default/examples/section-label-detail-panel')
+        ),
+        sourceFile: 'registry/default/examples/section-label-detail-panel.tsx',
+      },
+      {
+        title: 'Group Headings',
+        component: lazy(
+          () =>
+            import('@/registry/default/examples/section-label-group-headings')
+        ),
+        sourceFile:
+          'registry/default/examples/section-label-group-headings.tsx',
+      },
+    ],
+  },
   form: {
     component: lazy(() => import('@/registry/default/demos/form-demo')),
     sourceFile: 'registry/default/demos/form-demo.tsx',
