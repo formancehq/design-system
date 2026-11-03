@@ -9,14 +9,13 @@ import {
   AttachmentTitle,
   AttachmentTrigger,
 } from '@/registry/default/ui/attachment';
+import { SectionLabel } from '@/registry/default/ui/section-label';
 
 export default function AttachmentContentOnly() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-8">
       <div className="flex w-full flex-col gap-2">
-        <div className="px-1 text-xs font-medium text-muted-foreground">
-          Title
-        </div>
+        <SectionLabel className="px-1">Title</SectionLabel>
         <div className="flex flex-col gap-3">
           <Attachment className="w-full">
             <AttachmentContent>
@@ -54,9 +53,7 @@ export default function AttachmentContentOnly() {
         </div>
       </div>
       <div className="flex w-full flex-col gap-2">
-        <div className="px-1 text-xs font-medium text-muted-foreground">
-          Title and description
-        </div>
+        <SectionLabel className="px-1">Title and description</SectionLabel>
         <div className="flex flex-col gap-3">
           <Attachment className="w-full">
             <AttachmentContent>
