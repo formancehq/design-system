@@ -2020,6 +2020,7 @@
       "registryDependencies": [
         "https://ds.formance.com/r/button.json",
         "https://ds.formance.com/r/calendar.json",
+        "https://ds.formance.com/r/command.json",
         "https://ds.formance.com/r/dropdown-menu.json",
         "https://ds.formance.com/r/input.json",
         "https://ds.formance.com/r/popover.json",
