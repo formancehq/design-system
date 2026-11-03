@@ -1,6 +1,6 @@
 'use client';
 
-import { GripVertical, Plus, Trash2, X } from 'lucide-react';
+import { ArrowLeftRight, GripVertical, Plus, Trash2, X } from 'lucide-react';
 import * as React from 'react';
 
 import {
@@ -31,8 +31,9 @@ import {
 // The filter, always on screen above a table: the same tree as the
 // `FilterBuilder`, drawn inline. A condition is one chip of segments (field,
 // operator, value, remove); a group is a framed run of chips; between two
-// children of a group sits its join, and a click on it switches the whole
-// group between `and` and `or`. A group left empty is removed with it.
+// children of a group sits its join, an outlined pill with a swap icon, and a
+// click on it switches the whole group between `and` and `or`. A group left
+// empty is removed with it.
 
 type TFilterBarProps = TFilterEditorProps & {
   /** The toolbar's other controls, after Reset in the same row: Inspect query. */
@@ -150,13 +151,14 @@ function FilterBarNodes({
               {index > 0 && (
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="outline"
                   caseSensitive
-                  title={`Join this group with ${otherJoin}`}
-                  className="text-muted-foreground px-1.5 text-xs"
+                  title={`Switch this group to ${otherJoin}`}
+                  className="text-muted-foreground hover:text-foreground h-6 gap-1 rounded-full px-2 text-xs"
                   onClick={() => onChange({ ...group, join: otherJoin })}
                 >
                   {group.join}
+                  <ArrowLeftRight className="size-3" />
                 </Button>
               )}
               <SortableItem value={node.id} className="inline-flex max-w-full">
