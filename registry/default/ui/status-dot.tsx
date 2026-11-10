@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 const statusDotVariants = cva('inline-block size-2.5 shrink-0 rounded-full', {
   variants: {
     variant: {
-      valid: 'bg-green-500',
+      valid: 'bg-[oklch(59.6%_0.145_163.225)]',
       destructive: 'bg-red-500',
       info: 'bg-sky-500',
       warning: 'bg-amber-500',
