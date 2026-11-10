@@ -16,7 +16,7 @@ export function Step({ className, ...props }: React.ComponentProps<'h3'>) {
   return (
     <h3
       className={cn(
-        'step relative mt-8 first:mt-0 scroll-m-20 text-base font-semibold tracking-tight',
+        'step relative mt-8 first:mt-0 scroll-m-20 text-base font-medium tracking-tight',
         className
       )}
       {...props}
