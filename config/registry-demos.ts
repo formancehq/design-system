@@ -1786,6 +1786,19 @@ const registryDemos: Record<string, TRegistryDemo> = {
       },
     ],
   },
+  'status-dot': {
+    component: lazy(() => import('@/registry/default/demos/status-dot-demo')),
+    sourceFile: 'registry/default/demos/status-dot-demo.tsx',
+    examples: [
+      {
+        title: 'Label',
+        component: lazy(
+          () => import('@/registry/default/examples/status-dot-label')
+        ),
+        sourceFile: 'registry/default/examples/status-dot-label.tsx',
+      },
+    ],
+  },
   switch: {
     component: lazy(() => import('@/registry/default/demos/switch-demo')),
     sourceFile: 'registry/default/demos/switch-demo.tsx',

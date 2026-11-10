@@ -1,0 +1,63 @@
+<ComponentPreview name="status-dot" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/status-dot
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install class-variance-authority
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="status-dot" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { StatusDot } from '@/components/ui/status-dot'
+```
+
+```tsx
+<StatusDot variant="valid">Active</StatusDot>
+```
+
+## Examples
+
+### Label
+
+<ComponentPreview name="status-dot-label" />
+
+## Best practices
+
+- Use the same variants as [Badge Status](/docs/components/badge-status): `valid`, `destructive`, `info`, `warning`, `zinc` (default) and `outline`. Use the dot where a badge takes too much space, for example in a table cell or a list row.
+- The dot is static. Do not add a spinner next to it.
+- Give the status as text next to the dot: the colour must not be the only signal. Do not add text such as `Status: Active`: the label gives the status.
+- When the dot has no text, give it a name: `<StatusDot variant="valid" role="img" aria-label="Active" />`.

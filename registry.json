@@ -1240,6 +1240,19 @@
       ]
     },
     {
+      "name": "status-dot",
+      "type": "registry:ui",
+      "title": "Status Dot",
+      "description": "A static dot indicator of status, with the Badge Status variants.",
+      "dependencies": ["class-variance-authority"],
+      "files": [
+        {
+          "path": "registry/default/ui/status-dot.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "endpoint",
       "type": "registry:ui",
       "title": "Endpoint",
