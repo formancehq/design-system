@@ -126,6 +126,15 @@ export function generateHttpie(op: TResolvedOperation): string {
     parts.push(`  ${shellSingleQuote(formatValue(`${k}==`, v))}`);
   for (const [k, v] of Object.entries(op.headers)) parts.push(`  "${k}:${v}"`);
   if (op.bodyFile) parts.push(`  < ${shellSingleQuote(op.bodyFile)}`);
+  else if (
+    typeof op.body === 'object' &&
+    op.body !== null &&
+    !Array.isArray(op.body)
+  )
+    for (const [k, v] of Object.entries(op.body))
+      parts.push(
+        `  ${shellSingleQuote(typeof v === 'string' ? `${k}=${v}` : formatValue(`${k}:=`, v))}`
+      );
   else if (op.body !== undefined)
     parts.push(`  --raw ${shellSingleQuote(formatValue('', op.body))}`);
   if (op.rawArgs) parts.push(`  ${op.rawArgs}`);

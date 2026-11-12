@@ -26,7 +26,7 @@ generateSdk(request); // await sdk.ledger.v2.listAccounts({ … }), or '' withou
 - A GET sends each query parameter with `--data-urlencode` (curl) or `name==value` (HTTPie).
 - A JSON value (an object or array query value, or the body) is compact when `name=<json>` fits in 80 characters. Otherwise it is indented over several lines inside the single quotes.
 - A single quote in a value is escaped for a POSIX shell (`'\''`).
-- A body gives `-H "Content-Type: application/json"` and `-d '<json>'` (curl) or `--raw '<json>'` (HTTPie). `bodyFile` gives `-d @file` or `< file`. `rawArgs` is appended as is.
+- A body gives `-H "Content-Type: application/json"` and `-d '<json>'` (curl). In HTTPie, each top-level field of an object body is a request item: `'name=value'` for a string, `'name:=<json>'` for anything else; a body that is not an object falls back to `--raw '<json>'`. `bodyFile` gives `-d @file` or `< file`. `rawArgs` is appended as is.
 - The SDK snippet uses the public `@formance/formance-sdk` shape: `sdk.<module>.<version>.<method>`.
 
 ## Operations index

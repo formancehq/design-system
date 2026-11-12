@@ -166,19 +166,36 @@ describe('generateHttpie', () => {
     );
   });
 
-  it('sends a body with --raw and escapes single quotes', () => {
-    const command = generateHttpie(createTransaction);
+  it('sends body fields as request items and escapes single quotes', () => {
+    const command = generateHttpie({
+      ...createTransaction,
+      body: {
+        reference: "Alice's tx",
+        amount: 100,
+        metadata: { note: "Alice's payment" },
+      },
+    });
 
     expect(command).toBe(
       [
         `http POST "$FORMANCE_API_URL/api/ledger/v2/main/transactions" \\`,
-        `  --raw '{"metadata":{"note":"Alice'\\''s payment"}}'`,
+        `  'reference=Alice'\\''s tx' \\`,
+        `  'amount:=100' \\`,
+        `  'metadata:={"note":"Alice'\\''s payment"}'`,
       ].join('\n')
     );
     execFileSync('sh', ['-n', '-c', command]);
-    expect(shellWords(command).at(-1)).toBe(
-      `{"metadata":{"note":"Alice's payment"}}`
-    );
+    expect(shellWords(command).slice(-3)).toEqual([
+      "reference=Alice's tx",
+      'amount:=100',
+      `metadata:={"note":"Alice's payment"}`,
+    ]);
+  });
+
+  it('sends a body that is not an object with --raw', () => {
+    expect(
+      generateHttpie({ ...createTransaction, body: [{ id: 1 }] })
+    ).toContain(`  --raw '[{"id":1}]'`);
   });
 });
 
