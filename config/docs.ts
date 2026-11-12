@@ -1033,7 +1033,7 @@ export const componentMeta: Record<string, TComponentMeta> = {
   'fragments/api-snippet': {
     registryName: 'api-snippet',
     description:
-      'Tabbed API call reference (curl, HTTPie, TypeScript SDK, optional fctl) rendered from a Formance stack OpenAPI operationId.',
+      'Composed, tabbed code reference for an API call, with pure curl, HTTPie and TypeScript SDK generators.',
     sourceFile: 'registry/default/ui-fragments/api-snippet.tsx',
     source: 'custom',
   },

@@ -1,27 +1,49 @@
-import { ApiSnippet } from '@/components/ui-fragments/api-snippet';
+import {
+  ApiSnippet,
+  ApiSnippetTab,
+} from '@/components/ui-fragments/api-snippet';
+import {
+  generateCurl,
+  generateHttpie,
+  resolveOperation,
+  type TStackOperationsIndex,
+} from '@/components/ui-fragments/_api-snippet/generators';
 import membershipOperationsData from '@/registry/default/lib/membership-operations.json';
-import { type TStackOperationsIndex } from '@/components/ui-fragments/_api-snippet/generators';
+import { Endpoint } from '@/registry/default/ui/endpoint';
 
-/*
- * Membership/cloud API: pass the membership operations index via `operations`.
- * These operations declare no SDK, so the TypeScript tab is omitted — only
- * curl, HTTPie, and fctl render.
- */
-const membershipOperations = (membershipOperationsData as TStackOperationsIndex)
-  .operations;
+const { operations } = membershipOperationsData as TStackOperationsIndex;
+
+const request = resolveOperation(operations.getStack!, {
+  params: { organizationId: 'acme', stackId: 'sandbox' },
+  baseUrl: '$MEMBERSHIP_API_URL',
+  headers: { Authorization: 'Bearer $TOKEN' },
+});
 
 export default function ApiSnippetMembership() {
   return (
     <div className="w-full">
       <ApiSnippet
-        operation="getStack"
-        operations={membershipOperations}
-        params={{ organizationId: 'acme', stackId: 'sandbox' }}
-        baseUrl="$MEMBERSHIP_API_URL"
-        headers={{ Authorization: 'Bearer $TOKEN' }}
-        fctl="fctl stack show sandbox --organization acme"
-        tabs={['curl', 'httpie', 'fctl']}
-      />
+        footer={<Endpoint method={request.method} path={request.path} />}
+      >
+        <ApiSnippetTab
+          value="curl"
+          label="curl"
+          language="bash"
+          code={generateCurl(request)}
+        />
+        <ApiSnippetTab
+          value="httpie"
+          label="HTTPie"
+          language="bash"
+          code={generateHttpie(request)}
+        />
+        <ApiSnippetTab
+          value="fctl"
+          label="fctl"
+          language="bash"
+          code="fctl stack show sandbox --organization acme"
+        />
+      </ApiSnippet>
     </div>
   );
 }

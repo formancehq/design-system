@@ -1,24 +1,40 @@
-import { ApiSnippet } from '@/components/ui-fragments/api-snippet';
+import {
+  ApiSnippet,
+  ApiSnippetTab,
+} from '@/components/ui-fragments/api-snippet';
+import {
+  generateCurl,
+  resolveOperation,
+  type TStackOperationsIndex,
+} from '@/components/ui-fragments/_api-snippet/generators';
+import stackOperationsData from '@/registry/default/lib/stack-operations.json';
+import { Endpoint } from '@/registry/default/ui/endpoint';
+
+const { operations } = stackOperationsData as TStackOperationsIndex;
+
+const request = resolveOperation(operations.v2CreateTransaction!, {
+  params: { ledger: 'testing' },
+  body: {
+    script: {
+      plain: 'send [USD/2 100] (source = @world allocating to @alice)',
+    },
+  },
+  rawArgs: '--fail-with-body',
+});
 
 export default function ApiSnippetRawArgs() {
   return (
     <div className="w-full">
-      {/*
-       * `rawArgs` appends extra flags to the generated command. Flags are
-       * tool-specific, so scope the example to the matching tab — here
-       * `--fail-with-body` is curl-only (it makes curl surface error responses).
-       */}
       <ApiSnippet
-        operation="v2CreateTransaction"
-        params={{ ledger: 'testing' }}
-        body={{
-          script: {
-            plain: 'send [USD/2 100] (source = @world allocating to @alice)',
-          },
-        }}
-        rawArgs="--fail-with-body"
-        tabs={['curl']}
-      />
+        footer={<Endpoint method={request.method} path={request.path} />}
+      >
+        <ApiSnippetTab
+          value="curl"
+          label="curl"
+          language="bash"
+          code={generateCurl(request)}
+        />
+      </ApiSnippet>
     </div>
   );
 }

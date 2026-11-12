@@ -1,18 +1,52 @@
-import { ApiSnippet } from '@/components/ui-fragments/api-snippet';
+import {
+  ApiSnippet,
+  ApiSnippetTab,
+} from '@/components/ui-fragments/api-snippet';
+import {
+  generateCurl,
+  generateHttpie,
+  type TResolvedOperation,
+} from '@/components/ui-fragments/_api-snippet/generators';
+import { Endpoint } from '@/registry/default/ui/endpoint';
+
+const request: TResolvedOperation = {
+  method: 'GET',
+  baseUrl: '$FORMANCE_API_URL',
+  path: '/api/ledger/v2/testing/volumes',
+  query: [
+    ['endTime', '2024-01-15T00:00:00Z'],
+    [
+      'filter',
+      {
+        $and: [
+          { $match: { account: 'users:' } },
+          { $gte: { 'balance[USD/2]': 0 } },
+        ],
+      },
+    ],
+  ],
+  headers: {},
+};
 
 export default function ApiSnippetMethodPath() {
   return (
     <div className="w-full">
-      {/*
-       * Document an endpoint that isn't in an operations index by passing
-       * `method` and `path` directly. The path may include a query string —
-       * HTTPie splits it into `==` params and the endpoint footer drops it.
-       */}
       <ApiSnippet
-        method="GET"
-        path="/api/ledger/v2/{ledger}/volumes?endTime=2024-01-15T00:00:00Z"
-        params={{ ledger: 'testing' }}
-      />
+        footer={<Endpoint method={request.method} path={request.path} />}
+      >
+        <ApiSnippetTab
+          value="curl"
+          label="curl"
+          language="bash"
+          code={generateCurl(request)}
+        />
+        <ApiSnippetTab
+          value="httpie"
+          label="HTTPie"
+          language="bash"
+          code={generateHttpie(request)}
+        />
+      </ApiSnippet>
     </div>
   );
 }

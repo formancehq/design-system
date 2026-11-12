@@ -13,6 +13,7 @@
     "format": "prettier \"**/*.{ts,tsx,md,json}\" --check",
     "format:fix": "prettier \"**/*.{ts,tsx,md,json}\" --write",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "knip": "knip",
     "check:docs": "tsx scripts/check-docs-integrity.ts",
     "registry:build": "shadcn build",
@@ -84,6 +85,7 @@
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.12",
     "typescript": "^5.9.3",
+    "vitest": "^5.1.0",
     "yaml": "^2.9.0"
   }
 }
