@@ -38,6 +38,6 @@ export const StatusDot = ({
     {...props}
   >
     <span aria-hidden className={statusDotVariants({ variant })} />
-    {children}
+    {children && <span className="first-letter:uppercase">{children}</span>}
   </span>
 );
