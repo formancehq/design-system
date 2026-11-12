@@ -1,5 +1,33 @@
 <ComponentPreview name="stepper" peekCode />
 
+<Section
+  title="Vertical"
+  description='Set orientation="vertical" to stack the steps beside the content. Arrow up and down move between the steps.'
+>
+  <ComponentPreview name="stepper-vertical" />
+</Section>
+
+<Section
+  title="Guide"
+  description="A static list of numbered steps, each with its command. Set nonInteractive and leave value unset: every step stays inactive, so none looks done."
+>
+  <ComponentPreview name="stepper-guide" />
+</Section>
+
+<Section
+  title="Checklist"
+  description="Each step unlocks the next once it is confirmed. Pass your own icons to StepperIndicator for the locked and done states, and put the separator in a column next to the text."
+>
+  <ComponentPreview name="stepper-checklist" />
+</Section>
+
+<Section
+  title="Summary"
+  description="A read-only list of what is left to do, inside an empty state. Only the first step is current."
+>
+  <ComponentPreview name="stepper-summary" />
+</Section>
+
 ## Installation
 
 <Tabs defaultValue="cli">

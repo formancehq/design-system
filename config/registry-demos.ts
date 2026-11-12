@@ -2462,6 +2462,36 @@ const registryDemos: Record<string, TRegistryDemo> = {
   stepper: {
     component: lazy(() => import('@/registry/default/demos/stepper-demo')),
     sourceFile: 'registry/default/demos/stepper-demo.tsx',
+    examples: [
+      {
+        title: 'Vertical',
+        component: lazy(
+          () => import('@/registry/default/examples/stepper-vertical')
+        ),
+        sourceFile: 'registry/default/examples/stepper-vertical.tsx',
+      },
+      {
+        title: 'Guide',
+        component: lazy(
+          () => import('@/registry/default/examples/stepper-guide')
+        ),
+        sourceFile: 'registry/default/examples/stepper-guide.tsx',
+      },
+      {
+        title: 'Checklist',
+        component: lazy(
+          () => import('@/registry/default/examples/stepper-checklist')
+        ),
+        sourceFile: 'registry/default/examples/stepper-checklist.tsx',
+      },
+      {
+        title: 'Summary',
+        component: lazy(
+          () => import('@/registry/default/examples/stepper-summary')
+        ),
+        sourceFile: 'registry/default/examples/stepper-summary.tsx',
+      },
+    ],
   },
   sortable: {
     component: lazy(() => import('@/registry/default/demos/sortable-demo')),
