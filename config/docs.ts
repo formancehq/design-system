@@ -613,6 +613,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/badge-status.tsx',
     source: 'custom',
   },
+  'components/status-dot': {
+    registryName: 'status-dot',
+    description:
+      'A static dot indicator of status, with the Badge Status variants.',
+    sourceFile: 'registry/default/ui/status-dot.tsx',
+    source: 'custom',
+  },
   'components/endpoint': {
     registryName: 'endpoint',
     description:
@@ -1310,6 +1317,7 @@ export const docsConfig: TDocsConfig = {
         { title: 'Sortable', href: '/docs/components/sortable' },
         { title: 'Spinner', href: '/docs/components/spinner' },
         { title: 'Sonner', href: '/docs/components/sonner' },
+        { title: 'Status Dot', href: '/docs/components/status-dot' },
         { title: 'Stepper', href: '/docs/components/stepper' },
         { title: 'Switch', href: '/docs/components/switch' },
         { title: 'Table', href: '/docs/components/table' },
