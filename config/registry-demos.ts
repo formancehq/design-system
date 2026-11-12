@@ -2539,7 +2539,7 @@ const registryDemos: Record<string, TRegistryDemo> = {
           'registry/default/examples/api-snippet-clip-code-height.tsx',
       },
       {
-        title: 'Method and path',
+        title: 'Hand-built request',
         component: lazy(
           () => import('@/registry/default/examples/api-snippet-method-path')
         ),

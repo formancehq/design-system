@@ -1924,12 +1924,10 @@
       "name": "api-snippet",
       "type": "registry:component",
       "title": "API Snippet",
-      "description": "Tabbed API call reference (curl, HTTPie, TypeScript SDK, fctl) rendered from an OpenAPI operationId. Defaults to the stack operations index; pass a different `operations` index and select tabs via the `tabs` prop for other APIs (e.g. membership/cloud).",
+      "description": "Composed, tabbed code reference for an API call: the parent passes any number of tabs (value, label, language, code) plus free header and footer content. Ships pure curl, HTTPie and TypeScript SDK generators that take a resolved operation description.",
       "registryDependencies": [
-        "https://ds.formance.com/r/endpoint.json",
         "https://ds.formance.com/r/code-snippet.json",
         "https://ds.formance.com/r/tabs.json",
-        "https://ds.formance.com/r/stack-operations.json",
         "https://ds.formance.com/r/copy-button.json"
       ],
       "files": [

@@ -1,24 +1,63 @@
-import { ApiSnippet } from '@/components/ui-fragments/api-snippet';
+import {
+  ApiSnippet,
+  ApiSnippetTab,
+} from '@/components/ui-fragments/api-snippet';
+import {
+  generateCurl,
+  generateHttpie,
+  generateSdk,
+  resolveOperation,
+  type TStackOperationsIndex,
+} from '@/components/ui-fragments/_api-snippet/generators';
+import stackOperationsData from '@/registry/default/lib/stack-operations.json';
+import { Endpoint } from '@/registry/default/ui/endpoint';
 
-/*
- * Stack API: `operation` resolves against the bundled stack operations index
- * (the default), so curl, HTTPie, the TypeScript SDK, and the fctl tab all
- * render.
- */
+const { operations } = stackOperationsData as TStackOperationsIndex;
+
+const request = resolveOperation(operations.v2CreateTransaction!, {
+  params: { ledger: 'testing' },
+  body: {
+    script: {
+      plain: 'send [USD/2 100] (source = @world allocating to @alice)',
+    },
+  },
+  headers: { Authorization: 'Bearer $AUTH_TOKEN' },
+});
+
 export default function ApiSnippetStack() {
   return (
     <div className="w-full">
       <ApiSnippet
-        operation="v2CreateTransaction"
-        params={{ ledger: 'testing' }}
-        body={{
-          script: {
-            plain: 'send [USD/2 100] (source = @world allocating to @alice)',
-          },
-        }}
-        headers={{ Authorization: 'Bearer $AUTH_TOKEN' }}
-        fctl="fctl ledger transactions num script.num --ledger testing"
-      />
+        footer={<Endpoint method={request.method} path={request.path} />}
+        header={
+          <span className="text-sm font-medium">Create a transaction</span>
+        }
+      >
+        <ApiSnippetTab
+          value="fctl"
+          label="fctl"
+          language="bash"
+          code="fctl ledger transactions num script.num --ledger testing"
+        />
+        <ApiSnippetTab
+          value="curl"
+          label="curl"
+          language="bash"
+          code={generateCurl(request)}
+        />
+        <ApiSnippetTab
+          value="httpie"
+          label="HTTPie"
+          language="bash"
+          code={generateHttpie(request)}
+        />
+        <ApiSnippetTab
+          value="sdk"
+          label="TypeScript"
+          language="typescript"
+          code={generateSdk(request)}
+        />
+      </ApiSnippet>
     </div>
   );
 }

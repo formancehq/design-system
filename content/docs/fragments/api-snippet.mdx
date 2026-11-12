@@ -1,90 +1,153 @@
 <ComponentPreview name="api-snippet" peekCode />
 
-A tabbed API call reference rendered from a Formance OpenAPI **operationId**. Provide an operation (`v2CreateLedger`, `v2GetLedger`, …), optional `params`, `body`, and `headers`, and the component generates curl, HTTPie, and TypeScript SDK snippets. Pass `fctl` to add a tab with a hand-authored fctl one-liner.
+`ApiSnippet` is a composed, tabbed code reference for an API call. It knows no API: the parent passes any number of `<ApiSnippetTab value label language code />` children, plus free `header` and `footer` content (a title, an `Endpoint`, a version, setup steps). The component keeps the copy button for the active tab, the tab switch and the code-height clipping. A single tab shows no tab switch.
 
-The operations index ships alongside the fragment as `lib/stack-operations.json` (a separate registry item, `stack-operations`). Re-generate it with `pnpm extract:operations` from the design-system repo when the stack OpenAPI spec changes.
+The tab code comes from pure generators, exported from `_api-snippet/generators`. Each generator takes a resolved operation description and returns a string:
 
-To render snippets for another API, pass a different index via the `operations` prop. A membership/cloud index ships as `lib/membership-operations.json` (`membership-operations`), generated with `pnpm extract:membership-operations`. Membership operations have no public TypeScript SDK, so the `sdk` tab is omitted for them.
+```ts
+type TResolvedOperation = {
+  method: string;
+  baseUrl: string;
+  path: string; // path parameters already applied
+  query: [string, unknown][]; // ordered; objects and arrays are JSON
+  headers: Record<string, string>;
+  body?: unknown;
+  bodyFile?: string;
+  rawArgs?: string;
+  pathParams?: Record<string, string>; // SDK arguments
+  sdk?: { module: string; method: string }; // SDK call, e.g. ledgerV2.listAccounts
+};
 
-Use the `tabs` prop to choose which tabs render and in what order (e.g. `tabs={['curl', 'httpie', 'fctl']}`). A requested tab is only shown when it has content: `'fctl'` needs the `fctl` prop, and `'sdk'` needs the operation to declare an SDK module/method.
+generateCurl(request); // curl -G "<url>" --data-urlencode 'name=value' …
+generateHttpie(request); // http "<url>" 'name==value' …
+generateSdk(request); // await sdk.ledger.v2.listAccounts({ … }), or '' without `sdk`
+```
 
-To document an endpoint that isn't in an operations index, pass `method` and `path` directly instead of `operation` (the `path` may include a query string). Use `bodyFile` to reference the request body from a file (`curl -d @file.json`, `http < file.json`) rather than inlining it, and `rawArgs` to append extra flags to the generated curl/HTTPie command.
+- A GET sends each query parameter with `--data-urlencode` (curl) or `name==value` (HTTPie).
+- A JSON value (an object or array query value, or the body) is compact when `name=<json>` fits in 80 characters. Otherwise it is indented over several lines inside the single quotes.
+- A single quote in a value is escaped for a POSIX shell (`'\''`).
+- A body gives `-H "Content-Type: application/json"` and `-d '<json>'` (curl). In HTTPie, each top-level field of an object body is a request item: `'name=value'` for a string, `'name:=<json>'` for anything else; a body that is not an object falls back to `--raw '<json>'`. `bodyFile` gives `-d @file` or `< file`. `rawArgs` is appended as is.
+- The SDK snippet uses the public `@formance/formance-sdk` shape: `sdk.<module>.<version>.<method>`.
 
-The active tab is uncontrolled by default (seeded by `defaultTab`). Pass `value` + `onValueChange` to control it from the host — e.g. to persist the curl/HTTPie choice across multiple snippets on a page.
+## Operations index
+
+`resolveOperation(operation, { params, query, body, bodyFile, rawArgs, baseUrl, headers })` turns an entry of an operations index into a `TResolvedOperation`. The stack index ships as `lib/stack-operations.json` (registry item `stack-operations`, re-generated with `pnpm extract:operations`). A membership/cloud index ships as `lib/membership-operations.json` (`membership-operations`, `pnpm extract:membership-operations`); its entries declare no SDK.
+
+```tsx
+const { operations } = stackOperationsData as TStackOperationsIndex;
+const request = resolveOperation(operations.v2CreateLedger!, {
+  params: { ledger: 'main' },
+  body,
+  headers: { Authorization: 'Bearer $AUTH_TOKEN' },
+});
+
+<ApiSnippet
+  clipCodeHeight
+  footer={<Endpoint method={request.method} path={request.path} />}
+>
+  <ApiSnippetTab
+    value="curl"
+    label="curl"
+    language="bash"
+    code={generateCurl(request)}
+  />
+  <ApiSnippetTab
+    value="httpie"
+    label="HTTPie"
+    language="bash"
+    code={generateHttpie(request)}
+  />
+  <ApiSnippetTab
+    value="sdk"
+    label="TypeScript"
+    language="typescript"
+    code={generateSdk(request)}
+  />
+</ApiSnippet>;
+```
+
+The active tab is uncontrolled by default (seeded by `defaultValue`, else the first tab). Pass `value` + `onValueChange` to control it from the host.
 
 <Section
   title="GET request"
-  description="Use without a body. The fctl tab appears whenever the fctl prop is set."
+  description="A GET with ordered query parameters: curl uses -G and one --data-urlencode per parameter, and a short JSON filter stays compact."
 >
   <ComponentPreview name="api-snippet-get" />
 </Section>
 
 <Section
   title="Without fctl tab"
-  description="An fctl one-liner is provided, but `tabs` omits it — restricting tabs hides a tab whose content is otherwise available. Omitting the fctl prop entirely has the same effect."
+  description="Pass only the tabs you want. Here curl, HTTPie and the TypeScript SDK."
 >
   <ComponentPreview name="api-snippet-no-fctl" />
 </Section>
 
 <Section
   title="Custom tabs"
-  description="Use the tabs prop to pick which tabs render and in what order. Here only fctl and curl are shown, with fctl first and selected by default."
+  description="The children set the tabs and their order. Here fctl and curl, with defaultValue selecting fctl."
 >
   <ComponentPreview name="api-snippet-tabs" />
 </Section>
 
 <Section
   title="Stack API"
-  description="The default: operation resolves against the bundled stack operations index, so curl, HTTPie, the TypeScript SDK, and fctl all render."
+  description="A request resolved from the stack operations index, with a header title, an Endpoint footer and an fctl tab."
 >
   <ComponentPreview name="api-snippet-stack" />
 </Section>
 
 <Section
   title="Membership API"
-  description="Pass the membership operations index via the operations prop. Membership operations declare no SDK, so the TypeScript tab is omitted automatically."
+  description="A request resolved from the membership operations index. Its operations declare no SDK, so there is no TypeScript tab."
 >
   <ComponentPreview name="api-snippet-membership" />
 </Section>
 
 <Section
+  title="fctl only"
+  description="A single tab: the tab switch is not shown."
+>
+  <ComponentPreview name="api-snippet-fctl-only" />
+</Section>
+
+<Section
   title="SDK as default tab"
-  description="Set defaultTab='sdk' when the SDK call is the canonical example."
+  description="Set defaultValue='sdk' when the SDK call is the canonical example."
 >
   <ComponentPreview name="api-snippet-sdk-default" />
 </Section>
 
 <Section
   title="Clipped code height"
-  description="Set clipCodeHeight when the snippet lives inside a constrained surface (dialog, sidebar) so a tall body scrolls inside the box instead of expanding the parent layout."
+  description="Set clipCodeHeight when the snippet lives inside a constrained surface (dialog, sidebar), so a tall body scrolls inside the box."
 >
   <ComponentPreview name="api-snippet-clip-code-height" />
 </Section>
 
 <Section
-  title="Method and path"
-  description="Pass method and path directly to document an endpoint that isn't in an operations index. The path may include a query string, which HTTPie splits into == params and the endpoint footer drops."
+  title="Hand-built request"
+  description="Build a TResolvedOperation by hand for an endpoint that isn't in an operations index. The long $and filter is indented."
 >
   <ComponentPreview name="api-snippet-method-path" />
 </Section>
 
 <Section
   title="Body from a file"
-  description="Use bodyFile to reference the request body from a file instead of inlining it — curl renders -d @file and HTTPie renders < file."
+  description="bodyFile references the request body from a file: curl renders -d @file and HTTPie renders < file."
 >
   <ComponentPreview name="api-snippet-body-file" />
 </Section>
 
 <Section
   title="Raw args"
-  description="rawArgs appends extra flags to the generated curl/HTTPie command, e.g. --fail-with-body."
+  description="rawArgs appends extra flags to the generated command, e.g. --fail-with-body for curl."
 >
   <ComponentPreview name="api-snippet-raw-args" />
 </Section>
 
 <Section
   title="Controlled tabs"
-  description="Pass value + onValueChange to control the active tab from the host. Here two snippets share one tab state, so switching curl/HTTPie on one switches the other — the pattern for persisting the reader's HTTP-client choice across a page."
+  description="Pass value + onValueChange to control the active tab from the host. Here two snippets share one tab state."
 >
   <ComponentPreview name="api-snippet-controlled" />
 </Section>
