@@ -270,7 +270,7 @@ function createStore(
       const state = stateRef.current;
       if (state) {
         const newStep: StepState = { value, completed, disabled };
-        state.steps.set(value, newStep);
+        state.steps = new Map(state.steps).set(value, newStep);
         onValueAdd?.(value);
         store.notify();
       }
@@ -278,7 +278,9 @@ function createStore(
     removeStep: (value) => {
       const state = stateRef.current;
       if (state) {
-        state.steps.delete(value);
+        const steps = new Map(state.steps);
+        steps.delete(value);
+        state.steps = steps;
         onValueRemove?.(value);
         store.notify();
       }
@@ -289,7 +291,7 @@ function createStore(
         const step = state.steps.get(value);
         if (step) {
           const updatedStep: StepState = { ...step, completed, disabled };
-          state.steps.set(value, updatedStep);
+          state.steps = new Map(state.steps).set(value, updatedStep);
 
           if (completed !== step.completed) {
             onValueComplete?.(value, completed);
