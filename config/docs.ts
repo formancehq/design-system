@@ -581,6 +581,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
     sourceFile: 'registry/default/ui/formance-logo.tsx',
     source: 'custom',
   },
+  'brand/formance-thinking-logo': {
+    registryName: 'formance-thinking-logo',
+    description:
+      'The Formance mark as a loader: a dot cloud that morphs between the logo and a turning swirl.',
+    sourceFile: 'registry/default/ui/formance-thinking-logo.tsx',
+    source: 'custom',
+  },
   'components/eyebrow': {
     registryName: 'eyebrow',
     description: 'A small label component with a colored square indicator.',
@@ -1420,7 +1427,13 @@ export const docsConfig: TDocsConfig = {
     },
     {
       title: 'Brand',
-      items: [{ title: 'Formance Logo', href: '/docs/brand/formance-logo' }],
+      items: [
+        { title: 'Formance Logo', href: '/docs/brand/formance-logo' },
+        {
+          title: 'Formance Thinking Logo',
+          href: '/docs/brand/formance-thinking-logo',
+        },
+      ],
     },
   ],
 };

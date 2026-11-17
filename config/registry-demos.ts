@@ -1000,6 +1000,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         component: lazy(() => import('@/registry/default/examples/chat-files')),
         sourceFile: 'registry/default/examples/chat-files.tsx',
       },
+      {
+        title: 'Thinking logo',
+        component: lazy(
+          () => import('@/registry/default/examples/chat-thinking-logo')
+        ),
+        sourceFile: 'registry/default/examples/chat-thinking-logo.tsx',
+      },
     ],
   },
   'prompt-input': {
@@ -2174,6 +2181,12 @@ const registryDemos: Record<string, TRegistryDemo> = {
         sourceFile: 'registry/default/examples/formance-icon-colors.tsx',
       },
     ],
+  },
+  'formance-thinking-logo': {
+    component: lazy(
+      () => import('@/registry/default/demos/formance-thinking-logo-demo')
+    ),
+    sourceFile: 'registry/default/demos/formance-thinking-logo-demo.tsx',
   },
   empty: {
     component: lazy(() => import('@/registry/default/demos/empty-demo')),
