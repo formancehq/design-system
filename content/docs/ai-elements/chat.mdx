@@ -51,6 +51,12 @@ A turn can carry AI SDK file parts. The person sends a statement and a photo, an
 
 <ComponentPreview name="chat-files" />
 
+## Thinking logo
+
+While the reply is `submitted`, the agent has no token to show yet. A [Formance Thinking Logo](/docs/brand/formance-thinking-logo) takes the place of its avatar. When the first token arrives, the reply replaces it, with the Formance icon as the avatar.
+
+<ComponentPreview name="chat-thinking-logo" />
+
 ## AI SDK helper
 
 To build without a model, write the conversation as a script with `createChat` from `@shadcn/helpers/ai-sdk`. Each agent turn streams reasoning, a tool call, and a reply. `chat.next()` fills the field with the next message of the script. When the script has no more turns, the string `fallback` is the reply.

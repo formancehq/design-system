@@ -1,0 +1,66 @@
+<ComponentPreview name="formance-thinking-logo" peekCode />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+
+<TabsContent value="cli">
+
+```bash
+npx shadcn@latest add @formance/formance-thinking-logo
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="formance-thinking-logo" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { FormanceThinkingLogo } from '@/components/ui/formance-thinking-logo'
+```
+
+```tsx
+<FormanceThinkingLogo size={32} />
+```
+
+The mark is a cloud of dots drawn on a canvas. It opens on the Formance logo,
+dissolves into a swirl that turns faster at its center, and gathers back into
+the logo once per cycle of 7.2 seconds. It is the one animation for every agent
+state: thinking, searching, working and waiting all show it. Use it where an
+agent or a long request is working, in place of a spinner.
+
+`size` is the width and height in pixels. The dots are baked from the logo
+artwork once, so the component draws without loading any image. The ink is
+`emerald-700` on a light theme and `emerald-300` on a dark one, read from the
+`dark` class on the root element. With reduced motion, it draws the logo as one
+still frame. The animation stops while the canvas is off screen or the tab is
+hidden.
+
+## In a Chat
+
+Show the mark as the avatar of the agent while the reply is `submitted`: the
+request is sent and no token has arrived yet. When the first token arrives, the
+reply takes its place. Refer to [Chat](/docs/ai-elements/chat#thinking-logo).
+
+Keep the `Spinner` in [Trace](/docs/components/trace) lines and markers. At
+16px the mark does not read, and a turn can have several running lines at once.

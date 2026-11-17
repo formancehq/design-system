@@ -751,6 +751,19 @@
       ]
     },
     {
+      "name": "formance-thinking-logo",
+      "type": "registry:ui",
+      "title": "Formance Thinking Logo",
+      "description": "The Formance mark as a loader: a dot cloud that morphs between the logo and a turning swirl.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/default/ui/formance-thinking-logo.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",
