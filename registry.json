@@ -508,7 +508,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "A modal dialog component built on Radix UI.",
-      "dependencies": ["lucide-react", "radix-ui"],
+      "dependencies": ["class-variance-authority", "lucide-react", "radix-ui"],
       "files": [
         {
           "path": "registry/default/ui/dialog.tsx",
@@ -546,7 +546,7 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "A card container component with variants.",
-      "dependencies": ["class-variance-authority"],
+      "dependencies": ["class-variance-authority", "radix-ui"],
       "files": [
         {
           "path": "registry/default/ui/card.tsx",
@@ -1120,7 +1120,22 @@
           "path": "registry/default/ui/progress.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "cssVars": {
+        "theme": {
+          "animate-progress-indeterminate": "progress-indeterminate 1.5s ease-in-out infinite"
+        }
+      },
+      "css": {
+        "@keyframes progress-indeterminate": {
+          "from": {
+            "transform": "translateX(-100%)"
+          },
+          "to": {
+            "transform": "translateX(300%)"
+          }
+        }
+      }
     },
     {
       "name": "resizable",
@@ -1514,6 +1529,7 @@
       "title": "Stepper",
       "description": "A multi-step wizard component with validation.",
       "dependencies": ["lucide-react", "radix-ui"],
+      "registryDependencies": ["https://ds.formance.com/r/spinner.json"],
       "files": [
         {
           "path": "registry/default/ui/stepper.tsx",

@@ -102,3 +102,25 @@ import { Button } from '@/components/ui/button'
 ### As Child
 
 <ComponentPreview name="button-as-child" />
+
+### Wrap
+
+Set `wrap` to let a long label go on more than one line. The button grows in height, and the text aligns to the start. Use it for a full sentence, for example a suggested prompt. Set `caseSensitive` to keep the case of the sentence.
+
+`wrap` has an effect on the `sm`, `md` and `lg` sizes. It has no effect on the icon sizes.
+
+<ComponentPreview name="button-wrap" />
+
+## API reference
+
+### Button
+
+| Prop            | Type                                                                                 | Default     | Description                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------ | ----------- | ---------------------------------------------------------------------------------------------- |
+| `variant`       | `"primary" \| "secondary" \| "outline" \| "ghost" \| "link" \| "destructive" \| ...` | `"primary"` | The visual treatment. See the examples for all the values.                                     |
+| `size`          | `"sm" \| "md" \| "lg" \| "icon-xs" \| "icon-sm" \| "icon-md" \| "icon-lg" \| "icon-xl"` | `"md"`      | The height and the padding.                                                                    |
+| `caseSensitive` | `boolean`                                                                            | `false`     | Keep the case of the label. By default, the label is in uppercase.                             |
+| `wrap`          | `boolean`                                                                            | `false`     | Let the label go on more than one line. The height grows. The minimum height is the size's height. |
+| `notClickable`  | `boolean`                                                                            | `false`     | Remove the pointer events and the focus ring.                                                  |
+| `loading`       | `boolean`                                                                            | `false`     | Show a spinner after the label.                                                                |
+| `asChild`       | `boolean`                                                                            | `false`     | Render the child, for example a link.                                                          |

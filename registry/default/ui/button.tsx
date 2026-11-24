@@ -59,11 +59,37 @@ const buttonVariants = cva(
         true: 'normal-case',
         false: 'uppercase',
       },
+      wrap: {
+        true: 'whitespace-normal [&_svg]:shrink-0',
+      },
     },
+    compoundVariants: [
+      {
+        wrap: true,
+        size: ['sm', 'md', 'lg'],
+        className: 'h-auto justify-start text-left',
+      },
+      {
+        wrap: true,
+        size: 'sm',
+        className: 'min-h-7 py-[calc((--spacing(7)-1lh)/2-1px)]',
+      },
+      {
+        wrap: true,
+        size: 'md',
+        className: 'min-h-8 py-[calc((--spacing(8)-1lh)/2-1px)]',
+      },
+      {
+        wrap: true,
+        size: 'lg',
+        className: 'min-h-9 py-[calc((--spacing(9)-1lh)/2-1px)]',
+      },
+    ],
     defaultVariants: {
       variant: 'primary',
       notClickable: false,
       caseSensitive: false,
+      wrap: false,
       size: 'md',
     },
   }
@@ -81,6 +107,7 @@ function Button({
   size,
   notClickable,
   caseSensitive,
+  wrap,
   asChild = false,
   loading = false,
   ...props
@@ -91,7 +118,7 @@ function Button({
     <Comp
       data-slot="button"
       className={cn(
-        buttonVariants({ variant, size, notClickable, caseSensitive }),
+        buttonVariants({ variant, size, notClickable, caseSensitive, wrap }),
         className
       )}
       {...props}

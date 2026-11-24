@@ -48,3 +48,32 @@ import { Progress } from '@/components/ui/progress'
 ```tsx
 <Progress value={72} />
 ```
+
+## Examples
+
+### Indeterminate
+
+Omit `value` when you do not know how much work remains. The bar then shows a
+segment that slides in a loop. When the user prefers reduced motion, the
+segment stays in place and pulses slowly.
+
+Set `value={0}` to show an empty bar for work that has not started.
+
+<ComponentPreview name="progress-indeterminate" />
+
+```tsx
+<Progress aria-label="Importing transactions" />
+```
+
+## API reference
+
+### Progress
+
+| Prop        | Type                          | Default | Description                                                         |
+| ----------- | ----------------------------- | ------- | ------------------------------------------------------------------- |
+| `value`     | `number \| null \| undefined` | -       | The progress, from `0` to `max`. Omit it for an indeterminate bar. |
+| `max`       | `number`                      | `100`   | The value of a full bar.                                            |
+| `className` | `string`                      | -       | More classes for the track.                                         |
+
+The root and the indicator have `data-state`: `indeterminate`, `loading` or
+`complete`.

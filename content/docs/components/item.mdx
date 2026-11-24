@@ -66,3 +66,27 @@ import {
   </Item>
 </ItemGroup>
 ```
+
+`ItemDescription` shows two lines at most. To show the full text, add `className="line-clamp-none"`.
+
+## Examples
+
+<Section
+  title="Selectable"
+  description="Render each item as a button with asChild to make a list of selectable rows. The row shows the hover style. Set aria-current on the selected row in a list of buttons, or aria-selected to true on the selected option in a listbox."
+>
+  <ComponentPreview name="item-selectable" />
+</Section>
+
+## API reference
+
+### Item
+
+| Prop        | Type                                 | Default     | Description                                                                                                             |
+| ----------- | ------------------------------------ | ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `variant`   | `"default" \| "outline" \| "muted"`  | `"default"` | The visual treatment.                                                                                                   |
+| `size`      | `"default" \| "sm"`                  | `"default"` | The padding and the gap.                                                                                                |
+| `asChild`   | `boolean`                            | `false`     | Render the child, for example an `a` or a `button`. An `a` or a `button` shows a hover style.                           |
+| `className` | `string`                             | -           | More classes for the item.                                                                                              |
+
+An item with `aria-current` (any value except `false`) or `aria-selected="true"` shows the selected style.

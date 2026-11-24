@@ -3,7 +3,8 @@
 import type { PossibleRef } from '@/lib/compose-refs';
 import { useComposedRefs } from '@/lib/compose-refs';
 import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { Spinner } from '@/registry/default/ui/spinner';
+import { Check, Pause, X } from 'lucide-react';
 import { Slot as SlotPrimitive } from 'radix-ui';
 import * as React from 'react';
 
@@ -100,7 +101,8 @@ type Direction = 'ltr' | 'rtl';
 type Orientation = 'horizontal' | 'vertical';
 type NavigationDirection = 'next' | 'prev';
 type ActivationMode = 'automatic' | 'manual';
-type DataState = 'inactive' | 'active' | 'completed';
+type TStepperStatus = 'running' | 'failed' | 'paused';
+type DataState = 'inactive' | 'active' | 'completed' | TStepperStatus;
 
 interface DivProps extends React.ComponentProps<'div'> {
   asChild?: boolean;
@@ -152,11 +154,14 @@ function getDataState(
   value: string | undefined,
   itemValue: string,
   stepState: StepState | undefined,
+  status: TStepperStatus | undefined,
   steps: Map<string, StepState>,
   variant: 'item' | 'separator' = 'item'
 ): DataState {
   const stepKeys = Array.from(steps.keys());
   const currentIndex = stepKeys.indexOf(itemValue);
+
+  if (status) return status;
 
   if (stepState?.completed) return 'completed';
 
@@ -679,6 +684,7 @@ function StepperList(props: StepperListProps) {
 interface StepperItemContextValue {
   value: string;
   stepState: StepState | undefined;
+  status: TStepperStatus | undefined;
 }
 
 const StepperItemContext = React.createContext<StepperItemContextValue | null>(
@@ -698,6 +704,7 @@ interface StepperItemProps extends DivProps {
   value: string;
   completed?: boolean;
   disabled?: boolean;
+  status?: TStepperStatus;
 }
 
 function StepperItem(props: StepperItemProps) {
@@ -705,6 +712,7 @@ function StepperItem(props: StepperItemProps) {
     value: itemValue,
     completed = false,
     disabled = false,
+    status,
     asChild,
     className,
     children,
@@ -731,14 +739,15 @@ function StepperItem(props: StepperItemProps) {
 
   const stepState = useStore((state) => state.steps.get(itemValue));
   const steps = useStore((state) => state.steps);
-  const dataState = getDataState(value, itemValue, stepState, steps);
+  const dataState = getDataState(value, itemValue, stepState, status, steps);
 
   const itemContextValue = React.useMemo<StepperItemContextValue>(
     () => ({
       value: itemValue,
       stepState,
+      status,
     }),
-    [itemValue, stepState]
+    [itemValue, stepState, status]
   );
 
   const ItemPrimitive = asChild ? SlotPrimitive.Slot : 'div';
@@ -794,7 +803,13 @@ function StepperTrigger(props: ButtonProps) {
     context.disabled || stepState?.disabled || triggerProps.disabled;
   const isActive = value === itemValue;
   const isTabStop = focusContext.tabStopId === triggerId;
-  const dataState = getDataState(value, itemValue, stepState, steps);
+  const dataState = getDataState(
+    value,
+    itemValue,
+    stepState,
+    itemContext.status,
+    steps
+  );
 
   const [triggerElement, setTriggerElement] =
     React.useState<TriggerElement | null>(null);
@@ -1062,6 +1077,13 @@ interface StepperIndicatorProps extends Omit<DivProps, 'children'> {
   children?: React.ReactNode | ((dataState: DataState) => React.ReactNode);
 }
 
+const INDICATOR_ICONS: Partial<Record<DataState, React.ReactNode>> = {
+  completed: <Check className="size-4" />,
+  running: <Spinner />,
+  failed: <X className="size-4" />,
+  paused: <Pause className="size-3.5" />,
+};
+
 function StepperIndicator(props: StepperIndicatorProps) {
   const { className, children, asChild, ref, ...indicatorProps } = props;
   const context = useStepperContext(INDICATOR_NAME);
@@ -1073,7 +1095,13 @@ function StepperIndicator(props: StepperIndicatorProps) {
 
   const stepPosition = Array.from(steps.keys()).indexOf(itemValue) + 1;
 
-  const dataState = getDataState(value, itemValue, stepState, steps);
+  const dataState = getDataState(
+    value,
+    itemValue,
+    stepState,
+    itemContext.status,
+    steps
+  );
 
   const IndicatorPrimitive = asChild ? SlotPrimitive.Slot : 'div';
 
@@ -1085,19 +1113,15 @@ function StepperIndicator(props: StepperIndicatorProps) {
       {...indicatorProps}
       ref={ref}
       className={cn(
-        'flex size-7 shrink-0 items-center justify-center rounded-full border-2 border-muted bg-background font-medium text-muted-foreground text-sm transition-colors data-[state=active]:border-primary data-[state=completed]:border-primary data-[state=active]:bg-primary data-[state=completed]:bg-primary data-[state=active]:text-primary-foreground data-[state=completed]:text-primary-foreground',
+        'flex size-7 shrink-0 items-center justify-center rounded-full border-2 border-muted bg-background font-medium text-muted-foreground text-sm transition-colors data-[state=active]:border-primary data-[state=completed]:border-primary data-[state=running]:border-primary data-[state=failed]:border-destructive-foreground data-[state=paused]:border-muted-foreground/50 data-[state=active]:bg-primary data-[state=completed]:bg-primary data-[state=failed]:bg-destructive data-[state=active]:text-primary-foreground data-[state=completed]:text-primary-foreground data-[state=running]:text-foreground data-[state=failed]:text-destructive-foreground',
         className
       )}
     >
-      {typeof children === 'function' ? (
-        children(dataState)
-      ) : children ? (
-        children
-      ) : dataState === 'completed' ? (
-        <Check className="size-4" />
-      ) : (
-        stepPosition
-      )}
+      {typeof children === 'function'
+        ? children(dataState)
+        : children
+          ? children
+          : (INDICATOR_ICONS[dataState] ?? stepPosition)}
     </IndicatorPrimitive>
   );
 }
@@ -1133,6 +1157,7 @@ function StepperSeparator(props: StepperSeparatorProps) {
     value,
     itemContext.value,
     itemContext.stepState,
+    itemContext.status,
     steps,
     'separator'
   );
@@ -1355,4 +1380,5 @@ export {
   useStore as useStepper,
   //
   type StepperRootProps as StepperProps,
+  type TStepperStatus,
 };
