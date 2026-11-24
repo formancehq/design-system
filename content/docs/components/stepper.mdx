@@ -28,6 +28,13 @@
   <ComponentPreview name="stepper-summary" />
 </Section>
 
+<Section
+  title="Workflow status"
+  description='Show the progress of a long task, for example a deployment. Set status on the current StepperItem to "running", "failed" or "paused". Set value to the current step: the steps before it are completed, and the steps after it are inactive.'
+>
+  <ComponentPreview name="stepper-workflow-status" />
+</Section>
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -53,6 +60,7 @@ npx shadcn@latest add @formance/stepper
 
 ```bash
 npm install lucide-react radix-ui
+npx shadcn@latest add @formance/spinner
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -115,3 +123,73 @@ import {
   <StepperContent value="review">Review and confirm.</StepperContent>
 </Stepper>
 ```
+
+## Status
+
+A step gets its state from `value` and `completed`:
+
+- `completed`: the step is before the current step, or it has `completed`.
+- `active`: the step is the current step.
+- `inactive`: the step is after the current step.
+
+A task that runs for a long time needs more states. Set `status` on a `StepperItem` to override the state of that step:
+
+- `"running"`: the step runs. The indicator shows a spinner.
+- `"failed"`: the step stopped on an error. The indicator is red and shows an X.
+- `"paused"`: the step waits, for example for an approval. The indicator is muted and shows a pause icon.
+
+The item, the trigger, the indicator and the separator get the status in `data-state`. Use it to style other parts, for example `group-data-[state=failed]/step:text-destructive-foreground`. The separator after a step with a status is not colored, because the step is not complete.
+
+The icons do not give the status to a screen reader. Write the status in text too, for example "Stopped on error" next to the title.
+
+### Description and time
+
+For a vertical rail, put the indicator and the separator in one column, and the text in a second column. Put the time in the title row, after `StepperTitle`. Put `StepperDescription` below the title row. You do not need a new part for the time.
+
+```tsx
+<StepperItem value="schema" status="running" className="flex-row items-start gap-3">
+  <div className="flex flex-col items-center self-stretch">
+    <StepperTrigger>
+      <StepperIndicator />
+    </StepperTrigger>
+    <StepperSeparator className="my-1 min-h-6 flex-1" />
+  </div>
+  <div className="flex min-w-0 flex-1 flex-col gap-0.5 pt-1 pb-5">
+    <div className="flex items-baseline justify-between gap-4">
+      <StepperTitle>Store the schema</StepperTitle>
+      <span className="text-muted-foreground text-xs">In progress</span>
+    </div>
+    <StepperDescription>The ledger saves the schema.</StepperDescription>
+  </div>
+</StepperItem>
+```
+
+## API reference
+
+### StepperItem
+
+| Prop        | Type                                 | Default | Description                                                                 |
+| ----------- | ------------------------------------ | ------- | --------------------------------------------------------------------------- |
+| `value`     | `string`                             | -       | The identifier of the step.                                                 |
+| `completed` | `boolean`                            | `false` | Marks the step as completed, also when it is after the current step.        |
+| `disabled`  | `boolean`                            | `false` | Prevents the selection of the step.                                         |
+| `status`    | `"running" \| "failed" \| "paused"` | -       | Overrides the state of the step. It wins over `completed` and over `value`. |
+| `asChild`   | `boolean`                            | `false` | Render the child as the item.                                               |
+
+### StepperIndicator
+
+| Prop        | Type                                           | Default | Description                                                                              |
+| ----------- | ---------------------------------------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `children`  | `ReactNode \| ((state: string) => ReactNode)` | -       | Replaces the default content: the step number, a check, a spinner, an X or a pause icon. |
+| `className` | `string`                                       | -       | More classes for the indicator.                                                          |
+
+### data-state
+
+| Value       | When                                                         |
+| ----------- | ------------------------------------------------------------ |
+| `inactive`  | The step is after the current step.                          |
+| `active`    | The step is the current step. The separator is `inactive`.   |
+| `completed` | The step is before the current step, or it has `completed`.  |
+| `running`   | The step has `status="running"`.                             |
+| `failed`    | The step has `status="failed"`.                              |
+| `paused`    | The step has `status="paused"`.                              |

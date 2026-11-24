@@ -1186,6 +1186,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/button-as-child.tsx',
       },
+      {
+        title: 'Wrap',
+        component: lazy(
+          () => import('@/registry/default/examples/button-wrap')
+        ),
+        sourceFile: 'registry/default/examples/button-wrap.tsx',
+      },
     ],
   },
   calendar: {
@@ -1347,6 +1354,15 @@ const registryDemos: Record<string, TRegistryDemo> = {
   dialog: {
     component: lazy(() => import('@/registry/default/demos/dialog-demo')),
     sourceFile: 'registry/default/demos/dialog-demo.tsx',
+    examples: [
+      {
+        title: 'Sizes',
+        component: lazy(
+          () => import('@/registry/default/examples/dialog-sizes')
+        ),
+        sourceFile: 'registry/default/examples/dialog-sizes.tsx',
+      },
+    ],
   },
   drawer: {
     component: lazy(() => import('@/registry/default/demos/drawer-demo')),
@@ -1547,6 +1563,15 @@ const registryDemos: Record<string, TRegistryDemo> = {
   progress: {
     component: lazy(() => import('@/registry/default/demos/progress-demo')),
     sourceFile: 'registry/default/demos/progress-demo.tsx',
+    examples: [
+      {
+        title: 'Indeterminate',
+        component: lazy(
+          () => import('@/registry/default/examples/progress-indeterminate')
+        ),
+        sourceFile: 'registry/default/examples/progress-indeterminate.tsx',
+      },
+    ],
   },
   'radio-group': {
     component: lazy(() => import('@/registry/default/demos/radio-group-demo')),
@@ -1829,6 +1854,20 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/tabs-vertical')
         ),
         sourceFile: 'registry/default/examples/tabs-vertical.tsx',
+      },
+      {
+        title: 'Scroll',
+        component: lazy(
+          () => import('@/registry/default/examples/tabs-scroll')
+        ),
+        sourceFile: 'registry/default/examples/tabs-scroll.tsx',
+      },
+      {
+        title: 'Case sensitive',
+        component: lazy(
+          () => import('@/registry/default/examples/tabs-case-sensitive')
+        ),
+        sourceFile: 'registry/default/examples/tabs-case-sensitive.tsx',
       },
     ],
   },
@@ -2317,10 +2356,28 @@ const registryDemos: Record<string, TRegistryDemo> = {
   'input-group': {
     component: lazy(() => import('@/registry/default/demos/input-group-demo')),
     sourceFile: 'registry/default/demos/input-group-demo.tsx',
+    examples: [
+      {
+        title: 'Drop Target',
+        component: lazy(
+          () => import('@/registry/default/examples/input-group-drop-target')
+        ),
+        sourceFile: 'registry/default/examples/input-group-drop-target.tsx',
+      },
+    ],
   },
   item: {
     component: lazy(() => import('@/registry/default/demos/item-demo')),
     sourceFile: 'registry/default/demos/item-demo.tsx',
+    examples: [
+      {
+        title: 'Selectable',
+        component: lazy(
+          () => import('@/registry/default/examples/item-selectable')
+        ),
+        sourceFile: 'registry/default/examples/item-selectable.tsx',
+      },
+    ],
   },
   'multi-select': {
     component: lazy(() => import('@/registry/default/demos/multi-select-demo')),
@@ -2503,6 +2560,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/stepper-summary')
         ),
         sourceFile: 'registry/default/examples/stepper-summary.tsx',
+      },
+      {
+        title: 'Workflow status',
+        component: lazy(
+          () => import('@/registry/default/examples/stepper-workflow-status')
+        ),
+        sourceFile: 'registry/default/examples/stepper-workflow-status.tsx',
       },
     ],
   },
@@ -2732,6 +2796,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
           () => import('@/registry/default/examples/app-card-with-data-table')
         ),
         sourceFile: 'registry/default/examples/app-card-with-data-table.tsx',
+      },
+      {
+        title: 'Grid Aligned',
+        component: lazy(
+          () => import('@/registry/default/examples/app-card-grid-aligned')
+        ),
+        sourceFile: 'registry/default/examples/app-card-grid-aligned.tsx',
       },
     ],
   },

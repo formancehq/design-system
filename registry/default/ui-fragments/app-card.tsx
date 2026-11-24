@@ -1,5 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 
+import { cn } from '@/lib/utils';
 import { Button, TButtonProps } from '@/registry/default/ui/button';
 import {
   Card,
@@ -19,6 +20,7 @@ export type TAppCardProps = {
   headerAction?: React.ReactNode;
   headerContent?: React.ReactNode;
   isEmpty?: boolean;
+  contentAlign?: 'start' | 'end';
 } & React.ComponentProps<typeof Card>;
 
 export function AppCard({
@@ -31,6 +33,8 @@ export function AppCard({
   headerAction,
   headerContent,
   isEmpty,
+  contentAlign = 'start',
+  className,
   ...cardProps
 }: TAppCardProps) {
   const Icon = appIcon;
@@ -38,7 +42,10 @@ export function AppCard({
     title || description || appIcon || headerAction || headerContent;
 
   return (
-    <Card {...cardProps}>
+    <Card
+      className={cn(contentAlign === 'end' && 'flex flex-col', className)}
+      {...cardProps}
+    >
       {hasHeader && (
         <CardHeader>
           <div className="flex items-center gap-2">
@@ -56,7 +63,9 @@ export function AppCard({
           {headerAction && !isEmpty && <CardAction>{headerAction}</CardAction>}
         </CardHeader>
       )}
-      <CardContent>{children}</CardContent>
+      <CardContent className={cn(contentAlign === 'end' && 'mt-auto')}>
+        {children}
+      </CardContent>
       {footer}
     </Card>
   );

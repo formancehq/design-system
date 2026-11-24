@@ -24,3 +24,27 @@ For empty states, see [`AppCardEmpty`](/docs/fragments/app-card-empty).
 >
   <ComponentPreview name="app-card-with-data-table" />
 </Section>
+
+<Section
+  title="Grid aligned"
+  description="Set contentAlign to end when cards share a grid row. The content moves to the bottom of each card, so the actions stay on one line when the descriptions have different lengths."
+>
+  <ComponentPreview name="app-card-grid-aligned" />
+</Section>
+
+## API reference
+
+### AppCard
+
+| Prop            | Type                   | Default   | Description                                                                 |
+| --------------- | ---------------------- | --------- | --------------------------------------------------------------------------- |
+| `title`         | `string`               | -         | The card title.                                                             |
+| `description`   | `string`               | -         | The text below the title.                                                   |
+| `appIcon`       | `LucideIcon`           | -         | The icon before the title.                                                  |
+| `iconVariant`   | `TButtonProps['variant']` | -      | The colour of the icon.                                                     |
+| `headerAction`  | `ReactNode`            | -         | The action at the right of the header. It is hidden when `isEmpty` is set.  |
+| `headerContent` | `ReactNode`            | -         | More content next to the title, for example a badge.                        |
+| `footer`        | `ReactNode`            | -         | The content below the card content, for example a `CardFooter`.             |
+| `isEmpty`       | `boolean`              | `false`   | Hides the header action.                                                    |
+| `contentAlign`  | `"start" \| "end"`     | `"start"` | Where the content sits when the card is taller than its content. `end` moves the content and the footer to the bottom. |
+| `className`     | `string`               | -         | More classes for the card.                                                  |

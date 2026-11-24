@@ -60,3 +60,53 @@ import {
   <InputGroupInput placeholder="Search transactions..." />
 </InputGroup>
 ```
+
+## Examples
+
+### Drop Target
+
+Use an input group as a drop zone for files. Set `data-drag-over` to `true`
+while a file is over the group. The group then shows the focus border and an
+accent background. Set it to `false` when the file leaves or drops.
+
+<ComponentPreview name="input-group-drop-target" />
+
+```tsx
+<InputGroup
+  data-drag-over={dragOver}
+  onDragEnter={(event) => {
+    event.preventDefault()
+    setDragOver(true)
+  }}
+  onDragOver={(event) => event.preventDefault()}
+  onDragLeave={(event) => {
+    if (
+      event.relatedTarget instanceof Node &&
+      event.currentTarget.contains(event.relatedTarget)
+    )
+      return
+    setDragOver(false)
+  }}
+  onDrop={(event) => {
+    event.preventDefault()
+    setDragOver(false)
+    addFiles(event.dataTransfer.files)
+  }}
+>
+  <InputGroupTextarea placeholder="Drop files here." />
+</InputGroup>
+```
+
+The `dragleave` event also fires when the pointer moves onto a child of the
+group. Ignore that event when `relatedTarget` is inside the group. If you do
+not, the drop state flickers.
+
+## API reference
+
+### InputGroup
+
+| Prop             | Type                                   | Default | Description                                         |
+| ---------------- | -------------------------------------- | ------- | --------------------------------------------------- |
+| `maxWidth`       | `"xs" \| "sm" \| "md" \| "lg" \| "xl"` | -       | The responsive maximum width of the group.          |
+| `data-drag-over` | `boolean`                              | -       | Set to `true` to show the drop state of the group. |
+| `className`      | `string`                               | -       | More classes for the group.                         |

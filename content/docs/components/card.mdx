@@ -24,7 +24,7 @@ npx shadcn@latest add @formance/card
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install class-variance-authority
+npm install class-variance-authority radix-ui
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -66,3 +66,32 @@ import {
   </CardFooter>
 </Card>
 ```
+
+## Heading level
+
+`CardTitle` renders a `div`, because the card does not know the heading level of the page. When the title is a heading, use `asChild` and give it the level of the page.
+
+```tsx
+<CardTitle asChild>
+  <h2>Transaction Summary</h2>
+</CardTitle>
+```
+
+The title keeps its classes and its `data-slot`. Typeset heading styles do not apply to it.
+
+## API reference
+
+### Card
+
+| Prop         | Type      | Default | Description                                 |
+| ------------ | --------- | ------- | ------------------------------------------- |
+| `variant`    | `"muted"` | -       | The visual treatment.                       |
+| `isDisabled` | `boolean` | `false` | Fades and blurs the card, and blocks input. |
+| `className`  | `string`  | -       | More classes for the card.                  |
+
+### CardTitle
+
+| Prop        | Type      | Default | Description                                     |
+| ----------- | --------- | ------- | ----------------------------------------------- |
+| `asChild`   | `boolean` | `false` | Render the child, for example an `h2` or `h4`. |
+| `className` | `string`  | -       | More classes for the title.                     |

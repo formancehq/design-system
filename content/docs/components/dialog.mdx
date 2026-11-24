@@ -69,3 +69,31 @@ import {
   </DialogContent>
 </Dialog>
 ```
+
+## Examples
+
+### Sizes
+
+Use the `size` prop on `DialogContent` to set the maximum width. The default size is `default`.
+
+<ComponentPreview name="dialog-sizes" />
+
+Use `full` for a large view, for example a graph or a long table. The dialog fills the viewport, with a `1rem` margin on each side. Its content is a flex column. Give the body `min-h-0 flex-1 overflow-auto` to fill the remaining height and scroll.
+
+```tsx
+<DialogContent size="full">
+  <DialogHeader>
+    <DialogTitle>Movement flow</DialogTitle>
+  </DialogHeader>
+  <div className="min-h-0 flex-1 overflow-auto">{/* graph */}</div>
+</DialogContent>
+```
+
+## API Reference
+
+### DialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `'sm' \| 'default' \| 'lg' \| 'xl' \| 'full'` | `'default'` | Sets the maximum width from the `sm` breakpoint: `sm` is `24rem`, `default` is `32rem`, `lg` is `42rem`, `xl` is `56rem`. `full` fills the viewport minus a `1rem` margin, in width and height. The value is also set on `data-size`. |
+| `showCloseButton` | `boolean` | `true` | Shows the close button in the top-right corner. |

@@ -14,6 +14,20 @@
   <ComponentPreview name="tabs-vertical" />
 </Section>
 
+<Section
+  title="Scroll"
+  description="Set scroll on TabsList when the triggers can be wider than the container. The list is then never wider than its container, and it scrolls horizontally. The triggers do not shrink and do not wrap. Use it with the horizontal orientation only."
+>
+  <ComponentPreview name="tabs-scroll" />
+</Section>
+
+<Section
+  title="Case sensitive"
+  description="By default, the labels are in uppercase. Set caseSensitive on a trigger to keep the case of its label, for example a file name."
+>
+  <ComponentPreview name="tabs-case-sensitive" />
+</Section>
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -77,3 +91,28 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
   </TabsContent>
 </Tabs>
 ```
+
+## API reference
+
+### Tabs
+
+| Prop          | Type                         | Default        | Description                            |
+| ------------- | ---------------------------- | -------------- | -------------------------------------- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | The direction of the triggers.         |
+| `...props`    | `TabsPrimitive.Root` props   | -              | Props given to the Radix `Tabs.Root`.  |
+
+### TabsList
+
+| Prop       | Type                       | Default     | Description                                                                                         |
+| ---------- | -------------------------- | ----------- | --------------------------------------------------------------------------------------------------- |
+| `variant`  | `"default" \| "line"`      | `"default"` | The visual treatment.                                                                               |
+| `scroll`   | `boolean`                  | `false`     | Horizontal orientation only. The list is never wider than its container and scrolls when its triggers do not fit. |
+| `...props` | `TabsPrimitive.List` props | -           | Props given to the Radix `Tabs.List`.                                                               |
+
+### TabsTrigger
+
+| Prop            | Type                          | Default | Description                                                        |
+| --------------- | ----------------------------- | ------- | ------------------------------------------------------------------ |
+| `value`         | `string`                      | -       | Required. The value of the tab that the trigger opens.             |
+| `caseSensitive` | `boolean`                     | `false` | Keep the case of the label. By default, the label is in uppercase. |
+| `...props`      | `TabsPrimitive.Trigger` props | -       | Props given to the Radix `Tabs.Trigger`.                           |

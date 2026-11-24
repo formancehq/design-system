@@ -1001,12 +1001,13 @@ export const componentMeta: Record<string, TComponentMeta> = {
       {
         name: 'StepperItem',
         description:
-          'Individual step with value, completed, and disabled state.',
+          'Individual step with value, completed, disabled, and status (running, failed, paused).',
       },
       { name: 'StepperTrigger', description: 'Clickable trigger for a step.' },
       {
         name: 'StepperIndicator',
-        description: 'Step number or check icon, styled by state.',
+        description:
+          'Step number, check, spinner, X, or pause icon, styled by state.',
       },
       { name: 'StepperTitle', description: 'Label text for a step.' },
       {
