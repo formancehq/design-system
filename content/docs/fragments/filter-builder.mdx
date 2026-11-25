@@ -100,6 +100,15 @@ Both layouts also take:
 - **`unavailableFields`**: the fields the reader cannot add now, by field id, each `{ label, reason }`. **Add filter** lists them after the other fields, disabled, and shows the reason on hover. Use it for a field the backend cannot answer, such as a ledger field with no index. A field already in `fields` is not listed twice.
 - **`timeZone`**: the IANA zone a picked day is read in, `'UTC'` by default. A day's first and last instants, the calendar's selected day and the shown instants are all in this zone, and the browser's zone is never read. So two readers in two zones who pick the same day write the same bounds. Pass the zone that your product shows instants in.
 
+### The parts
+
+`filter-parts.tsx` holds the parts both layouts draw a condition with, for a surface that draws conditions its own way:
+
+- **`FilterConditionSelects`**: the field picker, then the operator.
+- **`FilterOperatorSelect`**: the operator alone, for a surface that fixes the field, such as a filter panel's section. A new operator keeps the value where its shape still fits.
+- **`FilterValueInput`**: the value the operator takes: a text, a choice, a list, a key and a value, or a range of days.
+- **`FilterAddMenu`** and **`FilterSuggestionList`**: Add filter's menu, and the values an input offers.
+
 ### The model
 
 `filter-query.ts` is pure: no React. It is the part a consumer keeps when it draws its own surface.
@@ -167,6 +176,14 @@ A `null` from `filterOfQuery` is the caller's cue to open the raw editor: a quer
   description="A press in a group makes it the target, drawn solid, and the button writes into it. A metadata key or value input offers what a ledger counts, with the counts, while it has focus."
 >
   <ComponentPreview name="filter-builder-target" />
+</Section>
+
+<Section
+  title="Rows on a fixed field"
+  level={3}
+  description="A filter panel's section: the field is fixed, so each condition is drawn with FilterOperatorSelect and FilterValueInput only, and Add condition starts a new one on the field."
+>
+  <ComponentPreview name="filter-builder-fixed-field" />
 </Section>
 
 <Section

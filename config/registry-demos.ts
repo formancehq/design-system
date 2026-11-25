@@ -2947,6 +2947,13 @@ const registryDemos: Record<string, TRegistryDemo> = {
         ),
         sourceFile: 'registry/default/examples/filter-builder-target.tsx',
       },
+      {
+        title: 'Rows on a fixed field',
+        component: lazy(
+          () => import('@/registry/default/examples/filter-builder-fixed-field')
+        ),
+        sourceFile: 'registry/default/examples/filter-builder-fixed-field.tsx',
+      },
     ],
   },
   'key-value-input': {
