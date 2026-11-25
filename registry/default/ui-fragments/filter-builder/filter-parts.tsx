@@ -342,9 +342,6 @@ function FilterConditionSelects({
   fieldClassName?: string;
   operatorClassName?: string;
 }) {
-  const field = fields[condition.field];
-  const operators = filterConditionOperators(condition, fields);
-
   return (
     <>
       <FilterFieldPicker
@@ -353,37 +350,65 @@ function FilterConditionSelects({
         onChange={onChange}
         className={fieldClassName}
       />
-      <Select
-        value={condition.operator}
-        onValueChange={(next) => {
-          const operator = operators.find((one) => one.value === next)?.value;
-
-          if (operator) {
-            onChange(
-              withFilterValue(
-                { ...condition, operator },
-                filterValueFor(field, operator, condition.value),
-                fields
-              )
-            );
-          }
-        }}
-      >
-        <SelectTrigger
-          aria-label="Operator"
-          className={cn('lowercase', operatorClassName)}
-        >
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {operators.map((one) => (
-            <SelectItem key={one.value} value={one.value} className="lowercase">
-              {one.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <FilterOperatorSelect
+        condition={condition}
+        fields={fields}
+        onChange={onChange}
+        className={operatorClassName}
+      />
     </>
+  );
+}
+
+/**
+ * The operator alone, for a surface that fixes the field (a filter panel's
+ * section). A new operator keeps the value where its shape still fits.
+ */
+function FilterOperatorSelect({
+  condition,
+  fields,
+  onChange,
+  className,
+}: {
+  condition: TFilterCondition;
+  fields: TFilterFields;
+  onChange: (condition: TFilterCondition) => void;
+  className?: string;
+}) {
+  const field = fields[condition.field];
+  const operators = filterConditionOperators(condition, fields);
+
+  return (
+    <Select
+      value={condition.operator}
+      onValueChange={(next) => {
+        const operator = operators.find((one) => one.value === next)?.value;
+
+        if (operator) {
+          onChange(
+            withFilterValue(
+              { ...condition, operator },
+              filterValueFor(field, operator, condition.value),
+              fields
+            )
+          );
+        }
+      }}
+    >
+      <SelectTrigger
+        aria-label="Operator"
+        className={cn('lowercase', className)}
+      >
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {operators.map((one) => (
+          <SelectItem key={one.value} value={one.value} className="lowercase">
+            {one.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
 
@@ -898,6 +923,7 @@ export {
   ACTIVE_GROUP,
   FilterAddMenu,
   FilterConditionSelects,
+  FilterOperatorSelect,
   FilterSuggestionList,
   FilterValueInput,
   groupTargetProps,
